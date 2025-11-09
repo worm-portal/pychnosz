@@ -4,7 +4,7 @@
 
 Author: Dr. Grayson Boyer, GEOPIG Lab, Arizona State University
 
-[CHNOSZ](https://www.chnosz.net/) is a package written by [Dr. Jeff Dick](https://chnosz.net/jeff/) for performing thermodynamic calculations in aqueous geochemistry and biogeochemistry. pyCHNOSZ is a wrapper for CHNOSZ that allows these calculations to be carried out in Python 3 Jupyter notebooks.
+[CHNOSZ](https://www.chnosz.net/) is a package written by [Dr. Jeff Dick](https://chnosz.net/jeff/) for performing thermodynamic calculations in aqueous geochemistry and biogeochemistry. pyCHNOSZ is a Python conversion of CHNOSZ that allows these calculations to be carried out in Python 3 Jupyter notebooks.
 
 ## Features
 
@@ -29,34 +29,24 @@ This package must be installed into an environment with an [R](https://www.r-pro
 
 ## Installation
 
-### Installing CHNOSZ
-
-Open an R session. Install the CHNOSZ package with:
-
-```r
-install.packages("CHNOSZ")
-```
-
-Once CHNOSZ is installed you may quit the R session.
-
 ### Installing pyCHNOSZ
 
 Install pyCHNOSZ using pip:
 
 ```
-$ pip install pyCHNOSZ
+$ pip install pychnosz
 ```
 
 ## Usage
 
 Import pyCHNOSZ in your python code with:
 ```python
-import pyCHNOSZ
+import pychnosz
 ```
 
 In the following examples, pyCHNOSZ functions are imported with:
 ```python
-from pyCHNOSZ import info, add_OBIGT, mod_OBIGT, reset, subcrt
+from pychnosz import info, add_OBIGT, mod_OBIGT, reset, subcrt
 ```
 
 ### Search for chemical species
@@ -91,12 +81,6 @@ Nest `info` functions to look up thermodynamic properties directly from names or
 
 ```python
 info(info("Fe+2"))
-```
-
-Look up and add a protein to the database:
-
-```python
-info("LYSC_CHICK")
 ```
 
 ### Add or replace thermodynamic data in the database
@@ -161,4 +145,4 @@ subcrt: 3 species at 2 values of T (ºC) and P (bar) (wet) [energy units: cal]
 
 ### More examples:
 
-For more examples, like plotting activity and predominance diagrams, check out the [pyCHNOSZ demo notebook](https://nbviewer.org/github/worm-portal/pyCHNOSZ/blob/master/test/pyCHNOSZ-demo.ipynb).
+For more examples, check out the [pyCHNOSZ tutorial notebooks available from the WORM Library](https://github.com/worm-portal/WORM-Library/tree/master/2-Reaction-Properties).

@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.high_pt API documentation</title>
+<meta name="description" content="High pressure-temperature models for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.high_pt</code></h1>
+</header>
+<section id="section-intro">
+<p>High pressure-temperature models for CHNOSZ.</p>
+<p>This module implements specialized equations of state for extreme conditions:
+- DEW (Deep Earth Water) model for high P-T aqueous species
+- Berman model for high-temperature minerals</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.high_pt.dew_water"><code class="name flex">
+<span>def <span class="ident">dew_water</span></span>(<span>T: float | numpy.ndarray, P: float | numpy.ndarray) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def dew_water(T: Union[float, np.ndarray], P: Union[float, np.ndarray]) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate water properties using DEW model conditions.
+    
+    Parameters
+    ----------
+    T : float or array
+        Temperature(s) in Kelvin
+    P : float or array
+        Pressure(s) in bar
+        
+    Returns
+    -------
+    dict
+        Water properties at high P-T
+    &#34;&#34;&#34;
+    
+    dew = DEWModel()
+    return dew._get_dew_water_properties(np.mean(T), np.mean(P))</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using DEW model conditions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature(s) in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure(s) in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Water properties at high P-T</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.high_pt.high_pt_limits"><code class="name flex">
+<span>def <span class="ident">high_pt_limits</span></span>(<span>) ‑> Dict[str, Dict[str, float]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def high_pt_limits() -&gt; Dict[str, Dict[str, float]]:
+    &#34;&#34;&#34;
+    Get pressure and temperature limits for high P-T models.
+    
+    Returns
+    -------
+    dict
+        Model limits
+    &#34;&#34;&#34;
+    
+    return {
+        &#39;DEW&#39;: {
+            &#39;T_max&#39;: 1473.15,  # K (1200°C)
+            &#39;P_max&#39;: 60000,    # bar (60 kbar)
+            &#39;T_min&#39;: 273.15,   # K (0°C)
+            &#39;P_min&#39;: 1.0       # bar
+        },
+        &#39;Berman&#39;: {
+            &#39;T_max&#39;: 2000.0,   # K (1727°C)
+            &#39;P_max&#39;: 50000,    # bar (50 kbar) - estimate
+            &#39;T_min&#39;: 273.15,   # K (0°C)
+            &#39;P_min&#39;: 1.0       # bar
+        }
+    }</code></pre>
+</details>
+<div class="desc"><p>Get pressure and temperature limits for high P-T models.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Model limits</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.models.high_pt.BermanModel"><code class="flex name class">
+<span>class <span class="ident">BermanModel</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BermanModel:
+    &#34;&#34;&#34;
+    Berman model for high-temperature mineral thermodynamics.
+    
+    The Berman model uses Margules expressions for heat capacity
+    and includes lambda transitions for minerals.
+    
+    References:
+    - Berman (1988) JGR 93, 1259-1275
+    - Berman &amp; Brown (1985) CMP 89, 168-183
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the Berman model.&#34;&#34;&#34;
+        self.temperature_limit = 2000.0  # K
+    
+    def calculate_properties(self, species_data: pd.Series,
+                           T: Union[float, np.ndarray],
+                           P: Union[float, np.ndarray]) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate mineral properties using Berman model.
+        
+        Parameters
+        ----------
+        species_data : Series
+            Mineral thermodynamic parameters
+        T : float or array
+            Temperature(s) in Kelvin
+        P : float or array
+            Pressure(s) in bar
+            
+        Returns
+        -------
+        dict
+            Thermodynamic properties
+        &#34;&#34;&#34;
+        
+        T = np.atleast_1d(T)
+        P = np.atleast_1d(P)
+        n_points = max(len(T), len(P))
+        
+        if len(T) == 1:
+            T = np.full(n_points, T[0])
+        if len(P) == 1:
+            P = np.full(n_points, P[0])
+        
+        # Extract standard state properties
+        G0 = species_data.get(&#39;G&#39;, 0.0)
+        H0 = species_data.get(&#39;H&#39;, 0.0)
+        S0 = species_data.get(&#39;S&#39;, 0.0)
+        V0 = species_data.get(&#39;V&#39;, 0.0)
+        
+        # Extract Berman parameters
+        # In Berman model: Cp = k0 + k1*T^(-0.5) + k2*T^(-2) + k3*T^(-3)
+        k0 = species_data.get(&#39;a1.a&#39;, 0.0)
+        k1 = species_data.get(&#39;a2.b&#39;, 0.0)
+        k2 = species_data.get(&#39;a3.c&#39;, 0.0)
+        k3 = species_data.get(&#39;a4.d&#39;, 0.0)
+        
+        # Thermal expansion and compressibility
+        v1 = species_data.get(&#39;c1.e&#39;, 0.0)  # Thermal expansion coeff
+        v2 = species_data.get(&#39;c2.f&#39;, 0.0)  # Its T dependence
+        
+        # Lambda transition parameters
+        T_lambda = species_data.get(&#39;omega.lambda&#39;, 0.0)  # Transition temperature
+        
+        # Initialize results
+        results = {
+            &#39;G&#39;: np.zeros(n_points),
+            &#39;H&#39;: np.zeros(n_points),
+            &#39;S&#39;: np.zeros(n_points),
+            &#39;Cp&#39;: np.zeros(n_points),
+            &#39;V&#39;: np.zeros(n_points)
+        }
+        
+        # Calculate at each point
+        for i in range(n_points):
+            Ti, Pi = T[i], P[i]
+            
+            if Ti &gt; self.temperature_limit:
+                warnings.warn(f&#34;Temperature exceeds Berman model limit ({self.temperature_limit:.0f}K)&#34;)
+            
+            # Berman heat capacity
+            Cp_T = k0
+            if Ti &gt; 0:
+                if k1 != 0:
+                    Cp_T += k1 / np.sqrt(Ti)
+                if k2 != 0:
+                    Cp_T += k2 / (Ti * Ti)
+                if k3 != 0:
+                    Cp_T += k3 / (Ti * Ti * Ti)
+            
+            # Lambda transition contribution
+            if T_lambda &gt; 0 and abs(Ti - T_lambda) &lt; 50:
+                # Simplified lambda transition (Gaussian-like)
+                sigma = 10.0  # Transition width
+                lambda_contribution = 100 * np.exp(-(Ti - T_lambda)**2 / (2 * sigma**2))
+                Cp_T += lambda_contribution
+            
+            # Temperature integrals
+            if Ti != 298.15:
+                TR = 298.15
+                
+                # Entropy integral: ∫(Cp/T)dT
+                S_int = k0 * np.log(Ti/TR)
+                if k1 != 0:
+                    S_int += k1 * 2 * (np.sqrt(Ti) - np.sqrt(TR))
+                if k2 != 0:
+                    S_int += k2 * (-1/(2*Ti*Ti) + 1/(2*TR*TR)) * 2*TR*TR
+                if k3 != 0:
+                    S_int += k3 * (-1/(4*Ti*Ti*Ti*Ti) + 1/(4*TR*TR*TR*TR)) * 4*TR*TR*TR*TR
+                
+                # Enthalpy integral: ∫Cp dT
+                H_int = k0 * (Ti - TR)
+                if k1 != 0:
+                    H_int += k1 * 2 * (Ti**0.5 - TR**0.5) / 0.5
+                if k2 != 0:
+                    H_int += k2 * (-1/Ti + 1/TR)
+                if k3 != 0:
+                    H_int += k3 * (-1/(2*Ti*Ti) + 1/(2*TR*TR))
+            else:
+                S_int = 0
+                H_int = 0
+            
+            # Volume and pressure corrections
+            if v1 != 0:
+                # Thermal expansion: V = V0 * (1 + v1*(T-TR) + v2*(T-TR)^2)
+                dT = Ti - 298.15
+                V_T = V0 * (1 + v1 * dT + v2 * dT * dT)
+            else:
+                V_T = V0
+            
+            # Pressure integral (assuming constant V)
+            if Pi != 1.0:
+                G_P = V_T * (Pi - 1.0)
+            else:
+                G_P = 0
+            
+            # Final properties
+            results[&#39;Cp&#39;][i] = Cp_T
+            results[&#39;S&#39;][i] = S0 + S_int
+            results[&#39;H&#39;][i] = H0 + H_int
+            results[&#39;V&#39;][i] = V_T
+            results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+        
+        return results</code></pre>
+</details>
+<div class="desc"><p>Berman model for high-temperature mineral thermodynamics.</p>
+<p>The Berman model uses Margules expressions for heat capacity
+and includes lambda transitions for minerals.</p>
+<p>References:
+- Berman (1988) JGR 93, 1259-1275
+- Berman &amp; Brown (1985) CMP 89, 168-183</p>
+<p>Initialize the Berman model.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.high_pt.BermanModel.calculate_properties"><code class="name flex">
+<span>def <span class="ident">calculate_properties</span></span>(<span>self,<br>species_data: pandas.core.series.Series,<br>T: float | numpy.ndarray,<br>P: float | numpy.ndarray) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_properties(self, species_data: pd.Series,
+                       T: Union[float, np.ndarray],
+                       P: Union[float, np.ndarray]) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate mineral properties using Berman model.
+    
+    Parameters
+    ----------
+    species_data : Series
+        Mineral thermodynamic parameters
+    T : float or array
+        Temperature(s) in Kelvin
+    P : float or array
+        Pressure(s) in bar
+        
+    Returns
+    -------
+    dict
+        Thermodynamic properties
+    &#34;&#34;&#34;
+    
+    T = np.atleast_1d(T)
+    P = np.atleast_1d(P)
+    n_points = max(len(T), len(P))
+    
+    if len(T) == 1:
+        T = np.full(n_points, T[0])
+    if len(P) == 1:
+        P = np.full(n_points, P[0])
+    
+    # Extract standard state properties
+    G0 = species_data.get(&#39;G&#39;, 0.0)
+    H0 = species_data.get(&#39;H&#39;, 0.0)
+    S0 = species_data.get(&#39;S&#39;, 0.0)
+    V0 = species_data.get(&#39;V&#39;, 0.0)
+    
+    # Extract Berman parameters
+    # In Berman model: Cp = k0 + k1*T^(-0.5) + k2*T^(-2) + k3*T^(-3)
+    k0 = species_data.get(&#39;a1.a&#39;, 0.0)
+    k1 = species_data.get(&#39;a2.b&#39;, 0.0)
+    k2 = species_data.get(&#39;a3.c&#39;, 0.0)
+    k3 = species_data.get(&#39;a4.d&#39;, 0.0)
+    
+    # Thermal expansion and compressibility
+    v1 = species_data.get(&#39;c1.e&#39;, 0.0)  # Thermal expansion coeff
+    v2 = species_data.get(&#39;c2.f&#39;, 0.0)  # Its T dependence
+    
+    # Lambda transition parameters
+    T_lambda = species_data.get(&#39;omega.lambda&#39;, 0.0)  # Transition temperature
+    
+    # Initialize results
+    results = {
+        &#39;G&#39;: np.zeros(n_points),
+        &#39;H&#39;: np.zeros(n_points),
+        &#39;S&#39;: np.zeros(n_points),
+        &#39;Cp&#39;: np.zeros(n_points),
+        &#39;V&#39;: np.zeros(n_points)
+    }
+    
+    # Calculate at each point
+    for i in range(n_points):
+        Ti, Pi = T[i], P[i]
+        
+        if Ti &gt; self.temperature_limit:
+            warnings.warn(f&#34;Temperature exceeds Berman model limit ({self.temperature_limit:.0f}K)&#34;)
+        
+        # Berman heat capacity
+        Cp_T = k0
+        if Ti &gt; 0:
+            if k1 != 0:
+                Cp_T += k1 / np.sqrt(Ti)
+            if k2 != 0:
+                Cp_T += k2 / (Ti * Ti)
+            if k3 != 0:
+                Cp_T += k3 / (Ti * Ti * Ti)
+        
+        # Lambda transition contribution
+        if T_lambda &gt; 0 and abs(Ti - T_lambda) &lt; 50:
+            # Simplified lambda transition (Gaussian-like)
+            sigma = 10.0  # Transition width
+            lambda_contribution = 100 * np.exp(-(Ti - T_lambda)**2 / (2 * sigma**2))
+            Cp_T += lambda_contribution
+        
+        # Temperature integrals
+        if Ti != 298.15:
+            TR = 298.15
+            
+            # Entropy integral: ∫(Cp/T)dT
+            S_int = k0 * np.log(Ti/TR)
+            if k1 != 0:
+                S_int += k1 * 2 * (np.sqrt(Ti) - np.sqrt(TR))
+            if k2 != 0:
+                S_int += k2 * (-1/(2*Ti*Ti) + 1/(2*TR*TR)) * 2*TR*TR
+            if k3 != 0:
+                S_int += k3 * (-1/(4*Ti*Ti*Ti*Ti) + 1/(4*TR*TR*TR*TR)) * 4*TR*TR*TR*TR
+            
+            # Enthalpy integral: ∫Cp dT
+            H_int = k0 * (Ti - TR)
+            if k1 != 0:
+                H_int += k1 * 2 * (Ti**0.5 - TR**0.5) / 0.5
+            if k2 != 0:
+                H_int += k2 * (-1/Ti + 1/TR)
+            if k3 != 0:
+                H_int += k3 * (-1/(2*Ti*Ti) + 1/(2*TR*TR))
+        else:
+            S_int = 0
+            H_int = 0
+        
+        # Volume and pressure corrections
+        if v1 != 0:
+            # Thermal expansion: V = V0 * (1 + v1*(T-TR) + v2*(T-TR)^2)
+            dT = Ti - 298.15
+            V_T = V0 * (1 + v1 * dT + v2 * dT * dT)
+        else:
+            V_T = V0
+        
+        # Pressure integral (assuming constant V)
+        if Pi != 1.0:
+            G_P = V_T * (Pi - 1.0)
+        else:
+            G_P = 0
+        
+        # Final properties
+        results[&#39;Cp&#39;][i] = Cp_T
+        results[&#39;S&#39;][i] = S0 + S_int
+        results[&#39;H&#39;][i] = H0 + H_int
+        results[&#39;V&#39;][i] = V_T
+        results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate mineral properties using Berman model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species_data</code></strong> :&ensp;<code>Series</code></dt>
+<dd>Mineral thermodynamic parameters</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature(s) in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure(s) in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Thermodynamic properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="pychnosz.models.high_pt.DEWModel"><code class="flex name class">
+<span>class <span class="ident">DEWModel</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DEWModel:
+    &#34;&#34;&#34;
+    Deep Earth Water (DEW) model for high P-T aqueous species.
+    
+    The DEW model extends the HKF equation of state to extreme conditions
+    encountered in the deep Earth (up to 60 kbar and 1200°C).
+    
+    References:
+    - Sverjensky et al. (2014) GCA 129, 125-145
+    - Huang &amp; Sverjensky (2019) GCA 254, 192-209
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the DEW model.&#34;&#34;&#34;
+        self.pressure_limit = 60000  # bar (60 kbar)
+        self.temperature_limit = 1473.15  # K (1200°C)
+    
+    def calculate_properties(self, species_data: pd.Series,
+                           T: Union[float, np.ndarray], 
+                           P: Union[float, np.ndarray]) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate thermodynamic properties using DEW model.
+        
+        Parameters
+        ----------
+        species_data : Series
+            Species thermodynamic parameters
+        T : float or array
+            Temperature(s) in Kelvin
+        P : float or array
+            Pressure(s) in bar
+            
+        Returns
+        -------
+        dict
+            Thermodynamic properties
+        &#34;&#34;&#34;
+        
+        # Ensure arrays
+        T = np.atleast_1d(T)
+        P = np.atleast_1d(P)
+        n_points = max(len(T), len(P))
+        
+        if len(T) == 1:
+            T = np.full(n_points, T[0])
+        if len(P) == 1:
+            P = np.full(n_points, P[0])
+        
+        # Check limits
+        if np.any(P &gt; self.pressure_limit):
+            warnings.warn(f&#34;Pressure exceeds DEW model limit ({self.pressure_limit/1000:.1f} kbar)&#34;)
+        if np.any(T &gt; self.temperature_limit):
+            warnings.warn(f&#34;Temperature exceeds DEW model limit ({self.temperature_limit-273.15:.0f}°C)&#34;)
+        
+        # Extract standard state properties
+        G0 = species_data.get(&#39;G&#39;, 0.0)
+        H0 = species_data.get(&#39;H&#39;, 0.0)
+        S0 = species_data.get(&#39;S&#39;, 0.0)
+        Cp0 = species_data.get(&#39;Cp&#39;, 0.0)
+        V0 = species_data.get(&#39;V&#39;, 0.0)
+        
+        # Extract DEW parameters
+        a1 = species_data.get(&#39;a1.a&#39;, 0.0) * 10  # Convert units
+        a2 = species_data.get(&#39;a2.b&#39;, 0.0) * 100
+        a3 = species_data.get(&#39;a3.c&#39;, 0.0)
+        a4 = species_data.get(&#39;a4.d&#39;, 0.0) * 10000
+        c1 = species_data.get(&#39;c1.e&#39;, 0.0)
+        c2 = species_data.get(&#39;c2.f&#39;, 0.0) * 10000
+        omega = species_data.get(&#39;omega.lambda&#39;, 0.0) * 100000
+        charge = species_data.get(&#39;z.T&#39;, 0.0)
+        
+        # Initialize results
+        results = {
+            &#39;G&#39;: np.zeros(n_points),
+            &#39;H&#39;: np.zeros(n_points),
+            &#39;S&#39;: np.zeros(n_points),
+            &#39;Cp&#39;: np.zeros(n_points),
+            &#39;V&#39;: np.zeros(n_points)
+        }
+        
+        # Calculate at each point
+        for i in range(n_points):
+            Ti, Pi = T[i], P[i]
+            
+            # Get water properties at high P-T
+            try:
+                # For DEW conditions, we need specialized water properties
+                water_props = self._get_dew_water_properties(Ti, Pi)
+                epsilon = water_props[&#39;epsilon&#39;]
+                rho = water_props[&#39;rho&#39;]
+            except:
+                # Fallback to SUPCRT92 with warnings
+                if Pi &gt; 5000 or Ti &gt; 573.15:
+                    warnings.warn(&#34;Using SUPCRT92 water model beyond its limits&#34;)
+                
+                try:
+                    water_props = water_SUPCRT92([&#39;epsilon&#39;, &#39;rho&#39;], Ti, Pi)
+                    epsilon = water_props[&#39;epsilon&#39;][0] if hasattr(water_props[&#39;epsilon&#39;], &#39;__len__&#39;) else water_props[&#39;epsilon&#39;]
+                    rho = water_props[&#39;rho&#39;][0] if hasattr(water_props[&#39;rho&#39;], &#39;__len__&#39;) else water_props[&#39;rho&#39;]
+                    rho *= 1000  # Convert to kg/m³
+                except:
+                    # Ultimate fallback
+                    epsilon = 20.0  # Rough estimate at high T
+                    rho = 500.0     # Rough estimate
+            
+            # DEW-specific calculations
+            
+            # Enhanced Born function calculations for high P-T
+            if omega != 0 and charge != 0:
+                # DEW Born coefficients (simplified)
+                Y = self._dew_Y_function(Ti, Pi)
+                Q = self._dew_Q_function(Ti, Pi, epsilon)
+                X = self._dew_X_function(Ti, Pi)
+                
+                # Born contributions
+                omega_born = omega * charge * charge
+                V_born = omega_born * Q
+                S_born = omega_born * Y
+                H_born = omega_born * (Ti * Y + 1)
+                Cp_born = omega_born * Ti * self._dew_dYdT(Ti, Pi)
+                
+            else:
+                V_born = S_born = H_born = Cp_born = 0
+            
+            # Apparent volume calculations with DEW corrections
+            Psi = (680.0 - Ti)
+            if Psi &gt; 0:
+                V_app = a1 + a2/(Ti - 228.0) + (a3 * Ti + a4) / (Psi * Psi)
+            else:
+                # High temperature limit
+                V_app = a1 + a2/(Ti - 228.0)
+            
+            V_app += V_born
+            
+            # Heat capacity with high-T corrections
+            Cp_app = c1 + c2/(Ti * Ti) + Cp_born
+            
+            # Temperature integrals
+            if Ti != 298.15:
+                TR = 298.15
+                
+                # Enhanced temperature integration for high T
+                if c2 != 0:
+                    S_int = c1 * np.log(Ti/TR) - c2 * (1/(2*Ti*Ti) - 1/(2*TR*TR)) * 2*TR*TR
+                    H_int = c1 * (Ti - TR) + c2 * (1/TR - 1/Ti)
+                else:
+                    S_int = c1 * np.log(Ti/TR)
+                    H_int = c1 * (Ti - TR)
+                
+                S_int += S_born
+                H_int += H_born
+            else:
+                S_int = S_born
+                H_int = H_born
+            
+            # Pressure integrals with high-P corrections
+            if Pi != 1.0:
+                # Enhanced pressure integration
+                dP = Pi - 1.0
+                G_P = V_app * dP  # Simplified - should integrate dV/dP
+            else:
+                G_P = 0
+            
+            # Final properties
+            results[&#39;Cp&#39;][i] = Cp0 + Cp_app
+            results[&#39;S&#39;][i] = S0 + S_int
+            results[&#39;H&#39;][i] = H0 + H_int
+            results[&#39;V&#39;][i] = V0 + V_app
+            results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+        
+        return results
+    
+    def _get_dew_water_properties(self, T: float, P: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Get water properties optimized for DEW conditions.&#34;&#34;&#34;
+        
+        # This would use specialized high P-T water equations
+        # For now, use simplified correlations
+        
+        # High P-T density correlation (simplified)
+        if T &gt; 673.15:  # Above critical point
+            # Supercritical density
+            rho = 200 + P/100  # Very approximate
+        else:
+            # Subcritical with pressure correction
+            rho_0 = 1000 * (1 - (T - 273.15) / 1000)  # Temperature effect
+            rho = rho_0 * (1 + P / 50000)  # Pressure effect
+        
+        # High P-T dielectric constant (simplified)
+        if T &gt; 673.15:
+            epsilon = 5 + 10 * rho / 1000  # Very approximate
+        else:
+            epsilon = 80 * np.exp(-(T - 298.15) / 500) * (1 + P / 100000)
+        
+        return {
+            &#39;rho&#39;: max(rho, 50),      # Minimum density
+            &#39;epsilon&#39;: max(epsilon, 2)  # Minimum dielectric
+        }
+    
+    def _dew_Y_function(self, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;DEW Y function for Born calculations.&#34;&#34;&#34;
+        # Simplified - full DEW has complex correlations
+        return -5.81e-5 - 6.94e-8 * T - 2.0e-12 * P
+    
+    def _dew_Q_function(self, T: float, P: float, epsilon: float) -&gt; float:
+        &#34;&#34;&#34;DEW Q function for Born calculations.&#34;&#34;&#34;
+        # Simplified
+        return 1.0 / epsilon
+    
+    def _dew_X_function(self, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;DEW X function for Born calculations.&#34;&#34;&#34;
+        # Simplified
+        return 0.0  # Complex function in real DEW model
+    
+    def _dew_dYdT(self, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;Temperature derivative of Y function.&#34;&#34;&#34;
+        return -6.94e-8  # Simplified</code></pre>
+</details>
+<div class="desc"><p>Deep Earth Water (DEW) model for high P-T aqueous species.</p>
+<p>The DEW model extends the HKF equation of state to extreme conditions
+encountered in the deep Earth (up to 60 kbar and 1200°C).</p>
+<p>References:
+- Sverjensky et al. (2014) GCA 129, 125-145
+- Huang &amp; Sverjensky (2019) GCA 254, 192-209</p>
+<p>Initialize the DEW model.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.high_pt.DEWModel.calculate_properties"><code class="name flex">
+<span>def <span class="ident">calculate_properties</span></span>(<span>self,<br>species_data: pandas.core.series.Series,<br>T: float | numpy.ndarray,<br>P: float | numpy.ndarray) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_properties(self, species_data: pd.Series,
+                       T: Union[float, np.ndarray], 
+                       P: Union[float, np.ndarray]) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate thermodynamic properties using DEW model.
+    
+    Parameters
+    ----------
+    species_data : Series
+        Species thermodynamic parameters
+    T : float or array
+        Temperature(s) in Kelvin
+    P : float or array
+        Pressure(s) in bar
+        
+    Returns
+    -------
+    dict
+        Thermodynamic properties
+    &#34;&#34;&#34;
+    
+    # Ensure arrays
+    T = np.atleast_1d(T)
+    P = np.atleast_1d(P)
+    n_points = max(len(T), len(P))
+    
+    if len(T) == 1:
+        T = np.full(n_points, T[0])
+    if len(P) == 1:
+        P = np.full(n_points, P[0])
+    
+    # Check limits
+    if np.any(P &gt; self.pressure_limit):
+        warnings.warn(f&#34;Pressure exceeds DEW model limit ({self.pressure_limit/1000:.1f} kbar)&#34;)
+    if np.any(T &gt; self.temperature_limit):
+        warnings.warn(f&#34;Temperature exceeds DEW model limit ({self.temperature_limit-273.15:.0f}°C)&#34;)
+    
+    # Extract standard state properties
+    G0 = species_data.get(&#39;G&#39;, 0.0)
+    H0 = species_data.get(&#39;H&#39;, 0.0)
+    S0 = species_data.get(&#39;S&#39;, 0.0)
+    Cp0 = species_data.get(&#39;Cp&#39;, 0.0)
+    V0 = species_data.get(&#39;V&#39;, 0.0)
+    
+    # Extract DEW parameters
+    a1 = species_data.get(&#39;a1.a&#39;, 0.0) * 10  # Convert units
+    a2 = species_data.get(&#39;a2.b&#39;, 0.0) * 100
+    a3 = species_data.get(&#39;a3.c&#39;, 0.0)
+    a4 = species_data.get(&#39;a4.d&#39;, 0.0) * 10000
+    c1 = species_data.get(&#39;c1.e&#39;, 0.0)
+    c2 = species_data.get(&#39;c2.f&#39;, 0.0) * 10000
+    omega = species_data.get(&#39;omega.lambda&#39;, 0.0) * 100000
+    charge = species_data.get(&#39;z.T&#39;, 0.0)
+    
+    # Initialize results
+    results = {
+        &#39;G&#39;: np.zeros(n_points),
+        &#39;H&#39;: np.zeros(n_points),
+        &#39;S&#39;: np.zeros(n_points),
+        &#39;Cp&#39;: np.zeros(n_points),
+        &#39;V&#39;: np.zeros(n_points)
+    }
+    
+    # Calculate at each point
+    for i in range(n_points):
+        Ti, Pi = T[i], P[i]
+        
+        # Get water properties at high P-T
+        try:
+            # For DEW conditions, we need specialized water properties
+            water_props = self._get_dew_water_properties(Ti, Pi)
+            epsilon = water_props[&#39;epsilon&#39;]
+            rho = water_props[&#39;rho&#39;]
+        except:
+            # Fallback to SUPCRT92 with warnings
+            if Pi &gt; 5000 or Ti &gt; 573.15:
+                warnings.warn(&#34;Using SUPCRT92 water model beyond its limits&#34;)
+            
+            try:
+                water_props = water_SUPCRT92([&#39;epsilon&#39;, &#39;rho&#39;], Ti, Pi)
+                epsilon = water_props[&#39;epsilon&#39;][0] if hasattr(water_props[&#39;epsilon&#39;], &#39;__len__&#39;) else water_props[&#39;epsilon&#39;]
+                rho = water_props[&#39;rho&#39;][0] if hasattr(water_props[&#39;rho&#39;], &#39;__len__&#39;) else water_props[&#39;rho&#39;]
+                rho *= 1000  # Convert to kg/m³
+            except:
+                # Ultimate fallback
+                epsilon = 20.0  # Rough estimate at high T
+                rho = 500.0     # Rough estimate
+        
+        # DEW-specific calculations
+        
+        # Enhanced Born function calculations for high P-T
+        if omega != 0 and charge != 0:
+            # DEW Born coefficients (simplified)
+            Y = self._dew_Y_function(Ti, Pi)
+            Q = self._dew_Q_function(Ti, Pi, epsilon)
+            X = self._dew_X_function(Ti, Pi)
+            
+            # Born contributions
+            omega_born = omega * charge * charge
+            V_born = omega_born * Q
+            S_born = omega_born * Y
+            H_born = omega_born * (Ti * Y + 1)
+            Cp_born = omega_born * Ti * self._dew_dYdT(Ti, Pi)
+            
+        else:
+            V_born = S_born = H_born = Cp_born = 0
+        
+        # Apparent volume calculations with DEW corrections
+        Psi = (680.0 - Ti)
+        if Psi &gt; 0:
+            V_app = a1 + a2/(Ti - 228.0) + (a3 * Ti + a4) / (Psi * Psi)
+        else:
+            # High temperature limit
+            V_app = a1 + a2/(Ti - 228.0)
+        
+        V_app += V_born
+        
+        # Heat capacity with high-T corrections
+        Cp_app = c1 + c2/(Ti * Ti) + Cp_born
+        
+        # Temperature integrals
+        if Ti != 298.15:
+            TR = 298.15
+            
+            # Enhanced temperature integration for high T
+            if c2 != 0:
+                S_int = c1 * np.log(Ti/TR) - c2 * (1/(2*Ti*Ti) - 1/(2*TR*TR)) * 2*TR*TR
+                H_int = c1 * (Ti - TR) + c2 * (1/TR - 1/Ti)
+            else:
+                S_int = c1 * np.log(Ti/TR)
+                H_int = c1 * (Ti - TR)
+            
+            S_int += S_born
+            H_int += H_born
+        else:
+            S_int = S_born
+            H_int = H_born
+        
+        # Pressure integrals with high-P corrections
+        if Pi != 1.0:
+            # Enhanced pressure integration
+            dP = Pi - 1.0
+            G_P = V_app * dP  # Simplified - should integrate dV/dP
+        else:
+            G_P = 0
+        
+        # Final properties
+        results[&#39;Cp&#39;][i] = Cp0 + Cp_app
+        results[&#39;S&#39;][i] = S0 + S_int
+        results[&#39;H&#39;][i] = H0 + H_int
+        results[&#39;V&#39;][i] = V0 + V_app
+        results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate thermodynamic properties using DEW model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species_data</code></strong> :&ensp;<code>Series</code></dt>
+<dd>Species thermodynamic parameters</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature(s) in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure(s) in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Thermodynamic properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="pychnosz.models.high_pt.HighPTCalculator"><code class="flex name class">
+<span>class <span class="ident">HighPTCalculator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class HighPTCalculator(ThermoCalculator):
+    &#34;&#34;&#34;Extended thermodynamic calculator with high P-T models.&#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize with DEW and Berman models.&#34;&#34;&#34;
+        super().__init__()
+        self.dew_model = DEWModel()
+        self.berman_model = BermanModel()
+        
+        # Add new models
+        self.models[&#39;DEW&#39;] = self._calc_dew
+        self.models[&#39;Berman&#39;] = self._calc_berman
+    
+    def _calc_dew(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate using DEW model.&#34;&#34;&#34;
+        return self.dew_model.calculate_properties(species, T, P)
+    
+    def _calc_berman(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate using Berman model.&#34;&#34;&#34;
+        return self.berman_model.calculate_properties(species, T, P)</code></pre>
+</details>
+<div class="desc"><p>Extended thermodynamic calculator with high P-T models.</p>
+<p>Initialize with DEW and Berman models.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pychnosz.core.thermocalc.ThermoCalculator" href="../core/thermocalc.html#pychnosz.core.thermocalc.ThermoCalculator">ThermoCalculator</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pychnosz.core.thermocalc.ThermoCalculator" href="../core/thermocalc.html#pychnosz.core.thermocalc.ThermoCalculator">ThermoCalculator</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pychnosz.core.thermocalc.ThermoCalculator.calculate_properties" href="../core/thermocalc.html#pychnosz.core.thermocalc.ThermoCalculator.calculate_properties">calculate_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.high_pt.dew_water" href="#pychnosz.models.high_pt.dew_water">dew_water</a></code></li>
+<li><code><a title="pychnosz.models.high_pt.high_pt_limits" href="#pychnosz.models.high_pt.high_pt_limits">high_pt_limits</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.models.high_pt.BermanModel" href="#pychnosz.models.high_pt.BermanModel">BermanModel</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.high_pt.BermanModel.calculate_properties" href="#pychnosz.models.high_pt.BermanModel.calculate_properties">calculate_properties</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pychnosz.models.high_pt.DEWModel" href="#pychnosz.models.high_pt.DEWModel">DEWModel</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.high_pt.DEWModel.calculate_properties" href="#pychnosz.models.high_pt.DEWModel.calculate_properties">calculate_properties</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pychnosz.models.high_pt.HighPTCalculator" href="#pychnosz.models.high_pt.HighPTCalculator">HighPTCalculator</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

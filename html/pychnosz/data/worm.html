@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.data.worm API documentation</title>
+<meta name="description" content="WORM database loader for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.data.worm</code></h1>
+</header>
+<section id="section-intro">
+<p>WORM database loader for CHNOSZ.</p>
+<p>This module provides functionality to load the Water-Organic-Rock-Microbe (WORM)
+thermodynamic database from the WORM-db GitHub repository.</p>
+<p>Reference: <a href="https://github.com/worm-portal/WORM-db">https://github.com/worm-portal/WORM-db</a></p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.data.worm.can_connect_to"><code class="name flex">
+<span>def <span class="ident">can_connect_to</span></span>(<span>url: str, timeout: int = 5) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def can_connect_to(url: str, timeout: int = 5) -&gt; bool:
+    &#34;&#34;&#34;
+    Check if a URL is reachable.
+
+    Parameters
+    ----------
+    url : str
+        The URL to check
+    timeout : int, default 5
+        Connection timeout in seconds
+
+    Returns
+    -------
+    bool
+        True if URL is reachable, False otherwise
+    &#34;&#34;&#34;
+    try:
+        from urllib.request import Request
+        req = Request(url, headers={&#39;User-Agent&#39;: &#39;Mozilla/5.0&#39;})
+        with urlopen(req, timeout=timeout) as response:
+            return response.status == 200
+    except Exception:
+        return False</code></pre>
+</details>
+<div class="desc"><p>Check if a URL is reachable.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>The URL to check</dd>
+<dt><strong><code>timeout</code></strong> :&ensp;<code>int</code>, default <code>5</code></dt>
+<dd>Connection timeout in seconds</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if URL is reachable, False otherwise</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.worm.download_worm_data"><code class="name flex">
+<span>def <span class="ident">download_worm_data</span></span>(<span>url: str) ‑> pandas.core.frame.DataFrame | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def download_worm_data(url: str) -&gt; Optional[pd.DataFrame]:
+    &#34;&#34;&#34;
+    Download WORM database from URL.
+
+    Parameters
+    ----------
+    url : str
+        URL to the WORM CSV file
+
+    Returns
+    -------
+    pd.DataFrame or None
+        DataFrame containing WORM data, or None if download fails
+    &#34;&#34;&#34;
+    try:
+        from urllib.request import Request
+        req = Request(url, headers={&#39;User-Agent&#39;: &#39;Mozilla/5.0&#39;})
+        with urlopen(req, timeout=30) as webpage:
+            content = webpage.read().decode(&#39;utf-8&#39;)
+        return pd.read_csv(StringIO(content), sep=&#34;,&#34;)
+    except Exception as e:
+        warnings.warn(f&#34;Failed to download WORM data from {url}: {e}&#34;)
+        return None</code></pre>
+</details>
+<div class="desc"><p>Download WORM database from URL.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>url</code></strong> :&ensp;<code>str</code></dt>
+<dd>URL to the WORM CSV file</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code> or <code>None</code></dt>
+<dd>DataFrame containing WORM data, or None if download fails</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.worm.load_WORM"><code class="name flex">
+<span>def <span class="ident">load_WORM</span></span>(<span>keep_default: bool = False, messages: bool = True) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_WORM(keep_default: bool = False, messages: bool = True) -&gt; bool:
+    &#34;&#34;&#34;
+    Load the WORM (Water-Organic-Rock-Microbe) thermodynamic database.
+
+    This function downloads and loads the WORM database from the WORM-db GitHub
+    repository. By default, it replaces the OBIGT database with WORM data,
+    keeping only water, H+, and e- from the original database.
+
+    Parameters
+    ----------
+    keep_default : bool, default False
+        If False, replace OBIGT with minimal species (water, H+, e-) before
+        loading WORM. If True, add WORM species to the existing OBIGT database.
+    messages : bool, default True
+        Whether to print informational messages
+
+    Returns
+    -------
+    bool
+        True if WORM database was loaded successfully, False otherwise
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.reset()
+    &gt;&gt;&gt; # Load WORM database (replaces default OBIGT)
+    &gt;&gt;&gt; pychnosz.load_WORM()
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Load WORM database while keeping default OBIGT species
+    &gt;&gt;&gt; pychnosz.reset()
+    &gt;&gt;&gt; pychnosz.load_WORM(keep_default=True)
+
+    Notes
+    -----
+    The WORM database is downloaded from:
+    - Species data: https://github.com/worm-portal/WORM-db/master/wrm_data_latest.csv
+    - References: https://github.com/worm-portal/WORM-db/master/references.csv
+
+    This feature is exclusive to the Python version of CHNOSZ.
+    &#34;&#34;&#34;
+
+    # WORM database URLs
+    url_data = &#34;https://raw.githubusercontent.com/worm-portal/WORM-db/master/wrm_data_latest.csv&#34;
+    url_refs = &#34;https://raw.githubusercontent.com/worm-portal/WORM-db/master/references.csv&#34;
+
+    # Name for source_file column
+    worm_source_name = &#34;wrm_data_latest.csv&#34;
+
+    # Check if we can connect to the WORM database
+    if not can_connect_to(url_data):
+        if messages:
+            print(&#34;load_WORM: could not reach WORM database repository&#34;)
+        return False
+
+    # Download WORM species data
+    worm_data = download_worm_data(url_data)
+    if worm_data is None:
+        if messages:
+            print(&#34;load_WORM: failed to download WORM species data&#34;)
+        return False
+
+    # Get the thermodynamic system
+    thermo_sys = thermo()
+
+    if not keep_default:
+        # Keep only essential species (water, H+, e-)
+        from ..core.info import info
+        try:
+            # Get indices for essential species
+            essential_species = []
+            for species in [&#34;water&#34;, &#34;H+&#34;, &#34;e-&#34;]:
+                idx = info(species)
+                if idx is not None:
+                    if isinstance(idx, (list, tuple)):
+                        essential_species.extend(idx)
+                    else:
+                        essential_species.append(idx)
+
+            if essential_species:
+                # Keep only essential species
+                minimal_obigt = thermo_sys.obigt.loc[essential_species].copy()
+                thermo_sys.obigt = minimal_obigt
+        except Exception as e:
+            if messages:
+                print(f&#34;load_WORM: warning - error keeping essential species: {e}&#34;)
+
+    # Add WORM species data (suppress add_OBIGT messages)
+    try:
+        # Add source_file column to worm_data before adding
+        worm_data[&#39;source_file&#39;] = worm_source_name
+
+        indices = add_OBIGT(worm_data, messages=False)
+    except Exception as e:
+        if messages:
+            print(f&#34;load_WORM: failed to add WORM species: {e}&#34;)
+        return False
+
+    # Try to download and load WORM references
+    if can_connect_to(url_refs):
+        worm_refs = download_worm_data(url_refs)
+        if worm_refs is not None:
+            # Replace refs with WORM refs
+            thermo_sys.refs = worm_refs
+
+    # Update formula_ox if it exists in WORM data
+    # This is already handled by add_OBIGT, but we ensure it&#39;s set correctly
+    if &#39;formula_ox&#39; in thermo_sys.obigt.columns:
+        formula_ox_df = pd.DataFrame({
+            &#39;name&#39;: thermo_sys.obigt[&#39;name&#39;],
+            &#39;formula_ox&#39;: thermo_sys.obigt[&#39;formula_ox&#39;]
+        })
+        formula_ox_df.index = thermo_sys.obigt.index
+        thermo_sys.formula_ox = formula_ox_df
+
+    # Print single summary message
+    if messages:
+        final_obigt = thermo_sys.obigt
+        total_species = len(final_obigt)
+        aqueous_species = len(final_obigt[final_obigt[&#39;state&#39;] == &#39;aq&#39;])
+        print(f&#34;The WORM thermodynamic database has been loaded: {aqueous_species} aqueous, {total_species} total species&#34;)
+
+    return True</code></pre>
+</details>
+<div class="desc"><p>Load the WORM (Water-Organic-Rock-Microbe) thermodynamic database.</p>
+<p>This function downloads and loads the WORM database from the WORM-db GitHub
+repository. By default, it replaces the OBIGT database with WORM data,
+keeping only water, H+, and e- from the original database.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>keep_default</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If False, replace OBIGT with minimal species (water, H+, e-) before
+loading WORM. If True, add WORM species to the existing OBIGT database.</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if WORM database was loaded successfully, False otherwise</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.reset()
+&gt;&gt;&gt; # Load WORM database (replaces default OBIGT)
+&gt;&gt;&gt; pychnosz.load_WORM()
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Load WORM database while keeping default OBIGT species
+&gt;&gt;&gt; pychnosz.reset()
+&gt;&gt;&gt; pychnosz.load_WORM(keep_default=True)
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>The WORM database is downloaded from:
+- Species data: <a href="https://github.com/worm-portal/WORM-db/master/wrm_data_latest.csv">https://github.com/worm-portal/WORM-db/master/wrm_data_latest.csv</a>
+- References: <a href="https://github.com/worm-portal/WORM-db/master/references.csv">https://github.com/worm-portal/WORM-db/master/references.csv</a></p>
+<p>This feature is exclusive to the Python version of CHNOSZ.</p></div>
+</dd>
+<dt id="pychnosz.data.worm.reset_WORM"><code class="name flex">
+<span>def <span class="ident">reset_WORM</span></span>(<span>messages: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset_WORM(messages: bool = True) -&gt; None:
+    &#34;&#34;&#34;
+    Initialize the thermodynamic system with the WORM database.
+
+    This is a convenience function that combines reset() and load_WORM().
+    It initializes the system and loads the WORM database in one step.
+
+    Parameters
+    ----------
+    messages : bool, default True
+        Whether to print informational messages
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; # Initialize with WORM database
+    &gt;&gt;&gt; pychnosz.reset_WORM()
+
+    Notes
+    -----
+    This is equivalent to:
+        pychnosz.reset()
+        pychnosz.load_WORM()
+    &#34;&#34;&#34;
+    from ..utils.reset import reset
+
+    # Reset the system first
+    reset(messages=messages)
+
+    # Load WORM database
+    success = load_WORM(keep_default=False, messages=messages)
+
+    if not success:
+        if messages:
+            print(&#34;reset_WORM: falling back to default OBIGT database&#34;)</code></pre>
+</details>
+<div class="desc"><p>Initialize the thermodynamic system with the WORM database.</p>
+<p>This is a convenience function that combines reset() and load_WORM().
+It initializes the system and loads the WORM database in one step.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; # Initialize with WORM database
+&gt;&gt;&gt; pychnosz.reset_WORM()
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This is equivalent to:
+pychnosz.reset()
+pychnosz.load_WORM()</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.data" href="index.html">pychnosz.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.data.worm.can_connect_to" href="#pychnosz.data.worm.can_connect_to">can_connect_to</a></code></li>
+<li><code><a title="pychnosz.data.worm.download_worm_data" href="#pychnosz.data.worm.download_worm_data">download_worm_data</a></code></li>
+<li><code><a title="pychnosz.data.worm.load_WORM" href="#pychnosz.data.worm.load_WORM">load_WORM</a></code></li>
+<li><code><a title="pychnosz.data.worm.reset_WORM" href="#pychnosz.data.worm.reset_WORM">reset_WORM</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

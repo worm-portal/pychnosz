@@ -1,0 +1,1424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.utils.expression API documentation</title>
+<meta name="description" content="Expression utilities for formatted labels and text …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.utils.expression</code></h1>
+</header>
+<section id="section-intro">
+<p>Expression utilities for formatted labels and text.</p>
+<p>This module provides Python equivalents of the R functions in util.expression.R:
+- ratlab(): Create formatted text for activity ratios
+- expr_species(): Format chemical formula for display
+- syslab(): Create formatted text for thermodynamic systems</p>
+<p>Author: CHNOSZ Python port</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.utils.expression.add_legend"><code class="name flex">
+<span>def <span class="ident">add_legend</span></span>(<span>ax,<br>labels: list = None,<br>loc: str = 'best',<br>frameon: bool = False,<br>fontsize: float = 9,<br>**kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_legend(ax, labels: list = None, loc: str = &#39;best&#39;,
+              frameon: bool = False, fontsize: float = 9, **kwargs):
+    &#34;&#34;&#34;
+    Add a legend to a diagram with matplotlib or Plotly formatting.
+
+    This is a convenience function that adds a legend with sensible
+    defaults matching R CHNOSZ legend styling. Works with both matplotlib
+    and Plotly figures.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes or plotly.graph_objs.Figure
+        Axes/Figure object to add legend to. For interactive diagrams,
+        pass the figure from d[&#39;fig&#39;] or d[&#39;ax&#39;].
+    labels : list of str
+        Legend labels (can be from describe_property, describe_basis, etc.)
+    loc : str, default &#39;best&#39;
+        Legend location. Options: &#39;best&#39;, &#39;upper left&#39;, &#39;upper right&#39;,
+        &#39;lower left&#39;, &#39;lower right&#39;, &#39;right&#39;, &#39;center left&#39;, &#39;center right&#39;,
+        &#39;lower center&#39;, &#39;upper center&#39;, &#39;center&#39;
+        For Plotly: &#39;best&#39; defaults to &#39;lower right&#39;
+    frameon : bool, default False
+        Whether to draw a frame around the legend (R bty=&#34;n&#34; equivalent)
+    fontsize : float, default 9
+        Font size for legend text (R cex=0.9 equivalent)
+    **kwargs
+        Additional arguments passed to matplotlib legend() or Plotly annotation
+
+    Returns
+    -------
+    matplotlib.legend.Legend or plotly.graph_objs.Figure
+        The legend object (matplotlib) or the figure (Plotly)
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz.utils.expression import add_legend, describe_property
+    &gt;&gt;&gt; # Matplotlib diagram with plot_it=False
+    &gt;&gt;&gt; d1 = diagram(a, interactive=False, plot_it=False)
+    &gt;&gt;&gt; dprop = describe_property([&#34;T&#34;, &#34;P&#34;], [300, 1000])
+    &gt;&gt;&gt; add_legend(d1[&#39;ax&#39;], dprop, loc=&#39;lower right&#39;)
+    &gt;&gt;&gt; # Display the figure in Jupyter:
+    &gt;&gt;&gt; from IPython.display import display
+    &gt;&gt;&gt; display(d1[&#39;fig&#39;])
+    &gt;&gt;&gt; # Or save it:
+    &gt;&gt;&gt; d1[&#39;fig&#39;].savefig(&#39;diagram.png&#39;)
+
+    &gt;&gt;&gt; # Plotly diagram
+    &gt;&gt;&gt; d1 = diagram(a, interactive=True, plot_it=False)
+    &gt;&gt;&gt; dprop = describe_property([&#34;T&#34;, &#34;P&#34;], [300, 1000])
+    &gt;&gt;&gt; add_legend(d1[&#39;fig&#39;], dprop, loc=&#39;lower right&#39;)
+    &gt;&gt;&gt; d1[&#39;fig&#39;].show()
+
+    Notes
+    -----
+    Common R legend locations and their matplotlib equivalents:
+    - &#34;bottomright&#34; → &#34;lower right&#34;
+    - &#34;topleft&#34; → &#34;upper left&#34;
+    - &#34;topright&#34; → &#34;upper right&#34;
+    - &#34;bottomleft&#34; → &#34;lower left&#34;
+
+    When using plot_it=False, you need to explicitly display the figure after
+    adding legends. In Jupyter notebooks, use display(d[&#39;fig&#39;]) or d[&#39;fig&#39;].show()
+    for Plotly diagrams. Outside Jupyter, use plt.show() or save with d[&#39;fig&#39;].savefig().
+    &#34;&#34;&#34;
+    if labels is None:
+        raise ValueError(&#34;labels must be provided&#34;)
+
+    # Detect if this is a Plotly figure
+    is_plotly = _is_plotly_figure(ax)
+
+    if is_plotly:
+        return _add_plotly_legend(ax, labels, loc, frameon, fontsize, **kwargs)
+    else:
+        return _add_matplotlib_legend(ax, labels, loc, frameon, fontsize, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Add a legend to a diagram with matplotlib or Plotly formatting.</p>
+<p>This is a convenience function that adds a legend with sensible
+defaults matching R CHNOSZ legend styling. Works with both matplotlib
+and Plotly figures.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax</code></strong> :&ensp;<code>matplotlib.axes.Axes</code> or <code>plotly.graph_objs.Figure</code></dt>
+<dd>Axes/Figure object to add legend to. For interactive diagrams,
+pass the figure from d['fig'] or d['ax'].</dd>
+<dt><strong><code>labels</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Legend labels (can be from describe_property, describe_basis, etc.)</dd>
+<dt><strong><code>loc</code></strong> :&ensp;<code>str</code>, default <code>'best'</code></dt>
+<dd>Legend location. Options: 'best', 'upper left', 'upper right',
+'lower left', 'lower right', 'right', 'center left', 'center right',
+'lower center', 'upper center', 'center'
+For Plotly: 'best' defaults to 'lower right'</dd>
+<dt><strong><code>frameon</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Whether to draw a frame around the legend (R bty="n" equivalent)</dd>
+<dt><strong><code>fontsize</code></strong> :&ensp;<code>float</code>, default <code>9</code></dt>
+<dd>Font size for legend text (R cex=0.9 equivalent)</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional arguments passed to matplotlib legend() or Plotly annotation</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>matplotlib.legend.Legend</code> or <code>plotly.graph_objs.Figure</code></dt>
+<dd>The legend object (matplotlib) or the figure (Plotly)</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz.utils.expression import add_legend, describe_property
+&gt;&gt;&gt; # Matplotlib diagram with plot_it=False
+&gt;&gt;&gt; d1 = diagram(a, interactive=False, plot_it=False)
+&gt;&gt;&gt; dprop = describe_property([&quot;T&quot;, &quot;P&quot;], [300, 1000])
+&gt;&gt;&gt; add_legend(d1['ax'], dprop, loc='lower right')
+&gt;&gt;&gt; # Display the figure in Jupyter:
+&gt;&gt;&gt; from IPython.display import display
+&gt;&gt;&gt; display(d1['fig'])
+&gt;&gt;&gt; # Or save it:
+&gt;&gt;&gt; d1['fig'].savefig('diagram.png')
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Plotly diagram
+&gt;&gt;&gt; d1 = diagram(a, interactive=True, plot_it=False)
+&gt;&gt;&gt; dprop = describe_property([&quot;T&quot;, &quot;P&quot;], [300, 1000])
+&gt;&gt;&gt; add_legend(d1['fig'], dprop, loc='lower right')
+&gt;&gt;&gt; d1['fig'].show()
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Common R legend locations and their matplotlib equivalents:
+- "bottomright" → "lower right"
+- "topleft" → "upper left"
+- "topright" → "upper right"
+- "bottomleft" → "lower left"</p>
+<p>When using plot_it=False, you need to explicitly display the figure after
+adding legends. In Jupyter notebooks, use display(d['fig']) or d['fig'].show()
+for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savefig().</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.describe_basis"><code class="name flex">
+<span>def <span class="ident">describe_basis</span></span>(<span>ibasis: list = None,<br>digits: int = 1,<br>oneline: bool = False,<br>molality: bool = False,<br>use_pH: bool = True) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_basis(ibasis: list = None, digits: int = 1,
+                  oneline: bool = False, molality: bool = False,
+                  use_pH: bool = True) -&gt; list:
+    &#34;&#34;&#34;
+    Create formatted text describing basis species activities/fugacities.
+
+    This function generates formatted strings for displaying the chemical
+    activities or fugacities of basis species, typically for plot legends.
+
+    Parameters
+    ----------
+    ibasis : list of int, optional
+        Indices of basis species to describe (1-based). If None, describes all.
+    digits : int, default 1
+        Number of decimal places to display
+    oneline : bool, default False
+        If True, combine all species on one line (not fully implemented)
+    molality : bool, default False
+        If True, use molality (m) instead of activity (a)
+    use_pH : bool, default True
+        If True, display H+ as pH instead of log a_H+
+
+    Returns
+    -------
+    list of str
+        Formatted basis species descriptions
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz.core.basis import basis
+    &gt;&gt;&gt; basis([&#34;H2O&#34;, &#34;H+&#34;, &#34;O2&#34;], [-10, -7, -80])
+    &gt;&gt;&gt; describe_basis([2, 3])
+    [&#39;pH = 7.0&#39;, &#39;log $f_{O_2}$ = -80.0&#39;]
+
+    &gt;&gt;&gt; describe_basis()  # All basis species
+    [&#39;log $a_{H_2O}$ = -10.0&#39;, &#39;pH = 7.0&#39;, &#39;log $f_{O_2}$ = -80.0&#39;]
+
+    Notes
+    -----
+    This is used to create legend entries showing the basis species
+    activities used in thermodynamic calculations.
+    &#34;&#34;&#34;
+    from ..core.basis import get_basis
+
+    basis_df = get_basis()
+    if basis_df is None:
+        raise RuntimeError(&#34;Basis species are not defined&#34;)
+
+    # Default to all basis species
+    if ibasis is None:
+        ibasis = list(range(1, len(basis_df) + 1))
+
+    # Convert to 0-based indexing
+    ibasis_0 = [i - 1 for i in ibasis]
+
+    descriptions = []
+
+    for i in ibasis_0:
+        species_name = basis_df.index[i]
+        state = basis_df.iloc[i][&#39;state&#39;]
+        logact = basis_df.iloc[i][&#39;logact&#39;]
+
+        # Check if logact is numeric
+        try:
+            logact_val = float(logact)
+            is_numeric = True
+        except (ValueError, TypeError):
+            is_numeric = False
+
+        if is_numeric:
+            # Handle H+ specially with pH
+            if species_name == &#34;H+&#34; and use_pH:
+                pH_val = -logact_val
+                val_formatted = format(round(pH_val, digits), f&#39;.{digits}f&#39;)
+                descriptions.append(f&#34;pH = {val_formatted}&#34;)
+            else:
+                # Format the activity/fugacity
+                val_formatted = format(round(logact_val, digits), f&#39;.{digits}f&#39;)
+
+                # Determine if it&#39;s activity or fugacity based on state
+                if state in [&#39;aq&#39;, &#39;liq&#39;, &#39;cr&#39;]:
+                    a_or_f = &#34;a&#34; if not molality else &#34;m&#34;
+                else:
+                    a_or_f = &#34;f&#34;
+
+                # Format the species name
+                species_formatted = _format_species_latex(species_name)
+
+                descriptions.append(f&#34;log ${a_or_f}_{{{species_formatted}}}$ = {val_formatted}&#34;)
+        else:
+            # Non-numeric value (buffer)
+            if species_name == &#34;H+&#34; and use_pH:
+                descriptions.append(f&#34;pH = {logact}&#34;)
+            else:
+                # For buffers, just show the buffer name
+                if state in [&#39;aq&#39;, &#39;liq&#39;, &#39;cr&#39;]:
+                    a_or_f = &#34;a&#34; if not molality else &#34;m&#34;
+                else:
+                    a_or_f = &#34;f&#34;
+
+                species_formatted = _format_species_latex(species_name)
+                descriptions.append(f&#34;${a_or_f}_{{{species_formatted}}}$ = {logact}&#34;)
+
+    return descriptions</code></pre>
+</details>
+<div class="desc"><p>Create formatted text describing basis species activities/fugacities.</p>
+<p>This function generates formatted strings for displaying the chemical
+activities or fugacities of basis species, typically for plot legends.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ibasis</code></strong> :&ensp;<code>list</code> of <code>int</code>, optional</dt>
+<dd>Indices of basis species to describe (1-based). If None, describes all.</dd>
+<dt><strong><code>digits</code></strong> :&ensp;<code>int</code>, default <code>1</code></dt>
+<dd>Number of decimal places to display</dd>
+<dt><strong><code>oneline</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, combine all species on one line (not fully implemented)</dd>
+<dt><strong><code>molality</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, use molality (m) instead of activity (a)</dd>
+<dt><strong><code>use_pH</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, display H+ as pH instead of log a_H+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>str</code></dt>
+<dd>Formatted basis species descriptions</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz.core.basis import basis
+&gt;&gt;&gt; basis([&quot;H2O&quot;, &quot;H+&quot;, &quot;O2&quot;], [-10, -7, -80])
+&gt;&gt;&gt; describe_basis([2, 3])
+['pH = 7.0', 'log $f_{O_2}$ = -80.0']
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; describe_basis()  # All basis species
+['log $a_{H_2O}$ = -10.0', 'pH = 7.0', 'log $f_{O_2}$ = -80.0']
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This is used to create legend entries showing the basis species
+activities used in thermodynamic calculations.</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.describe_basis_html"><code class="name flex">
+<span>def <span class="ident">describe_basis_html</span></span>(<span>ibasis: list = None,<br>digits: int = 1,<br>oneline: bool = False,<br>molality: bool = False,<br>use_pH: bool = True) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_basis_html(ibasis: list = None, digits: int = 1,
+                        oneline: bool = False, molality: bool = False,
+                        use_pH: bool = True) -&gt; list:
+    &#34;&#34;&#34;
+    Create HTML-formatted text describing basis species (for Plotly).
+
+    This function generates HTML-formatted strings for displaying the chemical
+    activities or fugacities of basis species, typically for plot legends in
+    interactive diagrams.
+
+    Parameters
+    ----------
+    ibasis : list of int, optional
+        Indices of basis species to describe (1-based). If None, describes all.
+    digits : int, default 1
+        Number of decimal places to display
+    oneline : bool, default False
+        If True, combine all species on one line (not fully implemented)
+    molality : bool, default False
+        If True, use molality (m) instead of activity (a)
+    use_pH : bool, default True
+        If True, display H+ as pH instead of log a_H+
+
+    Returns
+    -------
+    list of str
+        HTML-formatted basis species descriptions
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz.core.basis import basis
+    &gt;&gt;&gt; basis([&#34;H2O&#34;, &#34;H+&#34;, &#34;O2&#34;], [-10, -7, -80])
+    &gt;&gt;&gt; describe_basis_html([2, 3])
+    [&#39;pH = 7.0&#39;, &#39;log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;O&lt;sub&gt;2&lt;/sub&gt;&lt;/sub&gt; = -80.0&#39;]
+
+    &gt;&gt;&gt; describe_basis_html([4])  # CO2
+    [&#39;log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;CO&lt;sub&gt;2&lt;/sub&gt;&lt;/sub&gt; = -1.0&#39;]
+
+    Notes
+    -----
+    Use this instead of describe_basis() when creating legends for
+    interactive (Plotly) diagrams.
+    &#34;&#34;&#34;
+    if not _HTML_DEPS_AVAILABLE:
+        raise ImportError(
+            &#34;describe_basis_html() requires &#39;WORMutils&#39; package.\n&#34;
+            &#34;Install with: pip install WORMutils&#34;
+        )
+
+    from ..core.basis import get_basis
+
+    basis_df = get_basis()
+    if basis_df is None:
+        raise RuntimeError(&#34;Basis species are not defined&#34;)
+
+    # Default to all basis species
+    if ibasis is None:
+        ibasis = list(range(1, len(basis_df) + 1))
+
+    # Convert to 0-based indexing
+    ibasis_0 = [i - 1 for i in ibasis]
+
+    descriptions = []
+
+    for i in ibasis_0:
+        species_name = basis_df.index[i]
+        state = basis_df.iloc[i][&#39;state&#39;]
+        logact = basis_df.iloc[i][&#39;logact&#39;]
+
+        # Check if logact is numeric
+        try:
+            logact_val = float(logact)
+            is_numeric = True
+        except (ValueError, TypeError):
+            is_numeric = False
+
+        if is_numeric:
+            # Handle H+ specially with pH
+            if species_name == &#34;H+&#34; and use_pH:
+                pH_val = -logact_val
+                val_formatted = format(round(pH_val, digits), f&#39;.{digits}f&#39;)
+                descriptions.append(f&#34;pH = {val_formatted}&#34;)
+            else:
+                # Format the activity/fugacity
+                val_formatted = format(round(logact_val, digits), f&#39;.{digits}f&#39;)
+
+                # Determine if it&#39;s activity or fugacity based on state
+                if state in [&#39;aq&#39;, &#39;liq&#39;, &#39;cr&#39;]:
+                    a_or_f = &#34;a&#34; if not molality else &#34;m&#34;
+                else:
+                    a_or_f = &#34;f&#34;
+
+                # Format the species name using HTML
+                species_formatted = chemlabel(species_name)
+
+                descriptions.append(f&#34;log &lt;i&gt;{a_or_f}&lt;/i&gt;&lt;sub&gt;{species_formatted}&lt;/sub&gt; = {val_formatted}&#34;)
+        else:
+            # Non-numeric value (buffer)
+            if species_name == &#34;H+&#34; and use_pH:
+                descriptions.append(f&#34;pH = {logact}&#34;)
+            else:
+                # For buffers, just show the buffer name
+                if state in [&#39;aq&#39;, &#39;liq&#39;, &#39;cr&#39;]:
+                    a_or_f = &#34;a&#34; if not molality else &#34;m&#34;
+                else:
+                    a_or_f = &#34;f&#34;
+
+                species_formatted = chemlabel(species_name)
+                descriptions.append(f&#34;&lt;i&gt;{a_or_f}&lt;/i&gt;&lt;sub&gt;{species_formatted}&lt;/sub&gt; = {logact}&#34;)
+
+    return descriptions</code></pre>
+</details>
+<div class="desc"><p>Create HTML-formatted text describing basis species (for Plotly).</p>
+<p>This function generates HTML-formatted strings for displaying the chemical
+activities or fugacities of basis species, typically for plot legends in
+interactive diagrams.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ibasis</code></strong> :&ensp;<code>list</code> of <code>int</code>, optional</dt>
+<dd>Indices of basis species to describe (1-based). If None, describes all.</dd>
+<dt><strong><code>digits</code></strong> :&ensp;<code>int</code>, default <code>1</code></dt>
+<dd>Number of decimal places to display</dd>
+<dt><strong><code>oneline</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, combine all species on one line (not fully implemented)</dd>
+<dt><strong><code>molality</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, use molality (m) instead of activity (a)</dd>
+<dt><strong><code>use_pH</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, display H+ as pH instead of log a_H+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>str</code></dt>
+<dd>HTML-formatted basis species descriptions</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz.core.basis import basis
+&gt;&gt;&gt; basis([&quot;H2O&quot;, &quot;H+&quot;, &quot;O2&quot;], [-10, -7, -80])
+&gt;&gt;&gt; describe_basis_html([2, 3])
+['pH = 7.0', 'log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;O&lt;sub&gt;2&lt;/sub&gt;&lt;/sub&gt; = -80.0']
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; describe_basis_html([4])  # CO2
+['log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;CO&lt;sub&gt;2&lt;/sub&gt;&lt;/sub&gt; = -1.0']
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Use this instead of describe_basis() when creating legends for
+interactive (Plotly) diagrams.</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.describe_property"><code class="name flex">
+<span>def <span class="ident">describe_property</span></span>(<span>property: list = None,<br>value: list = None,<br>digits: int = 0,<br>oneline: bool = False,<br>ret_val: bool = False) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_property(property: list = None, value: list = None,
+                     digits: int = 0, oneline: bool = False,
+                     ret_val: bool = False) -&gt; list:
+    &#34;&#34;&#34;
+    Create formatted text describing thermodynamic properties and their values.
+
+    This function generates formatted strings for displaying property-value pairs
+    in legends, typically for temperature, pressure, and other conditions.
+
+    Parameters
+    ----------
+    property : list of str
+        Property names (e.g., [&#34;T&#34;, &#34;P&#34;])
+    value : list
+        Property values (e.g., [300, 1000])
+    digits : int, default 0
+        Number of decimal places to display
+    oneline : bool, default False
+        If True, combine all properties on one line (not implemented)
+    ret_val : bool, default False
+        If True, return only values with units (not property names)
+
+    Returns
+    -------
+    list of str
+        Formatted property descriptions
+
+    Examples
+    --------
+    &gt;&gt;&gt; describe_property([&#34;T&#34;, &#34;P&#34;], [300, 1000])
+    [&#39;$T$ = 300 °C&#39;, &#39;$P$ = 1000 bar&#39;]
+
+    &gt;&gt;&gt; describe_property([&#34;T&#34;], [25], digits=1)
+    [&#39;$T$ = 25.0 °C&#39;]
+
+    Notes
+    -----
+    This is used to create legend entries showing the conditions
+    used in thermodynamic calculations.
+    &#34;&#34;&#34;
+    if property is None or value is None:
+        raise ValueError(&#34;property or value is None&#34;)
+
+    descriptions = []
+
+    for i in range(len(property)):
+        prop = property[i]
+        val = value[i]
+
+        # Get property symbol
+        if prop == &#34;T&#34;:
+            prop_str = &#34;$T$&#34;
+            if val == &#34;Psat&#34; or val == &#34;NA&#34;:
+                val_str = &#34;$P_{sat}$&#34;
+            else:
+                val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+                val_str = f&#34;{val_formatted} °C&#34;
+        elif prop == &#34;P&#34;:
+            prop_str = &#34;$P$&#34;
+            if val == &#34;Psat&#34; or val == &#34;NA&#34;:
+                val_str = &#34;$P_{sat}$&#34;
+            else:
+                val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+                val_str = f&#34;{val_formatted} bar&#34;
+        elif prop == &#34;pH&#34;:
+            prop_str = &#34;pH&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+        elif prop == &#34;Eh&#34;:
+            prop_str = &#34;Eh&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = f&#34;{val_formatted} V&#34;
+        elif prop == &#34;IS&#34;:
+            prop_str = &#34;$IS$&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+        else:
+            prop_str = f&#34;${prop}$&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+
+        if ret_val:
+            descriptions.append(val_str)
+        else:
+            descriptions.append(f&#34;{prop_str} = {val_str}&#34;)
+
+    return descriptions</code></pre>
+</details>
+<div class="desc"><p>Create formatted text describing thermodynamic properties and their values.</p>
+<p>This function generates formatted strings for displaying property-value pairs
+in legends, typically for temperature, pressure, and other conditions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>property</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Property names (e.g., ["T", "P"])</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>list</code></dt>
+<dd>Property values (e.g., [300, 1000])</dd>
+<dt><strong><code>digits</code></strong> :&ensp;<code>int</code>, default <code>0</code></dt>
+<dd>Number of decimal places to display</dd>
+<dt><strong><code>oneline</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, combine all properties on one line (not implemented)</dd>
+<dt><strong><code>ret_val</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, return only values with units (not property names)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>str</code></dt>
+<dd>Formatted property descriptions</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; describe_property([&quot;T&quot;, &quot;P&quot;], [300, 1000])
+['$T$ = 300 °C', '$P$ = 1000 bar']
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; describe_property([&quot;T&quot;], [25], digits=1)
+['$T$ = 25.0 °C']
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This is used to create legend entries showing the conditions
+used in thermodynamic calculations.</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.describe_property_html"><code class="name flex">
+<span>def <span class="ident">describe_property_html</span></span>(<span>property: list = None,<br>value: list = None,<br>digits: int = 0,<br>oneline: bool = False,<br>ret_val: bool = False) ‑> list</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def describe_property_html(property: list = None, value: list = None,
+                           digits: int = 0, oneline: bool = False,
+                           ret_val: bool = False) -&gt; list:
+    &#34;&#34;&#34;
+    Create HTML-formatted text describing thermodynamic properties (for Plotly).
+
+    This function generates HTML-formatted strings for displaying thermodynamic
+    properties and their values, typically for plot legends in interactive diagrams.
+
+    Parameters
+    ----------
+    property : list of str
+        Property names (e.g., [&#34;T&#34;, &#34;P&#34;])
+    value : list
+        Property values
+    digits : int, default 0
+        Number of decimal places to display
+    oneline : bool, default False
+        If True, format on one line (not implemented)
+    ret_val : bool, default False
+        If True, return only values without property names
+
+    Returns
+    -------
+    list of str
+        HTML-formatted property descriptions
+
+    Examples
+    --------
+    &gt;&gt;&gt; describe_property_html([&#34;T&#34;, &#34;P&#34;], [300, 1000])
+    [&#39;&lt;i&gt;T&lt;/i&gt; = 300 °C&#39;, &#39;&lt;i&gt;P&lt;/i&gt; = 1000 bar&#39;]
+
+    Notes
+    -----
+    Use this instead of describe_property() when creating legends for
+    interactive (Plotly) diagrams.
+    &#34;&#34;&#34;
+    if property is None or value is None:
+        raise ValueError(&#34;property or value is None&#34;)
+
+    descriptions = []
+
+    for i in range(len(property)):
+        prop = property[i]
+        val = value[i]
+
+        # Get property symbol (HTML format)
+        if prop == &#34;T&#34;:
+            prop_str = &#34;&lt;i&gt;T&lt;/i&gt;&#34;
+            if val == &#34;Psat&#34; or val == &#34;NA&#34;:
+                val_str = &#34;&lt;i&gt;P&lt;/i&gt;&lt;sub&gt;sat&lt;/sub&gt;&#34;
+            else:
+                val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+                val_str = f&#34;{val_formatted} °C&#34;
+        elif prop == &#34;P&#34;:
+            prop_str = &#34;&lt;i&gt;P&lt;/i&gt;&#34;
+            if val == &#34;Psat&#34; or val == &#34;NA&#34;:
+                val_str = &#34;&lt;i&gt;P&lt;/i&gt;&lt;sub&gt;sat&lt;/sub&gt;&#34;
+            else:
+                val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+                val_str = f&#34;{val_formatted} bar&#34;
+        elif prop == &#34;pH&#34;:
+            prop_str = &#34;pH&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+        elif prop == &#34;Eh&#34;:
+            prop_str = &#34;Eh&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = f&#34;{val_formatted} V&#34;
+        elif prop == &#34;IS&#34;:
+            prop_str = &#34;&lt;i&gt;IS&lt;/i&gt;&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+        else:
+            prop_str = f&#34;&lt;i&gt;{prop}&lt;/i&gt;&#34;
+            val_formatted = format(round(float(val), digits), f&#39;.{digits}f&#39;)
+            val_str = val_formatted
+
+        if ret_val:
+            descriptions.append(val_str)
+        else:
+            descriptions.append(f&#34;{prop_str} = {val_str}&#34;)
+
+    return descriptions</code></pre>
+</details>
+<div class="desc"><p>Create HTML-formatted text describing thermodynamic properties (for Plotly).</p>
+<p>This function generates HTML-formatted strings for displaying thermodynamic
+properties and their values, typically for plot legends in interactive diagrams.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>property</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Property names (e.g., ["T", "P"])</dd>
+<dt><strong><code>value</code></strong> :&ensp;<code>list</code></dt>
+<dd>Property values</dd>
+<dt><strong><code>digits</code></strong> :&ensp;<code>int</code>, default <code>0</code></dt>
+<dd>Number of decimal places to display</dd>
+<dt><strong><code>oneline</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, format on one line (not implemented)</dd>
+<dt><strong><code>ret_val</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, return only values without property names</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>str</code></dt>
+<dd>HTML-formatted property descriptions</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; describe_property_html([&quot;T&quot;, &quot;P&quot;], [300, 1000])
+['&lt;i&gt;T&lt;/i&gt; = 300 °C', '&lt;i&gt;P&lt;/i&gt; = 1000 bar']
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Use this instead of describe_property() when creating legends for
+interactive (Plotly) diagrams.</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.expr_species"><code class="name flex">
+<span>def <span class="ident">expr_species</span></span>(<span>formula: str, state: str | None = None, use_state: bool = False) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def expr_species(formula: str, state: Optional[str] = None, use_state: bool = False) -&gt; str:
+    &#34;&#34;&#34;
+    Format a chemical species formula for display.
+
+    This is a simplified version that returns LaTeX-formatted strings
+    suitable for matplotlib. The R version returns plotmath expressions.
+
+    Parameters
+    ----------
+    formula : str
+        Chemical formula
+    state : str, optional
+        Physical state (aq, cr, gas, liq)
+    use_state : bool, default False
+        Whether to include state in the formatted output
+
+    Returns
+    -------
+    str
+        LaTeX-formatted formula string
+
+    Examples
+    --------
+    &gt;&gt;&gt; expr_species(&#34;H2O&#34;)
+    &#39;$H_{2}O$&#39;
+
+    &gt;&gt;&gt; expr_species(&#34;Ca+2&#34;)
+    &#39;$Ca^{2+}$&#39;
+
+    &gt;&gt;&gt; expr_species(&#34;SO4-2&#34;)
+    &#39;$SO_{4}^{2-}$&#39;
+    &#34;&#34;&#34;
+    formatted = _format_species_latex(formula)
+
+    if use_state and state:
+        # Add state subscript
+        return f&#34;${formatted}_{{{state}}}$&#34;
+    else:
+        return f&#34;${formatted}$&#34;</code></pre>
+</details>
+<div class="desc"><p>Format a chemical species formula for display.</p>
+<p>This is a simplified version that returns LaTeX-formatted strings
+suitable for matplotlib. The R version returns plotmath expressions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chemical formula</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state (aq, cr, gas, liq)</dd>
+<dt><strong><code>use_state</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Whether to include state in the formatted output</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>LaTeX-formatted formula string</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; expr_species(&quot;H2O&quot;)
+'$H_{2}O$'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; expr_species(&quot;Ca+2&quot;)
+'$Ca^{2+}$'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; expr_species(&quot;SO4-2&quot;)
+'$SO_{4}^{2-}$'
+</code></pre></div>
+</dd>
+<dt id="pychnosz.utils.expression.ratlab"><code class="name flex">
+<span>def <span class="ident">ratlab</span></span>(<span>top: str = 'K+',<br>bottom: str = 'H+',<br>molality: bool = False,<br>reverse_charge: bool = False) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ratlab(top: str = &#34;K+&#34;, bottom: str = &#34;H+&#34;, molality: bool = False,
+           reverse_charge: bool = False) -&gt; str:
+    &#34;&#34;&#34;
+    Create formatted text label for activity ratio.
+
+    This function generates a LaTeX-formatted string suitable for use as
+    axis labels in matplotlib plots, showing the ratio of activities of
+    two ions raised to appropriate powers based on their charges.
+
+    Parameters
+    ----------
+    top : str, default &#34;K+&#34;
+        Chemical formula for the numerator ion
+    bottom : str, default &#34;H+&#34;
+        Chemical formula for the denominator ion
+    molality : bool, default False
+        If True, use &#39;m&#39; (molality) instead of &#39;a&#39; (activity)
+    reverse_charge : bool, default False
+        If True, reverse charge order in formatting (e.g., &#34;Fe+3&#34; becomes &#34;Fe^{3+}&#34;)
+        If False, keep original order (e.g., &#34;Fe+3&#34; becomes &#34;Fe^{+3}&#34;)
+
+    Returns
+    -------
+    str
+        LaTeX-formatted string for the activity ratio label
+
+    Examples
+    --------
+    &gt;&gt;&gt; ratlab(&#34;K+&#34;, &#34;H+&#34;)
+    &#39;log($a_{K^{+}}$ / $a_{H^{+}}$)&#39;
+
+    &gt;&gt;&gt; ratlab(&#34;Ca+2&#34;, &#34;H+&#34;)
+    &#39;log($a_{Ca^{+2}}$ / $a_{H^{+}}^{2}$)&#39;
+
+    &gt;&gt;&gt; ratlab(&#34;Ca+2&#34;, &#34;H+&#34;, reverse_charge=True)
+    &#39;log($a_{Ca^{2+}}$ / $a_{H^{+}}^{2}$)&#39;
+
+    &gt;&gt;&gt; ratlab(&#34;Mg+2&#34;, &#34;Ca+2&#34;)
+    &#39;log($a_{Mg^{+2}}$ / $a_{Ca^{+2}}$)&#39;
+
+    Notes
+    -----
+    The exponents are determined by the charges of the ions to maintain
+    charge balance in the ratio. For example, for Ca+2/H+, the H+ term
+    is squared because Ca has a +2 charge.
+
+    The output format is compatible with matplotlib&#39;s LaTeX rendering.
+    In R CHNOSZ, this uses plotmath expressions; here we use LaTeX strings
+    that matplotlib can render.
+    &#34;&#34;&#34;
+    # Get the charges of the ions
+    makeup_top = makeup(top)
+    makeup_bottom = makeup(bottom)
+
+    Z_top = makeup_top.get(&#39;Z&#39;, 0)
+    Z_bottom = makeup_bottom.get(&#39;Z&#39;, 0)
+
+    # The exponents for charge balance
+    # If top has charge +2 and bottom has +1, bottom gets exponent 2
+    exp_bottom = abs(Z_top)
+    exp_top = abs(Z_bottom)
+
+    # Format exponents (don&#39;t show if = 1)
+    exp_top_str = &#34;&#34; if exp_top == 1 else f&#34;^{{{int(exp_top)}}}&#34;
+    exp_bottom_str = &#34;&#34; if exp_bottom == 1 else f&#34;^{{{int(exp_bottom)}}}&#34;
+
+    # Format the ion formulas for display
+    top_formatted = _format_species_latex(top, reverse_charge=reverse_charge)
+    bottom_formatted = _format_species_latex(bottom, reverse_charge=reverse_charge)
+
+    # Choose activity or molality symbol
+    a = &#34;m&#34; if molality else &#34;a&#34;
+
+    # Build the expression
+    # Format: log(a_top^exp / a_bottom^exp)
+    numerator = f&#34;${a}_{{{top_formatted}}}{exp_top_str}$&#34;
+    denominator = f&#34;${a}_{{{bottom_formatted}}}{exp_bottom_str}$&#34;
+
+    label = f&#34;log({numerator} / {denominator})&#34;
+
+    return label</code></pre>
+</details>
+<div class="desc"><p>Create formatted text label for activity ratio.</p>
+<p>This function generates a LaTeX-formatted string suitable for use as
+axis labels in matplotlib plots, showing the ratio of activities of
+two ions raised to appropriate powers based on their charges.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>top</code></strong> :&ensp;<code>str</code>, default <code>"K+"</code></dt>
+<dd>Chemical formula for the numerator ion</dd>
+<dt><strong><code>bottom</code></strong> :&ensp;<code>str</code>, default <code>"H+"</code></dt>
+<dd>Chemical formula for the denominator ion</dd>
+<dt><strong><code>molality</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, use 'm' (molality) instead of 'a' (activity)</dd>
+<dt><strong><code>reverse_charge</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, reverse charge order in formatting (e.g., "Fe+3" becomes "Fe^{3+}")
+If False, keep original order (e.g., "Fe+3" becomes "Fe^{+3}")</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>LaTeX-formatted string for the activity ratio label</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab(&quot;K+&quot;, &quot;H+&quot;)
+'log($a_{K^{+}}$ / $a_{H^{+}}$)'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab(&quot;Ca+2&quot;, &quot;H+&quot;)
+'log($a_{Ca^{+2}}$ / $a_{H^{+}}^{2}$)'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab(&quot;Ca+2&quot;, &quot;H+&quot;, reverse_charge=True)
+'log($a_{Ca^{2+}}$ / $a_{H^{+}}^{2}$)'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab(&quot;Mg+2&quot;, &quot;Ca+2&quot;)
+'log($a_{Mg^{+2}}$ / $a_{Ca^{+2}}$)'
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>The exponents are determined by the charges of the ions to maintain
+charge balance in the ratio. For example, for Ca+2/H+, the H+ term
+is squared because Ca has a +2 charge.</p>
+<p>The output format is compatible with matplotlib's LaTeX rendering.
+In R CHNOSZ, this uses plotmath expressions; here we use LaTeX strings
+that matplotlib can render.</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.ratlab_html"><code class="name flex">
+<span>def <span class="ident">ratlab_html</span></span>(<span>top: str = 'K+', bottom: str = 'H+', molality: bool = False) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ratlab_html(top: str = &#34;K+&#34;, bottom: str = &#34;H+&#34;, molality: bool = False) -&gt; str:
+    &#34;&#34;&#34;
+    Create HTML-formatted text label for activity ratio (for Plotly/HTML rendering).
+
+    This function generates an HTML-formatted string suitable for use with
+    Plotly interactive plots, showing the ratio of activities of two ions
+    raised to appropriate powers based on their charges.
+
+    This is a companion function to ratlab() which produces LaTeX format for
+    matplotlib. Use ratlab_html() when creating labels for diagram(..., interactive=True).
+
+    Parameters
+    ----------
+    top : str, default &#34;K+&#34;
+        Chemical formula for the numerator ion
+    bottom : str, default &#34;H+&#34;
+        Chemical formula for the denominator ion
+    molality : bool, default False
+        If True, use &#39;m&#39; (molality) instead of &#39;a&#39; (activity)
+
+    Returns
+    -------
+    str
+        HTML-formatted string for the activity ratio label
+
+    Examples
+    --------
+    &gt;&gt;&gt; ratlab_html(&#34;K+&#34;, &#34;H+&#34;)
+    &#39;log(a&lt;sub&gt;K&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sub&gt;H&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;)&#39;
+
+    &gt;&gt;&gt; ratlab_html(&#34;Ca+2&#34;, &#34;H+&#34;)
+    &#39;log(a&lt;sub&gt;Ca&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sup&gt;2&lt;/sup&gt;&lt;sub&gt;H&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;)&#39;
+
+    &gt;&gt;&gt; ratlab_html(&#34;Mg+2&#34;, &#34;Ca+2&#34;)
+    &#39;log(a&lt;sub&gt;Mg&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sub&gt;Ca&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;)&#39;
+
+    Notes
+    -----
+    The exponents are determined by the charges of the ions to maintain
+    charge balance in the ratio. For example, for Ca+2/H+, the H+ term
+    is squared because Ca has a +2 charge.
+
+    The output format uses HTML tags (&lt;sub&gt;, &lt;sup&gt;) compatible with Plotly.
+    For matplotlib plots with LaTeX rendering, use ratlab() instead.
+
+    Requires: WORMutils (for chemlabel) and chemparse (for parse_formula)
+
+    See Also
+    --------
+    ratlab : LaTeX version for matplotlib
+    &#34;&#34;&#34;
+    if not _HTML_DEPS_AVAILABLE:
+        raise ImportError(
+            &#34;ratlab_html() requires &#39;WORMutils&#39; and &#39;chemparse&#39; packages.\n&#34;
+            &#34;Install with: pip install WORMutils chemparse&#34;
+        )
+
+    # Parse the formulas to get charges
+    top_formula = parse_formula(top)
+    if &#34;+&#34; in top_formula.keys():
+        top_charge = top_formula[&#34;+&#34;]
+    elif &#34;-&#34; in top_formula.keys():
+        top_charge = -top_formula[&#34;-&#34;]
+    else:
+        raise ValueError(&#34;Cannot create an ion ratio involving one or more neutral species.&#34;)
+
+    bottom_formula = parse_formula(bottom)
+    if &#34;+&#34; in bottom_formula.keys():
+        bottom_charge = bottom_formula[&#34;+&#34;]
+    elif &#34;-&#34; in bottom_formula.keys():
+        bottom_charge = -bottom_formula[&#34;-&#34;]
+    else:
+        raise ValueError(&#34;Cannot create an ion ratio involving one or more neutral species.&#34;)
+
+    # Convert to integers if whole numbers
+    if top_charge.is_integer():
+        top_charge = int(top_charge)
+
+    if bottom_charge.is_integer():
+        bottom_charge = int(bottom_charge)
+
+    # The exponents for charge balance
+    # If top has charge +2 and bottom has +1, bottom gets exponent 2
+    exp_bottom = abs(top_charge)
+    exp_top = abs(bottom_charge)
+
+    # Format exponents as superscripts (don&#39;t show if = 1)
+    if exp_top != 1:
+        top_exp_str = &#34;&lt;sup&gt;&#34; + str(exp_top) + &#34;&lt;/sup&gt;&#34;
+    else:
+        top_exp_str = &#34;&#34;
+
+    if exp_bottom != 1:
+        bottom_exp_str = &#34;&lt;sup&gt;&#34; + str(exp_bottom) + &#34;&lt;/sup&gt;&#34;
+    else:
+        bottom_exp_str = &#34;&#34;
+
+    # Choose activity or molality symbol
+    if molality:
+        sym = &#34;m&#34;
+    else:
+        sym = &#34;a&#34;
+
+    # Format the chemical formulas with chemlabel
+    top_formatted = chemlabel(top)
+    bottom_formatted = chemlabel(bottom)
+
+    # Build the HTML expression
+    # Format: log(a_top^exp / a_bottom^exp)
+    return f&#34;log({sym}{top_exp_str}&lt;sub&gt;{top_formatted}&lt;/sub&gt;/{sym}{bottom_exp_str}&lt;sub&gt;{bottom_formatted}&lt;/sub&gt;)&#34;</code></pre>
+</details>
+<div class="desc"><p>Create HTML-formatted text label for activity ratio (for Plotly/HTML rendering).</p>
+<p>This function generates an HTML-formatted string suitable for use with
+Plotly interactive plots, showing the ratio of activities of two ions
+raised to appropriate powers based on their charges.</p>
+<p>This is a companion function to ratlab() which produces LaTeX format for
+matplotlib. Use ratlab_html() when creating labels for diagram(&hellip;, interactive=True).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>top</code></strong> :&ensp;<code>str</code>, default <code>"K+"</code></dt>
+<dd>Chemical formula for the numerator ion</dd>
+<dt><strong><code>bottom</code></strong> :&ensp;<code>str</code>, default <code>"H+"</code></dt>
+<dd>Chemical formula for the denominator ion</dd>
+<dt><strong><code>molality</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, use 'm' (molality) instead of 'a' (activity)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>HTML-formatted string for the activity ratio label</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab_html(&quot;K+&quot;, &quot;H+&quot;)
+'log(a&lt;sub&gt;K&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sub&gt;H&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;)'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab_html(&quot;Ca+2&quot;, &quot;H+&quot;)
+'log(a&lt;sub&gt;Ca&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sup&gt;2&lt;/sup&gt;&lt;sub&gt;H&lt;sup&gt;+&lt;/sup&gt;&lt;/sub&gt;)'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; ratlab_html(&quot;Mg+2&quot;, &quot;Ca+2&quot;)
+'log(a&lt;sub&gt;Mg&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;/a&lt;sub&gt;Ca&lt;sup&gt;2+&lt;/sup&gt;&lt;/sub&gt;)'
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>The exponents are determined by the charges of the ions to maintain
+charge balance in the ratio. For example, for Ca+2/H+, the H+ term
+is squared because Ca has a +2 charge.</p>
+<p>The output format uses HTML tags (<sub>, <sup>) compatible with Plotly.
+For matplotlib plots with LaTeX rendering, use ratlab() instead.</p>
+<p>Requires: WORMutils (for chemlabel) and chemparse (for parse_formula)</p>
+<h2 id="see-also">See Also</h2>
+<dl>
+<dt><code><a title="pychnosz.utils.expression.ratlab" href="#pychnosz.utils.expression.ratlab">ratlab()</a></code></dt>
+<dd>LaTeX version for matplotlib</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.expression.set_title"><code class="name flex">
+<span>def <span class="ident">set_title</span></span>(<span>ax_or_fig, title: str, fontsize: float = 12, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_title(ax_or_fig, title: str, fontsize: float = 12, **kwargs):
+    &#34;&#34;&#34;
+    Set title on a matplotlib axes or Plotly figure.
+
+    This function provides a unified interface for setting titles on both
+    matplotlib and Plotly plots, allowing seamless switching between
+    interactive=True and interactive=False.
+
+    Parameters
+    ----------
+    ax_or_fig : matplotlib.axes.Axes or plotly.graph_objs.Figure
+        Axes or Figure object to set title on
+    title : str
+        The title text
+    fontsize : float, default 12
+        Font size for the title
+    **kwargs
+        Additional arguments passed to matplotlib set_title() or Plotly update_layout()
+
+    Returns
+    -------
+    matplotlib.text.Text or plotly.graph_objs.Figure
+        The title object (matplotlib) or the figure (Plotly)
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz.utils.expression import set_title, syslab
+    &gt;&gt;&gt; # Matplotlib diagram
+    &gt;&gt;&gt; d1 = diagram(a, interactive=False, plot_it=False)
+    &gt;&gt;&gt; title_text = syslab([&#34;H2O&#34;, &#34;CO2&#34;, &#34;CaO&#34;, &#34;MgO&#34;, &#34;SiO2&#34;])
+    &gt;&gt;&gt; set_title(d1[&#39;ax&#39;], title_text, fontsize=12)
+    &gt;&gt;&gt; # Display the figure in Jupyter:
+    &gt;&gt;&gt; from IPython.display import display
+    &gt;&gt;&gt; display(d1[&#39;fig&#39;])
+
+    &gt;&gt;&gt; # Plotly diagram
+    &gt;&gt;&gt; d1 = diagram(a, interactive=True, plot_it=False)
+    &gt;&gt;&gt; title_text = syslab_html([&#34;H2O&#34;, &#34;CO2&#34;, &#34;CaO&#34;, &#34;MgO&#34;, &#34;SiO2&#34;])
+    &gt;&gt;&gt; set_title(d1[&#39;ax&#39;], title_text, fontsize=12)
+    &gt;&gt;&gt; d1[&#39;fig&#39;].show()
+
+    Notes
+    -----
+    When using plot_it=False, you need to explicitly display the figure after
+    setting the title. In Jupyter notebooks, use display(d[&#39;fig&#39;]) or d[&#39;fig&#39;].show()
+    for Plotly diagrams. Outside Jupyter, use plt.show() or save with d[&#39;fig&#39;].savefig().
+    &#34;&#34;&#34;
+    is_plotly = _is_plotly_figure(ax_or_fig)
+
+    if is_plotly:
+        # Plotly figure
+        title_dict = {&#39;text&#39;: title, &#39;x&#39;: 0.5, &#39;xanchor&#39;: &#39;center&#39;}
+        if fontsize:
+            title_dict[&#39;font&#39;] = {&#39;size&#39;: fontsize}
+        ax_or_fig.update_layout(title=title_dict, **kwargs)
+        return ax_or_fig
+    else:
+        # Matplotlib axes
+        return ax_or_fig.set_title(title, fontsize=fontsize, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Set title on a matplotlib axes or Plotly figure.</p>
+<p>This function provides a unified interface for setting titles on both
+matplotlib and Plotly plots, allowing seamless switching between
+interactive=True and interactive=False.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ax_or_fig</code></strong> :&ensp;<code>matplotlib.axes.Axes</code> or <code>plotly.graph_objs.Figure</code></dt>
+<dd>Axes or Figure object to set title on</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code></dt>
+<dd>The title text</dd>
+<dt><strong><code>fontsize</code></strong> :&ensp;<code>float</code>, default <code>12</code></dt>
+<dd>Font size for the title</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional arguments passed to matplotlib set_title() or Plotly update_layout()</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>matplotlib.text.Text</code> or <code>plotly.graph_objs.Figure</code></dt>
+<dd>The title object (matplotlib) or the figure (Plotly)</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz.utils.expression import set_title, syslab
+&gt;&gt;&gt; # Matplotlib diagram
+&gt;&gt;&gt; d1 = diagram(a, interactive=False, plot_it=False)
+&gt;&gt;&gt; title_text = syslab([&quot;H2O&quot;, &quot;CO2&quot;, &quot;CaO&quot;, &quot;MgO&quot;, &quot;SiO2&quot;])
+&gt;&gt;&gt; set_title(d1['ax'], title_text, fontsize=12)
+&gt;&gt;&gt; # Display the figure in Jupyter:
+&gt;&gt;&gt; from IPython.display import display
+&gt;&gt;&gt; display(d1['fig'])
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Plotly diagram
+&gt;&gt;&gt; d1 = diagram(a, interactive=True, plot_it=False)
+&gt;&gt;&gt; title_text = syslab_html([&quot;H2O&quot;, &quot;CO2&quot;, &quot;CaO&quot;, &quot;MgO&quot;, &quot;SiO2&quot;])
+&gt;&gt;&gt; set_title(d1['ax'], title_text, fontsize=12)
+&gt;&gt;&gt; d1['fig'].show()
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>When using plot_it=False, you need to explicitly display the figure after
+setting the title. In Jupyter notebooks, use display(d['fig']) or d['fig'].show()
+for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savefig().</p></div>
+</dd>
+<dt id="pychnosz.utils.expression.syslab"><code class="name flex">
+<span>def <span class="ident">syslab</span></span>(<span>system: list = None, dash: str = '-') ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def syslab(system: list = None, dash: str = &#34;-&#34;) -&gt; str:
+    &#34;&#34;&#34;
+    Create formatted text for thermodynamic system.
+
+    This generates a label showing the components of a thermodynamic system,
+    separated by dashes (or other separator).
+
+    Parameters
+    ----------
+    system : list of str, optional
+        List of component formulas. Default: [&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;]
+    dash : str, default &#34;-&#34;
+        Separator between components
+
+    Returns
+    -------
+    str
+        LaTeX-formatted string for the system label
+
+    Examples
+    --------
+    &gt;&gt;&gt; syslab([&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;])
+    &#39;$K_{2}O-Al_{2}O_{3}-SiO_{2}-H_{2}O$&#39;
+
+    &gt;&gt;&gt; syslab([&#34;CaO&#34;, &#34;MgO&#34;, &#34;SiO2&#34;], dash=&#34;–&#34;)
+    &#39;$CaO–MgO–SiO_{2}$&#39;
+    &#34;&#34;&#34;
+    if system is None:
+        system = [&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;]
+
+    # Format each component
+    formatted_components = []
+    for component in system:
+        formatted = _add_subscripts(component)
+        formatted_components.append(formatted)
+
+    # Join with separator
+    label = dash.join(formatted_components)
+
+    # Wrap in LaTeX math mode
+    return f&#34;${label}$&#34;</code></pre>
+</details>
+<div class="desc"><p>Create formatted text for thermodynamic system.</p>
+<p>This generates a label showing the components of a thermodynamic system,
+separated by dashes (or other separator).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>system</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>List of component formulas. Default: ["K2O", "Al2O3", "SiO2", "H2O"]</dd>
+<dt><strong><code>dash</code></strong> :&ensp;<code>str</code>, default <code>"-"</code></dt>
+<dd>Separator between components</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>LaTeX-formatted string for the system label</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; syslab([&quot;K2O&quot;, &quot;Al2O3&quot;, &quot;SiO2&quot;, &quot;H2O&quot;])
+'$K_{2}O-Al_{2}O_{3}-SiO_{2}-H_{2}O$'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; syslab([&quot;CaO&quot;, &quot;MgO&quot;, &quot;SiO2&quot;], dash=&quot;–&quot;)
+'$CaO–MgO–SiO_{2}$'
+</code></pre></div>
+</dd>
+<dt id="pychnosz.utils.expression.syslab_html"><code class="name flex">
+<span>def <span class="ident">syslab_html</span></span>(<span>system: list = None, dash: str = '-') ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def syslab_html(system: list = None, dash: str = &#34;-&#34;) -&gt; str:
+    &#34;&#34;&#34;
+    Create HTML-formatted text for thermodynamic system (for Plotly).
+
+    This generates a label showing the components of a thermodynamic system,
+    separated by dashes (or other separator), using HTML formatting compatible
+    with Plotly instead of LaTeX.
+
+    Parameters
+    ----------
+    system : list of str, optional
+        List of component formulas. Default: [&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;]
+    dash : str, default &#34;-&#34;
+        Separator between components
+
+    Returns
+    -------
+    str
+        HTML-formatted string for the system label
+
+    Examples
+    --------
+    &gt;&gt;&gt; syslab_html([&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;])
+    &#39;K&lt;sub&gt;2&lt;/sub&gt;O-Al&lt;sub&gt;2&lt;/sub&gt;O&lt;sub&gt;3&lt;/sub&gt;-SiO&lt;sub&gt;2&lt;/sub&gt;-H&lt;sub&gt;2&lt;/sub&gt;O&#39;
+
+    &gt;&gt;&gt; syslab_html([&#34;CaO&#34;, &#34;MgO&#34;, &#34;SiO2&#34;], dash=&#34;–&#34;)
+    &#39;CaO–MgO–SiO&lt;sub&gt;2&lt;/sub&gt;&#39;
+
+    Notes
+    -----
+    Use this function instead of syslab() when creating titles for interactive
+    (Plotly) diagrams. The HTML formatting is compatible with Plotly&#39;s rendering.
+
+    Requires: WORMutils (for chemlabel)
+    &#34;&#34;&#34;
+    if not _HTML_DEPS_AVAILABLE:
+        raise ImportError(
+            &#34;syslab_html() requires &#39;WORMutils&#39; package.\n&#34;
+            &#34;Install with: pip install WORMutils&#34;
+        )
+
+    if system is None:
+        system = [&#34;K2O&#34;, &#34;Al2O3&#34;, &#34;SiO2&#34;, &#34;H2O&#34;]
+
+    # Format each component using HTML via chemlabel
+    formatted_components = []
+    for component in system:
+        formatted = chemlabel(component)
+        formatted_components.append(formatted)
+
+    # Join with separator (no HTML wrapper needed)
+    label = dash.join(formatted_components)
+
+    return label</code></pre>
+</details>
+<div class="desc"><p>Create HTML-formatted text for thermodynamic system (for Plotly).</p>
+<p>This generates a label showing the components of a thermodynamic system,
+separated by dashes (or other separator), using HTML formatting compatible
+with Plotly instead of LaTeX.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>system</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>List of component formulas. Default: ["K2O", "Al2O3", "SiO2", "H2O"]</dd>
+<dt><strong><code>dash</code></strong> :&ensp;<code>str</code>, default <code>"-"</code></dt>
+<dd>Separator between components</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>HTML-formatted string for the system label</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; syslab_html([&quot;K2O&quot;, &quot;Al2O3&quot;, &quot;SiO2&quot;, &quot;H2O&quot;])
+'K&lt;sub&gt;2&lt;/sub&gt;O-Al&lt;sub&gt;2&lt;/sub&gt;O&lt;sub&gt;3&lt;/sub&gt;-SiO&lt;sub&gt;2&lt;/sub&gt;-H&lt;sub&gt;2&lt;/sub&gt;O'
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; syslab_html([&quot;CaO&quot;, &quot;MgO&quot;, &quot;SiO2&quot;], dash=&quot;–&quot;)
+'CaO–MgO–SiO&lt;sub&gt;2&lt;/sub&gt;'
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>Use this function instead of syslab() when creating titles for interactive
+(Plotly) diagrams. The HTML formatting is compatible with Plotly's rendering.</p>
+<p>Requires: WORMutils (for chemlabel)</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.utils" href="index.html">pychnosz.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.utils.expression.add_legend" href="#pychnosz.utils.expression.add_legend">add_legend</a></code></li>
+<li><code><a title="pychnosz.utils.expression.describe_basis" href="#pychnosz.utils.expression.describe_basis">describe_basis</a></code></li>
+<li><code><a title="pychnosz.utils.expression.describe_basis_html" href="#pychnosz.utils.expression.describe_basis_html">describe_basis_html</a></code></li>
+<li><code><a title="pychnosz.utils.expression.describe_property" href="#pychnosz.utils.expression.describe_property">describe_property</a></code></li>
+<li><code><a title="pychnosz.utils.expression.describe_property_html" href="#pychnosz.utils.expression.describe_property_html">describe_property_html</a></code></li>
+<li><code><a title="pychnosz.utils.expression.expr_species" href="#pychnosz.utils.expression.expr_species">expr_species</a></code></li>
+<li><code><a title="pychnosz.utils.expression.ratlab" href="#pychnosz.utils.expression.ratlab">ratlab</a></code></li>
+<li><code><a title="pychnosz.utils.expression.ratlab_html" href="#pychnosz.utils.expression.ratlab_html">ratlab_html</a></code></li>
+<li><code><a title="pychnosz.utils.expression.set_title" href="#pychnosz.utils.expression.set_title">set_title</a></code></li>
+<li><code><a title="pychnosz.utils.expression.syslab" href="#pychnosz.utils.expression.syslab">syslab</a></code></li>
+<li><code><a title="pychnosz.utils.expression.syslab_html" href="#pychnosz.utils.expression.syslab_html">syslab_html</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

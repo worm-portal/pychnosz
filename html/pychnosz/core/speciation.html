@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.core.speciation API documentation</title>
+<meta name="description" content="Chemical speciation calculation engine for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.core.speciation</code></h1>
+</header>
+<section id="section-intro">
+<p>Chemical speciation calculation engine for CHNOSZ.</p>
+<p>This module provides high-level functions for chemical speciation calculations,
+including predominance diagrams, activity-pH diagrams, and Eh-pH diagrams.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.core.speciation.diagram"><code class="name flex">
+<span>def <span class="ident">diagram</span></span>(<span>basis: str | List[str] | None = None,<br>species: str | List[str] | None = None,<br>balance: str | int | None = None,<br>loga_balance: float | List[float] | None = None,<br>T: float = 298.15,<br>P: float = 1.0,<br>res: int = 256,<br>**kwargs) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def diagram(basis: Optional[Union[str, List[str]]] = None,
+           species: Optional[Union[str, List[str]]] = None,
+           balance: Optional[Union[str, int]] = None,
+           loga_balance: Optional[Union[float, List[float]]] = None,
+           T: float = 298.15, P: float = 1.0,
+           res: int = 256,
+           **kwargs) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Create chemical activity or predominance diagram.
+    
+    Parameters
+    ----------
+    basis : str, list, or None
+        Basis species for diagram axes  
+    species : str, list, or None
+        Species to include in diagram
+    balance : str, int, or None
+        Balanced component
+    loga_balance : float, list, or None  
+        Log activities for balance
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    res : int, default 256
+        Diagram resolution
+    **kwargs
+        Additional parameters for diagram calculation
+        
+    Returns
+    -------
+    dict
+        Diagram calculation results
+    &#34;&#34;&#34;
+    
+    # This is a placeholder for the main diagram function
+    # It would coordinate with the basis system and species definitions
+    
+    if basis is None or species is None:
+        raise ValueError(&#34;Both basis and species must be specified&#34;)
+    
+    if isinstance(basis, str):
+        basis = [basis]
+    if isinstance(species, str):
+        species = [species]
+    
+    # Create simple predominance diagram
+    result = _speciation_engine.predominance_diagram(
+        element=basis[0].split(&#39;+&#39;)[0].split(&#39;-&#39;)[0],  # Extract element
+        basis_species=basis,
+        T=T, P=P,
+        resolution=res
+    )
+    
+    return result</code></pre>
+</details>
+<div class="desc"><p>Create chemical activity or predominance diagram.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>basis</code></strong> :&ensp;<code>str, list,</code> or <code>None</code></dt>
+<dd>Basis species for diagram axes</dd>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, list,</code> or <code>None</code></dt>
+<dd>Species to include in diagram</dd>
+<dt><strong><code>balance</code></strong> :&ensp;<code>str, int,</code> or <code>None</code></dt>
+<dd>Balanced component</dd>
+<dt><strong><code>loga_balance</code></strong> :&ensp;<code>float, list,</code> or <code>None
+</code></dt>
+<dd>Log activities for balance</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>res</code></strong> :&ensp;<code>int</code>, default <code>256</code></dt>
+<dd>Diagram resolution</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional parameters for diagram calculation</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Diagram calculation results</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.speciation.mosaic"><code class="name flex">
+<span>def <span class="ident">mosaic</span></span>(<span>bases: List[str], T: float = 298.15, P: float = 1.0, resolution: int = 256) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mosaic(bases: List[str], 
+          T: float = 298.15, P: float = 1.0,
+          resolution: int = 256) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Create mosaic diagram showing stability fields.
+    
+    Parameters
+    ----------
+    bases : list of str
+        Two basis species defining the diagram
+    T : float, default 298.15
+        Temperature in Kelvin  
+    P : float, default 1.0
+        Pressure in bar
+    resolution : int, default 256
+        Diagram resolution
+        
+    Returns
+    -------
+    dict
+        Mosaic diagram results
+    &#34;&#34;&#34;
+    
+    if len(bases) != 2:
+        raise ValueError(&#34;Exactly two basis species required for mosaic diagram&#34;)
+    
+    return _speciation_engine.mosaic_diagram(
+        bases[0], bases[1],
+        range1=(-12, 0), range2=(-12, 0),  # Default activity ranges
+        T=T, P=P, resolution=resolution
+    )</code></pre>
+</details>
+<div class="desc"><p>Create mosaic diagram showing stability fields.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>bases</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Two basis species defining the diagram</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>256</code></dt>
+<dd>Diagram resolution</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Mosaic diagram results</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.core.speciation.SpeciationEngine"><code class="flex name class">
+<span>class <span class="ident">SpeciationEngine</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SpeciationEngine:
+    &#34;&#34;&#34;
+    Chemical speciation calculation engine.
+    
+    This class provides methods for creating predominance diagrams,
+    activity-concentration diagrams, and other speciation plots.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the speciation engine.&#34;&#34;&#34;
+        self.equilibrium_solver = EquilibriumSolver()
+        
+    def predominance_diagram(self, element: str, 
+                           basis_species: List[str],
+                           T: float = 298.15, P: float = 1.0,
+                           pH_range: Tuple[float, float] = (0, 14),
+                           pe_range: Optional[Tuple[float, float]] = None,
+                           ionic_strength: float = 0.1,
+                           resolution: int = 100) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Calculate predominance diagram for an element.
+        
+        Parameters
+        ----------
+        element : str
+            Element symbol (e.g., &#39;Fe&#39;, &#39;S&#39;, &#39;C&#39;)
+        basis_species : list of str
+            Basis species for the calculation
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar  
+        pH_range : tuple, default (0, 14)
+            pH range for diagram
+        pe_range : tuple, optional
+            pe (redox potential) range. If None, creates pH-only diagram
+        ionic_strength : float, default 0.1
+            Solution ionic strength (mol/kg)
+        resolution : int, default 100
+            Grid resolution for calculations
+            
+        Returns
+        -------
+        dict
+            Dictionary containing:
+            - &#39;pH&#39;: pH grid
+            - &#39;pe&#39;: pe grid (if pe_range provided)
+            - &#39;predominant&#39;: Predominant species grid
+            - &#39;activities&#39;: Activity grids for each species
+        &#34;&#34;&#34;
+        
+        # Get all species containing the element
+        element_species = self._find_element_species(element)
+        
+        if not element_species:
+            raise ValueError(f&#34;No species found containing element {element}&#34;)
+        
+        # Create grid
+        pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+        
+        if pe_range is not None:
+            pe_grid = np.linspace(pe_range[0], pe_range[1], resolution)
+            pH_mesh, pe_mesh = np.meshgrid(pH_grid, pe_grid)
+            predominant = np.zeros_like(pH_mesh, dtype=int)
+            activities = {species: np.zeros_like(pH_mesh) for species in element_species}
+        else:
+            pe_mesh = None
+            predominant = np.zeros_like(pH_grid, dtype=int)
+            activities = {species: np.zeros_like(pH_grid) for species in element_species}
+        
+        # Calculate speciation at each grid point
+        for i, pH in enumerate(pH_grid):
+            if pe_range is not None:
+                for j, pe in enumerate(pe_grid):
+                    spec_result = self._calculate_point_speciation(
+                        element_species, basis_species, pH, pe, T, P, ionic_strength)
+                    
+                    # Find predominant species
+                    max_activity = -np.inf
+                    max_idx = 0
+                    for k, species in enumerate(element_species):
+                        activity = spec_result[&#39;activities&#39;].get(species, 1e-20)
+                        activities[species][j, i] = activity
+                        if activity &gt; max_activity:
+                            max_activity = activity
+                            max_idx = k
+                    
+                    predominant[j, i] = max_idx
+            else:
+                spec_result = self._calculate_point_speciation(
+                    element_species, basis_species, pH, 0, T, P, ionic_strength)
+                
+                # Find predominant species
+                max_activity = -np.inf
+                max_idx = 0
+                for k, species in enumerate(element_species):
+                    activity = spec_result[&#39;activities&#39;].get(species, 1e-20)
+                    activities[species][i] = activity
+                    if activity &gt; max_activity:
+                        max_activity = activity
+                        max_idx = k
+                
+                predominant[i] = max_idx
+        
+        result = {
+            &#39;pH&#39;: pH_grid,
+            &#39;predominant&#39;: predominant,
+            &#39;activities&#39;: activities,
+            &#39;species_names&#39;: element_species
+        }
+        
+        if pe_range is not None:
+            result[&#39;pe&#39;] = pe_grid
+        
+        return result
+    
+    def activity_diagram(self, species: List[str], 
+                        x_variable: str, x_range: Tuple[float, float],
+                        y_variable: str, y_range: Tuple[float, float],
+                        T: float = 298.15, P: float = 1.0,
+                        total_concentrations: Optional[Dict[str, float]] = None,
+                        resolution: int = 100) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Calculate activity diagram (e.g., activity vs pH, Eh-pH).
+        
+        Parameters
+        ----------
+        species : list of str
+            Species to include in diagram
+        x_variable : str
+            X-axis variable (&#39;pH&#39;, &#39;pe&#39;, &#39;log_activity&#39;, etc.)
+        x_range : tuple
+            Range for x variable
+        y_variable : str  
+            Y-axis variable
+        y_range : tuple
+            Range for y variable
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        total_concentrations : dict, optional
+            Total concentrations for components
+        resolution : int, default 100
+            Grid resolution
+            
+        Returns
+        -------
+        dict
+            Activity diagram results
+        &#34;&#34;&#34;
+        
+        # Create grids
+        x_grid = np.linspace(x_range[0], x_range[1], resolution)
+        y_grid = np.linspace(y_range[0], y_range[1], resolution)
+        X, Y = np.meshgrid(x_grid, y_grid)
+        
+        # Initialize result grids
+        activities = {species: np.zeros_like(X) for species in species}
+        
+        # Calculate at each grid point
+        for i in range(len(y_grid)):
+            for j in range(len(x_grid)):
+                x_val, y_val = X[i, j], Y[i, j]
+                
+                # Set up calculation conditions
+                conditions = {
+                    &#39;T&#39;: T,
+                    &#39;P&#39;: P,
+                    x_variable: x_val,
+                    y_variable: y_val
+                }
+                
+                # Calculate speciation (simplified)
+                try:
+                    for k, sp in enumerate(species):
+                        # This would be a full speciation calculation
+                        # For now, use placeholder values
+                        activities[sp][i, j] = 1e-6  # Placeholder
+                        
+                except Exception as e:
+                    warnings.warn(f&#34;Calculation failed at {x_variable}={x_val}, {y_variable}={y_val}: {e}&#34;)
+                    for sp in species:
+                        activities[sp][i, j] = np.nan
+        
+        return {
+            x_variable: x_grid,
+            y_variable: y_grid,
+            &#39;activities&#39;: activities,
+            &#39;species&#39;: species
+        }
+    
+    def mosaic_diagram(self, basis1: str, basis2: str,
+                      range1: Tuple[float, float], range2: Tuple[float, float],
+                      T: float = 298.15, P: float = 1.0,
+                      resolution: int = 50) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Calculate mosaic diagram (stability fields of basis species).
+        
+        Parameters
+        ----------
+        basis1, basis2 : str
+            Two basis species that define the diagram axes
+        range1, range2 : tuple
+            Activity ranges for the two basis species
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        resolution : int, default 50
+            Grid resolution
+            
+        Returns
+        -------
+        dict
+            Mosaic diagram results
+        &#34;&#34;&#34;
+        
+        # Create grid
+        log_a1 = np.linspace(range1[0], range1[1], resolution)
+        log_a2 = np.linspace(range2[0], range2[1], resolution)
+        A1, A2 = np.meshgrid(log_a1, log_a2)
+        
+        # Find all species that can be formed from these basis species
+        formed_species = self._find_formed_species([basis1, basis2])
+        
+        # Calculate stability fields
+        stable_species = np.zeros_like(A1, dtype=int)
+        
+        for i in range(len(log_a2)):
+            for j in range(len(log_a1)):
+                activities = {basis1: 10**A1[i, j], basis2: 10**A2[i, j]}
+                
+                # Find most stable species at this point
+                min_energy = np.inf
+                stable_idx = 0
+                
+                for k, species in enumerate(formed_species):
+                    try:
+                        # Calculate formation energy (simplified)
+                        energy = self._calculate_formation_energy(species, activities, T, P)
+                        if energy &lt; min_energy:
+                            min_energy = energy
+                            stable_idx = k
+                    except:
+                        continue
+                
+                stable_species[i, j] = stable_idx
+        
+        return {
+            basis1: log_a1,
+            basis2: log_a2,
+            &#39;stable_species&#39;: stable_species,
+            &#39;species_names&#39;: formed_species
+        }
+    
+    def solubility_diagram(self, mineral: str, aqueous_species: List[str],
+                          pH_range: Tuple[float, float] = (0, 14),
+                          T: float = 298.15, P: float = 1.0,
+                          resolution: int = 100) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Calculate mineral solubility diagram.
+        
+        Parameters
+        ----------
+        mineral : str
+            Mineral name
+        aqueous_species : list of str
+            Aqueous species in equilibrium with mineral
+        pH_range : tuple, default (0, 14)
+            pH range for calculation
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        resolution : int, default 100
+            Grid resolution
+            
+        Returns
+        -------
+        dict
+            Solubility diagram results
+        &#34;&#34;&#34;
+        
+        pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+        
+        # Calculate dissolution reaction
+        dissolution_reactions = self._get_dissolution_reactions(mineral, aqueous_species)
+        
+        # Calculate solubility at each pH
+        total_solubility = np.zeros_like(pH_grid)
+        species_concentrations = {sp: np.zeros_like(pH_grid) for sp in aqueous_species}
+        
+        for i, pH in enumerate(pH_grid):
+            # Calculate equilibrium with mineral
+            try:
+                # This would involve solving the dissolution equilibrium
+                # For now, use placeholder calculations
+                for j, species in enumerate(aqueous_species):
+                    # Simplified pH dependence
+                    if &#39;+&#39; in species:  # Cation
+                        conc = 1e-6 * 10**(-pH)
+                    elif &#39;-&#39; in species:  # Anion
+                        conc = 1e-6 * 10**(pH - 14)
+                    else:  # Neutral
+                        conc = 1e-6
+                    
+                    species_concentrations[species][i] = conc
+                    total_solubility[i] += conc
+                    
+            except Exception as e:
+                warnings.warn(f&#34;Solubility calculation failed at pH {pH}: {e}&#34;)
+                total_solubility[i] = np.nan
+                for species in aqueous_species:
+                    species_concentrations[species][i] = np.nan
+        
+        return {
+            &#39;pH&#39;: pH_grid,
+            &#39;total_solubility&#39;: total_solubility,
+            &#39;species_concentrations&#39;: species_concentrations,
+            &#39;mineral&#39;: mineral
+        }
+    
+    def plot_predominance(self, diagram_data: Dict[str, Any], 
+                         title: Optional[str] = None,
+                         figsize: Tuple[int, int] = (10, 8)):
+        &#34;&#34;&#34;
+        Plot predominance diagram.
+        
+        Parameters
+        ----------
+        diagram_data : dict
+            Data from predominance_diagram()
+        title : str, optional
+            Plot title
+        figsize : tuple, default (10, 8)
+            Figure size
+            
+        Returns
+        -------
+        matplotlib Figure or None
+            The plotted figure (if matplotlib available)
+        &#34;&#34;&#34;
+        
+        if not HAS_MATPLOTLIB:
+            print(&#34;Matplotlib not available - cannot create plot&#34;)
+            return None
+        
+        fig, ax = plt.subplots(figsize=figsize)
+        
+        pH = diagram_data[&#39;pH&#39;]
+        predominant = diagram_data[&#39;predominant&#39;]
+        species_names = diagram_data[&#39;species_names&#39;]
+        
+        if &#39;pe&#39; in diagram_data:
+            # 2D diagram (pH-pe)
+            pe = diagram_data[&#39;pe&#39;]
+            pH_mesh, pe_mesh = np.meshgrid(pH, pe)
+            
+            # Create color map for species
+            n_species = len(species_names)
+            colors = plt.cm.tab10(np.linspace(0, 1, n_species))
+            
+            contour = ax.contourf(pH_mesh, pe_mesh, predominant, 
+                                levels=np.arange(n_species + 1) - 0.5, 
+                                colors=colors[:n_species])
+            
+            ax.set_xlabel(&#39;pH&#39;)
+            ax.set_ylabel(&#39;pe&#39;)
+            
+            # Create legend
+            handles = [plt.Rectangle((0,0),1,1, color=colors[i]) 
+                      for i in range(n_species)]
+            ax.legend(handles, species_names, loc=&#39;center left&#39;, 
+                     bbox_to_anchor=(1, 0.5))
+            
+        else:
+            # 1D diagram (pH only)
+            # Convert to step plot showing predominance regions
+            pH_edges = np.diff(pH)
+            predominant_species = [species_names[i] for i in predominant]
+            
+            # Find boundaries
+            boundaries = []
+            current_species = predominant[0]
+            
+            for i, species_idx in enumerate(predominant[1:], 1):
+                if species_idx != current_species:
+                    boundaries.append(pH[i])
+                    current_species = species_idx
+            
+            ax.step(pH, [species_names[i] for i in predominant], where=&#39;post&#39;)
+            ax.set_xlabel(&#39;pH&#39;)
+            ax.set_ylabel(&#39;Predominant Species&#39;)
+            
+            # Add boundary lines
+            for boundary in boundaries:
+                ax.axvline(x=boundary, color=&#39;red&#39;, linestyle=&#39;--&#39;, alpha=0.7)
+        
+        if title:
+            ax.set_title(title)
+        
+        plt.tight_layout()
+        return fig
+    
+    def _find_element_species(self, element: str) -&gt; List[str]:
+        &#34;&#34;&#34;Find all species in database containing the specified element.&#34;&#34;&#34;
+        
+        if thermo.obigt is None:
+            raise ValueError(&#34;OBIGT database not loaded&#34;)
+        
+        # Search for species containing the element in their formula
+        element_species = []
+        
+        for _, row in thermo.obigt.iterrows():
+            formula = str(row[&#39;formula&#39;])
+            if element in formula:
+                element_species.append(row[&#39;name&#39;])
+        
+        return element_species
+    
+    def _calculate_point_speciation(self, species: List[str], basis_species: List[str],
+                                   pH: float, pe: float, T: float, P: float,
+                                   ionic_strength: float) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;Calculate speciation at a single point.&#34;&#34;&#34;
+        
+        # This would involve full equilibrium calculation
+        # For now, return simplified results
+        
+        activities = {}
+        for sp in species:
+            # Simplified activity calculation based on pH and pe
+            if &#39;+&#39; in sp:  # Cation
+                activity = 1e-6 * 10**(-pH) * 10**(pe)
+            elif &#39;-&#39; in sp:  # Anion  
+                activity = 1e-6 * 10**(pH - 14) * 10**(-pe)
+            else:  # Neutral
+                activity = 1e-6
+            
+            activities[sp] = max(activity, 1e-20)  # Avoid zero activities
+        
+        return {&#39;activities&#39;: activities}
+    
+    def _find_formed_species(self, basis_species: List[str]) -&gt; List[str]:
+        &#34;&#34;&#34;Find species that can be formed from the given basis species.&#34;&#34;&#34;
+        
+        # Placeholder - would search database for formation reactions
+        return basis_species  # Simplified
+    
+    def _calculate_formation_energy(self, species: str, activities: Dict[str, float],
+                                   T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;Calculate formation energy for a species.&#34;&#34;&#34;
+        
+        # Placeholder - would calculate actual formation reaction energy
+        return np.random.random()  # Simplified
+    
+    def _get_dissolution_reactions(self, mineral: str, aqueous_species: List[str]) -&gt; Dict:
+        &#34;&#34;&#34;Get dissolution reactions for a mineral.&#34;&#34;&#34;
+        
+        # Placeholder - would look up actual dissolution reactions
+        return {}</code></pre>
+</details>
+<div class="desc"><p>Chemical speciation calculation engine.</p>
+<p>This class provides methods for creating predominance diagrams,
+activity-concentration diagrams, and other speciation plots.</p>
+<p>Initialize the speciation engine.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.core.speciation.SpeciationEngine.activity_diagram"><code class="name flex">
+<span>def <span class="ident">activity_diagram</span></span>(<span>self,<br>species: List[str],<br>x_variable: str,<br>x_range: Tuple[float, float],<br>y_variable: str,<br>y_range: Tuple[float, float],<br>T: float = 298.15,<br>P: float = 1.0,<br>total_concentrations: Dict[str, float] | None = None,<br>resolution: int = 100) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activity_diagram(self, species: List[str], 
+                    x_variable: str, x_range: Tuple[float, float],
+                    y_variable: str, y_range: Tuple[float, float],
+                    T: float = 298.15, P: float = 1.0,
+                    total_concentrations: Optional[Dict[str, float]] = None,
+                    resolution: int = 100) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate activity diagram (e.g., activity vs pH, Eh-pH).
+    
+    Parameters
+    ----------
+    species : list of str
+        Species to include in diagram
+    x_variable : str
+        X-axis variable (&#39;pH&#39;, &#39;pe&#39;, &#39;log_activity&#39;, etc.)
+    x_range : tuple
+        Range for x variable
+    y_variable : str  
+        Y-axis variable
+    y_range : tuple
+        Range for y variable
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    total_concentrations : dict, optional
+        Total concentrations for components
+    resolution : int, default 100
+        Grid resolution
+        
+    Returns
+    -------
+    dict
+        Activity diagram results
+    &#34;&#34;&#34;
+    
+    # Create grids
+    x_grid = np.linspace(x_range[0], x_range[1], resolution)
+    y_grid = np.linspace(y_range[0], y_range[1], resolution)
+    X, Y = np.meshgrid(x_grid, y_grid)
+    
+    # Initialize result grids
+    activities = {species: np.zeros_like(X) for species in species}
+    
+    # Calculate at each grid point
+    for i in range(len(y_grid)):
+        for j in range(len(x_grid)):
+            x_val, y_val = X[i, j], Y[i, j]
+            
+            # Set up calculation conditions
+            conditions = {
+                &#39;T&#39;: T,
+                &#39;P&#39;: P,
+                x_variable: x_val,
+                y_variable: y_val
+            }
+            
+            # Calculate speciation (simplified)
+            try:
+                for k, sp in enumerate(species):
+                    # This would be a full speciation calculation
+                    # For now, use placeholder values
+                    activities[sp][i, j] = 1e-6  # Placeholder
+                    
+            except Exception as e:
+                warnings.warn(f&#34;Calculation failed at {x_variable}={x_val}, {y_variable}={y_val}: {e}&#34;)
+                for sp in species:
+                    activities[sp][i, j] = np.nan
+    
+    return {
+        x_variable: x_grid,
+        y_variable: y_grid,
+        &#39;activities&#39;: activities,
+        &#39;species&#39;: species
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate activity diagram (e.g., activity vs pH, Eh-pH).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Species to include in diagram</dd>
+<dt><strong><code>x_variable</code></strong> :&ensp;<code>str</code></dt>
+<dd>X-axis variable ('pH', 'pe', 'log_activity', etc.)</dd>
+<dt><strong><code>x_range</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Range for x variable</dd>
+<dt><strong><code>y_variable</code></strong> :&ensp;<code>str
+</code></dt>
+<dd>Y-axis variable</dd>
+<dt><strong><code>y_range</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Range for y variable</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>total_concentrations</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Total concentrations for components</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>100</code></dt>
+<dd>Grid resolution</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Activity diagram results</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.speciation.SpeciationEngine.mosaic_diagram"><code class="name flex">
+<span>def <span class="ident">mosaic_diagram</span></span>(<span>self,<br>basis1: str,<br>basis2: str,<br>range1: Tuple[float, float],<br>range2: Tuple[float, float],<br>T: float = 298.15,<br>P: float = 1.0,<br>resolution: int = 50) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mosaic_diagram(self, basis1: str, basis2: str,
+                  range1: Tuple[float, float], range2: Tuple[float, float],
+                  T: float = 298.15, P: float = 1.0,
+                  resolution: int = 50) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate mosaic diagram (stability fields of basis species).
+    
+    Parameters
+    ----------
+    basis1, basis2 : str
+        Two basis species that define the diagram axes
+    range1, range2 : tuple
+        Activity ranges for the two basis species
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    resolution : int, default 50
+        Grid resolution
+        
+    Returns
+    -------
+    dict
+        Mosaic diagram results
+    &#34;&#34;&#34;
+    
+    # Create grid
+    log_a1 = np.linspace(range1[0], range1[1], resolution)
+    log_a2 = np.linspace(range2[0], range2[1], resolution)
+    A1, A2 = np.meshgrid(log_a1, log_a2)
+    
+    # Find all species that can be formed from these basis species
+    formed_species = self._find_formed_species([basis1, basis2])
+    
+    # Calculate stability fields
+    stable_species = np.zeros_like(A1, dtype=int)
+    
+    for i in range(len(log_a2)):
+        for j in range(len(log_a1)):
+            activities = {basis1: 10**A1[i, j], basis2: 10**A2[i, j]}
+            
+            # Find most stable species at this point
+            min_energy = np.inf
+            stable_idx = 0
+            
+            for k, species in enumerate(formed_species):
+                try:
+                    # Calculate formation energy (simplified)
+                    energy = self._calculate_formation_energy(species, activities, T, P)
+                    if energy &lt; min_energy:
+                        min_energy = energy
+                        stable_idx = k
+                except:
+                    continue
+            
+            stable_species[i, j] = stable_idx
+    
+    return {
+        basis1: log_a1,
+        basis2: log_a2,
+        &#39;stable_species&#39;: stable_species,
+        &#39;species_names&#39;: formed_species
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate mosaic diagram (stability fields of basis species).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>basis1</code></strong>, <strong><code>basis2</code></strong> :&ensp;<code>str</code></dt>
+<dd>Two basis species that define the diagram axes</dd>
+<dt><strong><code>range1</code></strong>, <strong><code>range2</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>Activity ranges for the two basis species</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>50</code></dt>
+<dd>Grid resolution</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Mosaic diagram results</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.speciation.SpeciationEngine.plot_predominance"><code class="name flex">
+<span>def <span class="ident">plot_predominance</span></span>(<span>self,<br>diagram_data: Dict[str, Any],<br>title: str | None = None,<br>figsize: Tuple[int, int] = (10, 8))</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def plot_predominance(self, diagram_data: Dict[str, Any], 
+                     title: Optional[str] = None,
+                     figsize: Tuple[int, int] = (10, 8)):
+    &#34;&#34;&#34;
+    Plot predominance diagram.
+    
+    Parameters
+    ----------
+    diagram_data : dict
+        Data from predominance_diagram()
+    title : str, optional
+        Plot title
+    figsize : tuple, default (10, 8)
+        Figure size
+        
+    Returns
+    -------
+    matplotlib Figure or None
+        The plotted figure (if matplotlib available)
+    &#34;&#34;&#34;
+    
+    if not HAS_MATPLOTLIB:
+        print(&#34;Matplotlib not available - cannot create plot&#34;)
+        return None
+    
+    fig, ax = plt.subplots(figsize=figsize)
+    
+    pH = diagram_data[&#39;pH&#39;]
+    predominant = diagram_data[&#39;predominant&#39;]
+    species_names = diagram_data[&#39;species_names&#39;]
+    
+    if &#39;pe&#39; in diagram_data:
+        # 2D diagram (pH-pe)
+        pe = diagram_data[&#39;pe&#39;]
+        pH_mesh, pe_mesh = np.meshgrid(pH, pe)
+        
+        # Create color map for species
+        n_species = len(species_names)
+        colors = plt.cm.tab10(np.linspace(0, 1, n_species))
+        
+        contour = ax.contourf(pH_mesh, pe_mesh, predominant, 
+                            levels=np.arange(n_species + 1) - 0.5, 
+                            colors=colors[:n_species])
+        
+        ax.set_xlabel(&#39;pH&#39;)
+        ax.set_ylabel(&#39;pe&#39;)
+        
+        # Create legend
+        handles = [plt.Rectangle((0,0),1,1, color=colors[i]) 
+                  for i in range(n_species)]
+        ax.legend(handles, species_names, loc=&#39;center left&#39;, 
+                 bbox_to_anchor=(1, 0.5))
+        
+    else:
+        # 1D diagram (pH only)
+        # Convert to step plot showing predominance regions
+        pH_edges = np.diff(pH)
+        predominant_species = [species_names[i] for i in predominant]
+        
+        # Find boundaries
+        boundaries = []
+        current_species = predominant[0]
+        
+        for i, species_idx in enumerate(predominant[1:], 1):
+            if species_idx != current_species:
+                boundaries.append(pH[i])
+                current_species = species_idx
+        
+        ax.step(pH, [species_names[i] for i in predominant], where=&#39;post&#39;)
+        ax.set_xlabel(&#39;pH&#39;)
+        ax.set_ylabel(&#39;Predominant Species&#39;)
+        
+        # Add boundary lines
+        for boundary in boundaries:
+            ax.axvline(x=boundary, color=&#39;red&#39;, linestyle=&#39;--&#39;, alpha=0.7)
+    
+    if title:
+        ax.set_title(title)
+    
+    plt.tight_layout()
+    return fig</code></pre>
+</details>
+<div class="desc"><p>Plot predominance diagram.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>diagram_data</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Data from predominance_diagram()</dd>
+<dt><strong><code>title</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Plot title</dd>
+<dt><strong><code>figsize</code></strong> :&ensp;<code>tuple</code>, default <code>(10, 8)</code></dt>
+<dd>Figure size</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>matplotlib Figure</code> or <code>None</code></dt>
+<dd>The plotted figure (if matplotlib available)</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.speciation.SpeciationEngine.predominance_diagram"><code class="name flex">
+<span>def <span class="ident">predominance_diagram</span></span>(<span>self,<br>element: str,<br>basis_species: List[str],<br>T: float = 298.15,<br>P: float = 1.0,<br>pH_range: Tuple[float, float] = (0, 14),<br>pe_range: Tuple[float, float] | None = None,<br>ionic_strength: float = 0.1,<br>resolution: int = 100) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def predominance_diagram(self, element: str, 
+                       basis_species: List[str],
+                       T: float = 298.15, P: float = 1.0,
+                       pH_range: Tuple[float, float] = (0, 14),
+                       pe_range: Optional[Tuple[float, float]] = None,
+                       ionic_strength: float = 0.1,
+                       resolution: int = 100) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate predominance diagram for an element.
+    
+    Parameters
+    ----------
+    element : str
+        Element symbol (e.g., &#39;Fe&#39;, &#39;S&#39;, &#39;C&#39;)
+    basis_species : list of str
+        Basis species for the calculation
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar  
+    pH_range : tuple, default (0, 14)
+        pH range for diagram
+    pe_range : tuple, optional
+        pe (redox potential) range. If None, creates pH-only diagram
+    ionic_strength : float, default 0.1
+        Solution ionic strength (mol/kg)
+    resolution : int, default 100
+        Grid resolution for calculations
+        
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - &#39;pH&#39;: pH grid
+        - &#39;pe&#39;: pe grid (if pe_range provided)
+        - &#39;predominant&#39;: Predominant species grid
+        - &#39;activities&#39;: Activity grids for each species
+    &#34;&#34;&#34;
+    
+    # Get all species containing the element
+    element_species = self._find_element_species(element)
+    
+    if not element_species:
+        raise ValueError(f&#34;No species found containing element {element}&#34;)
+    
+    # Create grid
+    pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+    
+    if pe_range is not None:
+        pe_grid = np.linspace(pe_range[0], pe_range[1], resolution)
+        pH_mesh, pe_mesh = np.meshgrid(pH_grid, pe_grid)
+        predominant = np.zeros_like(pH_mesh, dtype=int)
+        activities = {species: np.zeros_like(pH_mesh) for species in element_species}
+    else:
+        pe_mesh = None
+        predominant = np.zeros_like(pH_grid, dtype=int)
+        activities = {species: np.zeros_like(pH_grid) for species in element_species}
+    
+    # Calculate speciation at each grid point
+    for i, pH in enumerate(pH_grid):
+        if pe_range is not None:
+            for j, pe in enumerate(pe_grid):
+                spec_result = self._calculate_point_speciation(
+                    element_species, basis_species, pH, pe, T, P, ionic_strength)
+                
+                # Find predominant species
+                max_activity = -np.inf
+                max_idx = 0
+                for k, species in enumerate(element_species):
+                    activity = spec_result[&#39;activities&#39;].get(species, 1e-20)
+                    activities[species][j, i] = activity
+                    if activity &gt; max_activity:
+                        max_activity = activity
+                        max_idx = k
+                
+                predominant[j, i] = max_idx
+        else:
+            spec_result = self._calculate_point_speciation(
+                element_species, basis_species, pH, 0, T, P, ionic_strength)
+            
+            # Find predominant species
+            max_activity = -np.inf
+            max_idx = 0
+            for k, species in enumerate(element_species):
+                activity = spec_result[&#39;activities&#39;].get(species, 1e-20)
+                activities[species][i] = activity
+                if activity &gt; max_activity:
+                    max_activity = activity
+                    max_idx = k
+            
+            predominant[i] = max_idx
+    
+    result = {
+        &#39;pH&#39;: pH_grid,
+        &#39;predominant&#39;: predominant,
+        &#39;activities&#39;: activities,
+        &#39;species_names&#39;: element_species
+    }
+    
+    if pe_range is not None:
+        result[&#39;pe&#39;] = pe_grid
+    
+    return result</code></pre>
+</details>
+<div class="desc"><p>Calculate predominance diagram for an element.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>Element symbol (e.g., 'Fe', 'S', 'C')</dd>
+<dt><strong><code>basis_species</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Basis species for the calculation</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>pH_range</code></strong> :&ensp;<code>tuple</code>, default <code>(0, 14)</code></dt>
+<dd>pH range for diagram</dd>
+<dt><strong><code>pe_range</code></strong> :&ensp;<code>tuple</code>, optional</dt>
+<dd>pe (redox potential) range. If None, creates pH-only diagram</dd>
+<dt><strong><code>ionic_strength</code></strong> :&ensp;<code>float</code>, default <code>0.1</code></dt>
+<dd>Solution ionic strength (mol/kg)</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>100</code></dt>
+<dd>Grid resolution for calculations</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary containing:
+- 'pH': pH grid
+- 'pe': pe grid (if pe_range provided)
+- 'predominant': Predominant species grid
+- 'activities': Activity grids for each species</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.speciation.SpeciationEngine.solubility_diagram"><code class="name flex">
+<span>def <span class="ident">solubility_diagram</span></span>(<span>self,<br>mineral: str,<br>aqueous_species: List[str],<br>pH_range: Tuple[float, float] = (0, 14),<br>T: float = 298.15,<br>P: float = 1.0,<br>resolution: int = 100) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def solubility_diagram(self, mineral: str, aqueous_species: List[str],
+                      pH_range: Tuple[float, float] = (0, 14),
+                      T: float = 298.15, P: float = 1.0,
+                      resolution: int = 100) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate mineral solubility diagram.
+    
+    Parameters
+    ----------
+    mineral : str
+        Mineral name
+    aqueous_species : list of str
+        Aqueous species in equilibrium with mineral
+    pH_range : tuple, default (0, 14)
+        pH range for calculation
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    resolution : int, default 100
+        Grid resolution
+        
+    Returns
+    -------
+    dict
+        Solubility diagram results
+    &#34;&#34;&#34;
+    
+    pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+    
+    # Calculate dissolution reaction
+    dissolution_reactions = self._get_dissolution_reactions(mineral, aqueous_species)
+    
+    # Calculate solubility at each pH
+    total_solubility = np.zeros_like(pH_grid)
+    species_concentrations = {sp: np.zeros_like(pH_grid) for sp in aqueous_species}
+    
+    for i, pH in enumerate(pH_grid):
+        # Calculate equilibrium with mineral
+        try:
+            # This would involve solving the dissolution equilibrium
+            # For now, use placeholder calculations
+            for j, species in enumerate(aqueous_species):
+                # Simplified pH dependence
+                if &#39;+&#39; in species:  # Cation
+                    conc = 1e-6 * 10**(-pH)
+                elif &#39;-&#39; in species:  # Anion
+                    conc = 1e-6 * 10**(pH - 14)
+                else:  # Neutral
+                    conc = 1e-6
+                
+                species_concentrations[species][i] = conc
+                total_solubility[i] += conc
+                
+        except Exception as e:
+            warnings.warn(f&#34;Solubility calculation failed at pH {pH}: {e}&#34;)
+            total_solubility[i] = np.nan
+            for species in aqueous_species:
+                species_concentrations[species][i] = np.nan
+    
+    return {
+        &#39;pH&#39;: pH_grid,
+        &#39;total_solubility&#39;: total_solubility,
+        &#39;species_concentrations&#39;: species_concentrations,
+        &#39;mineral&#39;: mineral
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate mineral solubility diagram.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>mineral</code></strong> :&ensp;<code>str</code></dt>
+<dd>Mineral name</dd>
+<dt><strong><code>aqueous_species</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Aqueous species in equilibrium with mineral</dd>
+<dt><strong><code>pH_range</code></strong> :&ensp;<code>tuple</code>, default <code>(0, 14)</code></dt>
+<dd>pH range for calculation</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>100</code></dt>
+<dd>Grid resolution</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Solubility diagram results</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.core" href="index.html">pychnosz.core</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.core.speciation.diagram" href="#pychnosz.core.speciation.diagram">diagram</a></code></li>
+<li><code><a title="pychnosz.core.speciation.mosaic" href="#pychnosz.core.speciation.mosaic">mosaic</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.core.speciation.SpeciationEngine" href="#pychnosz.core.speciation.SpeciationEngine">SpeciationEngine</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.core.speciation.SpeciationEngine.activity_diagram" href="#pychnosz.core.speciation.SpeciationEngine.activity_diagram">activity_diagram</a></code></li>
+<li><code><a title="pychnosz.core.speciation.SpeciationEngine.mosaic_diagram" href="#pychnosz.core.speciation.SpeciationEngine.mosaic_diagram">mosaic_diagram</a></code></li>
+<li><code><a title="pychnosz.core.speciation.SpeciationEngine.plot_predominance" href="#pychnosz.core.speciation.SpeciationEngine.plot_predominance">plot_predominance</a></code></li>
+<li><code><a title="pychnosz.core.speciation.SpeciationEngine.predominance_diagram" href="#pychnosz.core.speciation.SpeciationEngine.predominance_diagram">predominance_diagram</a></code></li>
+<li><code><a title="pychnosz.core.speciation.SpeciationEngine.solubility_diagram" href="#pychnosz.core.speciation.SpeciationEngine.solubility_diagram">solubility_diagram</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

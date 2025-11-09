@@ -1,0 +1,1357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.dew API documentation</title>
+<meta name="description" content="DEW (Deep Earth Water) model implementation …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.dew</code></h1>
+</header>
+<section id="section-intro">
+<p>DEW (Deep Earth Water) model implementation.</p>
+<p>This module implements the Deep Earth Water model for calculating thermodynamic
+and electrostatic properties of H2O at high pressures and temperatures relevant
+to deep crustal and mantle conditions.</p>
+<p>References:
+- Sverjensky, D. A., Harrison, B., &amp; Azzolini, D. (2014). Water in the deep Earth:
+The dielectric constant and the solubilities of quartz and corundum to 60 kb
+and 1200°C. Geochimica et Cosmochimica Acta, 129, 125-145.
+- Pan, D., Spanu, L., Harrison, B., Sverjensky, D. A., &amp; Car, R. (2013).
+Dielectric properties of water under extreme conditions and validation of the
+corresponding computational approaches. PNAS, 110(17), 6646-6650.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.dew.water_DEW"><code class="name flex">
+<span>def <span class="ident">water_DEW</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_DEW(properties: Union[str, List[str]], 
+              T: Union[float, np.ndarray] = 298.15,
+              P: Union[float, np.ndarray, str] = 1.0,
+              **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using DEW model.
+    
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or properties to calculate
+    T : float or array
+        Temperature in Kelvin  
+    P : float, array, or &#39;Psat&#39;
+        Pressure in bar, or &#39;Psat&#39; for saturation pressure
+    **kwargs
+        Additional options
+    
+    Returns
+    -------
+    float, array, or dict
+        Calculated water properties
+        
+    Examples
+    --------
+    &gt;&gt;&gt; # High pressure conditions
+    &gt;&gt;&gt; epsilon = water_DEW(&#39;epsilon&#39;, T=873.15, P=10000)  # 600°C, 10 kbar
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Multiple properties at extreme conditions
+    &gt;&gt;&gt; props = water_DEW([&#39;rho&#39;, &#39;epsilon&#39;], T=1073.15, P=30000)  # 800°C, 30 kbar
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Born functions for electrolyte calculations
+    &gt;&gt;&gt; born = water_DEW([&#39;QBorn&#39;, &#39;YBorn&#39;], T=773.15, P=5000)
+    &#34;&#34;&#34;
+    return dew_water.calculate(properties, T, P, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using DEW model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, array,</code> or <code>'Psat'</code></dt>
+<dd>Pressure in bar, or 'Psat' for saturation pressure</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional options</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated water properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # High pressure conditions
+&gt;&gt;&gt; epsilon = water_DEW('epsilon', T=873.15, P=10000)  # 600°C, 10 kbar
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Multiple properties at extreme conditions
+&gt;&gt;&gt; props = water_DEW(['rho', 'epsilon'], T=1073.15, P=30000)  # 800°C, 30 kbar
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Born functions for electrolyte calculations
+&gt;&gt;&gt; born = water_DEW(['QBorn', 'YBorn'], T=773.15, P=5000)
+</code></pre></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.models.dew.DEWWater"><code class="flex name class">
+<span>class <span class="ident">DEWWater</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DEWWater:
+    &#34;&#34;&#34;
+    Deep Earth Water (DEW) model implementation.
+    
+    This class provides thermodynamic and electrostatic properties of water
+    at high pressures and temperatures using the DEW model correlations.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize DEW water model.&#34;&#34;&#34;
+        # Physical constants  
+        self.R = 8.314462618  # J/(mol·K) - Universal gas constant
+        self.MW_H2O = 18.0152  # g/mol - Molecular weight of water
+        
+        # Critical constants for water
+        self.Tc = 647.067  # K - Critical temperature
+        self.Pc = 220.48   # bar - Critical pressure
+        self.rhoc = 0.32174  # g/cm³ - Critical density
+        
+        # DEW model parameters
+        self.a_epsilon = np.array([
+            -1.57637700752506e3, -6.97284414953487e4, -3.14058873029023e6,
+            1.11926957750896e7, 5.49375634503012e7, -1.33934314022535e8,
+            -2.56395839070779e8, 3.73875501063673e8, 4.35976880906701e8,
+            -2.11156427436252e8
+        ])
+        
+        self.b_epsilon = np.array([
+            5.07722476345932e-1, 1.48046755524790e1, 2.42452179259584e2,
+            -1.73986255629880e3, -7.18635413197094e3, 1.21415969235037e4,
+            1.92102380413670e4, -1.31967093058141e4, -1.35915853762697e4,
+            3.17251296019127e3
+        ])
+        
+        # Pressure and temperature limits for DEW model
+        self.T_min = 273.15  # K
+        self.T_max = 1473.15  # K (1200°C)
+        self.P_min = 1.0      # bar
+        self.P_max = 60000.0  # bar (60 kbar)
+    
+    def available_properties(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        Get list of available water properties.
+
+        Note: DEW model only calculates a limited set of properties.
+        This matches the R CHNOSZ implementation which only provides:
+        G, epsilon, QBorn, V, rho, beta, A_DH, B_DH
+
+        Other properties requested will return NaN.
+        &#34;&#34;&#34;
+        return [
+            # Properties actually calculated by DEW
+            &#39;G&#39;,        # Gibbs energy (J/mol)
+            &#39;epsilon&#39;,  # Dielectric constant (DEW specialty)
+            &#39;QBorn&#39;,    # Born Q function (1/bar)
+            &#39;V&#39;,        # Molar volume (cm³/mol)
+            &#39;rho&#39;,      # Density (kg/m³)
+            &#39;beta&#39;,     # Isothermal compressibility (1/bar)
+            &#39;A_DH&#39;,     # Debye-Hückel A parameter
+            &#39;B_DH&#39;,     # Debye-Hückel B parameter
+        ]
+    
+    def calculate(self,
+                  properties: Union[str, List[str]],
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray, str] = 1.0,
+                  **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Calculate water properties using DEW model.
+
+        Parameters
+        ----------
+        properties : str or list of str
+            Property or properties to calculate
+        T : float or array
+            Temperature in Kelvin
+        P : float, array, or &#39;Psat&#39;
+            Pressure in bar, or &#39;Psat&#39; for saturation pressure
+        **kwargs
+            Additional options
+
+        Returns
+        -------
+        float, array, or dict
+            Calculated properties
+        &#34;&#34;&#34;
+        # DEBUG
+        debug_dew = False
+        if debug_dew:
+            print(f&#34;\nDEBUG DEW.calculate() called:&#34;)
+            print(f&#34;  properties: {properties}&#34;)
+            print(f&#34;  T (input): {T}, type: {type(T)}&#34;)
+            print(f&#34;  P (input): {P}, type: {type(P)}&#34;)
+
+        # Handle input types
+        if isinstance(properties, str):
+            properties = [properties]
+            single_prop = True
+        else:
+            single_prop = False
+
+        # Convert inputs to arrays
+        T = np.atleast_1d(np.asarray(T, dtype=float))
+        
+        if isinstance(P, str) and P == &#39;Psat&#39;:
+            P_is_Psat = True
+            P_vals = self._calculate_Psat(T)
+        else:
+            P_is_Psat = False
+            P = np.atleast_1d(np.asarray(P, dtype=float))
+            if len(P) &lt; len(T):
+                P = np.resize(P, len(T))
+            elif len(T) &lt; len(P):
+                T = np.resize(T, len(P))
+            P_vals = P
+        
+        # Check validity of conditions
+        valid = self._check_validity(T, P_vals)
+
+        # Check for low T or low P conditions (T &lt; 100°C or P &lt; 1000 bar)
+        # These should use SUPCRT92 instead of DEW (as in R CHNOSZ water.R line 381)
+        ilow = (T &lt; 373.15) | (P_vals &lt; 1000)
+
+        # Initialize results
+        results = {}
+
+        # Get list of properties that DEW actually calculates
+        supported_props = self.available_properties()
+
+        # For low T or low P conditions, use SUPCRT92 for ALL properties
+        if np.any(ilow):
+            from .supcrt92_fortran import water_SUPCRT92
+
+            # Get SUPCRT92 results for low conditions
+            T_low = T[ilow]
+            P_low = P_vals[ilow]
+
+            supcrt_results = water_SUPCRT92(properties, T_low, P_low)
+
+            # Initialize all properties with appropriate array size
+            for prop in properties:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+
+            # Fill in SUPCRT92 results for low conditions
+            if isinstance(supcrt_results, dict):
+                for prop in properties:
+                    if prop in supcrt_results:
+                        results[prop][ilow] = supcrt_results[prop]
+            else:
+                # Single property case
+                results[properties[0]][ilow] = supcrt_results
+
+            # Special case for Pr,Tr: epsilon should be 78.47 (DEW spreadsheet value)
+            iPrTr = (np.abs(T - 298.15) &lt; 0.1) &amp; (np.abs(P_vals - 1.0) &lt; 0.1)
+            if &#39;epsilon&#39; in properties and np.any(iPrTr):
+                results[&#39;epsilon&#39;][iPrTr] = 78.47
+
+            # If all conditions are low, return SUPCRT results
+            if np.all(ilow):
+                if single_prop:
+                    result = results[properties[0]]
+                    return result[0] if len(result) == 1 else result
+                else:
+                    return results
+
+        # Calculate density first (needed for many DEW properties)
+        if any(prop in properties for prop in [&#39;rho&#39;, &#39;V&#39;, &#39;epsilon&#39;, &#39;QBorn&#39;, &#39;beta&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]):
+            rho_gcm3 = self._calculate_density(T, P_vals, valid)  # g/cm³
+            rho = rho_gcm3 * 1000.0  # Convert to kg/m³ like SUPCRT
+            V = self.MW_H2O / rho_gcm3  # cm³/mol (use g/cm³ for volume calculation)
+        else:
+            rho = None
+            V = None
+
+        # Calculate each requested property for high T and high P conditions
+        for prop in properties:
+            # If property is not supported by DEW, return NaN (like R CHNOSZ)
+            if prop not in supported_props:
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+            elif prop == &#39;rho&#39;:
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                results[prop][~ilow] = rho[~ilow]
+            elif prop == &#39;V&#39;:
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                results[prop][~ilow] = V[~ilow]
+            elif prop == &#39;epsilon&#39;:
+                # Use g/cm³ density for dielectric constant calculation
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                if &#39;rho_gcm3&#39; not in locals():
+                    rho_gcm3 = self._calculate_density(T, P_vals, valid)
+                epsilon_vals = self._calculate_dielectric_constant_with_density(T, P_vals, rho_gcm3, valid)
+                results[prop][~ilow] = epsilon_vals[~ilow]
+            elif prop == &#39;G&#39;:
+                # Calculate Gibbs energy using the exact DEW method
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                for i in np.where(~ilow)[0]:
+                    T_celsius = T[i] - 273.15  # Convert to Celsius
+                    G_cal_per_mol = self._calculate_gibbs_of_water(P_vals[i], T_celsius)  # cal/mol
+                    if not np.isnan(G_cal_per_mol):
+                        results[prop][i] = G_cal_per_mol * 4.184  # Convert cal/mol to J/mol
+            elif prop == &#39;QBorn&#39;:
+                # Calculate QBorn using the exact DEW calculateQ function
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                if rho is None or V is None:
+                    rho_gcm3 = self._calculate_density(T, P_vals, valid)
+                else:
+                    rho_gcm3 = rho / 1000.0  # Convert kg/m³ to g/cm³
+
+                for i in np.where(~ilow)[0]:
+                    if valid[i]:
+                        T_celsius = T[i] - 273.15  # Convert to Celsius
+                        results[prop][i] = self._calculate_Q(rho_gcm3[i], T_celsius)
+            elif prop == &#39;beta&#39;:
+                # Calculate beta (isothermal compressibility)
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                if rho is None or V is None:
+                    rho_gcm3 = self._calculate_density(T, P_vals, valid)
+                else:
+                    rho_gcm3 = rho / 1000.0  # Convert kg/m³ to g/cm³
+
+                for i in np.where(~ilow)[0]:
+                    if valid[i]:
+                        T_celsius = T[i] - 273.15  # Convert to Celsius
+                        # Divide drhodP by rho to get units of bar^-1 (like R code)
+                        drhodP = self._calculate_drhodP(rho_gcm3[i], T_celsius)
+                        results[prop][i] = drhodP / rho_gcm3[i]
+            elif prop in [&#39;A_DH&#39;, &#39;B_DH&#39;]:
+                # Calculate Debye-Hückel parameters
+                if prop not in results:
+                    results[prop] = np.full_like(T, np.nan, dtype=float)
+                if &#39;rho_gcm3&#39; not in locals():
+                    rho_gcm3 = self._calculate_density(T, P_vals, valid)
+                epsilon_vals = self._calculate_dielectric_constant_with_density(T, P_vals, rho_gcm3, valid)
+
+                if prop == &#39;A_DH&#39;:
+                    # A_DH = 1.8246e6 * rho^0.5 / (epsilon * T)^1.5
+                    results[prop][~ilow] = 1.8246e6 * rho_gcm3[~ilow]**0.5 / (epsilon_vals[~ilow] * T[~ilow])**1.5
+                else:  # B_DH
+                    # B_DH = 50.29e8 * rho^0.5 / (epsilon * T)^0.5
+                    results[prop][~ilow] = 50.29e8 * rho_gcm3[~ilow]**0.5 / (epsilon_vals[~ilow] * T[~ilow])**0.5
+        
+        # Return results
+        if single_prop:
+            result = results[properties[0]]
+            return result[0] if len(result) == 1 else result
+        else:
+            # Convert to consistent array lengths
+            for key in results:
+                if np.isscalar(results[key]):
+                    results[key] = np.full_like(T, results[key])
+                elif len(results[key]) == 1 and len(T) &gt; 1:
+                    results[key] = np.full_like(T, results[key][0])
+            return results
+    
+    def _check_validity(self, T: np.ndarray, P: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;Check validity of T-P conditions for DEW model.&#34;&#34;&#34;
+        valid = np.ones_like(T, dtype=bool)
+        
+        # Temperature limits
+        valid &amp;= (T &gt;= self.T_min)
+        valid &amp;= (T &lt;= self.T_max) 
+        
+        # Pressure limits
+        valid &amp;= (P &gt;= self.P_min)
+        valid &amp;= (P &lt;= self.P_max)
+        
+        # Avoid near-critical conditions where DEW may be less accurate
+        valid &amp;= ~((T &gt; 0.95 * self.Tc) &amp; (P &lt; 2 * self.Pc))
+        
+        return valid
+    
+    def _calculate_Psat(self, T: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Calculate saturation pressure using Antoine equation.
+        
+        Valid up to critical point.
+        &#34;&#34;&#34;
+        Psat = np.full_like(T, np.nan)
+        valid = (T &gt;= 273.16) &amp; (T &lt;= self.Tc)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            
+            # Antoine equation coefficients for water (bar, K)
+            A = 8.07131
+            B = 1730.63
+            C = -39.724
+            
+            # Antoine equation: log10(Psat) = A - B/(T + C)
+            log10_Psat = A - B / (T_valid + C)
+            Psat[valid] = 10**log10_Psat
+        
+        return Psat
+    
+    def _calculate_density(self, T: np.ndarray, P: np.ndarray, valid: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Calculate water density using DEW model correlations.
+        
+        This uses the exact bisection method from the R CHNOSZ DEW implementation
+        to find the density that produces the target pressure.
+        &#34;&#34;&#34;
+        rho = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            
+            # Use bisection method for each T, P pair (as in R DEW.R)
+            rho_results = np.full(len(T_valid), np.nan)
+            for i, (T_val, P_val) in enumerate(zip(T_valid, P_valid)):
+                T_celsius = T_val - 273.15  # Convert to Celsius for DEW equations
+                rho_results[i] = self._calculate_density_bisection(P_val, T_celsius)
+            
+            rho[valid] = rho_results
+        
+        return rho
+    
+    def _calculate_density_bisection(self, pressure: float, temperature_celsius: float, error: float = 0.01) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate density using bisection method (exact R DEW.R implementation).
+        
+        Parameters
+        ----------
+        pressure : float
+            Target pressure in bar
+        temperature_celsius : float  
+            Temperature in Celsius
+        error : float
+            Pressure error tolerance in bar (default 0.01 as in R code)
+            
+        Returns
+        -------
+        float
+            Density in g/cm³
+        &#34;&#34;&#34;
+        min_guess = 1e-5
+        guess = 1e-5
+        equation = 1  # The maxGuess is dependent on the value of &#34;equation&#34;
+        max_guess = 7.5 * equation - 5.0  # Should be 2.5 for equation=1
+        
+        # Loop through and find the density (up to 50 iterations as in R)
+        for i in range(50):
+            # Calculate the pressure using the specified equation
+            calc_p = self._calculate_pressure(guess, temperature_celsius)
+            
+            # If the calculated pressure is not equal to input pressure, 
+            # determine a new guess based on bisection method
+            if abs(calc_p - pressure) &gt; error:
+                if calc_p &gt; pressure:
+                    max_guess = guess
+                    guess = (guess + min_guess) / 2.0
+                elif calc_p &lt; pressure:
+                    min_guess = guess  
+                    guess = (guess + max_guess) / 2.0
+            else:
+                return guess
+                
+        # If we didn&#39;t converge, return the last guess
+        return guess
+    
+    def _calculate_pressure(self, density: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate pressure from density and temperature using Zhang &amp; Duan (2005) EOS.
+        
+        This is the exact implementation from R DEW.R calculatePressure function.
+        
+        Parameters
+        ----------
+        density : float
+            Density in g/cm³
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            Pressure in bar
+        &#34;&#34;&#34;
+        # Constants from R DEW.R
+        m = 18.01528         # Molar mass of water molecule in g/mol
+        ZD05_R = 83.144      # Gas Constant in cm³ bar/mol/K
+        ZD05_Vc = 55.9480373 # Critical volume in cm³/mol
+        ZD05_Tc = 647.25     # Critical temperature in Kelvin
+        
+        TK = temperature_celsius + 273.15  # Temperature must be converted to Kelvin
+        Vr = m / density / ZD05_Vc
+        Tr = TK / ZD05_Tc
+        
+        B = 0.349824207 - 2.91046273 / (Tr * Tr) + 2.00914688 / (Tr * Tr * Tr)
+        C = 0.112819964 + 0.748997714 / (Tr * Tr) - 0.87320704 / (Tr * Tr * Tr)
+        D = 0.0170609505 - 0.0146355822 / (Tr * Tr) + 0.0579768283 / (Tr * Tr * Tr)
+        E = -0.000841246372 + 0.00495186474 / (Tr * Tr) - 0.00916248538 / (Tr * Tr * Tr)
+        f = -0.100358152 / Tr
+        g = -0.00182674744 * Tr
+        
+        delta = (1 + B / Vr + C / (Vr * Vr) + D / (Vr**4) + E / (Vr**5) + 
+                 (f / (Vr * Vr) + g / (Vr**4)) * np.exp(-0.0105999998 / (Vr * Vr)))
+        
+        return ZD05_R * TK * density * delta / m
+    
+    def _calculate_gibbs_of_water(self, pressure: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate Gibbs Free Energy of water using exact R DEW.R implementation.
+        
+        This is the exact translation of the calculateGibbsOfWater function from R DEW.R
+        
+        Parameters
+        ----------
+        pressure : float
+            Pressure in bar
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            Gibbs Free Energy in cal/mol
+        &#34;&#34;&#34;
+        # Gibbs Free Energy of water at 1 kb. This equation is a polynomial fit to data as a function of temperature.
+        # It is valid in the range of 100 to 1000 C.
+        GAtOneKb = (2.6880734E-09 * temperature_celsius**4 + 6.3163061E-07 * temperature_celsius**3 - 
+                   0.019372355 * temperature_celsius**2 - 16.945093 * temperature_celsius - 55769.287)
+        
+        if pressure &lt; 1000:  # Simply return zero, this method only works at P &gt;= 1000 bars
+            integral = np.nan
+        elif pressure == 1000:  # Return the value calculated above from the polynomial fit
+            integral = 0.0
+        elif pressure &gt; 1000:  # Integrate from 1 kb to P over the volume
+            integral = 0.0
+            # Integral is sum of rectangles with this width. This function in effect limits the spacing
+            # to 20 bars so that very small pressures do not have unreasonably small widths. Otherwise the width
+            # is chosen such that there are always 500 steps in the numerical integration. This ensures that for very
+            # high pressures, there are not a huge number of steps calculated which is very computationally taxing.
+            spacing = max(20.0, (pressure - 1000.0) / 500.0)
+            
+            # Use numpy arange to exactly match R&#39;s seq(1000, pressure, by = spacing) behavior
+            # R&#39;s seq includes the endpoint, so we need to include pressure in our sequence
+            P_values = np.arange(1000.0, pressure + spacing/2, spacing)  # +spacing/2 ensures we include endpoint
+            
+            for P_current in P_values:
+                # This integral determines the density only down to an error of 100 bars
+                # rather than the standard of 0.01. This is done to save computational
+                # time. Tests indicate this reduces the computation by about a half while
+                # introducing little error from the standard of 0.01.
+                rho = self._calculate_density_bisection(P_current, temperature_celsius, error=100.0)
+                integral += (18.01528 / rho / 41.84) * spacing
+        
+        return GAtOneKb + integral
+    
+    def _calculate_depsdrho(self, density: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate partial derivative of dielectric constant with respect to density (dε/dρ).
+        
+        This is the exact implementation from R DEW.R calculate_depsdrho function.
+        
+        Parameters
+        ----------
+        density : float
+            Density in g/cm³
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            dε/dρ in cm³/g
+        &#34;&#34;&#34;
+        # Power Function parameters (same as for epsilon calculation)
+        a1 = -0.00157637700752506
+        a2 = 0.0681028783422197
+        a3 = 0.754875480393944
+        b1 = -8.01665106535394E-05
+        b2 = -0.0687161761831994
+        b3 = 4.74797272182151
+        
+        A = a1 * temperature_celsius + a2 * np.sqrt(temperature_celsius) + a3
+        B = b1 * temperature_celsius + b2 * np.sqrt(temperature_celsius) + b3
+        
+        # dε/dρ = A * exp(B) * density^(A-1)
+        return A * np.exp(B) * (density ** (A - 1))
+    
+    def _calculate_drhodP(self, density: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate partial derivative of density with respect to pressure (dρ/dP).
+        
+        This is the exact implementation from R DEW.R calculate_drhodP function.
+        
+        Parameters
+        ----------
+        density : float
+            Density in g/cm³
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            dρ/dP in g/cm³/bar
+        &#34;&#34;&#34;
+        # Constants from R DEW.R
+        m = 18.01528          # Molar mass of water molecule in g/mol
+        ZD05_R = 83.144       # Gas Constant in cm³ bar/mol/K
+        ZD05_Vc = 55.9480373  # Critical volume in cm³/mol
+        ZD05_Tc = 647.25      # Critical temperature in Kelvin
+        
+        TK = temperature_celsius + 273.15       # temperature must be converted to Kelvin
+        Tr = TK / ZD05_Tc
+        cc = ZD05_Vc / m                # This term appears frequently in the equation
+        Vr = m / (density * ZD05_Vc)
+        
+        B = 0.349824207 - 2.91046273 / (Tr * Tr) + 2.00914688 / (Tr * Tr * Tr)
+        C = 0.112819964 + 0.748997714 / (Tr * Tr) - 0.87320704 / (Tr * Tr * Tr)
+        D = 0.0170609505 - 0.0146355822 / (Tr * Tr) + 0.0579768283 / (Tr * Tr * Tr)
+        E = -0.000841246372 + 0.00495186474 / (Tr * Tr) - 0.00916248538 / (Tr * Tr * Tr)
+        f = -0.100358152 / Tr
+        g = 0.0105999998 * Tr
+        
+        delta = (1 + B / Vr + C / (Vr**2) + D / (Vr**4) + E / (Vr**5) + 
+                 (f / (Vr**2) + g / (Vr**4)) * np.exp(-0.0105999998 / (Vr**2)))
+        
+        kappa = (B * cc + 2 * C * (cc**2) * density + 4 * D * cc**4 * density**3 + 5 * E * cc**5 * density**4 +
+                (2 * f * (cc**2) * density + 4 * g * cc**4 * density**3 - 
+                 (f / (Vr**2) + g / (Vr**4)) * (2 * 0.0105999998 * (cc**2) * density)) * 
+                np.exp(-0.0105999998 / (Vr**2)))
+        
+        return m / (ZD05_R * TK * (delta + density * kappa))
+    
+    def _calculate_Q(self, density: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate Born Q function using exact R DEW.R implementation.
+        
+        This is the exact implementation from R DEW.R calculateQ function.
+        
+        Parameters
+        ----------
+        density : float
+            Density in g/cm³
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            Q in bar⁻¹
+        &#34;&#34;&#34;
+        epsilon = self._calculate_epsilon_single(density, temperature_celsius)
+        depsdrho = self._calculate_depsdrho(density, temperature_celsius)
+        drhodP = self._calculate_drhodP(density, temperature_celsius)
+        
+        return depsdrho * drhodP / (epsilon**2)
+    
+    def _calculate_epsilon_single(self, density: float, temperature_celsius: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate epsilon for single density and temperature values.
+        
+        Parameters
+        ----------
+        density : float
+            Density in g/cm³
+        temperature_celsius : float
+            Temperature in Celsius
+            
+        Returns
+        -------
+        float
+            Dielectric constant
+        &#34;&#34;&#34;
+        # DEW power function parameters (same as in array version)
+        a1 = -0.00157637700752506
+        a2 = 0.0681028783422197
+        a3 = 0.754875480393944
+        b1 = -8.01665106535394E-05
+        b2 = -0.0687161761831994
+        b3 = 4.74797272182151
+        
+        A = a1 * temperature_celsius + a2 * np.sqrt(temperature_celsius) + a3
+        B = b1 * temperature_celsius + b2 * np.sqrt(temperature_celsius) + b3
+        
+        return np.exp(B) * (density ** A)
+    
+    def _calculate_dielectric_constant_with_density(self, T: np.ndarray, P: np.ndarray, 
+                                                   rho_gcm3: np.ndarray, valid: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Calculate dielectric constant using pre-computed density in g/cm³.
+        &#34;&#34;&#34;
+        epsilon = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            rho_valid = rho_gcm3[valid]  # Already in g/cm³
+            
+            # Convert temperature to Celsius for DEW correlation
+            T_celsius = T_valid - 273.15
+            
+            # DEW power function parameters (from R code)
+            a1 = -0.00157637700752506
+            a2 = 0.0681028783422197
+            a3 = 0.754875480393944
+            b1 = -8.01665106535394E-5
+            b2 = -0.0687161761831994
+            b3 = 4.74797272182151
+            
+            # Calculate A and B
+            A = a1 * T_celsius + a2 * np.sqrt(T_celsius) + a3
+            B = b1 * T_celsius + b2 * np.sqrt(T_celsius) + b3
+            
+            # DEW dielectric constant: epsilon = exp(B) * density^A
+            epsilon_calc = np.exp(B) * (rho_valid ** A)
+            
+            # For low T or P conditions, use SUPCRT92 (AW90) as in R version
+            low_condition = (T_celsius &lt; 100.0) | (P_valid &lt; 1000.0)
+            
+            if np.any(low_condition):
+                # Use Archer &amp; Wang for low conditions
+                from .archer_wang import water_AW90
+                
+                # Convert density to kg/m³ and pressure to MPa
+                rho_kg_m3 = rho_valid[low_condition] * 1000.0  # g/cm³ to kg/m³
+                P_MPa = P_valid[low_condition] / 10.0  # bar to MPa
+                T_low = T_valid[low_condition]
+                
+                epsilon_aw90 = water_AW90(T_low, rho_kg_m3, P_MPa)
+                epsilon_calc[low_condition] = epsilon_aw90
+            
+            # Special case: at Pr,Tr use 78.47 as in R code
+            prtr_condition = (np.abs(T_celsius - 25.0) &lt; 0.1) &amp; (np.abs(P_valid - 1.0) &lt; 0.1)
+            if np.any(prtr_condition):
+                epsilon_calc[prtr_condition] = 78.47
+            
+            # Apply bounds to ensure physical values
+            epsilon_calc = np.clip(epsilon_calc, 1.0, 200.0)
+            
+            epsilon[valid] = epsilon_calc
+        
+        return epsilon
+    
+    def _calculate_reference_density(self, T: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;Calculate reference density at 1 bar pressure.&#34;&#34;&#34;
+        # Simplified fit to water density at 1 bar
+        rho0 = 1.0 - 2.5e-4 * (T - 298.15) - 5e-7 * (T - 298.15)**2
+        rho0 = np.maximum(rho0, 0.1)  # Ensure positive
+        return rho0
+    
+    def _calculate_dielectric_constant(self, T: np.ndarray, P: np.ndarray, 
+                                     valid: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Calculate dielectric constant using DEW model.
+        
+        This is the key feature of the DEW model - accurate dielectric constants
+        at high P-T conditions based on molecular dynamics simulations.
+        &#34;&#34;&#34;
+        epsilon = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            
+            # DEW dielectric constant correlation
+            # Based on the R CHNOSZ implementation which uses the DEW power function
+            # for high P-T conditions and falls back to SUPCRT92 (AW90) for low P-T.
+            
+            from .archer_wang import water_AW90
+            
+            # Calculate density first
+            rho_full = self._calculate_density(T, P, valid)
+            rho_valid = rho_full[valid]  # g/cm³
+            
+            # Convert temperature to Celsius for DEW correlation
+            T_celsius = T_valid - 273.15
+            
+            # DEW power function parameters (from R code)
+            a1 = -0.00157637700752506
+            a2 = 0.0681028783422197
+            a3 = 0.754875480393944
+            b1 = -8.01665106535394E-5
+            b2 = -0.0687161761831994
+            b3 = 4.74797272182151
+            
+            # Calculate A and B
+            A = a1 * T_celsius + a2 * np.sqrt(T_celsius) + a3
+            B = b1 * T_celsius + b2 * np.sqrt(T_celsius) + b3
+            
+            # DEW dielectric constant: epsilon = exp(B) * density^A
+            epsilon_calc = np.exp(B) * (rho_valid ** A)
+            
+            # For low T or P conditions, use SUPCRT92 (AW90) as in R version
+            low_condition = (T_celsius &lt; 100.0) | (P_valid &lt; 1000.0)
+            
+            if np.any(low_condition):
+                # Use Archer &amp; Wang for low conditions
+                # Convert density to kg/m³ and pressure to MPa
+                rho_kg_m3 = rho_valid[low_condition] * 1000.0  # g/cm³ to kg/m³
+                P_MPa = P_valid[low_condition] / 10.0  # bar to MPa
+                T_low = T_valid[low_condition]
+                
+                epsilon_aw90 = water_AW90(T_low, rho_kg_m3, P_MPa)
+                epsilon_calc[low_condition] = epsilon_aw90
+            
+            # Special case: at Pr,Tr use 78.47 as in R code
+            prtr_condition = (np.abs(T_celsius - 25.0) &lt; 0.1) &amp; (np.abs(P_valid - 1.0) &lt; 0.1)
+            if np.any(prtr_condition):
+                epsilon_calc[prtr_condition] = 78.47
+            
+            # Apply bounds to ensure physical values
+            epsilon_calc = np.clip(epsilon_calc, 1.0, 200.0)
+            
+            epsilon[valid] = epsilon_calc
+        
+        return epsilon
+    
+    def _calculate_thermodynamic_properties(self, T: np.ndarray, P: np.ndarray,
+                                          rho: np.ndarray, valid: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate thermodynamic properties using DEW model.&#34;&#34;&#34;
+        props = {}
+        
+        for prop in [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;Cv&#39;, &#39;U&#39;, &#39;A&#39;]:
+            props[prop] = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            
+            # Calculate Gibbs energy using the exact DEW method
+            G_results = np.full(len(T_valid), np.nan)
+            for i, (T_val, P_val) in enumerate(zip(T_valid, P_valid)):
+                T_celsius = T_val - 273.15  # Convert to Celsius
+                G_cal_per_mol = self._calculate_gibbs_of_water(P_val, T_celsius)  # cal/mol
+                G_results[i] = G_cal_per_mol * 4.184  # Convert cal/mol to J/mol
+            
+            props[&#39;G&#39;][valid] = G_results
+            
+            # For other properties, use simplified approximations (these are not as critical for DEW)
+            if any(prop in [&#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;Cv&#39;, &#39;U&#39;, &#39;A&#39;] for prop in props.keys()):
+                rho_valid = rho[valid] if rho is not None else self._calculate_density(T, P, valid)[valid]
+                
+                # Reference state properties (liquid water at 25°C, 1 bar)
+                H_ref = -285830.0  # J/mol
+                S_ref = 69.95      # J/(mol·K)
+                Cp_ref = 75.31     # J/(mol·K)
+                
+                # Temperature effects
+                dT = T_valid - 298.15
+                
+                # Heat capacity (empirical fit for high T-P)
+                Cp = Cp_ref + 0.15 * dT - 2e-4 * dT**2 + 1e-7 * dT**3
+                
+                # Pressure effects on heat capacity
+                Cp += 1e-5 * P_valid  # Small pressure dependence
+                
+                # Entropy (integrate Cp/T)
+                S = S_ref + Cp_ref * np.log(T_valid / 298.15) + 0.15 * dT - 1e-4 * dT**2 + (1e-7/2) * dT**3
+                
+                # Enthalpy (integrate Cp)
+                H = H_ref + Cp_ref * dT + 0.075 * dT**2 - (2e-4/3) * dT**3 + (1e-7/4) * dT**4
+                
+                # Pressure effects on enthalpy (∫V dP)
+                V_molar = self.MW_H2O / (rho_valid / 1000.0)  # cm³/mol (convert kg/m³ to g/cm³)
+                H += V_molar * (P_valid - 1.0) * 0.01  # Convert bar·cm³/mol to J/mol
+                
+                # Other properties
+                Cv = Cp - self.R  # Simplified relation
+                U = H - P_valid * V_molar * 0.01  # Internal energy
+                A = U - T_valid * S  # Helmholtz energy
+                
+                # Store results
+                props[&#39;H&#39;][valid] = H
+                props[&#39;S&#39;][valid] = S
+                props[&#39;Cp&#39;][valid] = Cp
+                props[&#39;Cv&#39;][valid] = Cv
+                props[&#39;U&#39;][valid] = U
+                props[&#39;A&#39;][valid] = A
+        
+        return props
+    
+    def _calculate_mechanical_properties(self, T: np.ndarray, P: np.ndarray,
+                                       rho: np.ndarray, valid: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate mechanical properties for high P-T conditions.&#34;&#34;&#34;
+        props = {}
+        
+        for prop in [&#39;alpha&#39;, &#39;beta&#39;, &#39;kT&#39;, &#39;E&#39;]:
+            props[prop] = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            rho_valid = rho[valid] if rho is not None else self._calculate_density(T, P, valid)[valid]
+            V_valid = self.MW_H2O / rho_valid  # cm³/mol
+            
+            # Thermal expansion coefficient (modified for high P-T)
+            alpha = (2.14e-4 + 1e-6 * (T_valid - 298.15) - 2e-8 * P_valid)
+            alpha = np.maximum(alpha, 1e-6)  # Ensure positive
+            
+            # Isothermal compressibility (decreases with pressure)
+            beta = 4.5e-5 * np.exp(-P_valid / 10000.0) * (298.15 / T_valid)**0.5
+            beta = np.maximum(beta, 1e-7)  # Ensure positive
+            
+            # Derived properties
+            kT = V_valid * beta  # bar·cm³/mol
+            E = V_valid * alpha  # cm³/(mol·K)
+            
+            props[&#39;alpha&#39;][valid] = alpha
+            props[&#39;beta&#39;][valid] = beta
+            props[&#39;kT&#39;][valid] = kT
+            props[&#39;E&#39;][valid] = E
+        
+        return props
+    
+    def _calculate_born_functions(self, T: np.ndarray, P: np.ndarray, rho: np.ndarray,
+                                valid: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate Born functions using exact DEW model.&#34;&#34;&#34;
+        props = {}
+        
+        for prop in [&#39;QBorn&#39;, &#39;YBorn&#39;, &#39;XBorn&#39;, &#39;ZBorn&#39;]:
+            props[prop] = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            
+            # Calculate QBorn using the exact DEW calculateQ function
+            # This requires density in g/cm³, not kg/m³
+            if rho is not None:
+                rho_gcm3_valid = rho[valid] / 1000.0  # Convert kg/m³ to g/cm³
+            else:
+                rho_gcm3_full = self._calculate_density(T, P, valid)
+                rho_gcm3_valid = rho_gcm3_full[valid]
+            
+            QBorn_results = np.full(len(T_valid), np.nan)
+            epsilon_results = np.full(len(T_valid), np.nan)
+            
+            for i, (T_val, P_val, rho_val) in enumerate(zip(T_valid, P_valid, rho_gcm3_valid)):
+                T_celsius = T_val - 273.15  # Convert to Celsius
+                # Use exact DEW Q calculation
+                QBorn_results[i] = self._calculate_Q(rho_val, T_celsius)
+                epsilon_results[i] = self._calculate_epsilon_single(rho_val, T_celsius)
+            
+            # For other Born functions, use simplified relations (as in R water.R)
+            # Get mechanical properties for thermal expansion
+            mech_props = self._calculate_mechanical_properties(T, P, rho, valid)
+            alpha_valid = mech_props[&#39;alpha&#39;][valid]
+            
+            # Born functions
+            YBorn = alpha_valid / epsilon_results  # 1/K
+            XBorn = QBorn_results / epsilon_results  # 1/(bar·K) - note: this uses QBorn, not beta
+            ZBorn = -1.0 / epsilon_results
+            
+            props[&#39;QBorn&#39;][valid] = QBorn_results
+            props[&#39;YBorn&#39;][valid] = YBorn
+            props[&#39;XBorn&#39;][valid] = XBorn
+            props[&#39;ZBorn&#39;][valid] = ZBorn
+        
+        return props
+    
+    def _calculate_debye_huckel(self, T: np.ndarray, P: np.ndarray, rho: np.ndarray,
+                              valid: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate Debye-Hückel parameters using DEW properties.&#34;&#34;&#34;
+        props = {}
+        
+        for prop in [&#39;A_DH&#39;, &#39;B_DH&#39;]:
+            props[prop] = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            rho_valid = rho[valid] if rho is not None else self._calculate_density(T, P, valid)[valid]
+            epsilon = self._calculate_dielectric_constant(T, P, valid)[valid]
+            
+            # Debye-Hückel parameters using DEW dielectric constants
+            A_DH = 1.8246e6 * rho_valid**0.5 / (epsilon * T_valid)**1.5
+            B_DH = 50.29e8 * rho_valid**0.5 / (epsilon * T_valid)**0.5
+            
+            props[&#39;A_DH&#39;][valid] = A_DH
+            props[&#39;B_DH&#39;][valid] = B_DH
+        
+        return props
+    
+    def _calculate_transport_property(self, prop: str, T: np.ndarray, P: np.ndarray,
+                                    rho: np.ndarray, valid: np.ndarray) -&gt; np.ndarray:
+        &#34;&#34;&#34;Calculate transport properties (simplified for high P-T).&#34;&#34;&#34;
+        result = np.full_like(T, np.nan)
+        
+        if np.any(valid):
+            T_valid = T[valid]
+            P_valid = P[valid]
+            
+            if prop == &#39;Speed&#39;:
+                # Speed of sound (increases with pressure)
+                result[valid] = (1402.7 + 5.0 * (T_valid - 298.15) + 
+                               0.5 * np.sqrt(P_valid))
+                
+            elif prop == &#39;visc&#39;:
+                # Viscosity (empirical fit for high P-T)
+                result[valid] = (1e-3 * np.exp(-3.0 + 1000.0 / T_valid) * 
+                               (1 + P_valid / 5000.0)**0.1)
+                
+            elif prop == &#39;tcond&#39;:
+                # Thermal conductivity (increases with pressure and temperature)
+                result[valid] = (0.6 + 0.002 * (T_valid - 298.15) + 
+                               0.00005 * P_valid)
+        
+        return result</code></pre>
+</details>
+<div class="desc"><p>Deep Earth Water (DEW) model implementation.</p>
+<p>This class provides thermodynamic and electrostatic properties of water
+at high pressures and temperatures using the DEW model correlations.</p>
+<p>Initialize DEW water model.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.dew.DEWWater.available_properties"><code class="name flex">
+<span>def <span class="ident">available_properties</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def available_properties(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    Get list of available water properties.
+
+    Note: DEW model only calculates a limited set of properties.
+    This matches the R CHNOSZ implementation which only provides:
+    G, epsilon, QBorn, V, rho, beta, A_DH, B_DH
+
+    Other properties requested will return NaN.
+    &#34;&#34;&#34;
+    return [
+        # Properties actually calculated by DEW
+        &#39;G&#39;,        # Gibbs energy (J/mol)
+        &#39;epsilon&#39;,  # Dielectric constant (DEW specialty)
+        &#39;QBorn&#39;,    # Born Q function (1/bar)
+        &#39;V&#39;,        # Molar volume (cm³/mol)
+        &#39;rho&#39;,      # Density (kg/m³)
+        &#39;beta&#39;,     # Isothermal compressibility (1/bar)
+        &#39;A_DH&#39;,     # Debye-Hückel A parameter
+        &#39;B_DH&#39;,     # Debye-Hückel B parameter
+    ]</code></pre>
+</details>
+<div class="desc"><p>Get list of available water properties.</p>
+<p>Note: DEW model only calculates a limited set of properties.
+This matches the R CHNOSZ implementation which only provides:
+G, epsilon, QBorn, V, rho, beta, A_DH, B_DH</p>
+<p>Other properties requested will return NaN.</p></div>
+</dd>
+<dt id="pychnosz.models.dew.DEWWater.calculate"><code class="name flex">
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate(self,
+              properties: Union[str, List[str]],
+              T: Union[float, np.ndarray] = 298.15,
+              P: Union[float, np.ndarray, str] = 1.0,
+              **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using DEW model.
+
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or properties to calculate
+    T : float or array
+        Temperature in Kelvin
+    P : float, array, or &#39;Psat&#39;
+        Pressure in bar, or &#39;Psat&#39; for saturation pressure
+    **kwargs
+        Additional options
+
+    Returns
+    -------
+    float, array, or dict
+        Calculated properties
+    &#34;&#34;&#34;
+    # DEBUG
+    debug_dew = False
+    if debug_dew:
+        print(f&#34;\nDEBUG DEW.calculate() called:&#34;)
+        print(f&#34;  properties: {properties}&#34;)
+        print(f&#34;  T (input): {T}, type: {type(T)}&#34;)
+        print(f&#34;  P (input): {P}, type: {type(P)}&#34;)
+
+    # Handle input types
+    if isinstance(properties, str):
+        properties = [properties]
+        single_prop = True
+    else:
+        single_prop = False
+
+    # Convert inputs to arrays
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    
+    if isinstance(P, str) and P == &#39;Psat&#39;:
+        P_is_Psat = True
+        P_vals = self._calculate_Psat(T)
+    else:
+        P_is_Psat = False
+        P = np.atleast_1d(np.asarray(P, dtype=float))
+        if len(P) &lt; len(T):
+            P = np.resize(P, len(T))
+        elif len(T) &lt; len(P):
+            T = np.resize(T, len(P))
+        P_vals = P
+    
+    # Check validity of conditions
+    valid = self._check_validity(T, P_vals)
+
+    # Check for low T or low P conditions (T &lt; 100°C or P &lt; 1000 bar)
+    # These should use SUPCRT92 instead of DEW (as in R CHNOSZ water.R line 381)
+    ilow = (T &lt; 373.15) | (P_vals &lt; 1000)
+
+    # Initialize results
+    results = {}
+
+    # Get list of properties that DEW actually calculates
+    supported_props = self.available_properties()
+
+    # For low T or low P conditions, use SUPCRT92 for ALL properties
+    if np.any(ilow):
+        from .supcrt92_fortran import water_SUPCRT92
+
+        # Get SUPCRT92 results for low conditions
+        T_low = T[ilow]
+        P_low = P_vals[ilow]
+
+        supcrt_results = water_SUPCRT92(properties, T_low, P_low)
+
+        # Initialize all properties with appropriate array size
+        for prop in properties:
+            results[prop] = np.full_like(T, np.nan, dtype=float)
+
+        # Fill in SUPCRT92 results for low conditions
+        if isinstance(supcrt_results, dict):
+            for prop in properties:
+                if prop in supcrt_results:
+                    results[prop][ilow] = supcrt_results[prop]
+        else:
+            # Single property case
+            results[properties[0]][ilow] = supcrt_results
+
+        # Special case for Pr,Tr: epsilon should be 78.47 (DEW spreadsheet value)
+        iPrTr = (np.abs(T - 298.15) &lt; 0.1) &amp; (np.abs(P_vals - 1.0) &lt; 0.1)
+        if &#39;epsilon&#39; in properties and np.any(iPrTr):
+            results[&#39;epsilon&#39;][iPrTr] = 78.47
+
+        # If all conditions are low, return SUPCRT results
+        if np.all(ilow):
+            if single_prop:
+                result = results[properties[0]]
+                return result[0] if len(result) == 1 else result
+            else:
+                return results
+
+    # Calculate density first (needed for many DEW properties)
+    if any(prop in properties for prop in [&#39;rho&#39;, &#39;V&#39;, &#39;epsilon&#39;, &#39;QBorn&#39;, &#39;beta&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]):
+        rho_gcm3 = self._calculate_density(T, P_vals, valid)  # g/cm³
+        rho = rho_gcm3 * 1000.0  # Convert to kg/m³ like SUPCRT
+        V = self.MW_H2O / rho_gcm3  # cm³/mol (use g/cm³ for volume calculation)
+    else:
+        rho = None
+        V = None
+
+    # Calculate each requested property for high T and high P conditions
+    for prop in properties:
+        # If property is not supported by DEW, return NaN (like R CHNOSZ)
+        if prop not in supported_props:
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+        elif prop == &#39;rho&#39;:
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            results[prop][~ilow] = rho[~ilow]
+        elif prop == &#39;V&#39;:
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            results[prop][~ilow] = V[~ilow]
+        elif prop == &#39;epsilon&#39;:
+            # Use g/cm³ density for dielectric constant calculation
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            if &#39;rho_gcm3&#39; not in locals():
+                rho_gcm3 = self._calculate_density(T, P_vals, valid)
+            epsilon_vals = self._calculate_dielectric_constant_with_density(T, P_vals, rho_gcm3, valid)
+            results[prop][~ilow] = epsilon_vals[~ilow]
+        elif prop == &#39;G&#39;:
+            # Calculate Gibbs energy using the exact DEW method
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            for i in np.where(~ilow)[0]:
+                T_celsius = T[i] - 273.15  # Convert to Celsius
+                G_cal_per_mol = self._calculate_gibbs_of_water(P_vals[i], T_celsius)  # cal/mol
+                if not np.isnan(G_cal_per_mol):
+                    results[prop][i] = G_cal_per_mol * 4.184  # Convert cal/mol to J/mol
+        elif prop == &#39;QBorn&#39;:
+            # Calculate QBorn using the exact DEW calculateQ function
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            if rho is None or V is None:
+                rho_gcm3 = self._calculate_density(T, P_vals, valid)
+            else:
+                rho_gcm3 = rho / 1000.0  # Convert kg/m³ to g/cm³
+
+            for i in np.where(~ilow)[0]:
+                if valid[i]:
+                    T_celsius = T[i] - 273.15  # Convert to Celsius
+                    results[prop][i] = self._calculate_Q(rho_gcm3[i], T_celsius)
+        elif prop == &#39;beta&#39;:
+            # Calculate beta (isothermal compressibility)
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            if rho is None or V is None:
+                rho_gcm3 = self._calculate_density(T, P_vals, valid)
+            else:
+                rho_gcm3 = rho / 1000.0  # Convert kg/m³ to g/cm³
+
+            for i in np.where(~ilow)[0]:
+                if valid[i]:
+                    T_celsius = T[i] - 273.15  # Convert to Celsius
+                    # Divide drhodP by rho to get units of bar^-1 (like R code)
+                    drhodP = self._calculate_drhodP(rho_gcm3[i], T_celsius)
+                    results[prop][i] = drhodP / rho_gcm3[i]
+        elif prop in [&#39;A_DH&#39;, &#39;B_DH&#39;]:
+            # Calculate Debye-Hückel parameters
+            if prop not in results:
+                results[prop] = np.full_like(T, np.nan, dtype=float)
+            if &#39;rho_gcm3&#39; not in locals():
+                rho_gcm3 = self._calculate_density(T, P_vals, valid)
+            epsilon_vals = self._calculate_dielectric_constant_with_density(T, P_vals, rho_gcm3, valid)
+
+            if prop == &#39;A_DH&#39;:
+                # A_DH = 1.8246e6 * rho^0.5 / (epsilon * T)^1.5
+                results[prop][~ilow] = 1.8246e6 * rho_gcm3[~ilow]**0.5 / (epsilon_vals[~ilow] * T[~ilow])**1.5
+            else:  # B_DH
+                # B_DH = 50.29e8 * rho^0.5 / (epsilon * T)^0.5
+                results[prop][~ilow] = 50.29e8 * rho_gcm3[~ilow]**0.5 / (epsilon_vals[~ilow] * T[~ilow])**0.5
+    
+    # Return results
+    if single_prop:
+        result = results[properties[0]]
+        return result[0] if len(result) == 1 else result
+    else:
+        # Convert to consistent array lengths
+        for key in results:
+            if np.isscalar(results[key]):
+                results[key] = np.full_like(T, results[key])
+            elif len(results[key]) == 1 and len(T) &gt; 1:
+                results[key] = np.full_like(T, results[key][0])
+        return results</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using DEW model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, array,</code> or <code>'Psat'</code></dt>
+<dd>Pressure in bar, or 'Psat' for saturation pressure</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional options</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.dew.water_DEW" href="#pychnosz.models.dew.water_DEW">water_DEW</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.models.dew.DEWWater" href="#pychnosz.models.dew.DEWWater">DEWWater</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.dew.DEWWater.available_properties" href="#pychnosz.models.dew.DEWWater.available_properties">available_properties</a></code></li>
+<li><code><a title="pychnosz.models.dew.DEWWater.calculate" href="#pychnosz.models.dew.DEWWater.calculate">calculate</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

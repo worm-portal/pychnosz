@@ -1,0 +1,971 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.utils API documentation</title>
+<meta name="description" content="Utility functions for CHNOSZ calculations.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.utils</code></h1>
+</header>
+<section id="section-intro">
+<p>Utility functions for CHNOSZ calculations.</p>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="pychnosz.utils.expression" href="expression.html">pychnosz.utils.expression</a></code></dt>
+<dd>
+<div class="desc"><p>Expression utilities for formatted labels and text …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.utils.formula" href="formula.html">pychnosz.utils.formula</a></code></dt>
+<dd>
+<div class="desc"><p>Chemical formula parsing and manipulation utilities …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.utils.formula_ox" href="formula_ox.html">pychnosz.utils.formula_ox</a></code></dt>
+<dd>
+<div class="desc"><p>Formula oxidation state utilities for CHNOSZ …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.utils.units" href="units.html">pychnosz.utils.units</a></code></dt>
+<dd>
+<div class="desc"><p>Unit conversion utilities for CHNOSZ …</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.utils.ZC"><code class="name flex">
+<span>def <span class="ident">ZC</span></span>(<span>formula: str | int | List[str | int]) ‑> float | List[float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ZC(formula: Union[str, int, List[Union[str, int]]]) -&gt; Union[float, List[float]]:
+    &#34;&#34;&#34;
+    Calculate average oxidation state of carbon in chemical formulas.
+    
+    Parameters
+    ----------
+    formula : str, int, or list
+        Chemical formula(s) or species index(es)
+        
+    Returns
+    -------
+    float or list of float
+        Average oxidation state(s) of carbon
+    &#34;&#34;&#34;
+    # Get elemental compositions
+    compositions = makeup(formula, count_zero=False)
+    if not isinstance(compositions, list):
+        compositions = [compositions]
+    
+    results = []
+    
+    # Nominal charges of elements
+    known_elements = [&#39;H&#39;, &#39;N&#39;, &#39;O&#39;, &#39;S&#39;, &#39;Z&#39;]
+    charges = [-1, 3, 2, 2, 1]
+    
+    for comp in compositions:
+        if comp is None or &#39;C&#39; not in comp:
+            results.append(np.nan)
+            continue
+        
+        # Calculate total charge from known elements
+        total_charge = 0
+        unknown_elements = []
+        
+        for element, count in comp.items():
+            if element == &#39;C&#39;:
+                continue
+            elif element in known_elements:
+                idx = known_elements.index(element)
+                total_charge += count * charges[idx]
+            else:
+                unknown_elements.append(element)
+        
+        if unknown_elements:
+            warnings.warn(f&#34;element(s) {&#39; &#39;.join(unknown_elements)} not in &#34;
+                         f&#34;{&#39; &#39;.join(known_elements)} so not included in ZC calculation&#34;)
+        
+        # Calculate carbon oxidation state
+        n_carbon = comp[&#39;C&#39;]
+        zc = total_charge / n_carbon
+        results.append(zc)
+    
+    if len(results) == 1:
+        return results[0]
+    else:
+        return results</code></pre>
+</details>
+<div class="desc"><p>Calculate average oxidation state of carbon in chemical formulas.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, int,</code> or <code>list</code></dt>
+<dd>Chemical formula(s) or species index(es)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code> or <code>list</code> of <code>float</code></dt>
+<dd>Average oxidation state(s) of carbon</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.as_chemical_formula"><code class="name flex">
+<span>def <span class="ident">as_chemical_formula</span></span>(<span>makeup_dict: Dict[str, float] | pandas.core.frame.DataFrame,<br>drop_zero: bool = True) ‑> str | List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def as_chemical_formula(makeup_dict: Union[Dict[str, float], pd.DataFrame], 
+                       drop_zero: bool = True) -&gt; Union[str, List[str]]:
+    &#34;&#34;&#34;
+    Convert elemental makeup to chemical formula string(s).
+    
+    Parameters
+    ----------
+    makeup_dict : dict or DataFrame
+        Elemental composition(s)
+    drop_zero : bool
+        Whether to exclude zero coefficients
+        
+    Returns
+    -------
+    str or list of str
+        Chemical formula string(s)
+    &#34;&#34;&#34;
+    if isinstance(makeup_dict, pd.DataFrame):
+        # Handle matrix of compositions
+        results = []
+        for i in range(len(makeup_dict)):
+            row_dict = makeup_dict.iloc[i].to_dict()
+            formula = _dict_to_formula(row_dict, drop_zero)
+            results.append(formula)
+        return results
+    else:
+        # Handle single composition
+        return _dict_to_formula(makeup_dict, drop_zero)</code></pre>
+</details>
+<div class="desc"><p>Convert elemental makeup to chemical formula string(s).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>makeup_dict</code></strong> :&ensp;<code>dict</code> or <code>DataFrame</code></dt>
+<dd>Elemental composition(s)</dd>
+<dt><strong><code>drop_zero</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Whether to exclude zero coefficients</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Chemical formula string(s)</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.calculate_ghs"><code class="name flex">
+<span>def <span class="ident">calculate_ghs</span></span>(<span>formula: str,<br>G: float = nan,<br>H: float = nan,<br>S: float = nan,<br>T: float = 298.15,<br>E_units: str = 'J') ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_ghs(formula: str, G: float = np.nan, H: float = np.nan, 
+                 S: float = np.nan, T: float = 298.15, 
+                 E_units: str = &#34;J&#34;) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate missing G, H, or S from the other two values.
+    
+    Parameters
+    ----------
+    formula : str
+        Chemical formula
+    G : float
+        Gibbs energy of formation
+    H : float
+        Enthalpy of formation  
+    S : float
+        Standard entropy
+    T : float
+        Temperature in K
+    E_units : str
+        Energy units (&#34;J&#34; or &#34;cal&#34;)
+        
+    Returns
+    -------
+    dict
+        Dictionary with G, H, S values
+    &#34;&#34;&#34;
+    # Calculate elemental entropy
+    Se = entropy(formula)
+    if E_units == &#34;cal&#34;:
+        Se = Se / 4.184  # Convert J to cal
+    
+    # Calculate missing value
+    if pd.isna(G):
+        G = H - T * (S - Se)
+    elif pd.isna(H):
+        H = G + T * (S - Se)
+    elif pd.isna(S):
+        S = (H - G) / T + Se
+    
+    return {&#34;G&#34;: G, &#34;H&#34;: H, &#34;S&#34;: S}</code></pre>
+</details>
+<div class="desc"><p>Calculate missing G, H, or S from the other two values.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str</code></dt>
+<dd>Chemical formula</dd>
+<dt><strong><code>G</code></strong> :&ensp;<code>float</code></dt>
+<dd>Gibbs energy of formation</dd>
+<dt><strong><code>H</code></strong> :&ensp;<code>float</code></dt>
+<dd>Enthalpy of formation</dd>
+<dt><strong><code>S</code></strong> :&ensp;<code>float</code></dt>
+<dd>Standard entropy</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Temperature in K</dd>
+<dt><strong><code>E_units</code></strong> :&ensp;<code>str</code></dt>
+<dd>Energy units ("J" or "cal")</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with G, H, S values</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.entropy"><code class="name flex">
+<span>def <span class="ident">entropy</span></span>(<span>formula: str | int | List[str | int]) ‑> float | List[float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def entropy(formula: Union[str, int, List[Union[str, int]]]) -&gt; Union[float, List[float]]:
+    &#34;&#34;&#34;
+    Calculate standard molal entropy of elements in chemical formulas.
+    
+    Parameters
+    ----------
+    formula : str, int, or list
+        Chemical formula(s) or species index(es)
+        
+    Returns
+    -------
+    float or list of float
+        Standard entropy(ies) in J/(mol*K)
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+    if thermo_obj.element is None:
+        raise RuntimeError(&#34;Element data not available&#34;)
+    
+    # Convert to stoichiometric matrix
+    compositions = makeup(formula, count_zero=False)
+    if not isinstance(compositions, list):
+        compositions = [compositions]
+    
+    entropies = []
+    
+    for comp in compositions:
+        if comp is None:
+            entropies.append(np.nan)
+            continue
+        
+        total_entropy = 0.0
+        has_na = False
+        
+        for element, count in comp.items():
+            
+            # Look up element entropy
+            element_data = thermo_obj.element[thermo_obj.element[&#39;element&#39;] == element]
+            if len(element_data) == 0:
+                warnings.warn(f&#34;Element {element} not available in thermo().element&#34;)
+                has_na = True
+                continue
+            
+            element_s = element_data.iloc[0][&#39;s&#39;]
+            element_n = element_data.iloc[0][&#39;n&#39;]
+            
+            if pd.isna(element_s) or pd.isna(element_n):
+                has_na = True
+                continue
+            
+            # Entropy per atom
+            entropy_per_atom = element_s / element_n
+            total_entropy += count * entropy_per_atom
+        
+        if has_na and total_entropy == 0:
+            entropies.append(np.nan)
+        else:
+            # Convert to Joules (assuming input is in cal)
+            entropies.append(total_entropy * 4.184)  # cal to J conversion
+    
+    if len(entropies) == 1:
+        return entropies[0]
+    else:
+        return entropies</code></pre>
+</details>
+<div class="desc"><p>Calculate standard molal entropy of elements in chemical formulas.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, int,</code> or <code>list</code></dt>
+<dd>Chemical formula(s) or species index(es)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code> or <code>list</code> of <code>float</code></dt>
+<dd>Standard entropy(ies) in J/(mol*K)</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.get_formula"><code class="name flex">
+<span>def <span class="ident">get_formula</span></span>(<span>formula: str | int | List[str | int]) ‑> str | List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_formula(formula: Union[str, int, List[Union[str, int]]]) -&gt; Union[str, List[str]]:
+    &#34;&#34;&#34;
+    Get chemical formulas for species indices or return formula strings.
+    
+    Parameters
+    ----------
+    formula : str, int, or list
+        Chemical formula(s) or species index(es)
+        
+    Returns
+    -------
+    str or list of str
+        Chemical formula(s)
+    &#34;&#34;&#34;
+    # Handle single values
+    if not isinstance(formula, list):
+        formula = [formula]
+        single_result = True
+    else:
+        single_result = False
+    
+    results = []
+    thermo_obj = thermo()
+    
+    for f in formula:
+        if isinstance(f, str):
+            # Already a formula
+            results.append(f)
+        elif isinstance(f, int):
+            # Species index - look up formula
+            if thermo_obj.obigt is not None:
+                # Use .loc for label-based indexing (species indices are 1-based labels)
+                if f in thermo_obj.obigt.index:
+                    formula_str = thermo_obj.obigt.loc[f, &#39;formula&#39;]
+                    results.append(formula_str)
+                else:
+                    raise FormulaError(f&#34;Species index {f} not found in OBIGT database&#34;)
+            else:
+                raise FormulaError(&#34;Thermodynamic database not initialized&#34;)
+        else:
+            # Try to convert to string
+            results.append(str(f))
+    
+    if single_result:
+        return results[0]
+    else:
+        return results</code></pre>
+</details>
+<div class="desc"><p>Get chemical formulas for species indices or return formula strings.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, int,</code> or <code>list</code></dt>
+<dd>Chemical formula(s) or species index(es)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Chemical formula(s)</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.i2A"><code class="name flex">
+<span>def <span class="ident">i2A</span></span>(<span>formula: str | List[str] | Dict[str, float]) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def i2A(formula: Union[str, List[str], Dict[str, float]]) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Convert formula(s) to stoichiometric matrix.
+    
+    Parameters
+    ----------
+    formula : str, list, or dict
+        Chemical formula(s) or composition
+        
+    Returns
+    -------
+    np.ndarray
+        Stoichiometric matrix with elements as columns
+    &#34;&#34;&#34;
+    if isinstance(formula, np.ndarray):
+        return formula
+    elif isinstance(formula, dict) and all(isinstance(k, str) for k in formula.keys()):
+        # Single composition dictionary
+        return np.array([[formula.get(k, 0) for k in sorted(formula.keys())]])
+    
+    # Get compositions with zero padding
+    compositions = makeup(formula, count_zero=True)
+    if not isinstance(compositions, list):
+        compositions = [compositions]
+    
+    # Get all elements
+    all_elements = set()
+    for comp in compositions:
+        if comp is not None:
+            all_elements.update(comp.keys())
+    
+    all_elements = sorted(list(all_elements))
+    
+    # Build matrix
+    matrix = np.zeros((len(compositions), len(all_elements)))
+    for i, comp in enumerate(compositions):
+        if comp is not None:
+            for j, element in enumerate(all_elements):
+                matrix[i, j] = comp.get(element, 0)
+    
+    return matrix</code></pre>
+</details>
+<div class="desc"><p>Convert formula(s) to stoichiometric matrix.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, list,</code> or <code>dict</code></dt>
+<dd>Chemical formula(s) or composition</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Stoichiometric matrix with elements as columns</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.makeup"><code class="name flex">
+<span>def <span class="ident">makeup</span></span>(<span>formula: str | int | List[str | int],<br>multiplier: float | List[float] = 1.0,<br>sum_formulas: bool = False,<br>count_zero: bool = False) ‑> Dict[str, float] | List[Dict[str, float]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def makeup(formula: Union[str, int, List[Union[str, int]]], 
+           multiplier: Union[float, List[float]] = 1.0,
+           sum_formulas: bool = False,
+           count_zero: bool = False) -&gt; Union[Dict[str, float], List[Dict[str, float]]]:
+    &#34;&#34;&#34;
+    Return elemental makeup (counts) of chemical formula(s).
+    
+    Handles formulas with parenthetical subformulas, suffixed formulas,
+    charges, and fractional coefficients.
+    
+    Parameters
+    ----------
+    formula : str, int, or list
+        Chemical formula(s) or species index(es)
+    multiplier : float or list of float
+        Multiplier(s) to apply to formula coefficients
+    sum_formulas : bool
+        If True, return sum of all formulas
+    count_zero : bool
+        If True, include zero counts for all elements appearing in any formula
+        
+    Returns
+    -------
+    dict or list of dict
+        Elemental composition(s) as {element: count} dictionaries
+        
+    Examples
+    --------
+    &gt;&gt;&gt; makeup(&#34;H2O&#34;)
+    {&#39;H&#39;: 2, &#39;O&#39;: 1}
+    
+    &gt;&gt;&gt; makeup(&#34;Ca(OH)2&#34;)
+    {&#39;Ca&#39;: 1, &#39;O&#39;: 2, &#39;H&#39;: 2}
+    
+    &gt;&gt;&gt; makeup([&#34;H2O&#34;, &#34;CO2&#34;])
+    [{&#39;H&#39;: 2, &#39;O&#39;: 1}, {&#39;C&#39;: 1, &#39;O&#39;: 2}]
+    &#34;&#34;&#34;
+    # Handle matrix input
+    if isinstance(formula, np.ndarray) and formula.ndim == 2:
+        return [makeup(formula[i, :]) for i in range(formula.shape[0])]
+    
+    # Handle named numeric objects (return unchanged)
+    if isinstance(formula, dict) and all(isinstance(k, str) for k in formula.keys()):
+        return formula
+    
+    # Handle list of named objects
+    if isinstance(formula, list) and len(formula) &gt; 0:
+        if isinstance(formula[0], dict) and all(isinstance(k, str) for k in formula[0].keys()):
+            return formula
+    
+    # Prepare multiplier
+    if not isinstance(multiplier, list):
+        multiplier = [multiplier]
+    
+    # Handle multiple formulas
+    if isinstance(formula, list):
+        if len(multiplier) != 1 and len(multiplier) != len(formula):
+            raise ValueError(&#34;multiplier does not have length = 1 or length = number of formulas&#34;)
+        
+        if len(multiplier) == 1:
+            multiplier = multiplier * len(formula)
+        
+        # Get formulas for any species indices
+        formula = get_formula(formula)
+        
+        results = []
+        for i, f in enumerate(formula):
+            result = makeup(f, multiplier[i])
+            results.append(result)
+        
+        # Handle sum_formulas option
+        if sum_formulas:
+            all_elements = set()
+            for result in results:
+                if result is not None:
+                    all_elements.update(result.keys())
+            
+            summed = {}
+            for element in all_elements:
+                summed[element] = sum(result.get(element, 0) for result in results if result is not None)
+            return summed
+        
+        # Handle count_zero option
+        elif count_zero:
+            # Get all elements appearing in any formula
+            all_elements = set()
+            for result in results:
+                if result is not None:
+                    all_elements.update(result.keys())
+            
+            # Add zero counts for missing elements
+            complete_results = []
+            for result in results:
+                if result is None:
+                    complete_result = {element: np.nan for element in all_elements}
+                else:
+                    complete_result = {element: result.get(element, 0) for element in all_elements}
+                complete_results.append(complete_result)
+            
+            return complete_results
+        
+        return results
+    
+    # Handle single formula
+    if isinstance(formula, int):
+        # Get formula from species index
+        thermo_obj = thermo()
+        if thermo_obj.obigt is not None:
+            # Use .loc for label-based indexing (species indices are 1-based labels)
+            if formula in thermo_obj.obigt.index:
+                formula = thermo_obj.obigt.loc[formula, &#39;formula&#39;]
+            else:
+                raise FormulaError(f&#34;Species index {formula} not found in OBIGT database&#34;)
+        else:
+            raise FormulaError(&#34;Thermodynamic database not initialized&#34;)
+    
+    if formula is None or pd.isna(formula):
+        return None
+    
+    # Parse single formula
+    try:
+        result = _parse_formula(str(formula))
+        
+        # Apply multiplier
+        if multiplier[0] != 1.0:
+            result = {element: count * multiplier[0] for element, count in result.items()}
+        
+        # Validate elements
+        _validate_elements(result)
+        
+        return result
+    
+    except Exception as e:
+        raise FormulaError(f&#34;Error parsing formula &#39;{formula}&#39;: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Return elemental makeup (counts) of chemical formula(s).</p>
+<p>Handles formulas with parenthetical subformulas, suffixed formulas,
+charges, and fractional coefficients.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, int,</code> or <code>list</code></dt>
+<dd>Chemical formula(s) or species index(es)</dd>
+<dt><strong><code>multiplier</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code></dt>
+<dd>Multiplier(s) to apply to formula coefficients</dd>
+<dt><strong><code>sum_formulas</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If True, return sum of all formulas</dd>
+<dt><strong><code>count_zero</code></strong> :&ensp;<code>bool</code></dt>
+<dd>If True, include zero counts for all elements appearing in any formula</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code> or <code>list</code> of <code>dict</code></dt>
+<dd>Elemental composition(s) as {element: count} dictionaries</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; makeup(&quot;H2O&quot;)
+{'H': 2, 'O': 1}
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; makeup(&quot;Ca(OH)2&quot;)
+{'Ca': 1, 'O': 2, 'H': 2}
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; makeup([&quot;H2O&quot;, &quot;CO2&quot;])
+[{'H': 2, 'O': 1}, {'C': 1, 'O': 2}]
+</code></pre></div>
+</dd>
+<dt id="pychnosz.utils.mass"><code class="name flex">
+<span>def <span class="ident">mass</span></span>(<span>formula: str | int | List[str | int]) ‑> float | List[float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mass(formula: Union[str, int, List[Union[str, int]]]) -&gt; Union[float, List[float]]:
+    &#34;&#34;&#34;
+    Calculate molecular mass of chemical formula(s).
+    
+    Parameters
+    ----------
+    formula : str, int, or list
+        Chemical formula(s) or species index(es)
+        
+    Returns
+    -------
+    float or list of float
+        Molecular mass(es) in g/mol
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+    if thermo_obj.element is None:
+        raise RuntimeError(&#34;Element data not available&#34;)
+    
+    # Convert to stoichiometric matrix
+    compositions = makeup(formula, count_zero=False)
+    if not isinstance(compositions, list):
+        compositions = [compositions]
+    
+    masses = []
+    
+    for comp in compositions:
+        if comp is None:
+            masses.append(np.nan)
+            continue
+        
+        total_mass = 0.0
+        for element, count in comp.items():
+            if element == &#39;Z&#39;:
+                continue  # Charge has no mass
+            
+            # Look up element mass
+            element_data = thermo_obj.element[thermo_obj.element[&#39;element&#39;] == element]
+            if len(element_data) == 0:
+                raise FormulaError(f&#34;Element {element} not found in element database&#34;)
+            
+            element_mass = element_data.iloc[0][&#39;mass&#39;]
+            total_mass += count * element_mass
+        
+        masses.append(total_mass)
+    
+    if len(masses) == 1:
+        return masses[0]
+    else:
+        return masses</code></pre>
+</details>
+<div class="desc"><p>Calculate molecular mass of chemical formula(s).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>formula</code></strong> :&ensp;<code>str, int,</code> or <code>list</code></dt>
+<dd>Chemical formula(s) or species index(es)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code> or <code>list</code> of <code>float</code></dt>
+<dd>Molecular mass(es) in g/mol</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.utils.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>messages: bool = True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(messages: bool = True):
+    &#34;&#34;&#34;
+    Initialize or reset the CHNOSZ thermodynamic system.
+
+    This function initializes the global thermodynamic system by loading
+    all thermodynamic data files, setting up the OBIGT database, and
+    preparing the system for calculations.
+
+    This is equivalent to the reset() function in the R version of CHNOSZ.
+
+    Parameters
+    ----------
+    messages : bool, default True
+        Whether to print informational messages
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.reset()  # Initialize the system
+    reset: thermodynamic system initialized
+    &#34;&#34;&#34;
+    thermo_system = get_thermo_system()
+    thermo_system.reset(messages=messages)</code></pre>
+</details>
+<div class="desc"><p>Initialize or reset the CHNOSZ thermodynamic system.</p>
+<p>This function initializes the global thermodynamic system by loading
+all thermodynamic data files, setting up the OBIGT database, and
+preparing the system for calculations.</p>
+<p>This is equivalent to the reset() function in the R version of CHNOSZ.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.reset()  # Initialize the system
+reset: thermodynamic system initialized
+</code></pre></div>
+</dd>
+<dt id="pychnosz.utils.species_basis"><code class="name flex">
+<span>def <span class="ident">species_basis</span></span>(<span>species: List[int] | numpy.ndarray,<br>makeup_matrix: numpy.ndarray | None = None,<br>basis_df: pandas.core.frame.DataFrame | None = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def species_basis(species: Union[List[int], np.ndarray],
+                  makeup_matrix: Optional[np.ndarray] = None,
+                  basis_df: Optional[pd.DataFrame] = None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Calculate coefficients for formation reactions from basis species.
+
+    Parameters
+    ----------
+    species : list of int or array
+        Species indices in thermo().obigt
+    makeup_matrix : array, optional
+        Pre-calculated makeup matrix
+    basis_df : pd.DataFrame, optional
+        Basis definition to use (if not using global basis)
+
+    Returns
+    -------
+    np.ndarray
+        Formation reaction coefficients matrix
+    &#34;&#34;&#34;
+    from ..core.basis import basis_elements, get_basis
+
+    # Follow R CHNOSZ species.basis algorithm exactly
+    from ..core.thermo import thermo
+
+    # Get basis dataframe
+    if basis_df is None:
+        basis_df = get_basis()
+        if basis_df is None:
+            raise RuntimeError(&#34;Basis species not defined&#34;)
+
+    # Get basis element names
+    basis_element_names = [col for col in basis_df.columns
+                          if col not in [&#39;ispecies&#39;, &#39;logact&#39;, &#39;state&#39;]]
+
+    # Calculate basis elements matrix from basis_df
+    element_cols = [col for col in basis_df.columns
+                   if col not in [&#39;ispecies&#39;, &#39;logact&#39;, &#39;state&#39;]]
+    bmat = basis_df[element_cols].values.T
+
+    # basis_elements() already returns transposed matrix (equivalent to R tbmat)
+    tbmat = bmat
+
+    # Get thermo object for species lookup
+    thermo_obj = thermo()
+
+    # Initialize result matrix
+    n_species = len(species)
+    n_basis = len(basis_element_names)
+    formation_coeffs = np.zeros((n_species, n_basis))
+
+    # Process each species individually (following R apply logic)
+    for i, sp_idx in enumerate(species):
+        # Get species makeup (equivalent to R mkp &lt;- as.matrix(sapply(makeup(species), c)))
+        formula = thermo_obj.obigt.iloc[sp_idx - 1][&#39;formula&#39;]
+        sp_makeup = makeup([formula], count_zero=True)[0]
+
+        # Convert makeup to array ordered by elements present in species
+        sp_elements = list(sp_makeup.keys())
+        sp_values = np.array(list(sp_makeup.values()))
+
+        # Find positions of species elements in basis elements (R ielem &lt;- match)
+        # All species elements must be in basis
+        missing_elements = []
+        for elem in sp_elements:
+            if elem not in basis_element_names:
+                missing_elements.append(elem)
+        if missing_elements:
+            raise RuntimeError(f&#34;element(s) not in the basis: {&#39; &#39;.join(missing_elements)}&#34;)
+
+        # Find positions of basis elements in species elements (R jelem &lt;- match)
+        jelem = []
+        for elem in basis_element_names:
+            try:
+                jelem.append(sp_elements.index(elem))
+            except ValueError:
+                jelem.append(None)  # NA in R
+
+        # Reorder species matrix to match basis elements (R mkp &lt;- mkp[jelem, , drop = FALSE])
+        sp_makeup_ordered = np.zeros(len(basis_element_names))
+        for j, pos in enumerate(jelem):
+            if pos is not None:
+                sp_makeup_ordered[j] = sp_values[pos]
+            # else remains 0 (equivalent to R mkp[ina, ] &lt;- 0)
+
+        # Solve linear system: tbmat @ coeffs = sp_makeup_ordered
+        # This is equivalent to R solve(tbmat, x)
+        try:
+            coeffs = np.linalg.solve(tbmat, sp_makeup_ordered)
+        except np.linalg.LinAlgError:
+            raise RuntimeError(f&#34;Singular basis matrix for species {sp_idx}&#34;)
+
+        # Apply R zapsmall equivalent (digits=7)
+        coeffs = np.around(coeffs, decimals=7)
+
+        # Clean up very small numbers
+        coeffs[np.abs(coeffs) &lt; 1e-7] = 0
+
+        formation_coeffs[i, :] = coeffs
+
+    return formation_coeffs</code></pre>
+</details>
+<div class="desc"><p>Calculate coefficients for formation reactions from basis species.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>list</code> of <code>int</code> or <code>array</code></dt>
+<dd>Species indices in thermo().obigt</dd>
+<dt><strong><code>makeup_matrix</code></strong> :&ensp;<code>array</code>, optional</dt>
+<dd>Pre-calculated makeup matrix</dd>
+<dt><strong><code>basis_df</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
+<dd>Basis definition to use (if not using global basis)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Formation reaction coefficients matrix</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.utils.FormulaError"><code class="flex name class">
+<span>class <span class="ident">FormulaError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class FormulaError(Exception):
+    &#34;&#34;&#34;Exception raised for formula parsing errors.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Exception raised for formula parsing errors.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz" href="../index.html">pychnosz</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="pychnosz.utils.expression" href="expression.html">pychnosz.utils.expression</a></code></li>
+<li><code><a title="pychnosz.utils.formula" href="formula.html">pychnosz.utils.formula</a></code></li>
+<li><code><a title="pychnosz.utils.formula_ox" href="formula_ox.html">pychnosz.utils.formula_ox</a></code></li>
+<li><code><a title="pychnosz.utils.units" href="units.html">pychnosz.utils.units</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="pychnosz.utils.ZC" href="#pychnosz.utils.ZC">ZC</a></code></li>
+<li><code><a title="pychnosz.utils.as_chemical_formula" href="#pychnosz.utils.as_chemical_formula">as_chemical_formula</a></code></li>
+<li><code><a title="pychnosz.utils.calculate_ghs" href="#pychnosz.utils.calculate_ghs">calculate_ghs</a></code></li>
+<li><code><a title="pychnosz.utils.entropy" href="#pychnosz.utils.entropy">entropy</a></code></li>
+<li><code><a title="pychnosz.utils.get_formula" href="#pychnosz.utils.get_formula">get_formula</a></code></li>
+<li><code><a title="pychnosz.utils.i2A" href="#pychnosz.utils.i2A">i2A</a></code></li>
+<li><code><a title="pychnosz.utils.makeup" href="#pychnosz.utils.makeup">makeup</a></code></li>
+<li><code><a title="pychnosz.utils.mass" href="#pychnosz.utils.mass">mass</a></code></li>
+<li><code><a title="pychnosz.utils.reset" href="#pychnosz.utils.reset">reset</a></code></li>
+<li><code><a title="pychnosz.utils.species_basis" href="#pychnosz.utils.species_basis">species_basis</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.utils.FormulaError" href="#pychnosz.utils.FormulaError">FormulaError</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

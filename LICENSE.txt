@@ -1,4 +1,4 @@
-Copyright (c) 2025 Grayson Boyer and GEOPIG Lab
+Copyright (c) 2025 Grayson Boyer and GEOPIG Lab. The original CHNOSZ belongs to Jeff Dick.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

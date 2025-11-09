@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.data.mod_obigt API documentation</title>
+<meta name="description" content="Implementation of mod_OBIGT() function for Python CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.data.mod_obigt</code></h1>
+</header>
+<section id="section-intro">
+<p>Implementation of mod_OBIGT() function for Python CHNOSZ.</p>
+<p>This function modifies or adds entries to the thermodynamic database,
+mimicking the behavior of R CHNOSZ mod.OBIGT() function.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.data.mod_obigt.mod_OBIGT"><code class="name flex">
+<span>def <span class="ident">mod_OBIGT</span></span>(<span>*args, zap: bool = False, **kwargs) ‑> int | List[int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mod_OBIGT(*args, zap: bool = False, **kwargs) -&gt; Union[int, List[int]]:
+    &#34;&#34;&#34;
+    Add or modify species in the thermodynamic database.
+
+    This function replicates the behavior of R CHNOSZ mod.OBIGT() by allowing
+    modification of existing species or addition of new species to thermo().obigt.
+
+    Parameters
+    ----------
+    *args : int, str, list, or dict
+        If first argument is numeric: species index or indices to modify
+        If first argument is str: species name(s) to modify or add
+        If first argument is list/dict: contains all parameters
+    zap : bool, default False
+        If True, clear all properties except state and model before updating
+    **kwargs : any
+        Named properties to set (e.g., G=-100, S=50, formula=&#34;H2O&#34;)
+        Special properties: name, state, formula, model, E_units
+
+    Returns
+    -------
+    int or list of int
+        Species index or indices that were modified/added
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.reset()
+    &gt;&gt;&gt; # Add new species
+    &gt;&gt;&gt; i = pychnosz.mod_OBIGT(&#34;myspecies&#34;, formula=&#34;C2H6&#34;, G=-100, S=50)
+
+    &gt;&gt;&gt; # Modify existing species
+    &gt;&gt;&gt; i = pychnosz.mod_OBIGT(&#34;water&#34;, state=&#34;liq&#34;, G=-56690)
+
+    &gt;&gt;&gt; # Modify by index
+    &gt;&gt;&gt; i_h2o = pychnosz.info(&#34;water&#34;, &#34;liq&#34;)
+    &gt;&gt;&gt; i = pychnosz.mod_OBIGT(i_h2o, G=-56690)
+
+    &gt;&gt;&gt; # Add multiple species
+    &gt;&gt;&gt; i = pychnosz.mod_OBIGT([&#34;X&#34;, &#34;Y&#34;], formula=[&#34;C12&#34;, &#34;C13&#34;], state=[&#34;aq&#34;, &#34;cr&#34;])
+
+    Notes
+    -----
+    This function modifies the thermo() object in place.
+    The behavior exactly matches R CHNOSZ mod.OBIGT().
+    &#34;&#34;&#34;
+
+    # Get the thermo system
+    thermo_sys = thermo()
+
+    # Ensure the thermodynamic system is initialized
+    if not thermo_sys.is_initialized() or thermo_sys.obigt is None:
+        raise RuntimeError(&#34;Thermodynamic system not initialized. Run reset() first.&#34;)
+
+    # Process arguments
+    # If called with a dict as first arg (like R&#39;s list)
+    if len(args) == 1 and isinstance(args[0], dict):
+        params = args[0].copy()
+    elif len(args) &gt; 0:
+        # First positional argument could be species index or name
+        first_arg = args[0]
+        params = kwargs.copy()
+
+        # Check if first argument is numeric (species index/indices)
+        if isinstance(first_arg, (int, np.integer)):
+            params[&#39;_index&#39;] = first_arg
+        elif isinstance(first_arg, (list, tuple)) and len(first_arg) &gt; 0:
+            if isinstance(first_arg[0], (int, np.integer)):
+                params[&#39;_index&#39;] = list(first_arg)
+            else:
+                # First arg is list of names
+                params[&#39;name&#39;] = list(first_arg)
+        else:
+            # First arg is species name
+            # If first arg name is not in kwargs, it&#39;s the species name
+            if &#39;name&#39; not in params:
+                params[&#39;name&#39;] = first_arg
+    else:
+        params = kwargs.copy()
+
+    # Validate we have at least a name/index and one property
+    if &#39;_index&#39; not in params and &#39;name&#39; not in params:
+        raise ValueError(&#34;Please supply at least a species name and a property to update&#34;)
+
+    # Check that we have at least one property
+    # When using index: exclude _index and state from property count
+    # When using name: exclude name and state from property count (name is identifier, not property)
+    if &#39;_index&#39; in params:
+        property_keys = set(params.keys()) - {&#39;_index&#39;, &#39;state&#39;}
+    else:
+        property_keys = set(params.keys()) - {&#39;name&#39;, &#39;state&#39;}
+
+    if len(property_keys) == 0:
+        raise ValueError(&#34;Please supply at least a species name and a property to update&#34;)
+
+    # Get species indices
+    if &#39;_index&#39; in params:
+        # Working with indices
+        ispecies_input = params[&#39;_index&#39;]
+        if not isinstance(ispecies_input, list):
+            ispecies_input = [ispecies_input]
+        del params[&#39;_index&#39;]
+
+        # Get species names from indices
+        speciesname = []
+        for idx in ispecies_input:
+            sp_info = info(idx)
+            speciesname.append(sp_info[&#39;name&#39;].iloc[0] if isinstance(sp_info, pd.DataFrame) else sp_info[&#39;name&#39;])
+
+        ispecies = ispecies_input
+    else:
+        # Working with names
+        names = params.get(&#39;name&#39;)
+        if not isinstance(names, list):
+            names = [names]
+
+        states = params.get(&#39;state&#39;)
+        if states is not None and not isinstance(states, list):
+            states = [states]
+
+        speciesname = names
+
+        # Find species indices
+        ispecies = []
+        for i, name in enumerate(names):
+            state = states[i] if states and i &lt; len(states) else None
+            try:
+                if state:
+                    idx = info(name, state)
+                else:
+                    idx = info(name)
+
+                # info() returns an int if found
+                if isinstance(idx, (int, np.integer)):
+                    ispecies.append(int(idx))
+                else:
+                    # Not found
+                    ispecies.append(None)
+            except:
+                # Species doesn&#39;t exist - will be added
+                ispecies.append(None)
+
+    # Convert params to DataFrame format
+    # Handle list values vs single values
+    nspecies = len(ispecies)
+    param_df = {}
+    for key, value in params.items():
+        if isinstance(value, list):
+            if len(value) != nspecies:
+                raise ValueError(f&#34;Length of &#39;{key}&#39; ({len(value)}) doesn&#39;t match number of species ({nspecies})&#34;)
+            param_df[key] = value
+        else:
+            param_df[key] = [value] * nspecies
+
+    # Create DataFrame of arguments
+    args_df = pd.DataFrame(param_df)
+
+    # Get column names of OBIGT (handle split names with &#34;.&#34;)
+    obigt_cols = thermo_sys.obigt.columns.tolist()
+
+    # Map parameter names to column names (handle dot notation)
+    # e.g., &#34;E.units&#34; can be accessed as &#34;E_units&#34;
+    col_mapping = {}
+    for col in obigt_cols:
+        col_mapping[col] = col
+        col_mapping[col.replace(&#39;_&#39;, &#39;.&#39;)] = col
+        # Also map first part before dot
+        if &#39;_&#39; in col:
+            col_mapping[col.split(&#39;_&#39;)[0]] = col
+
+    # Determine which columns we&#39;re updating
+    icol = []
+    icol_names = []
+    for key in args_df.columns:
+        if key in col_mapping:
+            icol_names.append(col_mapping[key])
+            icol.append(obigt_cols.index(col_mapping[key]))
+        else:
+            raise ValueError(f&#34;Property &#39;{key}&#39; not in thermo$OBIGT&#34;)
+
+    # Separate new species from existing ones
+    inew = [i for i, idx in enumerate(ispecies) if idx is None]
+    iold = [i for i, idx in enumerate(ispecies) if idx is not None]
+
+    result_indices = []
+
+    # Add new species
+    if len(inew) &gt; 0:
+        # Create blank rows
+        newrows = pd.DataFrame(index=range(len(inew)), columns=obigt_cols)
+        newrows[:] = np.nan
+
+        # Set defaults
+        default_state = thermo_sys.opt.get(&#39;state&#39;, &#39;aq&#39;)
+        default_units = thermo_sys.opt.get(&#39;E.units&#39;, &#39;J&#39;)
+
+        newrows[&#39;state&#39;] = default_state
+        newrows[&#39;E_units&#39;] = default_units
+
+        # Set formula from name if not provided
+        for i, idx in enumerate(inew):
+            if &#39;formula&#39; in args_df.columns:
+                newrows.at[i, &#39;formula&#39;] = args_df.iloc[idx][&#39;formula&#39;]
+            else:
+                newrows.at[i, &#39;formula&#39;] = args_df.iloc[idx][&#39;name&#39;]
+
+        # Fill in provided columns
+        for i, idx in enumerate(inew):
+            for col_name in icol_names:
+                if col_name in args_df.columns:
+                    newrows.at[i, col_name] = args_df.at[idx, col_name]
+
+        # Guess model from state
+        for i in range(len(newrows)):
+            if pd.isna(newrows.iloc[i][&#39;model&#39;]):
+                if newrows.iloc[i][&#39;state&#39;] == &#39;aq&#39;:
+                    newrows.at[i, &#39;model&#39;] = &#39;HKF&#39;
+                else:
+                    newrows.at[i, &#39;model&#39;] = &#39;CGL&#39;
+
+        # Validate formulas
+        for i in range(len(newrows)):
+            formula = newrows.iloc[i][&#39;formula&#39;]
+            try:
+                makeup(formula)
+            except Exception as e:
+                warnings.warn(&#34;Please supply a valid chemical formula as the species name or in the &#39;formula&#39; argument&#34;)
+                raise e
+
+        # Add to OBIGT
+        ntotal_before = len(thermo_sys.obigt)
+        thermo_sys.obigt = pd.concat([thermo_sys.obigt, newrows], ignore_index=True)
+
+        # Reset index to 1-based
+        thermo_sys.obigt.index = range(1, len(thermo_sys.obigt) + 1)
+
+        # Update ispecies for new entries
+        for i, idx in enumerate(inew):
+            new_idx = ntotal_before + i + 1
+            if idx &lt; len(ispecies):
+                ispecies[idx] = new_idx
+            result_indices.append(new_idx)
+
+            # Print message
+            name = newrows.iloc[i][&#39;name&#39;]
+            state = newrows.iloc[i][&#39;state&#39;]
+            model = newrows.iloc[i][&#39;model&#39;]
+            e_units = newrows.iloc[i][&#39;E_units&#39;]
+            print(f&#34;mod_OBIGT: added {name}({state}) with {model} model and energy units of {e_units}&#34;)
+
+    # Modify existing species
+    if len(iold) &gt; 0:
+        for i in iold:
+            idx = ispecies[i]
+
+            # Get old values
+            oldprop = thermo_sys.obigt.loc[idx, icol_names].copy()
+            state = thermo_sys.obigt.loc[idx, &#39;state&#39;]
+            model = thermo_sys.obigt.loc[idx, &#39;model&#39;]
+
+            # If zap, clear all values except state and model
+            if zap:
+                thermo_sys.obigt.loc[idx, :] = np.nan
+                thermo_sys.obigt.loc[idx, &#39;state&#39;] = state
+                thermo_sys.obigt.loc[idx, &#39;model&#39;] = model
+
+            # Get new properties
+            newprop = args_df.iloc[i][icol_names].copy()
+
+            # Check if there&#39;s any change
+            # Compare values element-wise, treating NaN as equal to NaN
+            has_change = False
+            for col in icol_names:
+                old_val = oldprop[col] if col in oldprop.index else np.nan
+                new_val = newprop[col] if col in newprop.index else np.nan
+
+                # Check if both are NaN
+                if pd.isna(old_val) and pd.isna(new_val):
+                    continue
+                # Check if one is NaN and other is not
+                elif pd.isna(old_val) or pd.isna(new_val):
+                    has_change = True
+                    break
+                # Check if values are different
+                elif old_val != new_val:
+                    has_change = True
+                    break
+
+            if not has_change:
+                # No change
+                print(f&#34;mod_OBIGT: no change for {speciesname[i]}({state})&#34;)
+            else:
+                # Update the data
+                for col_name in icol_names:
+                    if col_name in args_df.columns:
+                        thermo_sys.obigt.loc[idx, col_name] = args_df.iloc[i][col_name]
+
+                print(f&#34;mod_OBIGT: updated {speciesname[i]}({state})&#34;)
+
+            result_indices.append(idx)
+
+    # Return indices
+    if len(result_indices) == 1:
+        return result_indices[0]
+    return result_indices</code></pre>
+</details>
+<div class="desc"><p>Add or modify species in the thermodynamic database.</p>
+<p>This function replicates the behavior of R CHNOSZ mod.OBIGT() by allowing
+modification of existing species or addition of new species to thermo().obigt.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>*args</code></strong> :&ensp;<code>int, str, list,</code> or <code>dict</code></dt>
+<dd>If first argument is numeric: species index or indices to modify
+If first argument is str: species name(s) to modify or add
+If first argument is list/dict: contains all parameters</dd>
+<dt><strong><code>zap</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, clear all properties except state and model before updating</dd>
+<dt><strong><code>**kwargs</code></strong> :&ensp;<code>any</code></dt>
+<dd>Named properties to set (e.g., G=-100, S=50, formula="H2O")
+Special properties: name, state, formula, model, E_units</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code> or <code>list</code> of <code>int</code></dt>
+<dd>Species index or indices that were modified/added</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.reset()
+&gt;&gt;&gt; # Add new species
+&gt;&gt;&gt; i = pychnosz.mod_OBIGT(&quot;myspecies&quot;, formula=&quot;C2H6&quot;, G=-100, S=50)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Modify existing species
+&gt;&gt;&gt; i = pychnosz.mod_OBIGT(&quot;water&quot;, state=&quot;liq&quot;, G=-56690)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Modify by index
+&gt;&gt;&gt; i_h2o = pychnosz.info(&quot;water&quot;, &quot;liq&quot;)
+&gt;&gt;&gt; i = pychnosz.mod_OBIGT(i_h2o, G=-56690)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Add multiple species
+&gt;&gt;&gt; i = pychnosz.mod_OBIGT([&quot;X&quot;, &quot;Y&quot;], formula=[&quot;C12&quot;, &quot;C13&quot;], state=[&quot;aq&quot;, &quot;cr&quot;])
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This function modifies the thermo() object in place.
+The behavior exactly matches R CHNOSZ mod.OBIGT().</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.data" href="index.html">pychnosz.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.data.mod_obigt.mod_OBIGT" href="#pychnosz.data.mod_obigt.mod_OBIGT">mod_OBIGT</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pychnosz"
+version = "1.0.0"
+description = "Python port of the package CHNOSZ"
+readme = "README.md"
+license = {text = "MIT License"}
+authors = [
+    {name = "Grayson Boyer", email = "gmboyer@asu.edu"},
+]
+maintainers = [
+    {name = "Grayson Boyer", email = "gmboyer@asu.edu"},
+]
+keywords = [
+    "thermodynamics",
+    "geochemistry",
+    "geobiochemistry", 
+    "aqueous chemistry",
+    "equilibrium",
+    "phase diagrams"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Physics"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.20.0",
+    "pandas>=1.3.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.3.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+    "pre-commit"
+]
+docs = [
+    "sphinx>=4.0",
+    "sphinx-rtd-theme",
+    "sphinx-autodoc-typehints",
+    "myst-parser"
+]
+interactive = [
+    "plotly>=5.0.0",
+    "ipython>=7.0.0"
+]
+
+[project.urls]
+Homepage = "https://worm-portal.asu.edu"
+Repository = "https://github.com/worm-portal/pychnosz"
+Documentation = "https://worm-portal.asu.edu/pyCHNOSZ-docs/index.html"
+Issues = "https://github.com/worm-portal/pychnosz/issues"
+
+[tool.setuptools]
+packages = ["pychnosz", "pychnosz.core", "pychnosz.models", "pychnosz.utils", "pychnosz.data", "pychnosz.geochemistry", "pychnosz.biomolecules", "pychnosz.fortran"]
+
+[tool.setuptools.package-data]
+"pychnosz.data" = ["*.csv", "*.csv.gz", "*.json", "extdata/**/*"]
+"pychnosz.fortran" = ["*.so", "*.dll", "*.dylib"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--cov=pychnosz --cov-report=term-missing"

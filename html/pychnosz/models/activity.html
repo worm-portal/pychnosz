@@ -1,0 +1,1029 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.activity API documentation</title>
+<meta name="description" content="Advanced activity models for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.activity</code></h1>
+</header>
+<section id="section-intro">
+<p>Advanced activity models for CHNOSZ.</p>
+<p>This module implements sophisticated activity coefficient models for
+concentrated electrolyte solutions, including Pitzer equations.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.activity.activity_coefficients"><code class="name flex">
+<span>def <span class="ident">activity_coefficients</span></span>(<span>composition: Dict[str, float],<br>T: float = 298.15,<br>P: float = 1.0,<br>model: str | None = None) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activity_coefficients(composition: Dict[str, float],
+                         T: float = 298.15, P: float = 1.0,
+                         model: Optional[str] = None) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate activity coefficients for a solution.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: concentration}
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    model : str, optional
+        Activity model (&#39;ideal&#39;, &#39;debye_huckel&#39;, &#39;bdot&#39;, &#39;pitzer&#39;)
+        
+    Returns
+    -------
+    dict
+        Activity coefficients {species: gamma}
+    &#34;&#34;&#34;
+    
+    return _activity_solver.calculate_activity_coefficients(composition, T, P, model)</code></pre>
+</details>
+<div class="desc"><p>Calculate activity coefficients for a solution.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: concentration}</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>model</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Activity model ('ideal', 'debye_huckel', 'bdot', 'pitzer')</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Activity coefficients {species: gamma}</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.ionic_strength"><code class="name flex">
+<span>def <span class="ident">ionic_strength</span></span>(<span>composition: Dict[str, float]) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ionic_strength(composition: Dict[str, float]) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate ionic strength of solution.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: concentration}
+        
+    Returns
+    -------
+    float
+        Ionic strength in mol/kg
+    &#34;&#34;&#34;
+    
+    return _activity_solver._calculate_ionic_strength(composition)</code></pre>
+</details>
+<div class="desc"><p>Calculate ionic strength of solution.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: concentration}</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Ionic strength in mol/kg</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.osmotic_coefficient"><code class="name flex">
+<span>def <span class="ident">osmotic_coefficient</span></span>(<span>composition: Dict[str, float], T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def osmotic_coefficient(composition: Dict[str, float],
+                       T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate osmotic coefficient using Pitzer model.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: molality}
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Osmotic coefficient
+    &#34;&#34;&#34;
+    
+    I = _activity_solver._calculate_ionic_strength(composition)
+    return _pitzer_model.osmotic_coefficient(composition, I, T)</code></pre>
+</details>
+<div class="desc"><p>Calculate osmotic coefficient using Pitzer model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: molality}</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Osmotic coefficient</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.pitzer_gamma"><code class="name flex">
+<span>def <span class="ident">pitzer_gamma</span></span>(<span>species: str, composition: Dict[str, float], T: float = 298.15, P: float = 1.0) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pitzer_gamma(species: str, composition: Dict[str, float],
+                T: float = 298.15, P: float = 1.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate activity coefficient using Pitzer model.
+    
+    Parameters
+    ----------
+    species : str
+        Species name
+    composition : dict
+        Solution composition {species: molality}
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    float
+        Pitzer activity coefficient
+    &#34;&#34;&#34;
+    
+    ionic_strength = _activity_solver._calculate_ionic_strength(composition)
+    return _pitzer_model.activity_coefficient(species, composition, ionic_strength, T, P)</code></pre>
+</details>
+<div class="desc"><p>Calculate activity coefficient using Pitzer model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str</code></dt>
+<dd>Species name</dd>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: molality}</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Pitzer activity coefficient</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.water_activity"><code class="name flex">
+<span>def <span class="ident">water_activity</span></span>(<span>composition: Dict[str, float], T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_activity(composition: Dict[str, float], T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate water activity from osmotic coefficient.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: molality}
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Water activity
+    &#34;&#34;&#34;
+    
+    # Sum of all solute molalities
+    m_total = sum(composition.values())
+    
+    if m_total &lt;= 0:
+        return 1.0
+    
+    # Osmotic coefficient
+    phi = osmotic_coefficient(composition, T)
+    
+    # Water activity: ln(a_w) = -phi * M_w * sum(m_i)
+    # where M_w = 0.018015 kg/mol (molar mass of water)
+    M_w = 0.018015
+    ln_aw = -phi * M_w * m_total
+    
+    return np.exp(ln_aw)</code></pre>
+</details>
+<div class="desc"><p>Calculate water activity from osmotic coefficient.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: molality}</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Water activity</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.models.activity.ExtendedActivitySolver"><code class="flex name class">
+<span>class <span class="ident">ExtendedActivitySolver</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ExtendedActivitySolver:
+    &#34;&#34;&#34;
+    Extended activity coefficient solver with multiple models.
+    
+    This class provides a unified interface for different activity
+    coefficient models and can select the appropriate model based
+    on solution conditions.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the extended activity solver.&#34;&#34;&#34;
+        self.pitzer = PitzerModel()
+        
+        # Model selection criteria
+        self.ionic_strength_limits = {
+            &#39;ideal&#39;: 0.001,
+            &#39;debye_huckel&#39;: 0.1,
+            &#39;bdot&#39;: 0.5,
+            &#39;pitzer&#39;: 6.0
+        }
+    
+    def select_model(self, ionic_strength: float, composition: Dict[str, float]) -&gt; str:
+        &#34;&#34;&#34;
+        Select appropriate activity model based on conditions.
+        
+        Parameters
+        ----------
+        ionic_strength : float
+            Solution ionic strength
+        composition : dict
+            Solution composition
+            
+        Returns
+        -------
+        str
+            Recommended model name
+        &#34;&#34;&#34;
+        
+        if ionic_strength &lt;= self.ionic_strength_limits[&#39;ideal&#39;]:
+            return &#39;ideal&#39;
+        elif ionic_strength &lt;= self.ionic_strength_limits[&#39;debye_huckel&#39;]:
+            return &#39;debye_huckel&#39;
+        elif ionic_strength &lt;= self.ionic_strength_limits[&#39;bdot&#39;]:
+            return &#39;bdot&#39;
+        else:
+            return &#39;pitzer&#39;
+    
+    def calculate_activity_coefficients(self, composition: Dict[str, float],
+                                      T: float = 298.15, P: float = 1.0,
+                                      model: Optional[str] = None) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;
+        Calculate activity coefficients for all species in solution.
+        
+        Parameters
+        ----------
+        composition : dict
+            Solution composition {species: concentration}
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        model : str, optional
+            Activity model to use. If None, auto-select based on conditions.
+            
+        Returns
+        -------
+        dict
+            Activity coefficients {species: gamma}
+        &#34;&#34;&#34;
+        
+        # Calculate ionic strength
+        ionic_strength = self._calculate_ionic_strength(composition)
+        
+        # Select model if not specified
+        if model is None:
+            model = self.select_model(ionic_strength, composition)
+        
+        # Calculate activity coefficients
+        gamma = {}
+        
+        if model == &#39;ideal&#39;:
+            for species in composition:
+                gamma[species] = 1.0
+        
+        elif model == &#39;pitzer&#39;:
+            for species in composition:
+                if composition[species] &gt; 0:
+                    gamma[species] = self.pitzer.activity_coefficient(
+                        species, composition, ionic_strength, T, P)
+                else:
+                    gamma[species] = 1.0
+        
+        else:
+            # Use simplified models from equilibrium module
+            from ..core.equilibrium import EquilibriumSolver
+            solver = EquilibriumSolver()
+            
+            for species in composition:
+                if composition[species] &gt; 0:
+                    if model == &#39;debye_huckel&#39;:
+                        gamma[species] = solver._activity_debye_huckel(species, ionic_strength, T, P)
+                    elif model == &#39;bdot&#39;:
+                        gamma[species] = solver._activity_bdot(species, ionic_strength, T, P)
+                    else:
+                        gamma[species] = 1.0
+                else:
+                    gamma[species] = 1.0
+        
+        return gamma
+    
+    def _calculate_ionic_strength(self, composition: Dict[str, float]) -&gt; float:
+        &#34;&#34;&#34;Calculate ionic strength from composition.&#34;&#34;&#34;
+        
+        I = 0.0
+        for species, conc in composition.items():
+            if conc &gt; 0:
+                charge = self.pitzer._get_charge(species)
+                I += 0.5 * conc * charge * charge
+        
+        return I</code></pre>
+</details>
+<div class="desc"><p>Extended activity coefficient solver with multiple models.</p>
+<p>This class provides a unified interface for different activity
+coefficient models and can select the appropriate model based
+on solution conditions.</p>
+<p>Initialize the extended activity solver.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.activity.ExtendedActivitySolver.calculate_activity_coefficients"><code class="name flex">
+<span>def <span class="ident">calculate_activity_coefficients</span></span>(<span>self,<br>composition: Dict[str, float],<br>T: float = 298.15,<br>P: float = 1.0,<br>model: str | None = None) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_activity_coefficients(self, composition: Dict[str, float],
+                                  T: float = 298.15, P: float = 1.0,
+                                  model: Optional[str] = None) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate activity coefficients for all species in solution.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: concentration}
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    model : str, optional
+        Activity model to use. If None, auto-select based on conditions.
+        
+    Returns
+    -------
+    dict
+        Activity coefficients {species: gamma}
+    &#34;&#34;&#34;
+    
+    # Calculate ionic strength
+    ionic_strength = self._calculate_ionic_strength(composition)
+    
+    # Select model if not specified
+    if model is None:
+        model = self.select_model(ionic_strength, composition)
+    
+    # Calculate activity coefficients
+    gamma = {}
+    
+    if model == &#39;ideal&#39;:
+        for species in composition:
+            gamma[species] = 1.0
+    
+    elif model == &#39;pitzer&#39;:
+        for species in composition:
+            if composition[species] &gt; 0:
+                gamma[species] = self.pitzer.activity_coefficient(
+                    species, composition, ionic_strength, T, P)
+            else:
+                gamma[species] = 1.0
+    
+    else:
+        # Use simplified models from equilibrium module
+        from ..core.equilibrium import EquilibriumSolver
+        solver = EquilibriumSolver()
+        
+        for species in composition:
+            if composition[species] &gt; 0:
+                if model == &#39;debye_huckel&#39;:
+                    gamma[species] = solver._activity_debye_huckel(species, ionic_strength, T, P)
+                elif model == &#39;bdot&#39;:
+                    gamma[species] = solver._activity_bdot(species, ionic_strength, T, P)
+                else:
+                    gamma[species] = 1.0
+            else:
+                gamma[species] = 1.0
+    
+    return gamma</code></pre>
+</details>
+<div class="desc"><p>Calculate activity coefficients for all species in solution.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: concentration}</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>model</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Activity model to use. If None, auto-select based on conditions.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Activity coefficients {species: gamma}</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.ExtendedActivitySolver.select_model"><code class="name flex">
+<span>def <span class="ident">select_model</span></span>(<span>self, ionic_strength: float, composition: Dict[str, float]) ‑> str</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_model(self, ionic_strength: float, composition: Dict[str, float]) -&gt; str:
+    &#34;&#34;&#34;
+    Select appropriate activity model based on conditions.
+    
+    Parameters
+    ----------
+    ionic_strength : float
+        Solution ionic strength
+    composition : dict
+        Solution composition
+        
+    Returns
+    -------
+    str
+        Recommended model name
+    &#34;&#34;&#34;
+    
+    if ionic_strength &lt;= self.ionic_strength_limits[&#39;ideal&#39;]:
+        return &#39;ideal&#39;
+    elif ionic_strength &lt;= self.ionic_strength_limits[&#39;debye_huckel&#39;]:
+        return &#39;debye_huckel&#39;
+    elif ionic_strength &lt;= self.ionic_strength_limits[&#39;bdot&#39;]:
+        return &#39;bdot&#39;
+    else:
+        return &#39;pitzer&#39;</code></pre>
+</details>
+<div class="desc"><p>Select appropriate activity model based on conditions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>ionic_strength</code></strong> :&ensp;<code>float</code></dt>
+<dd>Solution ionic strength</dd>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>str</code></dt>
+<dd>Recommended model name</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="pychnosz.models.activity.PitzerModel"><code class="flex name class">
+<span>class <span class="ident">PitzerModel</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PitzerModel:
+    &#34;&#34;&#34;
+    Pitzer activity coefficient model for concentrated electrolyte solutions.
+    
+    The Pitzer model uses virial-type equations to calculate activity coefficients
+    in solutions with ionic strengths up to 6 molal or higher.
+    
+    References:
+    - Pitzer (1973) J. Phys. Chem. 77, 268-277
+    - Pitzer &amp; Mayorga (1973) J. Phys. Chem. 77, 2300-2308
+    - Harvie et al. (1984) GCA 48, 723-751
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the Pitzer model.&#34;&#34;&#34;
+        self.A_phi = 0.391  # Debye-Hückel parameter at 25°C (kg^0.5/mol^0.5)
+        
+        # Pitzer parameters database (simplified examples)
+        self.parameters = {
+            # Binary parameters: {cation-anion: [beta0, beta1, beta2, Cphi]}
+            (&#39;Na+&#39;, &#39;Cl-&#39;): [0.0765, 0.2664, 0.0, -0.00127],
+            (&#39;Na+&#39;, &#39;SO4-2&#39;): [0.01958, 1.113, -0.00114, 0.00497],
+            (&#39;K+&#39;, &#39;Cl-&#39;): [0.04835, 0.2122, 0.0, -0.00084],
+            (&#39;Ca+2&#39;, &#39;Cl-&#39;): [0.3159, 1.681, -0.00034, -0.00175],
+            (&#39;Mg+2&#39;, &#39;Cl-&#39;): [0.35235, 1.681, -0.007, 0.00519],
+            (&#39;H+&#39;, &#39;Cl-&#39;): [0.1775, 0.2945, 0.0, 0.0008],
+            
+            # Neutral species interactions
+            (&#39;CO2&#39;, &#39;Na+&#39;): [0.1, 0.0],  # lambda parameters
+            (&#39;CO2&#39;, &#39;Cl-&#39;): [-0.005, 0.0],
+        }
+        
+        # Temperature dependence parameters (simplified)
+        self.temp_params = {}
+    
+    def activity_coefficient(self, species: str, composition: Dict[str, float],
+                           ionic_strength: float, T: float = 298.15,
+                           P: float = 1.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate activity coefficient using Pitzer model.
+        
+        Parameters
+        ----------
+        species : str
+            Species name
+        composition : dict
+            Solution composition {species: molality}
+        ionic_strength : float
+            Solution ionic strength (mol/kg)
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        float
+            Activity coefficient
+        &#34;&#34;&#34;
+        
+        if ionic_strength &lt;= 0:
+            return 1.0
+        
+        # Get species charge
+        charge = self._get_charge(species)
+        
+        if charge == 0:
+            # Neutral species
+            return self._neutral_activity_coefficient(species, composition, ionic_strength, T)
+        else:
+            # Ionic species
+            return self._ionic_activity_coefficient(species, composition, ionic_strength, T, charge)
+    
+    def _ionic_activity_coefficient(self, species: str, composition: Dict[str, float],
+                                  I: float, T: float, z: int) -&gt; float:
+        &#34;&#34;&#34;Calculate activity coefficient for ionic species.&#34;&#34;&#34;
+        
+        # Debye-Hückel term
+        A_gamma = self.A_phi * 2.302585  # Convert to ln gamma
+        sqrt_I = np.sqrt(I)
+        
+        ln_gamma_DH = -A_gamma * z*z * sqrt_I / (1 + 1.2 * sqrt_I)
+        
+        # Pitzer virial terms
+        ln_gamma_virial = 0.0
+        
+        # Binary interactions
+        for other_species, molality in composition.items():
+            if other_species != species and molality &gt; 0:
+                other_charge = self._get_charge(other_species)
+                
+                # Cation-anion interactions
+                if (z &gt; 0 and other_charge &lt; 0) or (z &lt; 0 and other_charge &gt; 0):
+                    params = self._get_binary_params(species, other_species)
+                    if params:
+                        beta0, beta1, beta2, Cphi = params
+                        
+                        # Pitzer B and C functions
+                        alpha1 = 2.0  # Standard value for 1-1, 2-1, 1-2 electrolytes
+                        alpha2 = 50.0 # For 2-2 electrolytes (when beta2 != 0)
+                        
+                        g_alpha1 = 2 * (1 - (1 + alpha1 * sqrt_I) * np.exp(-alpha1 * sqrt_I)) / (alpha1**2 * I)
+                        B_gamma = beta0 + beta1 * g_alpha1
+                        
+                        if beta2 != 0:
+                            g_alpha2 = 2 * (1 - (1 + alpha2 * sqrt_I) * np.exp(-alpha2 * sqrt_I)) / (alpha2**2 * I)
+                            B_gamma += beta2 * g_alpha2
+                        
+                        C_gamma = 3.0 * Cphi / (2 * np.sqrt(abs(z * other_charge)))
+                        
+                        ln_gamma_virial += molality * (2 * B_gamma + molality * C_gamma)
+        
+        # Triple interactions (simplified - usually small)
+        # Would include theta and psi parameters for full model
+        
+        return np.exp(ln_gamma_DH + ln_gamma_virial)
+    
+    def _neutral_activity_coefficient(self, species: str, composition: Dict[str, float],
+                                    I: float, T: float) -&gt; float:
+        &#34;&#34;&#34;Calculate activity coefficient for neutral species.&#34;&#34;&#34;
+        
+        # Neutral species interactions with ions (salting out/in)
+        ln_gamma = 0.0
+        
+        for ion_species, molality in composition.items():
+            if molality &gt; 0:
+                # Lambda interaction parameters
+                lambda_param = self._get_lambda_param(species, ion_species)
+                if lambda_param:
+                    lambda_ni, xi_nii = lambda_param
+                    ln_gamma += 2 * lambda_ni * molality + 3 * xi_nii * molality**2
+        
+        return np.exp(ln_gamma)
+    
+    def _get_charge(self, species: str) -&gt; int:
+        &#34;&#34;&#34;Extract charge from species name.&#34;&#34;&#34;
+        
+        if &#39;+&#39; in species:
+            parts = species.split(&#39;+&#39;)
+            if len(parts) &gt; 1 and parts[-1].isdigit():
+                return int(parts[-1])
+            else:
+                return 1
+        elif &#39;-&#39; in species:
+            parts = species.split(&#39;-&#39;)
+            if len(parts) &gt; 1 and parts[-1].isdigit():
+                return -int(parts[-1])
+            else:
+                return -1
+        else:
+            return 0
+    
+    def _get_binary_params(self, species1: str, species2: str) -&gt; Optional[List[float]]:
+        &#34;&#34;&#34;Get binary Pitzer parameters.&#34;&#34;&#34;
+        
+        # Try both orders
+        key1 = (species1, species2)
+        key2 = (species2, species1)
+        
+        if key1 in self.parameters:
+            return self.parameters[key1]
+        elif key2 in self.parameters:
+            return self.parameters[key2]
+        else:
+            # Return default parameters if not found
+            return [0.0, 0.0, 0.0, 0.0]
+    
+    def _get_lambda_param(self, neutral: str, ion: str) -&gt; Optional[Tuple[float, float]]:
+        &#34;&#34;&#34;Get lambda parameters for neutral-ion interactions.&#34;&#34;&#34;
+        
+        key1 = (neutral, ion)
+        key2 = (ion, neutral)
+        
+        # Simplified lookup - would be more comprehensive in full implementation
+        if key1 in self.parameters:
+            params = self.parameters[key1]
+            return (params[0], params[1] if len(params) &gt; 1 else 0.0)
+        elif key2 in self.parameters:
+            params = self.parameters[key2]
+            return (params[0], params[1] if len(params) &gt; 1 else 0.0)
+        else:
+            return (0.0, 0.0)
+    
+    def osmotic_coefficient(self, composition: Dict[str, float],
+                          ionic_strength: float, T: float = 298.15) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate osmotic coefficient using Pitzer model.
+        
+        Parameters
+        ----------
+        composition : dict
+            Solution composition {species: molality}
+        ionic_strength : float
+            Solution ionic strength
+        T : float, default 298.15
+            Temperature in Kelvin
+            
+        Returns
+        -------
+        float
+            Osmotic coefficient
+        &#34;&#34;&#34;
+        
+        if ionic_strength &lt;= 0:
+            return 1.0
+        
+        sqrt_I = np.sqrt(ionic_strength)
+        
+        # Debye-Hückel term
+        phi_DH = -self.A_phi * sqrt_I / (1 + 1.2 * sqrt_I)
+        
+        # Pitzer virial terms
+        phi_virial = 0.0
+        
+        # Binary terms
+        cations = {k: v for k, v in composition.items() if self._get_charge(k) &gt; 0}
+        anions = {k: v for k, v in composition.items() if self._get_charge(k) &lt; 0}
+        
+        for cation, m_c in cations.items():
+            z_c = self._get_charge(cation)
+            for anion, m_a in anions.items():
+                z_a = self._get_charge(anion)
+                
+                params = self._get_binary_params(cation, anion)
+                if params:
+                    beta0, beta1, beta2, Cphi = params
+                    
+                    # B_phi and C_phi functions
+                    alpha1 = 2.0
+                    g_alpha1 = 2 * (1 - (1 + alpha1 * sqrt_I) * np.exp(-alpha1 * sqrt_I)) / (alpha1**2 * ionic_strength)
+                    B_phi = beta0 + beta1 * np.exp(-alpha1 * sqrt_I)
+                    
+                    if beta2 != 0:
+                        alpha2 = 50.0
+                        B_phi += beta2 * np.exp(-alpha2 * sqrt_I)
+                    
+                    C_phi = Cphi / (2 * np.sqrt(abs(z_c * z_a)))
+                    
+                    phi_virial += m_c * m_a * (B_phi + m_c * m_a * C_phi)
+        
+        osmotic_coeff = 1 + phi_DH + phi_virial
+        
+        return osmotic_coeff</code></pre>
+</details>
+<div class="desc"><p>Pitzer activity coefficient model for concentrated electrolyte solutions.</p>
+<p>The Pitzer model uses virial-type equations to calculate activity coefficients
+in solutions with ionic strengths up to 6 molal or higher.</p>
+<p>References:
+- Pitzer (1973) J. Phys. Chem. 77, 268-277
+- Pitzer &amp; Mayorga (1973) J. Phys. Chem. 77, 2300-2308
+- Harvie et al. (1984) GCA 48, 723-751</p>
+<p>Initialize the Pitzer model.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.activity.PitzerModel.activity_coefficient"><code class="name flex">
+<span>def <span class="ident">activity_coefficient</span></span>(<span>self,<br>species: str,<br>composition: Dict[str, float],<br>ionic_strength: float,<br>T: float = 298.15,<br>P: float = 1.0) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def activity_coefficient(self, species: str, composition: Dict[str, float],
+                       ionic_strength: float, T: float = 298.15,
+                       P: float = 1.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate activity coefficient using Pitzer model.
+    
+    Parameters
+    ----------
+    species : str
+        Species name
+    composition : dict
+        Solution composition {species: molality}
+    ionic_strength : float
+        Solution ionic strength (mol/kg)
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    float
+        Activity coefficient
+    &#34;&#34;&#34;
+    
+    if ionic_strength &lt;= 0:
+        return 1.0
+    
+    # Get species charge
+    charge = self._get_charge(species)
+    
+    if charge == 0:
+        # Neutral species
+        return self._neutral_activity_coefficient(species, composition, ionic_strength, T)
+    else:
+        # Ionic species
+        return self._ionic_activity_coefficient(species, composition, ionic_strength, T, charge)</code></pre>
+</details>
+<div class="desc"><p>Calculate activity coefficient using Pitzer model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str</code></dt>
+<dd>Species name</dd>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: molality}</dd>
+<dt><strong><code>ionic_strength</code></strong> :&ensp;<code>float</code></dt>
+<dd>Solution ionic strength (mol/kg)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Activity coefficient</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.activity.PitzerModel.osmotic_coefficient"><code class="name flex">
+<span>def <span class="ident">osmotic_coefficient</span></span>(<span>self, composition: Dict[str, float], ionic_strength: float, T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def osmotic_coefficient(self, composition: Dict[str, float],
+                      ionic_strength: float, T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate osmotic coefficient using Pitzer model.
+    
+    Parameters
+    ----------
+    composition : dict
+        Solution composition {species: molality}
+    ionic_strength : float
+        Solution ionic strength
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Osmotic coefficient
+    &#34;&#34;&#34;
+    
+    if ionic_strength &lt;= 0:
+        return 1.0
+    
+    sqrt_I = np.sqrt(ionic_strength)
+    
+    # Debye-Hückel term
+    phi_DH = -self.A_phi * sqrt_I / (1 + 1.2 * sqrt_I)
+    
+    # Pitzer virial terms
+    phi_virial = 0.0
+    
+    # Binary terms
+    cations = {k: v for k, v in composition.items() if self._get_charge(k) &gt; 0}
+    anions = {k: v for k, v in composition.items() if self._get_charge(k) &lt; 0}
+    
+    for cation, m_c in cations.items():
+        z_c = self._get_charge(cation)
+        for anion, m_a in anions.items():
+            z_a = self._get_charge(anion)
+            
+            params = self._get_binary_params(cation, anion)
+            if params:
+                beta0, beta1, beta2, Cphi = params
+                
+                # B_phi and C_phi functions
+                alpha1 = 2.0
+                g_alpha1 = 2 * (1 - (1 + alpha1 * sqrt_I) * np.exp(-alpha1 * sqrt_I)) / (alpha1**2 * ionic_strength)
+                B_phi = beta0 + beta1 * np.exp(-alpha1 * sqrt_I)
+                
+                if beta2 != 0:
+                    alpha2 = 50.0
+                    B_phi += beta2 * np.exp(-alpha2 * sqrt_I)
+                
+                C_phi = Cphi / (2 * np.sqrt(abs(z_c * z_a)))
+                
+                phi_virial += m_c * m_a * (B_phi + m_c * m_a * C_phi)
+    
+    osmotic_coeff = 1 + phi_DH + phi_virial
+    
+    return osmotic_coeff</code></pre>
+</details>
+<div class="desc"><p>Calculate osmotic coefficient using Pitzer model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>composition</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Solution composition {species: molality}</dd>
+<dt><strong><code>ionic_strength</code></strong> :&ensp;<code>float</code></dt>
+<dd>Solution ionic strength</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Osmotic coefficient</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.activity.activity_coefficients" href="#pychnosz.models.activity.activity_coefficients">activity_coefficients</a></code></li>
+<li><code><a title="pychnosz.models.activity.ionic_strength" href="#pychnosz.models.activity.ionic_strength">ionic_strength</a></code></li>
+<li><code><a title="pychnosz.models.activity.osmotic_coefficient" href="#pychnosz.models.activity.osmotic_coefficient">osmotic_coefficient</a></code></li>
+<li><code><a title="pychnosz.models.activity.pitzer_gamma" href="#pychnosz.models.activity.pitzer_gamma">pitzer_gamma</a></code></li>
+<li><code><a title="pychnosz.models.activity.water_activity" href="#pychnosz.models.activity.water_activity">water_activity</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.models.activity.ExtendedActivitySolver" href="#pychnosz.models.activity.ExtendedActivitySolver">ExtendedActivitySolver</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.activity.ExtendedActivitySolver.calculate_activity_coefficients" href="#pychnosz.models.activity.ExtendedActivitySolver.calculate_activity_coefficients">calculate_activity_coefficients</a></code></li>
+<li><code><a title="pychnosz.models.activity.ExtendedActivitySolver.select_model" href="#pychnosz.models.activity.ExtendedActivitySolver.select_model">select_model</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pychnosz.models.activity.PitzerModel" href="#pychnosz.models.activity.PitzerModel">PitzerModel</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.activity.PitzerModel.activity_coefficient" href="#pychnosz.models.activity.PitzerModel.activity_coefficient">activity_coefficient</a></code></li>
+<li><code><a title="pychnosz.models.activity.PitzerModel.osmotic_coefficient" href="#pychnosz.models.activity.PitzerModel.osmotic_coefficient">osmotic_coefficient</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

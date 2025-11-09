@@ -1,0 +1,3906 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.core API documentation</title>
+<meta name="description" content="Core thermodynamic calculation functions for CHNOSZ.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.core</code></h1>
+</header>
+<section id="section-intro">
+<p>Core thermodynamic calculation functions for CHNOSZ.</p>
+</section>
+<section>
+<h2 class="section-title" id="header-submodules">Sub-modules</h2>
+<dl>
+<dt><code class="name"><a title="pychnosz.core.animation" href="animation.html">pychnosz.core.animation</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.core.balance" href="balance.html">pychnosz.core.balance</a></code></dt>
+<dd>
+<div class="desc"><p>Reaction balancing utilities …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.core.equilibrium" href="equilibrium.html">pychnosz.core.equilibrium</a></code></dt>
+<dd>
+<div class="desc"><p>Chemical equilibrium solver for CHNOSZ …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.core.speciation" href="speciation.html">pychnosz.core.speciation</a></code></dt>
+<dd>
+<div class="desc"><p>Chemical speciation calculation engine for CHNOSZ …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.core.thermocalc" href="thermocalc.html">pychnosz.core.thermocalc</a></code></dt>
+<dd>
+<div class="desc"><p>Core thermodynamic calculation functions for species …</p></div>
+</dd>
+<dt><code class="name"><a title="pychnosz.core.unicurve" href="unicurve.html">pychnosz.core.unicurve</a></code></dt>
+<dd>
+<div class="desc"><p>CHNOSZ unicurve() function - Calculate univariant curves for geothermometry/geobarometry …</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.core.affinity"><code class="name flex">
+<span>def <span class="ident">affinity</span></span>(<span>messages: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None,<br>species: pandas.core.frame.DataFrame | None = None,<br>**kwargs) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
+             species: Optional[pd.DataFrame] = None, **kwargs) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate affinities of formation reactions.
+
+    This function calculates chemical affinities for the formation reactions of
+    species of interest from user-selected basis species. The affinities are
+    calculated as A/2.303RT where A is the chemical affinity.
+
+    Parameters
+    ----------
+    messages : bool, default True
+        Whether to print informational messages
+    basis : pd.DataFrame, optional
+        Basis species definition to use (if not using global basis)
+    species : pd.DataFrame, optional
+        Species definition to use (if not using global species)
+    **kwargs : dict
+        Variable arguments defining calculation conditions:
+        - Basis species names (e.g., CO2=[-60, 20, 5]): Variable basis species activities
+        - T : float or list, Temperature in °C
+        - P : float or list, Pressure in bar
+        - property : str, Property to calculate (&#34;A&#34;, &#34;logK&#34;, &#34;G&#34;, etc.)
+        - exceed_Ttr : bool, Allow extrapolation beyond transition temperatures
+        - exceed_rhomin : bool, Allow calculations below minimum water density
+        - return_buffer : bool, Return buffer activities
+        - balance : str, Balance method for protein buffers
+
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - fun : str, Function name (&#34;affinity&#34;)
+        - args : dict, Arguments used in calculation
+        - sout : dict, Subcrt calculation results
+        - property : str, Property calculated
+        - basis : pd.DataFrame, Basis species definition
+        - species : pd.DataFrame, Species of interest definition
+        - T : float or array, Temperature(s) in Kelvin
+        - P : float or array, Pressure(s) in bar
+        - vars : list, Variable names
+        - vals : dict, Variable values
+        - values : dict, Calculated affinity values by species
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.reset()
+    &gt;&gt;&gt; pychnosz.basis([&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;H+&#34;, &#34;O2&#34;])
+    &gt;&gt;&gt; pychnosz.species([&#34;glycine&#34;, &#34;tyrosine&#34;, &#34;serine&#34;, &#34;methionine&#34;])
+    &gt;&gt;&gt; result = pychnosz.affinity(CO2=[-60, 20, 5], T=350, P=2000)
+    &gt;&gt;&gt; print(result[&#39;values&#39;][1566])  # Glycine affinities
+
+    Notes
+    -----
+    This implementation maintains complete fidelity to R CHNOSZ affinity():
+    - Identical argument processing including dynamic basis species parameters
+    - Same variable expansion and multi-dimensional calculations
+    - Exact energy() function behavior for property calculations
+    - Identical output structure and formatting
+    &#34;&#34;&#34;
+
+    # Check if basis and species are defined (use provided or global)
+    if basis is None:
+        if not is_basis_defined():
+            raise AffinityError(&#34;basis species are not defined&#34;)
+        basis_df = get_basis()
+    else:
+        basis_df = basis
+
+    if species is None:
+        if not is_species_defined():
+            raise AffinityError(&#34;species are not defined&#34;)
+        species_df = get_species()
+    else:
+        species_df = species
+
+    # Process arguments
+    args_orig = dict(kwargs)
+
+    # Handle argument recall (if first argument is previous affinity result)
+    if len(args_orig) &gt; 0:
+        first_key = list(args_orig.keys())[0]
+        first_value = args_orig[first_key]
+        if (isinstance(first_value, dict) and
+            first_value.get(&#39;fun&#39;) == &#39;affinity&#39;):
+            # Update arguments from previous result
+            aargs = first_value.get(&#39;args&#39;, {})
+            # Update with new arguments (skip the first one)
+            new_args = dict(list(args_orig.items())[1:])
+            aargs.update(new_args)
+            return affinity(**aargs)
+
+    # Process energy arguments
+    args = energy_args(args_orig, messages, basis_df=basis_df)
+
+    # Get property to calculate
+    property_name = args.get(&#39;what&#39;, &#39;A&#39;)
+
+    # Get thermo data
+    thermo_obj = thermo()
+    # basis_df and species_df are already set above
+
+    # Determine if we need specific property calculation
+    if property_name and property_name != &#39;A&#39;:
+        # Calculate specific property using energy function
+        energy_result = energy(
+            what=property_name,
+            vars=args[&#39;vars&#39;],
+            vals=args[&#39;vals&#39;],
+            lims=args[&#39;lims&#39;],
+            T=args[&#39;T&#39;],
+            P=args[&#39;P&#39;],
+            IS=args.get(&#39;IS&#39;, 0),
+            exceed_Ttr=kwargs.get(&#39;exceed_Ttr&#39;, True),
+            exceed_rhomin=kwargs.get(&#39;exceed_rhomin&#39;, False),
+            basis_df=basis_df,
+            species_df=species_df,
+            messages=messages
+        )
+        affinity_values = energy_result[&#39;a&#39;]
+        energy_sout = energy_result[&#39;sout&#39;]
+    else:
+        # Calculate affinities (A/2.303RT)
+        energy_result = energy(
+            what=&#39;A&#39;,
+            vars=args[&#39;vars&#39;],
+            vals=args[&#39;vals&#39;],
+            lims=args[&#39;lims&#39;],
+            T=args[&#39;T&#39;],
+            P=args[&#39;P&#39;],
+            IS=args.get(&#39;IS&#39;, 0),
+            exceed_Ttr=kwargs.get(&#39;exceed_Ttr&#39;, True),
+            exceed_rhomin=kwargs.get(&#39;exceed_rhomin&#39;, False),
+            basis_df=basis_df,
+            species_df=species_df,
+            messages=messages
+        )
+        affinity_values = energy_result[&#39;a&#39;]
+        energy_sout = energy_result[&#39;sout&#39;]
+
+    # Process temperature and pressure for output
+    T_out = args[&#39;T&#39;]
+    P_out = args[&#39;P&#39;]
+    vars_list = args[&#39;vars&#39;]
+    vals_dict = {}
+
+    # Convert variable names and values for output
+    # Important: Keep vars_list with actual basis species names (H+, e-) for internal use
+    # but create display versions in vals_dict with user-friendly names (pH, pe, Eh)
+    vars_list_display = vars_list.copy()
+    for i, var in enumerate(vars_list):
+        # Handle pH, pe, Eh conversions for output
+        if var == &#39;H+&#39; and &#39;pH&#39; in args_orig:
+            vars_list_display[i] = &#39;pH&#39;
+            vals_dict[&#39;pH&#39;] = [-val for val in args[&#39;vals&#39;][i]]
+        elif var == &#39;e-&#39; and &#39;pe&#39; in args_orig:
+            vars_list_display[i] = &#39;pe&#39;
+            vals_dict[&#39;pe&#39;] = [-val for val in args[&#39;vals&#39;][i]]
+        elif var == &#39;e-&#39; and &#39;Eh&#39; in args_orig:
+            vars_list_display[i] = &#39;Eh&#39;
+            # Convert from log(a_e-) back to Eh using temperature-dependent formula
+            # log(a_e-) = -pe, so pe = -log(a_e-)
+            # Eh = pe * (ln(10) * R * T) / F = -log(a_e-) * T / 5039.76
+            T_kelvin = args[&#39;T&#39;] if isinstance(args[&#39;T&#39;], (int, float)) else args[&#39;T&#39;][0] if hasattr(args[&#39;T&#39;], &#39;__len__&#39;) else 298.15
+            conversion_factor = T_kelvin / 5039.76  # volts per pe unit
+            vals_dict[&#39;Eh&#39;] = [-val * conversion_factor for val in args[&#39;vals&#39;][i]]
+        else:
+            vals_dict[var] = args[&#39;vals&#39;][i]
+
+    # Keep vars_list as-is (with basis species names) for internal calculations
+    # vars_list_display will be used for output only
+
+    # Check if T or P are variables
+    if &#39;T&#39; in vars_list:
+        T_out = []  # Variable T
+        # Convert back to Celsius for output
+        T_vals = vals_dict[&#39;T&#39;]
+        vals_dict[&#39;T&#39;] = [T - 273.15 for T in T_vals]
+    else:
+        # Convert to Kelvin for output (matching R)
+        T_out = args[&#39;T&#39;]
+
+    if &#39;P&#39; in vars_list:
+        P_out = []  # Variable P
+    else:
+        P_out = args[&#39;P&#39;]
+
+    # Build output dictionary matching R CHNOSZ structure
+    result = {
+        &#39;fun&#39;: &#39;affinity&#39;,
+        &#39;args&#39;: {
+            **args_orig,
+            &#39;property&#39;: property_name,
+            &#39;exceed_Ttr&#39;: kwargs.get(&#39;exceed_Ttr&#39;, False),
+            &#39;exceed_rhomin&#39;: kwargs.get(&#39;exceed_rhomin&#39;, False),
+            &#39;return_buffer&#39;: kwargs.get(&#39;return_buffer&#39;, False),
+            &#39;balance&#39;: kwargs.get(&#39;balance&#39;, &#39;PBB&#39;)
+        },
+        &#39;sout&#39;: energy_sout,
+        &#39;property&#39;: property_name,
+        &#39;basis&#39;: basis_df,
+        &#39;species&#39;: species_df,
+        &#39;T&#39;: T_out,
+        &#39;P&#39;: P_out,
+        &#39;vars&#39;: vars_list_display,  # Use display version with &#39;Eh&#39;, &#39;pH&#39;, &#39;pe&#39; for output
+        &#39;vals&#39;: vals_dict,
+        &#39;values&#39;: affinity_values
+    }
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Calculate affinities of formation reactions.</p>
+<p>This function calculates chemical affinities for the formation reactions of
+species of interest from user-selected basis species. The affinities are
+calculated as A/2.303RT where A is the chemical affinity.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+<dt><strong><code>basis</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
+<dd>Basis species definition to use (if not using global basis)</dd>
+<dt><strong><code>species</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
+<dd>Species definition to use (if not using global species)</dd>
+<dt><strong><code>**kwargs</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Variable arguments defining calculation conditions:
+- Basis species names (e.g., CO2=[-60, 20, 5]): Variable basis species activities
+- T : float or list, Temperature in °C
+- P : float or list, Pressure in bar
+- property : str, Property to calculate ("A", "logK", "G", etc.)
+- exceed_Ttr : bool, Allow extrapolation beyond transition temperatures
+- exceed_rhomin : bool, Allow calculations below minimum water density
+- return_buffer : bool, Return buffer activities
+- balance : str, Balance method for protein buffers</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary containing:
+- fun : str, Function name ("affinity")
+- args : dict, Arguments used in calculation
+- sout : dict, Subcrt calculation results
+- property : str, Property calculated
+- basis : pd.DataFrame, Basis species definition
+- species : pd.DataFrame, Species of interest definition
+- T : float or array, Temperature(s) in Kelvin
+- P : float or array, Pressure(s) in bar
+- vars : list, Variable names
+- vals : dict, Variable values
+- values : dict, Calculated affinity values by species</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.reset()
+&gt;&gt;&gt; pychnosz.basis([&quot;CO2&quot;, &quot;H2O&quot;, &quot;NH3&quot;, &quot;H2S&quot;, &quot;H+&quot;, &quot;O2&quot;])
+&gt;&gt;&gt; pychnosz.species([&quot;glycine&quot;, &quot;tyrosine&quot;, &quot;serine&quot;, &quot;methionine&quot;])
+&gt;&gt;&gt; result = pychnosz.affinity(CO2=[-60, 20, 5], T=350, P=2000)
+&gt;&gt;&gt; print(result['values'][1566])  # Glycine affinities
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This implementation maintains complete fidelity to R CHNOSZ affinity():
+- Identical argument processing including dynamic basis species parameters
+- Same variable expansion and multi-dimensional calculations
+- Exact energy() function behavior for property calculations
+- Identical output structure and formatting</p></div>
+</dd>
+<dt id="pychnosz.core.basis"><code class="name flex">
+<span>def <span class="ident">basis</span></span>(<span>species: str | int | List[str | int] | None = None,<br>state: str | List[str] | None = None,<br>logact: float | List[float] | None = None,<br>delete: bool = False,<br>add: bool = False,<br>messages: bool = True,<br>global_state: bool = True) ‑> pandas.core.frame.DataFrame | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def basis(species: Optional[Union[str, int, List[Union[str, int]]]] = None,
+          state: Optional[Union[str, List[str]]] = None,
+          logact: Optional[Union[float, List[float]]] = None,
+          delete: bool = False,
+          add: bool = False,
+          messages: bool = True,
+          global_state: bool = True) -&gt; Optional[pd.DataFrame]:
+    &#34;&#34;&#34;
+    Set up the basis species of a thermodynamic system.
+
+    Parameters
+    ----------
+    species : str, int, list, or None
+        Species name(s), formula(s), or index(es), or preset keyword.
+        If None, returns current basis definition.
+    state : str, list of str, or None
+        Physical state(s) for the species
+    logact : float, list of float, or None
+        Log activities for the basis species
+    delete : bool, default False
+        If True, delete the basis definition
+    add : bool, default False
+        If True, add to existing basis instead of replacing
+    messages : bool, default True
+        If True, print informational messages about species lookup
+        If False, suppress all output (equivalent to R&#39;s suppressMessages())
+    global_state : bool, default True
+        If True, store basis definition in global thermo().basis (default behavior)
+        If False, return basis definition without storing globally (local state)
+
+    Returns
+    -------
+    pd.DataFrame or None
+        Basis species definition DataFrame, or None if deleted
+
+    Examples
+    --------
+    &gt;&gt;&gt; # Set up a simple basis
+    &gt;&gt;&gt; basis([&#34;H2O&#34;, &#34;CO2&#34;, &#34;NH3&#34;], logact=[0, -3, -4])
+
+    &gt;&gt;&gt; # Use a preset basis
+    &gt;&gt;&gt; basis(&#34;CHNOS&#34;)
+
+    &gt;&gt;&gt; # Add species to existing basis
+    &gt;&gt;&gt; basis(&#34;Fe2O3&#34;, add=True)
+
+    &gt;&gt;&gt; # Delete basis
+    &gt;&gt;&gt; basis(delete=True)
+
+    &gt;&gt;&gt; # Suppress messages
+    &gt;&gt;&gt; basis(&#34;CHNOS&#34;, messages=False)
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+    
+    # Get current basis
+    old_basis = thermo_obj.basis
+    
+    # Delete basis if requested
+    if delete or species == &#34;&#34;:
+        thermo_obj.basis = None
+        thermo_obj.species = None
+        return old_basis
+    
+    # Return current basis if no species specified
+    if species is None:
+        return old_basis
+    
+    # Handle empty species list
+    if isinstance(species, list) and len(species) == 0:
+        raise ValueError(&#34;species argument is empty&#34;)
+    
+    # Check for preset keywords
+    if isinstance(species, str) and species in _get_preset_basis_keywords():
+        return preset_basis(species, messages=messages, global_state=global_state)
+
+    # Ensure species names are unique
+    if isinstance(species, list):
+        if len(set([str(s) for s in species])) != len(species):
+            raise ValueError(&#34;species names are not unique&#34;)
+
+    # Process arguments
+    species, state, logact = _process_basis_arguments(species, state, logact)
+
+    # Handle special transformations
+    species, logact = _handle_special_species(species, logact)
+
+    # Check if we&#39;re modifying existing basis species
+    if (old_basis is not None and not add and
+        _all_species_in_basis(species, old_basis)):
+        if state is not None or logact is not None:
+            return mod_basis(species, state, logact, messages=messages)
+
+    # Create new basis definition or add to existing
+    if logact is None:
+        logact = [0.0] * len(species)
+
+    # Get species indices
+    ispecies = _get_species_indices(species, state, messages=messages)
+    
+    # Handle adding to existing basis
+    if add and old_basis is not None:
+        # Check for duplicates
+        existing_indices = old_basis[&#39;ispecies&#39;].tolist()
+        for i, idx in enumerate(ispecies):
+            if idx in existing_indices:
+                sp_name = species[i] if isinstance(species[i], str) else str(species[i])
+                raise BasisError(f&#34;Species {sp_name} is already in the basis definition&#34;)
+        
+        # Append to existing basis
+        ispecies = existing_indices + ispecies
+        logact = old_basis[&#39;logact&#39;].tolist() + logact
+    
+    # Create new basis
+    new_basis = put_basis(ispecies, logact, global_state=global_state)
+
+    # Only update global species list if using global state
+    if global_state:
+        # Handle species list when adding
+        if add and thermo_obj.species is not None:
+            _update_species_for_added_basis(old_basis, new_basis)
+        else:
+            # Clear species since basis changed
+            from .species import species as species_func
+            species_func(delete=True)
+
+    return new_basis</code></pre>
+</details>
+<div class="desc"><p>Set up the basis species of a thermodynamic system.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, int, list,</code> or <code>None</code></dt>
+<dd>Species name(s), formula(s), or index(es), or preset keyword.
+If None, returns current basis definition.</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>None</code></dt>
+<dd>Physical state(s) for the species</dd>
+<dt><strong><code>logact</code></strong> :&ensp;<code>float, list</code> of <code>float,</code> or <code>None</code></dt>
+<dd>Log activities for the basis species</dd>
+<dt><strong><code>delete</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, delete the basis definition</dd>
+<dt><strong><code>add</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, add to existing basis instead of replacing</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, print informational messages about species lookup
+If False, suppress all output (equivalent to R's suppressMessages())</dd>
+<dt><strong><code>global_state</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, store basis definition in global thermo().basis (default behavior)
+If False, return basis definition without storing globally (local state)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code> or <code>None</code></dt>
+<dd>Basis species definition DataFrame, or None if deleted</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Set up a simple basis
+&gt;&gt;&gt; basis([&quot;H2O&quot;, &quot;CO2&quot;, &quot;NH3&quot;], logact=[0, -3, -4])
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Use a preset basis
+&gt;&gt;&gt; basis(&quot;CHNOS&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Add species to existing basis
+&gt;&gt;&gt; basis(&quot;Fe2O3&quot;, add=True)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Delete basis
+&gt;&gt;&gt; basis(delete=True)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Suppress messages
+&gt;&gt;&gt; basis(&quot;CHNOS&quot;, messages=False)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.core.diagram"><code class="name flex">
+<span>def <span class="ident">diagram</span></span>(<span>eout: Dict[str, Any],<br>type: str = 'auto',<br>alpha: bool = False,<br>balance: str | float | List[float] | None = None,<br>names: List[str] | None = None,<br>format_names: bool = True,<br>xlab: str | None = None,<br>ylab: str | None = None,<br>xlim: List[float] | None = None,<br>ylim: List[float] | None = None,<br>col: str | List[str] | None = None,<br>col_names: str | List[str] | None = None,<br>lty: str | int | List | None = None,<br>lwd: float | List[float] = 1,<br>cex: float | List[float] = 1.0,<br>main: str | None = None,<br>fill: str | None = None,<br>fill_NA: str = '0.8',<br>limit_water: bool | None = None,<br>plot_it: bool = True,<br>add_to: Dict[str, Any] | None = None,<br>contour_method: str | List[str] | None = 'edge',<br>messages: bool = True,<br>interactive: bool = False,<br>annotation: str | None = None,<br>annotation_coords: List[float] = [0, 0],<br>width: int = 600,<br>height: int = 520,<br>save_as: str | None = None,<br>save_format: str | None = None,<br>save_scale: float = 1,<br>normalize: bool | List[bool] = False,<br>as_residue: bool = False,<br>**kwargs) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def diagram(eout: Dict[str, Any],
+            type: str = &#34;auto&#34;,
+            alpha: bool = False,
+            balance: Optional[Union[str, float, List[float]]] = None,
+            names: Optional[List[str]] = None,
+            format_names: bool = True,
+            xlab: Optional[str] = None,
+            ylab: Optional[str] = None,
+            xlim: Optional[List[float]] = None,
+            ylim: Optional[List[float]] = None,
+            col: Optional[Union[str, List[str]]] = None,
+            col_names: Optional[Union[str, List[str]]] = None,
+            lty: Optional[Union[str, int, List]] = None,
+            lwd: Union[float, List[float]] = 1,
+            cex: Union[float, List[float]] = 1.0,
+            main: Optional[str] = None,
+            fill: Optional[str] = None,
+            fill_NA: str = &#34;0.8&#34;,
+            limit_water: Optional[bool] = None,
+            plot_it: bool = True,
+            add_to: Optional[Dict[str, Any]] = None,
+            contour_method: Optional[Union[str, List[str]]] = &#34;edge&#34;,
+            messages: bool = True,
+            interactive: bool = False,
+            annotation: Optional[str] = None,
+            annotation_coords: List[float] = [0, 0],
+            width: int = 600,
+            height: int = 520,
+            save_as: Optional[str] = None,
+            save_format: Optional[str] = None,
+            save_scale: float = 1,
+            normalize: Union[bool, List[bool]] = False,
+            as_residue: bool = False,
+            **kwargs) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Plot equilibrium chemical activity and predominance diagrams.
+
+    This function creates plots from the output of affinity() or equilibrate().
+    For 1D diagrams, it produces line plots showing how affinity or activity
+    varies with a single variable. For 2D diagrams, it creates predominance
+    field diagrams.
+
+    Parameters
+    ----------
+    eout : dict
+        Output from affinity() or equilibrate()
+    type : str, default &#34;auto&#34;
+        Type of diagram:
+        - &#34;auto&#34; (default): Plot affinity values (A/2.303RT)
+        - &#34;loga.equil&#34;: Plot equilibrium activities from equilibrate()
+        - &#34;saturation&#34;: Draw affinity=0 contour lines (mineral saturation)
+        - Basis species name (e.g., &#34;O2&#34;, &#34;H2O&#34;, &#34;CO2&#34;): Plot equilibrium
+          log activity/fugacity of the specified basis species where affinity=0
+          for each formed species. Useful for Eh-pH diagrams and showing
+          oxygen/water fugacities at equilibrium.
+    alpha : bool or str, default False
+        Plot degree of formation instead of activities?
+        If &#34;balance&#34;, scale by balancing coefficients
+    balance : str, float, or list of float, optional
+        Balancing coefficients or method for balancing reactions
+    names : list of str, optional
+        Custom names for species (for labels)
+    format_names : bool, default True
+        Apply formatting to chemical formulas?
+    xlab : str, optional
+        Custom x-axis label
+    ylab : str, optional
+        Custom y-axis label
+    xlim : list of float, optional
+        X-axis limits [min, max]
+    ylim : list of float, optional
+        Y-axis limits [min, max]
+    col : str or list of str, optional
+        Line colors for 1-D plots and boundary lines in 2-D plots (matplotlib color specs)
+    col_names : str or list of str, optional
+        Text colors for field labels in 2-D plots (matplotlib color specs)
+    lty : str, int, or list, optional
+        Line styles (matplotlib linestyle specs)
+    lwd : float or list of float, default 1
+        Line widths for 1-D plots and boundary lines in 2-D predominance
+        diagrams. Set to 0 to disable borders in 2-D diagrams. If fill is
+        None and lwd &gt; 0, uses white fill with black borders (R CHNOSZ default).
+    cex : float or list of float, default 1.0
+        Character expansion factor for text labels. Values &gt; 1 make text larger,
+        values &lt; 1 make text smaller. Can be a single value or a list (one per species).
+        Used for contour labels in type=&#34;saturation&#34; plots.
+    main : str, optional
+        Plot title
+    fill : str, optional
+        Color palette for 2-D predominance diagrams. Can be any matplotlib
+        colormap name (e.g., &#39;viridis&#39;, &#39;plasma&#39;, &#39;terrain&#39;, &#39;rainbow&#39;,
+        &#39;Set1&#39;, &#39;tab10&#39;, &#39;Pastel1&#39;). If None, uses discrete colors from
+        the default color cycle. Ignored for 1-D diagrams.
+    fill_NA : str, default &#34;0.8&#34;
+        Color for regions outside water stability limits (water instability regions).
+        Matplotlib color specification (e.g., &#34;0.8&#34; for gray, &#34;#CCCCCC&#34;).
+        Set to &#34;transparent&#34; to disable shading. Default &#34;0.8&#34; matches R&#39;s &#34;gray80&#34;.
+    limit_water : bool, optional
+        Whether to show water stability limits as shaded regions (default True for
+        2-D diagrams). If True, also clips the diagram to the water stability region.
+        Set to False to disable water stability shading.
+    plot_it : bool, default True
+        Display the plot?
+    add_to : dict, optional
+        A diagram result dictionary from a previous diagram() call. When provided,
+        this plot will be AUTOMATICALLY COPIED and the new diagram will be added to
+        the copy. This preserves the original plot while creating a modified version.
+        The axes object is extracted from add_to[&#39;ax&#39;].
+
+        This parameter eliminates the need for a separate &#39;add&#39; boolean - when
+        add_to is provided, the function automatically operates in &#34;add&#34; mode.
+
+        Example workflow:
+        &gt;&gt;&gt; plot_a = diagram(affinity1, fill=&#39;terrain&#39;)  # Create base plot
+        &gt;&gt;&gt; plot_a1 = diagram(affinity2, add_to=plot_a, col=&#39;blue&#39;)  # Copy and add
+        &gt;&gt;&gt; plot_a2 = diagram(affinity3, add_to=plot_a, col=&#39;red&#39;)   # Copy and add again
+        &gt;&gt;&gt; # plot_a remains unchanged, plot_a1 and plot_a2 are independent modifications
+    contour_method : str or list of str, optional
+        Method for labeling contour lines. Default &#34;edge&#34; labels at plot edges.
+        Can be a single value (applied to all species) or a list (one per species).
+        Set to None, NA, or &#34;&#34; to disable labels (only for type=&#34;saturation&#34;).
+        In R CHNOSZ, different methods like &#34;edge&#34;, &#34;flattest&#34;, &#34;simple&#34; control
+        label placement; in Python, this mainly controls whether labels are shown.
+    interactive : bool, default False
+        Create an interactive plot using Plotly instead of matplotlib?
+        If True, calls diagram_interactive() with the appropriate parameters.
+    annotation : str, optional
+        For interactive plots only. Annotation text to add to the plot.
+    annotation_coords : list of float, default [0, 0]
+        For interactive plots only. Coordinates of annotation, where [0, 0] is
+        bottom left and [1, 1] is top right.
+    width : int, default 600
+        For interactive plots only. Width of the plot in pixels.
+    height : int, default 520
+        For interactive plots only. Height of the plot in pixels.
+    save_as : str, optional
+        For interactive plots only. Provide a filename to save this figure.
+        Filetype is determined by `save_format`.
+    save_format : str, optional
+        For interactive plots only. Desired format of saved or downloaded figure.
+        Can be &#39;png&#39;, &#39;jpg&#39;, &#39;jpeg&#39;, &#39;webp&#39;, &#39;svg&#39;, &#39;pdf&#39;, &#39;eps&#39;, &#39;json&#39;, or &#39;html&#39;.
+        If &#39;html&#39;, an interactive plot will be saved.
+    save_scale : float, default 1
+        For interactive plots only. Multiply title/legend/axis/canvas sizes by
+        this factor when saving the figure.
+    **kwargs
+        Additional arguments passed to matplotlib plotting functions
+
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - plotvar : str, Variable that was plotted
+        - plotvals : dict, Values that were plotted
+        - names : list, Names used for labels
+        - predominant : array or NA, Predominance matrix (for 2D)
+        - balance : str or list, Balancing coefficients used
+        - n.balance : list, Numerical balancing coefficients
+        - ax : matplotlib.axes.Axes, The axes object used for plotting (if plot_it=True)
+        - fig : matplotlib.figure.Figure, The figure object used for plotting (if plot_it=True)
+        - All original eout contents
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.basis([&#34;Fe2O3&#34;, &#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+    ...              [0, -3, 0, -4, -7, -80, -7])
+    &gt;&gt;&gt; pychnosz.species([&#34;pyrite&#34;, &#34;goethite&#34;])
+    &gt;&gt;&gt; a = pychnosz.affinity(H2S=[-60, 20, 5], T=25, P=1)
+    &gt;&gt;&gt; d = diagram(a)
+
+    Notes
+    -----
+    This implementation is based on R CHNOSZ diagram() function but adapted
+    for Python&#39;s matplotlib plotting instead of R&#39;s base graphics. The key
+    differences from diagram_from_WORM.py are:
+    - Works directly with Python dict output from affinity() (no rpy2)
+    - Uses matplotlib for 1D plots by default
+    - Can optionally use plotly if requested
+    &#34;&#34;&#34;
+
+    # Handle add_to parameter: automatically copy the provided plot
+    # This extracts the axes object and creates an independent copy
+    # When add_to is provided, we&#39;re in &#34;add&#34; mode
+    ax = None
+    add = add_to is not None
+    plot_was_provided = add
+
+    if add_to is not None:
+        # Make a deep copy of the provided plot to preserve the original
+        plot_copy = copy_plot(add_to)
+        # Extract the axes from the copied plot
+        if &#39;ax&#39; in plot_copy:
+            ax = plot_copy[&#39;ax&#39;]
+        else:
+            raise ValueError(&#34;The &#39;add_to&#39; parameter must contain an &#39;ax&#39; key (a diagram result dictionary)&#34;)
+
+    # If interactive mode is requested, delegate to diagram_interactive
+    if interactive:
+        df, fig = diagram_interactive(
+            eout=eout,
+            type=type,
+            main=main,
+            borders=lwd,
+            names=names,
+            format_names=format_names,
+            annotation=annotation,
+            annotation_coords=annotation_coords,
+            balance=balance,
+            xlab=xlab,
+            ylab=ylab,
+            fill=fill,
+            width=width,
+            height=height,
+            alpha=alpha,
+            plot_it=plot_it,
+            add=add,
+            ax=ax,
+            col=col,
+            lty=lty,
+            lwd=lwd,
+            cex=cex,
+            contour_method=contour_method,
+            save_as=save_as,
+            save_format=save_format,
+            save_scale=save_scale,
+            messages=messages
+        )
+        # Return in a format compatible with diagram&#39;s normal output
+        # diagram_interactive returns (df, fig), wrap in a dict for consistency
+        # Include eout data so water_lines() can access vars, vals, basis, etc.
+        result = {
+            **eout,  # Include all original eout data
+            &#39;df&#39;: df,
+            &#39;fig&#39;: fig,
+            &#39;ax&#39;: fig  # For compatibility, store fig in ax key for add=True workflow
+        }
+        return result
+
+    # Check that eout is valid
+    efun = eout.get(&#39;fun&#39;, &#39;&#39;)
+    if efun not in [&#39;affinity&#39;, &#39;equilibrate&#39;, &#39;solubility&#39;]:
+        raise ValueError(&#34;&#39;eout&#39; is not the output from affinity(), equilibrate(), or solubility()&#34;)
+
+    # Determine if eout is from affinity() (as opposed to equilibrate())
+    # Check for both Python naming (loga_equil) and R naming (loga.equil)
+    eout_is_aout = &#39;loga_equil&#39; not in eout and &#39;loga.equil&#39; not in eout
+
+    # Check if type is a basis species name
+    plot_loga_basis = False
+    if type not in [&#34;auto&#34;, &#34;saturation&#34;, &#34;loga.equil&#34;, &#34;loga_equil&#34;, &#34;loga.balance&#34;, &#34;loga_balance&#34;]:
+        # Check if type matches a basis species name
+        if &#39;basis&#39; in eout:
+            basis_species = list(eout[&#39;basis&#39;].index) if hasattr(eout[&#39;basis&#39;], &#39;index&#39;) else []
+            if type in basis_species:
+                plot_loga_basis = True
+                if alpha:
+                    raise ValueError(&#34;equilibrium activities of basis species not available with alpha = TRUE&#34;)
+
+    # Handle type=&#34;saturation&#34; - requires affinity output
+    if type == &#34;saturation&#34;:
+        if not eout_is_aout:
+            raise ValueError(&#34;type=&#39;saturation&#39; requires output from affinity(), not equilibrate()&#34;)
+        # Set eout_is_aout flag
+        eout_is_aout = True
+
+    # Get number of dimensions
+    # Handle both dict (affinity) and list (equilibrate) values structures
+    if isinstance(eout[&#39;values&#39;], dict):
+        first_values = list(eout[&#39;values&#39;].values())[0]
+    elif isinstance(eout[&#39;values&#39;], list):
+        first_values = eout[&#39;values&#39;][0]
+    else:
+        first_values = eout[&#39;values&#39;]
+
+    if hasattr(first_values, &#39;shape&#39;):
+        nd = len(first_values.shape)
+    elif hasattr(first_values, &#39;__len__&#39;):
+        nd = 1
+    else:
+        nd = 0  # Single value
+
+    # For affinity output, get balancing coefficients
+    if eout_is_aout and type == &#34;auto&#34;:
+        n_balance, balance = _get_balance(eout, balance, messages)
+    elif eout_is_aout and type == &#34;saturation&#34;:
+        # For saturation diagrams, use n_balance = 1 for all species (don&#39;t normalize by stoichiometry)
+        if isinstance(eout[&#39;values&#39;], dict):
+            n_balance = [1] * len(eout[&#39;values&#39;])
+        elif isinstance(eout[&#39;values&#39;], list):
+            n_balance = [1] * len(eout[&#39;values&#39;])
+        else:
+            n_balance = [1]
+        if balance is None:
+            balance = 1
+    else:
+        # For equilibrate output, use n_balance from equilibrate if available
+        if &#39;n_balance&#39; in eout:
+            n_balance = eout[&#39;n_balance&#39;]
+            balance = eout.get(&#39;balance&#39;, 1)
+        else:
+            if isinstance(eout[&#39;values&#39;], dict):
+                n_balance = [1] * len(eout[&#39;values&#39;])
+            elif isinstance(eout[&#39;values&#39;], list):
+                n_balance = [1] * len(eout[&#39;values&#39;])
+            else:
+                n_balance = [1]
+            if balance is None:
+                balance = 1
+
+    # Determine what to plot
+    plotvals = {}
+    plotvar = eout.get(&#39;property&#39;, &#39;A&#39;)
+
+    # Calculate equilibrium log activity/fugacity of basis species
+    if plot_loga_basis:
+        # Find the index of the basis species
+        basis_df = eout[&#39;basis&#39;]
+        ibasis = list(basis_df.index).index(type)
+
+        # Get the logarithm of activity used in the affinity calculation
+        logact = basis_df.iloc[ibasis][&#39;logact&#39;]
+
+        # Check if logact is numeric
+        try:
+            loga_basis = float(logact)
+        except (ValueError, TypeError):
+            raise ValueError(f&#34;the logarithm of activity for basis species {type} is not numeric - was a buffer selected?&#34;)
+
+        # Get the reaction coefficients for this basis species
+        # eout[&#39;species&#39;] is a DataFrame with basis species as columns
+        nu_basis = eout[&#39;species&#39;].iloc[:, ibasis].values
+
+        # Calculate the logarithm of activity where affinity = 0
+        # loga_equilibrium = loga_basis - affinity / nu_basis
+        plotvals = {}
+        for i, (sp_idx, affinity_vals) in enumerate(eout[&#39;values&#39;].items()):
+            plotvals[sp_idx] = loga_basis - affinity_vals / nu_basis[i]
+
+        plotvar = type
+
+        # Set n_balance (not used for basis species plots, but needed for compatibility)
+        n_balance = [1] * len(plotvals)
+        if balance is None:
+            balance = 1
+    elif eout_is_aout:
+        # Plot affinity values divided by balancing coefficients
+        # DEBUG: Check balance application
+        if False:  # Set to True for debugging
+            print(f&#34;\nDEBUG: Applying balance to affinity values&#34;)
+            print(f&#34;  n_balance: {n_balance}&#34;)
+
+        # Handle dict-based values (from affinity)
+        if isinstance(eout[&#39;values&#39;], dict):
+            for i, (species_idx, values) in enumerate(eout[&#39;values&#39;].items()):
+                if False:  # Set to True for debugging
+                    print(f&#34;  Species {i} (ispecies {species_idx}): values/n_balance[{i}]={n_balance[i]}&#34;)
+                plotvals[species_idx] = values / n_balance[i]
+        # Handle list-based values
+        elif isinstance(eout[&#39;values&#39;], list):
+            for i, values in enumerate(eout[&#39;values&#39;]):
+                species_idx = eout[&#39;species&#39;][&#39;ispecies&#39;].iloc[i]
+                plotvals[species_idx] = values / n_balance[i]
+
+        if plotvar == &#39;A&#39;:
+            plotvar = &#39;A/(2.303RT)&#39;
+            if nd == 1:
+                if messages:
+                    print(f&#34;diagram: plotting {plotvar} / n.balance&#34;)
+    else:
+        # Plot equilibrated activities
+        # Check for both Python naming (loga_equil) and R naming (loga.equil)
+        loga_equil_key = &#39;loga_equil&#39; if &#39;loga_equil&#39; in eout else &#39;loga.equil&#39;
+        loga_equil_list = eout[loga_equil_key]
+
+        # For equilibrate output, keep plotvals as a dict with INTEGER indices as keys
+        # This preserves the 1:1 correspondence with the species list, including duplicates
+        # Do NOT use ispecies as keys because duplicates would overwrite each other
+        if isinstance(loga_equil_list, list):
+            for i, loga_val in enumerate(loga_equil_list):
+                plotvals[i] = loga_val  # Use integer index, not ispecies
+        else:
+            # Already a dict
+            plotvals = loga_equil_list
+
+        plotvar = &#39;loga.equil&#39;
+
+    # Handle alpha (degree of formation)
+    if alpha:
+        # Convert to activities (remove logarithms)
+        # Use numpy arrays for proper element-wise operations
+        act_vals = {}
+        for k, v in plotvals.items():
+            if isinstance(v, np.ndarray):
+                act_vals[k] = 10**v
+            else:
+                act_vals[k] = np.power(10, v)
+
+        # Scale by balance if requested
+        if alpha == &#34;balance&#34;:
+            species_keys = list(act_vals.keys())
+            for i, k in enumerate(species_keys):
+                act_vals[k] = act_vals[k] * n_balance[i]
+
+        # Calculate sum of activities (element-wise for arrays)
+        # Get the first value to determine shape
+        first_val = list(act_vals.values())[0]
+        if isinstance(first_val, np.ndarray):
+            # Multi-dimensional case
+            sum_act = np.zeros_like(first_val)
+            for v in act_vals.values():
+                sum_act = sum_act + v
+        else:
+            # Single value case
+            sum_act = sum(act_vals.values())
+
+        # Calculate alpha (fraction) - element-wise division
+        plotvals = {k: v / sum_act for k, v in act_vals.items()}
+        plotvar = &#34;alpha&#34;
+
+    # Get species information for labels
+    species_df = eout[&#39;species&#39;]
+    if names is None:
+        names = species_df[&#39;name&#39;].tolist()
+
+    # Format chemical names if requested
+    if format_names and not alpha:
+        names = [_format_chemname(name) for name in names]
+
+    # Prepare for plotting
+    if nd == 0:
+        # 0-D: Bar plot (not implemented yet)
+        raise NotImplementedError(&#34;0-D bar plots not yet implemented&#34;)
+
+    elif nd == 1:
+        # 1-D: Line plot
+        result = _plot_1d(eout, plotvals, plotvar, names, n_balance, balance,
+                       xlab, ylab, xlim, ylim, col, lty, lwd, main, add, plot_it, ax, width, height, plot_was_provided, **kwargs)
+
+    elif nd == 2:
+        # 2-D: Predominance diagram or saturation lines
+        # Pass lty and cex through kwargs for saturation plots
+        result = _plot_2d(eout, plotvals, plotvar, names, n_balance, balance,
+                       xlab, ylab, xlim, ylim, col, col_names, fill, fill_NA, limit_water, lwd, main, add, plot_it, ax,
+                       type, contour_method, messages, width, height, plot_was_provided, lty=lty, cex=cex, **kwargs)
+
+    else:
+        raise ValueError(f&#34;Cannot create diagram with {nd} dimensions&#34;)
+
+    # Handle Jupyter display behavior
+    # When plot_it=True, we want the figure to display
+    # When plot_it=False, we want to suppress display and close the figure
+    if not plot_it and result is not None and &#39;fig&#39; in result:
+        # Close the figure to prevent auto-display in Jupyter
+        # The figure is still in the result dict, so users can access it via result[&#39;fig&#39;]
+        # but it won&#39;t be displayed automatically
+        plt.close(result[&#39;fig&#39;])
+    elif plot_it and result is not None and &#39;fig&#39; in result:
+        # Try to use IPython display if available (for Jupyter notebooks)
+        try:
+            from IPython.display import display
+            display(result[&#39;fig&#39;])
+        except (ImportError, NameError):
+            # Not in IPython/Jupyter, regular matplotlib display
+            pass
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Plot equilibrium chemical activity and predominance diagrams.</p>
+<p>This function creates plots from the output of affinity() or equilibrate().
+For 1D diagrams, it produces line plots showing how affinity or activity
+varies with a single variable. For 2D diagrams, it creates predominance
+field diagrams.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>eout</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Output from affinity() or equilibrate()</dd>
+<dt><strong><code>type</code></strong> :&ensp;<code>str</code>, default <code>"auto"</code></dt>
+<dd>Type of diagram:
+- "auto" (default): Plot affinity values (A/2.303RT)
+- "loga.equil": Plot equilibrium activities from equilibrate()
+- "saturation": Draw affinity=0 contour lines (mineral saturation)
+- Basis species name (e.g., "O2", "H2O", "CO2"): Plot equilibrium
+log activity/fugacity of the specified basis species where affinity=0
+for each formed species. Useful for Eh-pH diagrams and showing
+oxygen/water fugacities at equilibrium.</dd>
+<dt><strong><code>alpha</code></strong> :&ensp;<code>bool</code> or <code>str</code>, default <code>False</code></dt>
+<dd>Plot degree of formation instead of activities?
+If "balance", scale by balancing coefficients</dd>
+<dt><strong><code>balance</code></strong> :&ensp;<code>str, float,</code> or <code>list</code> of <code>float</code>, optional</dt>
+<dd>Balancing coefficients or method for balancing reactions</dd>
+<dt><strong><code>names</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>Custom names for species (for labels)</dd>
+<dt><strong><code>format_names</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Apply formatting to chemical formulas?</dd>
+<dt><strong><code>xlab</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Custom x-axis label</dd>
+<dt><strong><code>ylab</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Custom y-axis label</dd>
+<dt><strong><code>xlim</code></strong> :&ensp;<code>list</code> of <code>float</code>, optional</dt>
+<dd>X-axis limits [min, max]</dd>
+<dt><strong><code>ylim</code></strong> :&ensp;<code>list</code> of <code>float</code>, optional</dt>
+<dd>Y-axis limits [min, max]</dd>
+<dt><strong><code>col</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code>, optional</dt>
+<dd>Line colors for 1-D plots and boundary lines in 2-D plots (matplotlib color specs)</dd>
+<dt><strong><code>col_names</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code>, optional</dt>
+<dd>Text colors for field labels in 2-D plots (matplotlib color specs)</dd>
+<dt><strong><code>lty</code></strong> :&ensp;<code>str, int,</code> or <code>list</code>, optional</dt>
+<dd>Line styles (matplotlib linestyle specs)</dd>
+<dt><strong><code>lwd</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code>, default <code>1</code></dt>
+<dd>Line widths for 1-D plots and boundary lines in 2-D predominance
+diagrams. Set to 0 to disable borders in 2-D diagrams. If fill is
+None and lwd &gt; 0, uses white fill with black borders (R CHNOSZ default).</dd>
+<dt><strong><code>cex</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code>, default <code>1.0</code></dt>
+<dd>Character expansion factor for text labels. Values &gt; 1 make text larger,
+values &lt; 1 make text smaller. Can be a single value or a list (one per species).
+Used for contour labels in type="saturation" plots.</dd>
+<dt><strong><code>main</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Plot title</dd>
+<dt><strong><code>fill</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Color palette for 2-D predominance diagrams. Can be any matplotlib
+colormap name (e.g., 'viridis', 'plasma', 'terrain', 'rainbow',
+'Set1', 'tab10', 'Pastel1'). If None, uses discrete colors from
+the default color cycle. Ignored for 1-D diagrams.</dd>
+<dt><strong><code>fill_NA</code></strong> :&ensp;<code>str</code>, default <code>"0.8"</code></dt>
+<dd>Color for regions outside water stability limits (water instability regions).
+Matplotlib color specification (e.g., "0.8" for gray, "#CCCCCC").
+Set to "transparent" to disable shading. Default "0.8" matches R's "gray80".</dd>
+<dt><strong><code>limit_water</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Whether to show water stability limits as shaded regions (default True for
+2-D diagrams). If True, also clips the diagram to the water stability region.
+Set to False to disable water stability shading.</dd>
+<dt><strong><code>plot_it</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Display the plot?</dd>
+<dt><strong><code>add_to</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>
+<p>A diagram result dictionary from a previous diagram() call. When provided,
+this plot will be AUTOMATICALLY COPIED and the new diagram will be added to
+the copy. This preserves the original plot while creating a modified version.
+The axes object is extracted from add_to['ax'].</p>
+<p>This parameter eliminates the need for a separate 'add' boolean - when
+add_to is provided, the function automatically operates in "add" mode.</p>
+<p>Example workflow:</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>plot_a = diagram(affinity1, fill='terrain')
+# Create base plot
+plot_a1 = diagram(affinity2, add_to=plot_a, col='blue')
+# Copy and add
+plot_a2 = diagram(affinity3, add_to=plot_a, col='red')
+# Copy and add again</p>
+<h1 id="plot_a-remains-unchanged-plot_a1-and-plot_a2-are-independent-modifications">plot_a remains unchanged, plot_a1 and plot_a2 are independent modifications</h1>
+</blockquote>
+</blockquote>
+</blockquote>
+</dd>
+<dt><strong><code>contour_method</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code>, optional</dt>
+<dd>Method for labeling contour lines. Default "edge" labels at plot edges.
+Can be a single value (applied to all species) or a list (one per species).
+Set to None, NA, or "" to disable labels (only for type="saturation").
+In R CHNOSZ, different methods like "edge", "flattest", "simple" control
+label placement; in Python, this mainly controls whether labels are shown.</dd>
+<dt><strong><code>interactive</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Create an interactive plot using Plotly instead of matplotlib?
+If True, calls diagram_interactive() with the appropriate parameters.</dd>
+<dt><strong><code>annotation</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>For interactive plots only. Annotation text to add to the plot.</dd>
+<dt><strong><code>annotation_coords</code></strong> :&ensp;<code>list</code> of <code>float</code>, default <code>[0, 0]</code></dt>
+<dd>For interactive plots only. Coordinates of annotation, where [0, 0] is
+bottom left and [1, 1] is top right.</dd>
+<dt><strong><code>width</code></strong> :&ensp;<code>int</code>, default <code>600</code></dt>
+<dd>For interactive plots only. Width of the plot in pixels.</dd>
+<dt><strong><code>height</code></strong> :&ensp;<code>int</code>, default <code>520</code></dt>
+<dd>For interactive plots only. Height of the plot in pixels.</dd>
+<dt><strong><code>save_as</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>For interactive plots only. Provide a filename to save this figure.
+Filetype is determined by <code>save_format</code>.</dd>
+<dt><strong><code>save_format</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>For interactive plots only. Desired format of saved or downloaded figure.
+Can be 'png', 'jpg', 'jpeg', 'webp', 'svg', 'pdf', 'eps', 'json', or 'html'.
+If 'html', an interactive plot will be saved.</dd>
+<dt><strong><code>save_scale</code></strong> :&ensp;<code>float</code>, default <code>1</code></dt>
+<dd>For interactive plots only. Multiply title/legend/axis/canvas sizes by
+this factor when saving the figure.</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional arguments passed to matplotlib plotting functions</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary containing:
+- plotvar : str, Variable that was plotted
+- plotvals : dict, Values that were plotted
+- names : list, Names used for labels
+- predominant : array or NA, Predominance matrix (for 2D)
+- balance : str or list, Balancing coefficients used
+- n.balance : list, Numerical balancing coefficients
+- ax : matplotlib.axes.Axes, The axes object used for plotting (if plot_it=True)
+- fig : matplotlib.figure.Figure, The figure object used for plotting (if plot_it=True)
+- All original eout contents</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.basis([&quot;Fe2O3&quot;, &quot;CO2&quot;, &quot;H2O&quot;, &quot;NH3&quot;, &quot;H2S&quot;, &quot;oxygen&quot;, &quot;H+&quot;],
+...              [0, -3, 0, -4, -7, -80, -7])
+&gt;&gt;&gt; pychnosz.species([&quot;pyrite&quot;, &quot;goethite&quot;])
+&gt;&gt;&gt; a = pychnosz.affinity(H2S=[-60, 20, 5], T=25, P=1)
+&gt;&gt;&gt; d = diagram(a)
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This implementation is based on R CHNOSZ diagram() function but adapted
+for Python's matplotlib plotting instead of R's base graphics. The key
+differences from diagram_from_WORM.py are:
+- Works directly with Python dict output from affinity() (no rpy2)
+- Uses matplotlib for 1D plots by default
+- Can optionally use plotly if requested</p></div>
+</dd>
+<dt id="pychnosz.core.equilibrate"><code class="name flex">
+<span>def <span class="ident">equilibrate</span></span>(<span>aout: Dict[str, Any],<br>balance: str | int | List[float] | None = None,<br>loga_balance: float | List[float] | None = None,<br>ispecies: List[int] | List[bool] | None = None,<br>normalize: bool | List[bool] = False,<br>as_residue: bool = False,<br>method: str | List[str] | None = None,<br>tol: float = np.float64(0.0001220703125),<br>messages: bool = True) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def equilibrate(aout: Dict[str, Any],
+                balance: Optional[Union[str, int, List[float]]] = None,
+                loga_balance: Optional[Union[float, List[float]]] = None,
+                ispecies: Optional[Union[List[int], List[bool]]] = None,
+                normalize: Union[bool, List[bool]] = False,
+                as_residue: bool = False,
+                method: Optional[Union[str, List[str]]] = None,
+                tol: float = np.finfo(float).eps ** 0.25,
+                messages: bool = True) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate equilibrium activities of species from affinities.
+
+    This function calculates the equilibrium activities of species in
+    (metastable) equilibrium from the affinities of their formation reactions
+    from basis species at given activities.
+
+    Parameters
+    ----------
+    aout : dict
+        Output from affinity() containing chemical affinities
+    balance : str, int, or list of float, optional
+        Balancing method:
+        - None: Autoselect using which_balance()
+        - str: Name of basis species to balance on
+        - &#34;length&#34;: Balance on protein length (for proteins)
+        - &#34;volume&#34;: Balance on standard-state volume
+        - 1: Balance on one mole of species (formula units)
+        - list: User-defined balancing coefficients
+    loga_balance : float or list of float, optional
+        Logarithm of total activity of the balancing basis species
+        If None, calculated from species initial activities and n.balance
+    ispecies : list of int or list of bool, optional
+        Indices or boolean mask of species to include in equilibration
+        Default: all species except those with state &#34;cr&#34; (crystalline)
+    normalize : bool or list of bool, default False
+        Normalize formulas by balancing coefficients?
+    as_residue : bool, default False
+        Use residue basis for proteins?
+    method : str or list of str, optional
+        Equilibration method:
+        - &#34;boltzmann&#34;: Boltzmann distribution (for n.balance = 1)
+        - &#34;reaction&#34;: Reaction-based equilibration (general method)
+        If None, chooses &#34;boltzmann&#34; if all n.balance == 1, else &#34;reaction&#34;
+    tol : float, default np.finfo(float).eps**0.25
+        Tolerance for root-finding in reaction method
+    messages : bool, default True
+        Whether to print informational messages
+
+    Returns
+    -------
+    dict
+        Dictionary containing all aout contents plus:
+        - balance : str or list, Balancing description
+        - m_balance : list, Molar formula divisors
+        - n_balance : list, Balancing coefficients
+        - loga_balance : float or array, Log activity of balanced quantity
+        - Astar : list of arrays, Normalized affinities
+        - loga_equil : list of arrays, Equilibrium log activities
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.basis(&#34;CHNOS&#34;)
+    &gt;&gt;&gt; pychnosz.basis(&#34;NH3&#34;, -2)
+    &gt;&gt;&gt; pychnosz.species([&#34;alanine&#34;, &#34;glycine&#34;, &#34;serine&#34;])
+    &gt;&gt;&gt; a = pychnosz.affinity(NH3=[-80, 60], T=55, P=2000)
+    &gt;&gt;&gt; e = pychnosz.equilibrate(a, balance=&#34;CO2&#34;)
+
+    Notes
+    -----
+    This is a 1:1 replica of the R CHNOSZ equilibrate() function.
+    - Handles both Boltzmann and reaction-based equilibration
+    - Supports normalization and residue basis for proteins
+    - Properly handles crystalline species via predominance diagrams
+    - Implements identical balancing logic to R version
+    &#34;&#34;&#34;
+
+    # Handle mosaic output (not implemented yet, but keep structure)
+    if aout.get(&#39;fun&#39;) == &#39;mosaic&#39;:
+        raise NotImplementedError(&#34;mosaic equilibration not yet implemented&#34;)
+
+    # Number of possible species
+    # affinity() returns values as a dict with ispecies as keys
+    if isinstance(aout[&#39;values&#39;], dict):
+        # Convert dict to list ordered by species dataframe
+        values_list = []
+        for i in range(len(aout[&#39;species&#39;])):
+            species_idx = aout[&#39;species&#39;][&#39;ispecies&#39;].iloc[i]
+            if species_idx in aout[&#39;values&#39;]:
+                values_list.append(aout[&#39;values&#39;][species_idx])
+            else:
+                # Species not in values dict - use NaN array
+                values_list.append(np.array([np.nan]))
+        aout[&#39;values&#39;] = values_list
+
+    nspecies = len(aout[&#39;values&#39;])
+
+    # Get the balancing coefficients
+    bout = _balance(aout, balance, messages)
+    n_balance_orig = bout[&#39;n_balance&#39;].copy()
+    n_balance = bout[&#39;n_balance&#39;].copy()
+    balance = bout[&#39;balance&#39;]
+
+    # If solids (cr) species are present, find them on a predominance diagram
+    iscr = [(&#39;cr&#39; in str(state)) for state in aout[&#39;species&#39;][&#39;state&#39;]]
+    ncr = sum(iscr)
+
+    # Set default ispecies to exclude cr species (matching R default)
+    if ispecies is None:
+        ispecies = [not is_cr for is_cr in iscr]
+
+    if ncr &gt; 0:
+        # Import diagram here to avoid circular imports
+        from .diagram import diagram
+        dout = diagram(aout, balance=balance, normalize=normalize,
+                      as_residue=as_residue, plot_it=False, limit_water=False, messages=messages)
+
+    if ncr == nspecies:
+        # We get here if there are only solids
+        m_balance = None
+        Astar = None
+        loga_equil = []
+        for i in range(len(aout[&#39;values&#39;])):
+            la = np.array(aout[&#39;values&#39;][i], copy=True)
+            la[:] = np.nan
+            loga_equil.append(la)
+    else:
+        # We get here if there are any aqueous species
+        # Take selected species in &#39;ispecies&#39;
+        if len(ispecies) == 0:
+            raise ValueError(&#34;the length of ispecies is zero&#34;)
+
+        # Convert boolean to indices if needed
+        if isinstance(ispecies, list) and len(ispecies) &gt; 0:
+            if isinstance(ispecies[0], bool):
+                ispecies = [i for i, x in enumerate(ispecies) if x]
+
+        # Take out species that have NA affinities
+        ina = [all(np.isnan(np.array(x).flatten())) for x in aout[&#39;values&#39;]]
+        ispecies = [i for i in ispecies if not ina[i]]
+
+        if len(ispecies) == 0:
+            raise ValueError(&#34;all species have NA affinities&#34;)
+
+        if ispecies != list(range(nspecies)):
+            if messages:
+                print(f&#34;equilibrate: using {len(ispecies)} of {nspecies} species&#34;)
+            aout_species_df = aout[&#39;species&#39;]
+            aout[&#39;species&#39;] = aout_species_df.iloc[ispecies].reset_index(drop=True)
+            aout[&#39;values&#39;] = [aout[&#39;values&#39;][i] for i in ispecies]
+            n_balance = [n_balance[i] for i in ispecies]
+
+        # Number of species that are left
+        nspecies = len(aout[&#39;values&#39;])
+
+        # Say what the balancing coefficients are
+        if len(n_balance) &lt; 100:
+            if messages:
+                print(f&#34;equilibrate: n.balance is {&#39;, &#39;.join(map(str, n_balance))}&#34;)
+
+        # Logarithm of total activity of the balancing basis species
+        if loga_balance is None:
+            # Sum up the activities, then take absolute value
+            # in case n.balance is negative
+            logact = np.array([aout[&#39;species&#39;][&#39;logact&#39;].iloc[i] for i in range(len(aout[&#39;species&#39;]))])
+            sumact = abs(sum(10**logact * n_balance))
+            loga_balance = np.log10(sumact)
+
+        # Make loga.balance the same length as the values of affinity
+        if isinstance(loga_balance, (int, float)):
+            loga_balance = float(loga_balance)
+        else:
+            loga_balance = np.array(loga_balance).flatten()
+
+        nvalues = len(np.array(aout[&#39;values&#39;][0]).flatten())
+
+        if isinstance(loga_balance, float) or len(np.atleast_1d(loga_balance)) == 1:
+            # We have a constant loga.balance
+            if isinstance(loga_balance, np.ndarray):
+                loga_balance = float(loga_balance[0])
+            if messages:
+                print(f&#34;equilibrate: loga.balance is {loga_balance}&#34;)
+            loga_balance = np.full(nvalues, loga_balance)
+        else:
+            # We are using a variable loga.balance (supplied by the user)
+            if len(loga_balance) != nvalues:
+                raise ValueError(f&#34;length of loga.balance ({len(loga_balance)}) doesn&#39;t match &#34;
+                               f&#34;the affinity values ({nvalues})&#34;)
+            if messages:
+                print(f&#34;equilibrate: loga.balance has same length as affinity values ({len(loga_balance)})&#34;)
+
+        # Normalize the molar formula by the balance coefficients
+        m_balance = n_balance.copy()
+        isprotein = [&#39;_&#39; in str(name) for name in aout[&#39;species&#39;][&#39;name&#39;]]
+
+        # Handle normalize parameter
+        if isinstance(normalize, bool):
+            normalize = [normalize] * nspecies
+        elif not isinstance(normalize, list):
+            normalize = list(normalize)
+
+        if any(normalize) or as_residue:
+            if any(n &lt; 0 for n in n_balance):
+                raise ValueError(&#34;one or more negative balancing coefficients prohibit using normalized molar formulas&#34;)
+
+            for i in range(nspecies):
+                if normalize[i] or as_residue:
+                    n_balance[i] = 1
+
+            if as_residue:
+                if messages:
+                    print(&#34;equilibrate: using &#39;as.residue&#39; for molar formulas&#34;)
+            else:
+                if messages:
+                    print(&#34;equilibrate: using &#39;normalize&#39; for molar formulas&#34;)
+
+            # Set the formula divisor (m.balance) to 1 for species whose formulas are *not* normalized
+            m_balance = [m_balance[i] if (normalize[i] or as_residue) else 1
+                        for i in range(nspecies)]
+        else:
+            m_balance = [1] * nspecies
+
+        # Astar: the affinities/2.303RT of formation reactions with
+        # formed species in their standard-state activities
+        Astar = []
+        for i in range(nspecies):
+            # &#39;starve&#39; the affinity of the activity of the species,
+            # and normalize the value by the molar ratio
+            logact_i = aout[&#39;species&#39;][&#39;logact&#39;].iloc[i]
+            astar_i = (np.array(aout[&#39;values&#39;][i]) + logact_i) / m_balance[i]
+            Astar.append(astar_i)
+
+        # Choose a method and compute the equilibrium activities of species
+        if method is None:
+            if all(n == 1 for n in n_balance):
+                method = [&#34;boltzmann&#34;]
+            else:
+                method = [&#34;reaction&#34;]
+        elif isinstance(method, str):
+            method = [method]
+
+        if messages:
+            print(f&#34;equilibrate: using {method[0]} method&#34;)
+
+        if method[0] == &#34;boltzmann&#34;:
+            loga_equil = equil_boltzmann(Astar, n_balance, loga_balance)
+        elif method[0] == &#34;reaction&#34;:
+            loga_equil = equil_reaction(Astar, n_balance, loga_balance, tol)
+        else:
+            raise ValueError(f&#34;unknown method: {method[0]}&#34;)
+
+        # If we normalized the formulas, get back to activities of species
+        if any(normalize) and not as_residue:
+            loga_equil = [loga_equil[i] - np.log10(m_balance[i])
+                         for i in range(nspecies)]
+
+    # Process cr species
+    if ncr &gt; 0:
+        # cr species were excluded from equilibrium calculation,
+        # so get values back to original lengths
+        norig = len(dout[&#39;values&#39;])
+        n_balance = n_balance_orig
+
+        # Ensure ispecies is in index form (not boolean)
+        # When ncr == nspecies, ispecies was never converted from boolean to indices
+        if isinstance(ispecies, list) and len(ispecies) &gt; 0:
+            if isinstance(ispecies[0], bool):
+                ispecies = [i for i, x in enumerate(ispecies) if x]
+
+        # Match indices back to original
+        imatch = [None] * norig
+        for j, orig_idx in enumerate(range(norig)):
+            if orig_idx in ispecies:
+                imatch[orig_idx] = ispecies.index(orig_idx)
+
+        # Handle None values (when ncr == nspecies, these are set to None)
+        # In R, indexing NULL returns NULL, so we need to check for None in Python
+        if m_balance is not None:
+            m_balance = [m_balance[imatch[i]] if imatch[i] is not None else None
+                        for i in range(norig)]
+        if Astar is not None:
+            Astar = [Astar[imatch[i]] if imatch[i] is not None else None
+                    for i in range(norig)]
+
+        # Get a template from first loga_equil to determine shape
+        loga_equil1 = loga_equil[0]
+        loga_equil_orig = [None] * norig
+
+        for i in range(norig):
+            if imatch[i] is not None:
+                loga_equil_orig[i] = loga_equil[imatch[i]]
+
+        # Replace None loga_equil with -999 for cr-only species (will be set to 0 where predominant)
+        # Use np.full with shape, not full_like, to avoid inheriting NaN values
+        ina = [i for i in range(norig) if imatch[i] is None]
+        for i in ina:
+            loga_equil_orig[i] = np.full(loga_equil1.shape, -999.0)
+        loga_equil = loga_equil_orig
+        aout[&#39;species&#39;] = dout[&#39;species&#39;]
+        aout[&#39;values&#39;] = dout[&#39;values&#39;]
+
+        # Find the grid points where any cr species is predominant
+        icr = [i for i in range(len(dout[&#39;species&#39;]))
+               if &#39;cr&#39; in str(dout[&#39;species&#39;][&#39;state&#39;].iloc[i])]
+
+        # predominant uses 1-based R indexing (1, 2, 3, ...), convert to 0-based for Python
+        predominant = dout[&#39;predominant&#39;]
+        iscr_mask = np.zeros_like(predominant, dtype=bool)
+        for icr_idx in icr:
+            # Compare with icr_idx + 1 because predominant is 1-based
+            iscr_mask |= (predominant == icr_idx + 1)
+
+        # At those grid points, make the aqueous species&#39; activities practically zero
+        for i in range(norig):
+            if i not in icr:
+                loga_equil[i] = np.array(loga_equil[i], copy=True)
+                loga_equil[i][iscr_mask] = -999
+
+        # At the grid points where cr species predominate, set their loga_equil to 0 (standard state)
+        for i in icr:
+            # Compare with i + 1 because predominant is 1-based
+            ispredom = (predominant == i + 1)
+            loga_equil[i] = np.array(loga_equil[i], copy=True)
+            # Set to standard state activity (logact, typically 0) where predominant
+            loga_equil[i][ispredom] = dout[&#39;species&#39;][&#39;logact&#39;].iloc[i]
+
+    # Put together the output
+    out = aout.copy()
+    out[&#39;fun&#39;] = &#39;equilibrate&#39;  # Mark this as equilibrate output
+    out[&#39;balance&#39;] = balance
+    out[&#39;m_balance&#39;] = m_balance
+    out[&#39;n_balance&#39;] = n_balance
+    out[&#39;loga_balance&#39;] = loga_balance
+    out[&#39;Astar&#39;] = Astar
+    out[&#39;loga_equil&#39;] = loga_equil
+
+    return out</code></pre>
+</details>
+<div class="desc"><p>Calculate equilibrium activities of species from affinities.</p>
+<p>This function calculates the equilibrium activities of species in
+(metastable) equilibrium from the affinities of their formation reactions
+from basis species at given activities.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aout</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Output from affinity() containing chemical affinities</dd>
+<dt><strong><code>balance</code></strong> :&ensp;<code>str, int,</code> or <code>list</code> of <code>float</code>, optional</dt>
+<dd>Balancing method:
+- None: Autoselect using which_balance()
+- str: Name of basis species to balance on
+- "length": Balance on protein length (for proteins)
+- "volume": Balance on standard-state volume
+- 1: Balance on one mole of species (formula units)
+- list: User-defined balancing coefficients</dd>
+<dt><strong><code>loga_balance</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code>, optional</dt>
+<dd>Logarithm of total activity of the balancing basis species
+If None, calculated from species initial activities and n.balance</dd>
+<dt><strong><code>ispecies</code></strong> :&ensp;<code>list</code> of <code>int</code> or <code>list</code> of <code>bool</code>, optional</dt>
+<dd>Indices or boolean mask of species to include in equilibration
+Default: all species except those with state "cr" (crystalline)</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>bool</code> or <code>list</code> of <code>bool</code>, default <code>False</code></dt>
+<dd>Normalize formulas by balancing coefficients?</dd>
+<dt><strong><code>as_residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Use residue basis for proteins?</dd>
+<dt><strong><code>method</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code>, optional</dt>
+<dd>Equilibration method:
+- "boltzmann": Boltzmann distribution (for n.balance = 1)
+- "reaction": Reaction-based equilibration (general method)
+If None, chooses "boltzmann" if all n.balance == 1, else "reaction"</dd>
+<dt><strong><code>tol</code></strong> :&ensp;<code>float</code>, default <code>np.finfo(float).eps**0.25</code></dt>
+<dd>Tolerance for root-finding in reaction method</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary containing all aout contents plus:
+- balance : str or list, Balancing description
+- m_balance : list, Molar formula divisors
+- n_balance : list, Balancing coefficients
+- loga_balance : float or array, Log activity of balanced quantity
+- Astar : list of arrays, Normalized affinities
+- loga_equil : list of arrays, Equilibrium log activities</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.basis(&quot;CHNOS&quot;)
+&gt;&gt;&gt; pychnosz.basis(&quot;NH3&quot;, -2)
+&gt;&gt;&gt; pychnosz.species([&quot;alanine&quot;, &quot;glycine&quot;, &quot;serine&quot;])
+&gt;&gt;&gt; a = pychnosz.affinity(NH3=[-80, 60], T=55, P=2000)
+&gt;&gt;&gt; e = pychnosz.equilibrate(a, balance=&quot;CO2&quot;)
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This is a 1:1 replica of the R CHNOSZ equilibrate() function.
+- Handles both Boltzmann and reaction-based equilibration
+- Supports normalization and residue basis for proteins
+- Properly handles crystalline species via predominance diagrams
+- Implements identical balancing logic to R version</p></div>
+</dd>
+<dt id="pychnosz.core.find_species"><code class="name flex">
+<span>def <span class="ident">find_species</span></span>(<span>name: str, state: str | None = None, messages: bool = True) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def find_species(name: str, state: Optional[str] = None, messages: bool = True) -&gt; int:
+    &#34;&#34;&#34;
+    Find a single species index by name.
+
+    Parameters
+    ----------
+    name : str
+        Species name, formula, or abbreviation
+    state : str, optional
+        Physical state
+    messages : bool, default True
+        If True, print informational messages
+
+    Returns
+    -------
+    int
+        Species index (1-based)
+
+    Raises
+    ------
+    ValueError
+        If species not found or multiple matches
+    &#34;&#34;&#34;
+    result = info(name, state, messages=messages)
+
+    if pd.isna(result):
+        raise ValueError(f&#34;Species &#39;{name}&#39; not found&#34;)
+
+    if isinstance(result, list):
+        if len(result) &gt; 1:
+            raise ValueError(f&#34;Multiple matches found for &#39;{name}&#39;&#34;)
+        result = result[0]
+
+    return int(result)</code></pre>
+</details>
+<div class="desc"><p>Find a single species index by name.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Species name, formula, or abbreviation</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, print informational messages</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>Species index (1-based)</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If species not found or multiple matches</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.get_basis"><code class="name flex">
+<span>def <span class="ident">get_basis</span></span>(<span>) ‑> pandas.core.frame.DataFrame | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_basis() -&gt; Optional[pd.DataFrame]:
+    &#34;&#34;&#34;
+    Get current basis definition.
+    
+    Returns
+    -------
+    pd.DataFrame or None
+        Current basis definition
+    &#34;&#34;&#34;
+    return thermo().basis</code></pre>
+</details>
+<div class="desc"><p>Get current basis definition.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code> or <code>None</code></dt>
+<dd>Current basis definition</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.get_species"><code class="name flex">
+<span>def <span class="ident">get_species</span></span>(<span>) ‑> pandas.core.frame.DataFrame | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_species() -&gt; Optional[pd.DataFrame]:
+    &#34;&#34;&#34;
+    Get current species definition.
+    
+    Returns
+    -------
+    pd.DataFrame or None
+        Current species definition
+    &#34;&#34;&#34;
+    return thermo().species</code></pre>
+</details>
+<div class="desc"><p>Get current species definition.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code> or <code>None</code></dt>
+<dd>Current species definition</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.get_species_data"><code class="name flex">
+<span>def <span class="ident">get_species_data</span></span>(<span>species: str | int, state: str | None = None, messages: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_species_data(species: Union[str, int], state: Optional[str] = None, messages: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Get complete thermodynamic data for a species.
+
+    Parameters
+    ----------
+    species : str or int
+        Species name/formula or index
+    state : str, optional
+        Physical state
+    messages : bool, default True
+        Display messages?
+
+    Returns
+    -------
+    pd.DataFrame
+        Species thermodynamic data
+    &#34;&#34;&#34;
+    if isinstance(species, str):
+        species = find_species(species, state)
+
+    return info(species, messages=messages)</code></pre>
+</details>
+<div class="desc"><p>Get complete thermodynamic data for a species.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str</code> or <code>int</code></dt>
+<dd>Species name/formula or index</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Display messages?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Species thermodynamic data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.info"><code class="name flex">
+<span>def <span class="ident">info</span></span>(<span>species: str | int | List[str | int] | pandas.core.series.Series | None = None,<br>state: str | List[str] | None = None,<br>check_it: bool = True,<br>messages: bool = True) ‑> pandas.core.frame.DataFrame | int | List[int] | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = None,
+         state: Optional[Union[str, List[str]]] = None,
+         check_it: bool = True,
+         messages: bool = True) -&gt; Union[pd.DataFrame, int, List[int], None]:
+    &#34;&#34;&#34;
+    Search for species in the thermodynamic database.
+
+    Parameters
+    ----------
+    species : str, int, list of str/int, pd.Series, or None
+        Species name, formula, abbreviation, or OBIGT index.
+        Can also be a pandas Series (e.g., from retrieve()).
+        If None, returns summary information about the database.
+    state : str, list of str, or None
+        Physical state(s) to match (&#39;aq&#39;, &#39;cr&#39;, &#39;gas&#39;, &#39;liq&#39;)
+    check_it : bool, default True
+        Whether to perform consistency checks on thermodynamic data
+    messages : bool, default True
+        Whether to print informational messages
+
+    Returns
+    -------
+    pd.DataFrame, int, list of int, or None
+        - If species is None: prints database summary, returns None
+        - If species is numeric: returns DataFrame with species data
+        - If species is string: returns species index(es) or NA if not found
+
+    Examples
+    --------
+    &gt;&gt;&gt; # Get database summary
+    &gt;&gt;&gt; info()
+
+    &gt;&gt;&gt; # Find species index
+    &gt;&gt;&gt; info(&#34;H2O&#34;)
+
+    &gt;&gt;&gt; # Get species data by index
+    &gt;&gt;&gt; info(1)
+
+    &gt;&gt;&gt; # Search with specific state
+    &gt;&gt;&gt; info(&#34;CO2&#34;, &#34;aq&#34;)
+
+    &gt;&gt;&gt; # Use output from retrieve()
+    &gt;&gt;&gt; zn_species = retrieve(&#34;Zn&#34;, [&#34;O&#34;, &#34;H&#34;], state=&#34;aq&#34;)
+    &gt;&gt;&gt; info(zn_species)
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+
+    # Initialize database if needed
+    if not thermo_obj.is_initialized():
+        thermo_obj.reset()
+
+    # Return database summary if no species specified
+    if species is None:
+        return _print_database_summary(thermo_obj, messages)
+
+    # Handle pandas Series (e.g., from retrieve())
+    if isinstance(species, pd.Series):
+        # Extract the integer indices from the Series values
+        indices = species.values.tolist()
+        return _info_numeric(indices, thermo_obj, check_it, messages)
+
+    # Handle numeric species indices
+    if isinstance(species, (int, list)) and all(isinstance(s, int) for s in (species if isinstance(species, list) else [species])):
+        return _info_numeric(species, thermo_obj, check_it, messages)
+
+    # Handle string species names/formulas
+    if isinstance(species, (str, list)):
+        return _info_character(species, state, thermo_obj, messages)
+
+    raise ValueError(f&#34;Invalid species type: {type(species)}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Search for species in the thermodynamic database.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, int, list</code> of <code>str/int, pd.Series,</code> or <code>None</code></dt>
+<dd>Species name, formula, abbreviation, or OBIGT index.
+Can also be a pandas Series (e.g., from retrieve()).
+If None, returns summary information about the database.</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>None</code></dt>
+<dd>Physical state(s) to match ('aq', 'cr', 'gas', 'liq')</dd>
+<dt><strong><code>check_it</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to perform consistency checks on thermodynamic data</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame, int, list</code> of <code>int,</code> or <code>None</code></dt>
+<dd>
+<ul>
+<li>If species is None: prints database summary, returns None</li>
+<li>If species is numeric: returns DataFrame with species data</li>
+<li>If species is string: returns species index(es) or NA if not found</li>
+</ul>
+</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get database summary
+&gt;&gt;&gt; info()
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Find species index
+&gt;&gt;&gt; info(&quot;H2O&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get species data by index
+&gt;&gt;&gt; info(1)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Search with specific state
+&gt;&gt;&gt; info(&quot;CO2&quot;, &quot;aq&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Use output from retrieve()
+&gt;&gt;&gt; zn_species = retrieve(&quot;Zn&quot;, [&quot;O&quot;, &quot;H&quot;], state=&quot;aq&quot;)
+&gt;&gt;&gt; info(zn_species)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.core.is_basis_defined"><code class="name flex">
+<span>def <span class="ident">is_basis_defined</span></span>(<span>) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_basis_defined() -&gt; bool:
+    &#34;&#34;&#34;
+    Check if basis is currently defined.
+    
+    Returns
+    -------
+    bool
+        True if basis is defined
+    &#34;&#34;&#34;
+    return thermo().basis is not None</code></pre>
+</details>
+<div class="desc"><p>Check if basis is currently defined.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if basis is defined</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.is_species_defined"><code class="name flex">
+<span>def <span class="ident">is_species_defined</span></span>(<span>) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_species_defined() -&gt; bool:
+    &#34;&#34;&#34;
+    Check if species are currently defined.
+    
+    Returns
+    -------
+    bool
+        True if species are defined
+    &#34;&#34;&#34;
+    return thermo().species is not None</code></pre>
+</details>
+<div class="desc"><p>Check if species are currently defined.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if species are defined</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.list_species"><code class="name flex">
+<span>def <span class="ident">list_species</span></span>(<span>pattern: str | None = None, state: str | None = None) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def list_species(pattern: Optional[str] = None, state: Optional[str] = None) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    List species matching criteria.
+    
+    Parameters
+    ----------
+    pattern : str, optional
+        Pattern to match in species names
+    state : str, optional
+        Physical state to filter by
+        
+    Returns
+    -------
+    pd.DataFrame
+        Matching species information
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+    if not thermo_obj.is_initialized():
+        thermo_obj.reset()
+    
+    obigt = thermo_obj.obigt.copy()
+    
+    # Filter by state
+    if state is not None:
+        obigt = obigt[obigt[&#39;state&#39;] == state]
+    
+    # Filter by pattern
+    if pattern is not None:
+        mask = obigt[&#39;name&#39;].str.contains(pattern, case=False, na=False)
+        obigt = obigt[mask]
+    
+    # Return relevant columns
+    columns = [&#39;name&#39;, &#39;formula&#39;, &#39;state&#39;, &#39;ref1&#39;, &#39;model&#39;]
+    return obigt[columns].reset_index(drop=True)</code></pre>
+</details>
+<div class="desc"><p>List species matching criteria.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pattern</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Pattern to match in species names</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state to filter by</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Matching species information</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.n_species"><code class="name flex">
+<span>def <span class="ident">n_species</span></span>(<span>) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def n_species() -&gt; int:
+    &#34;&#34;&#34;
+    Get number of defined species.
+    
+    Returns
+    -------
+    int
+        Number of defined species
+    &#34;&#34;&#34;
+    species_df = get_species()
+    return len(species_df) if species_df is not None else 0</code></pre>
+</details>
+<div class="desc"><p>Get number of defined species.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>Number of defined species</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.preset_basis"><code class="name flex">
+<span>def <span class="ident">preset_basis</span></span>(<span>key: str | None = None, messages: bool = True, global_state: bool = True) ‑> List[str] | pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def preset_basis(key: Optional[str] = None, messages: bool = True, global_state: bool = True) -&gt; Union[List[str], pd.DataFrame]:
+    &#34;&#34;&#34;
+    Load a preset basis definition by keyword.
+
+    Parameters
+    ----------
+    key : str or None
+        Preset keyword. If None, returns available keywords.
+    messages : bool, default True
+        If True, print informational messages
+    global_state : bool, default True
+        If True, store in global thermo().basis (default)
+        If False, return without storing globally
+
+    Returns
+    -------
+    list of str or pd.DataFrame
+        Available keywords or basis definition
+
+    Examples
+    --------
+    &gt;&gt;&gt; # List available presets
+    &gt;&gt;&gt; preset_basis()
+
+    &gt;&gt;&gt; # Load CHNOS basis
+    &gt;&gt;&gt; preset_basis(&#34;CHNOS&#34;)
+    &#34;&#34;&#34;
+    keywords = _get_preset_basis_keywords()
+    
+    if key is None:
+        return keywords
+    
+    if key not in keywords:
+        raise ValueError(f&#34;{key} is not a keyword for preset basis species&#34;)
+
+    # Clear existing basis only if using global state
+    if global_state:
+        basis(delete=True)
+    
+    # Define preset species
+    species_map = {
+        &#34;CHNOS&#34;: [&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;oxygen&#34;],
+        &#34;CHNOS+&#34;: [&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+        &#34;CHNOSe&#34;: [&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;e-&#34;, &#34;H+&#34;],
+        &#34;CHNOPS+&#34;: [&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H3PO4&#34;, &#34;H2S&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+        &#34;CHNOPSe&#34;: [&#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H3PO4&#34;, &#34;H2S&#34;, &#34;e-&#34;, &#34;H+&#34;],
+        &#34;MgCHNOPS+&#34;: [&#34;Mg+2&#34;, &#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H3PO4&#34;, &#34;H2S&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+        &#34;MgCHNOPSe&#34;: [&#34;Mg+2&#34;, &#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H3PO4&#34;, &#34;H2S&#34;, &#34;e-&#34;, &#34;H+&#34;],
+        &#34;FeCHNOS&#34;: [&#34;Fe2O3&#34;, &#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;oxygen&#34;],
+        &#34;FeCHNOS+&#34;: [&#34;Fe2O3&#34;, &#34;CO2&#34;, &#34;H2O&#34;, &#34;NH3&#34;, &#34;H2S&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+        &#34;QEC4&#34;: [&#34;glutamine&#34;, &#34;glutamic acid&#34;, &#34;cysteine&#34;, &#34;H2O&#34;, &#34;oxygen&#34;],
+        &#34;QEC&#34;: [&#34;glutamine&#34;, &#34;glutamic acid&#34;, &#34;cysteine&#34;, &#34;H2O&#34;, &#34;oxygen&#34;],
+        &#34;QEC+&#34;: [&#34;glutamine&#34;, &#34;glutamic acid&#34;, &#34;cysteine&#34;, &#34;H2O&#34;, &#34;oxygen&#34;, &#34;H+&#34;],
+        &#34;QCa&#34;: [&#34;glutamine&#34;, &#34;cysteine&#34;, &#34;acetic acid&#34;, &#34;H2O&#34;, &#34;oxygen&#34;],
+        &#34;QCa+&#34;: [&#34;glutamine&#34;, &#34;cysteine&#34;, &#34;acetic acid&#34;, &#34;H2O&#34;, &#34;oxygen&#34;, &#34;H+&#34;]
+    }
+    
+    species = species_map[key]
+    logact = _preset_logact(species)
+
+    # Special case for QEC4
+    if key == &#34;QEC4&#34;:
+        logact[:3] = [-4.0] * 3
+
+    return basis(species, logact=logact, messages=messages, global_state=global_state)</code></pre>
+</details>
+<div class="desc"><p>Load a preset basis definition by keyword.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>key</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>Preset keyword. If None, returns available keywords.</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, print informational messages</dd>
+<dt><strong><code>global_state</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, store in global thermo().basis (default)
+If False, return without storing globally</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>str</code> or <code>pd.DataFrame</code></dt>
+<dd>Available keywords or basis definition</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # List available presets
+&gt;&gt;&gt; preset_basis()
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Load CHNOS basis
+&gt;&gt;&gt; preset_basis(&quot;CHNOS&quot;)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.core.retrieve"><code class="name flex">
+<span>def <span class="ident">retrieve</span></span>(<span>elements: str | List[str] | Tuple[str] | None = None,<br>ligands: str | List[str] | Tuple[str] | None = None,<br>state: str | List[str] | Tuple[str] | None = None,<br>T: float | List[float] | None = None,<br>P: str | float | List[float] = 'Psat',<br>add_charge: bool = True,<br>hide_groups: bool = True,<br>messages: bool = True) ‑> pandas.core.series.Series</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def retrieve(elements: Optional[Union[str, List[str], Tuple[str]]] = None,
+            ligands: Optional[Union[str, List[str], Tuple[str]]] = None,
+            state: Optional[Union[str, List[str], Tuple[str]]] = None,
+            T: Optional[Union[float, List[float]]] = None,
+            P: Union[str, float, List[float]] = &#34;Psat&#34;,
+            add_charge: bool = True,
+            hide_groups: bool = True,
+            messages: bool = True) -&gt; pd.Series:
+    &#34;&#34;&#34;
+    Retrieve species containing specified elements.
+
+    Parameters
+    ----------
+    elements : str, list of str, or tuple of str, optional
+        Elements in a chemical system. If `elements` is a string, retrieve
+        species containing that element.
+
+        E.g., `retrieve(&#34;Au&#34;)` will return all species containing Au.
+
+        If `elements` is a list, retrieve species that have all of the elements
+        in the list.
+
+        E.g., `retrieve([&#34;Au&#34;, &#34;Cl&#34;])` will return all species that have both
+        Au and Cl.
+
+        If `elements` is a tuple, retrieve species relevant to the system,
+        including charged species.
+
+        E.g., `retrieve((&#34;Au&#34;, &#34;Cl&#34;))` will return species that have Au
+        and/or Cl, including charged species, but no other elements.
+
+    ligands : str, list of str, or tuple of str, optional
+        Elements present in any ligands. This affects the species search:
+        - If ligands is a state (&#39;cr&#39;, &#39;liq&#39;, &#39;gas&#39;, &#39;aq&#39;), use that as the state filter
+        - Otherwise, include elements in the system defined by ligands
+
+    state : str, list of str, or tuple of str, optional
+        Filter the result on these state(s) (&#39;aq&#39;, &#39;cr&#39;, &#39;gas&#39;, &#39;liq&#39;).
+
+    T : float or list of float, optional
+        Temperature (K) for filtering species with non-NA Gibbs energy.
+
+    P : str, float, or list of float, default &#34;Psat&#34;
+        Pressure for Gibbs energy calculation. Default is &#34;Psat&#34; (saturation).
+
+    add_charge : bool, default True
+        For chemical systems (tuple input), automatically include charge (Z).
+
+    hide_groups : bool, default True
+        Exclude group species (names in brackets like [CH2]).
+
+    messages : bool, default True
+        Print informational messages. If False, suppress messages about
+        updating the stoichiometric matrix and other information.
+
+    Returns
+    -------
+    pd.Series
+        Series of species indices (1-based) with chemical formulas as index.
+        This behaves like R&#39;s named vector - you can access by name or position.
+        Names are chemical formulas (or &#39;e-&#39; for electrons).
+        Values are species indices that match the criteria.
+
+    Examples
+    --------
+    &gt;&gt;&gt; # All species containing Au
+    &gt;&gt;&gt; retrieve(&#34;Au&#34;)
+
+    &gt;&gt;&gt; # All species that have both Au and Cl
+    &gt;&gt;&gt; retrieve([&#34;Au&#34;, &#34;Cl&#34;])
+
+    &gt;&gt;&gt; # Au-Cl system: species with Au and/or Cl, including charged species
+    &gt;&gt;&gt; retrieve((&#34;Au&#34;, &#34;Cl&#34;))
+
+    &gt;&gt;&gt; # All Au-bearing species in the Au-Cl system
+    &gt;&gt;&gt; retrieve(&#34;Au&#34;, (&#34;Cl&#34;,))
+
+    &gt;&gt;&gt; # All uncharged Au-bearing species in the Au-Cl system
+    &gt;&gt;&gt; retrieve(&#34;Au&#34;, (&#34;Cl&#34;,), add_charge=False)
+
+    &gt;&gt;&gt; # Minerals in the system SiO2-MgO-CaO-CO2
+    &gt;&gt;&gt; retrieve((&#34;Si&#34;, &#34;Mg&#34;, &#34;Ca&#34;, &#34;C&#34;, &#34;O&#34;), state=&#34;cr&#34;)
+
+    Notes
+    -----
+    This function uses 1-based indexing to match R CHNOSZ conventions.
+    The returned indices are labels that can be used with .loc[], not positions.
+    &#34;&#34;&#34;
+    # Empty argument handling
+    if elements is None:
+        return pd.Series([], dtype=int)
+
+    thermo_obj = thermo()
+
+    # Initialize database if needed
+    if not thermo_obj.is_initialized():
+        thermo_obj.reset()
+
+    ## Stoichiometric matrix
+    # Get stoichiometric matrix from thermo object
+    stoich = _get_or_update_stoich(thermo_obj, messages=messages)
+
+    ## Generate error for missing element(s)
+    allelements = []
+    if elements is not None:
+        if isinstance(elements, (list, tuple)):
+            allelements.extend(elements)
+        else:
+            allelements.append(elements)
+    if ligands is not None:
+        if isinstance(ligands, (list, tuple)):
+            allelements.extend(ligands)
+        else:
+            allelements.append(ligands)
+
+    not_present = [elem for elem in allelements if elem not in stoich.columns and elem != &#34;all&#34;]
+    if not_present:
+        if len(not_present) == 1:
+            raise ValueError(f&#39;&#34;{not_present[0]}&#34; is not an element that is present in any species in the database&#39;)
+        else:
+            raise ValueError(f&#39;&#34;{&#34;, &#34;.join(not_present)}&#34; are not elements that are present in any species in the database&#39;)
+
+    ## Handle &#39;ligands&#39; argument
+    if ligands is not None:
+        # If &#39;ligands&#39; is cr, liq, gas, or aq, use that as the state
+        if ligands in [&#39;cr&#39;, &#39;liq&#39;, &#39;gas&#39;, &#39;aq&#39;]:
+            state = ligands
+            ispecies = retrieve(elements, add_charge=add_charge, messages=messages)
+        else:
+            # Include the element in the system defined by the ligands list
+            # Convert ligands to tuple if it&#39;s a string or list
+            if isinstance(ligands, str):
+                ligands_tuple = (ligands,)
+            elif isinstance(ligands, list):
+                ligands_tuple = tuple(ligands)
+            else:
+                ligands_tuple = ligands
+
+            # Combine elements with ligands
+            if isinstance(elements, str):
+                combined = (elements,) + ligands_tuple
+            elif isinstance(elements, list):
+                combined = tuple(elements) + ligands_tuple
+            else:
+                combined = elements + ligands_tuple
+
+            # Call retrieve() for each argument and take the intersection
+            r1 = retrieve(elements, add_charge=add_charge, messages=messages)
+            r2 = retrieve(combined, add_charge=add_charge, messages=messages)
+            ispecies = np.intersect1d(r1, r2)
+    else:
+        ## Species identification
+        ispecies_list = []
+
+        # Determine if elements is a tuple (chemical system)
+        is_system = isinstance(elements, tuple)
+
+        # Convert single string to list for iteration
+        if isinstance(elements, str):
+            elements_iter = [elements]
+        else:
+            elements_iter = list(elements)
+
+        # Automatically add charge to a system
+        if add_charge and is_system and &#34;Z&#34; not in elements_iter:
+            elements_iter.append(&#34;Z&#34;)
+
+        # Proceed element-by-element
+        for element in elements_iter:
+            if element == &#34;all&#34;:
+                ispecies_list.append(np.array(thermo_obj.obigt.index.tolist()))
+            else:
+                # Identify the species that have the element
+                has_element = (stoich[element] != 0)
+                ispecies_list.append(np.array(stoich.index[has_element].tolist()))
+
+        # Now we have a list of ispecies (one array for each element)
+        # What we do next depends on whether the argument is a tuple or not
+        if is_system:
+            # For a chemical system, all species are included that do not contain any other elements
+            ispecies = np.unique(np.concatenate(ispecies_list))
+
+            # Get columns not in elements
+            other_columns = [col for col in stoich.columns if col not in elements_iter]
+
+            if other_columns:
+                # Check which species have other elements
+                otherstoich = stoich.loc[ispecies, other_columns]
+                iother = (otherstoich != 0).any(axis=1)
+                ispecies = ispecies[~iother.values]
+        else:
+            # Get species that have all the elements; the species must be present in each array
+            # This is the intersection of all arrays
+            ispecies = ispecies_list[0]
+            for arr in ispecies_list[1:]:
+                ispecies = np.intersect1d(ispecies, arr)
+
+    # Exclude groups
+    if hide_groups:
+        obigt = thermo_obj.obigt
+        names = obigt.loc[ispecies, &#39;name&#39;].values
+        is_group = np.array([bool(re.match(r&#39;^\[.*\]$&#39;, str(name))) for name in names])
+        ispecies = ispecies[~is_group]
+
+    # Filter on state
+    if state is not None:
+        obigt = thermo_obj.obigt
+
+        # Ensure state is a list
+        if isinstance(state, str):
+            state_list = [state]
+        elif isinstance(state, tuple):
+            state_list = list(state)
+        else:
+            state_list = state
+
+        species_states = obigt.loc[ispecies, &#39;state&#39;].values
+        istate = np.array([s in state_list for s in species_states])
+        ispecies = ispecies[istate]
+
+    # Require non-NA Delta G0 at specific temperature
+    if T is not None:
+        from .subcrt import subcrt
+        # Suppress warnings and (optionally) messages
+        with warnings.catch_warnings():
+            warnings.simplefilter(&#34;ignore&#34;)
+            try:
+                result = subcrt(ispecies.tolist(), T=T, P=P, messages=False, show=False)
+                if result is not None and &#39;out&#39; in result:
+                    G_values = []
+                    for species_out in result[&#39;out&#39;]:
+                        if isinstance(species_out, dict) and &#39;G&#39; in species_out:
+                            G = species_out[&#39;G&#39;]
+                            if isinstance(G, (list, np.ndarray)):
+                                G_values.append(G[0] if len(G) &gt; 0 else np.nan)
+                            else:
+                                G_values.append(G)
+                        else:
+                            G_values.append(np.nan)
+
+                    # Filter out species with NA G values
+                    has_G = np.array([not pd.isna(g) for g in G_values])
+                    ispecies = ispecies[has_G]
+            except:
+                # If subcrt fails, keep all species
+                pass
+
+    # Create a pandas Series with formula names (R-style named vector)
+    obigt = thermo_obj.obigt
+    formulas = obigt.loc[ispecies, &#39;formula&#39;].values
+
+    # Use e- instead of (Z-1) for electron
+    formulas = np.array([f if f != &#39;(Z-1)&#39; else &#39;e-&#39; for f in formulas])
+
+    # Return empty Series if nothing found
+    if len(ispecies) == 0:
+        return pd.Series([], dtype=int)
+
+    # Create a pandas Series with formulas as index (R-style named vector)
+    # This allows both named access (result[&#34;Au&#34;]) and positional access (result[0])
+    result = pd.Series(ispecies, index=formulas)
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Retrieve species containing specified elements.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>elements</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>tuple</code> of <code>str</code>, optional</dt>
+<dd>
+<p>Elements in a chemical system. If <code>elements</code> is a string, retrieve
+species containing that element.</p>
+<p>E.g., <code>retrieve("Au")</code> will return all species containing Au.</p>
+<p>If <code>elements</code> is a list, retrieve species that have all of the elements
+in the list.</p>
+<p>E.g., <code>retrieve(["Au", "Cl"])</code> will return all species that have both
+Au and Cl.</p>
+<p>If <code>elements</code> is a tuple, retrieve species relevant to the system,
+including charged species.</p>
+<p>E.g., <code>retrieve(("Au", "Cl"))</code> will return species that have Au
+and/or Cl, including charged species, but no other elements.</p>
+</dd>
+<dt><strong><code>ligands</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>tuple</code> of <code>str</code>, optional</dt>
+<dd>Elements present in any ligands. This affects the species search:
+- If ligands is a state ('cr', 'liq', 'gas', 'aq'), use that as the state filter
+- Otherwise, include elements in the system defined by ligands</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>tuple</code> of <code>str</code>, optional</dt>
+<dd>Filter the result on these state(s) ('aq', 'cr', 'gas', 'liq').</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code>, optional</dt>
+<dd>Temperature (K) for filtering species with non-NA Gibbs energy.</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>str, float,</code> or <code>list</code> of <code>float</code>, default <code>"Psat"</code></dt>
+<dd>Pressure for Gibbs energy calculation. Default is "Psat" (saturation).</dd>
+<dt><strong><code>add_charge</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>For chemical systems (tuple input), automatically include charge (Z).</dd>
+<dt><strong><code>hide_groups</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Exclude group species (names in brackets like [CH2]).</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Print informational messages. If False, suppress messages about
+updating the stoichiometric matrix and other information.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.Series</code></dt>
+<dd>Series of species indices (1-based) with chemical formulas as index.
+This behaves like R's named vector - you can access by name or position.
+Names are chemical formulas (or 'e-' for electrons).
+Values are species indices that match the criteria.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # All species containing Au
+&gt;&gt;&gt; retrieve(&quot;Au&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # All species that have both Au and Cl
+&gt;&gt;&gt; retrieve([&quot;Au&quot;, &quot;Cl&quot;])
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Au-Cl system: species with Au and/or Cl, including charged species
+&gt;&gt;&gt; retrieve((&quot;Au&quot;, &quot;Cl&quot;))
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # All Au-bearing species in the Au-Cl system
+&gt;&gt;&gt; retrieve(&quot;Au&quot;, (&quot;Cl&quot;,))
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # All uncharged Au-bearing species in the Au-Cl system
+&gt;&gt;&gt; retrieve(&quot;Au&quot;, (&quot;Cl&quot;,), add_charge=False)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Minerals in the system SiO2-MgO-CaO-CO2
+&gt;&gt;&gt; retrieve((&quot;Si&quot;, &quot;Mg&quot;, &quot;Ca&quot;, &quot;C&quot;, &quot;O&quot;), state=&quot;cr&quot;)
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This function uses 1-based indexing to match R CHNOSZ conventions.
+The returned indices are labels that can be used with .loc[], not positions.</p></div>
+</dd>
+<dt id="pychnosz.core.species"><code class="name flex">
+<span>def <span class="ident">species</span></span>(<span>species: str | int | List[str | int] | pandas.core.series.Series | None = None,<br>state: str | List[str] | None = None,<br>delete: bool = False,<br>add: bool = False,<br>index_return: bool = False,<br>global_state: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None,<br>messages: bool = True) ‑> pandas.core.frame.DataFrame | List[int] | None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def species(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = None,
+            state: Optional[Union[str, List[str]]] = None,
+            delete: bool = False,
+            add: bool = False,
+            index_return: bool = False,
+            global_state: bool = True,
+            basis: Optional[pd.DataFrame] = None,
+            messages: bool = True) -&gt; Optional[Union[pd.DataFrame, List[int]]]:
+    &#34;&#34;&#34;
+    Define species of interest for thermodynamic calculations.
+
+    Parameters
+    ----------
+    species : str, int, list, pd.Series, or None
+        Species name(s), formula(s), or index(es).
+        Can also be a pandas Series (e.g., from retrieve()).
+        If None, returns current species definition.
+    state : str, list of str, or None
+        Physical state(s) for the species
+    delete : bool, default False
+        If True, delete species (all if species is None)
+    add : bool, default False
+        If True, add to existing species instead of replacing
+    index_return : bool, default False
+        If True, return species indices instead of DataFrame
+    global_state : bool, default True
+        If True, store species in global thermo().species (default behavior)
+        If False, return species definition without storing globally (local state)
+    basis : pd.DataFrame, optional
+        Basis species definition to use (if not using global basis)
+        Required when global_state=False and basis is not defined globally
+    messages : bool, default True
+        If True, print informational messages
+
+    Returns
+    -------
+    pd.DataFrame, list of int, or None
+        Species definition DataFrame or indices, or None if deleted
+
+    Examples
+    --------
+    &gt;&gt;&gt; # Define species of interest
+    &gt;&gt;&gt; species([&#34;CO2&#34;, &#34;HCO3-&#34;, &#34;CO3-2&#34;])
+
+    &gt;&gt;&gt; # Add more species
+    &gt;&gt;&gt; species([&#34;CH4&#34;, &#34;C2H4&#34;], add=True)
+
+    &gt;&gt;&gt; # Delete specific species
+    &gt;&gt;&gt; species([&#34;CO2&#34;], delete=True)
+
+    &gt;&gt;&gt; # Delete all species
+    &gt;&gt;&gt; species(delete=True)
+
+    &gt;&gt;&gt; # Use output from retrieve()
+    &gt;&gt;&gt; zn_species = retrieve(&#34;Zn&#34;, [&#34;O&#34;, &#34;H&#34;], state=&#34;aq&#34;)
+    &gt;&gt;&gt; species(zn_species)
+    &#34;&#34;&#34;
+    thermo_obj = thermo()
+
+    # Handle pandas Series (e.g., from retrieve())
+    if isinstance(species, pd.Series):
+        # Extract the integer indices from the Series values
+        species = species.values.tolist()
+
+    # Handle NA species
+    if species is pd.NA or species is np.nan:
+        raise SpeciesError(&#34;&#39;species&#39; is NA&#34;)
+    
+    # Handle deletion
+    if delete:
+        return _delete_species(species, thermo_obj)
+    
+    # Return current species if no arguments
+    if species is None and state is None:
+        if index_return:
+            if thermo_obj.species is not None:
+                return list(range(1, len(thermo_obj.species) + 1))
+            else:
+                return []
+        return thermo_obj.species
+    
+    # Use all species indices if species is None but state is given
+    if species is None and thermo_obj.species is not None:
+        species = list(range(1, len(thermo_obj.species) + 1))
+    
+    # Process state argument
+    state = _process_state_argument(state)
+    
+    # Make species and state same length
+    species, state = _match_argument_lengths(species, state)
+    
+    # Handle numeric state (treat as logact)
+    logact = None
+    if state is not None and len(state) &gt; 0:
+        if isinstance(state[0], (int, float)):
+            logact = [float(s) for s in state]
+            state = None
+        elif _can_be_numeric(state[0]):
+            logact = [float(s) for s in state]
+            state = None
+    
+    # Handle species-state combinations for proteins
+    if state is not None:
+        species, state = _handle_protein_naming(species, state, thermo_obj)
+    
+    # Process species argument
+    iOBIGT = None
+    if isinstance(species[0], str):
+        # Check if species are in current definition
+        if thermo_obj.species is not None:
+            existing_indices = _match_existing_species(species, thermo_obj.species)
+            if all(idx is not None for idx in existing_indices) and logact is not None:
+                # Update activities of existing species
+                # Update activities of existing species directly
+                species_indices = [i+1 for i in existing_indices]  # Convert to 1-based
+                return _update_existing_species(species_indices, None, logact, index_return, thermo_obj)
+        
+        # Look up species in database
+        iOBIGT = _lookup_species_indices(species, state, messages)
+        
+    else:
+        # Handle numeric species
+        if thermo_obj.species is not None:
+            max_current = len(thermo_obj.species)
+            if all(isinstance(s, int) and s &lt;= max_current for s in species):
+                # Referring to existing species
+                return _update_existing_species(species, state, logact, index_return, thermo_obj)
+        
+        # Referring to OBIGT indices
+        iOBIGT = species
+    
+    # Create or modify species definition
+    if iOBIGT is not None:
+        return _create_species_definition(iOBIGT, state, logact, add, index_return, thermo_obj, global_state, basis)
+    else:
+        return _update_existing_species(species, state, logact, index_return, thermo_obj)</code></pre>
+</details>
+<div class="desc"><p>Define species of interest for thermodynamic calculations.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, int, list, pd.Series,</code> or <code>None</code></dt>
+<dd>Species name(s), formula(s), or index(es).
+Can also be a pandas Series (e.g., from retrieve()).
+If None, returns current species definition.</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>None</code></dt>
+<dd>Physical state(s) for the species</dd>
+<dt><strong><code>delete</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, delete species (all if species is None)</dd>
+<dt><strong><code>add</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, add to existing species instead of replacing</dd>
+<dt><strong><code>index_return</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>If True, return species indices instead of DataFrame</dd>
+<dt><strong><code>global_state</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, store species in global thermo().species (default behavior)
+If False, return species definition without storing globally (local state)</dd>
+<dt><strong><code>basis</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
+<dd>Basis species definition to use (if not using global basis)
+Required when global_state=False and basis is not defined globally</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>If True, print informational messages</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame, list</code> of <code>int,</code> or <code>None</code></dt>
+<dd>Species definition DataFrame or indices, or None if deleted</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Define species of interest
+&gt;&gt;&gt; species([&quot;CO2&quot;, &quot;HCO3-&quot;, &quot;CO3-2&quot;])
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Add more species
+&gt;&gt;&gt; species([&quot;CH4&quot;, &quot;C2H4&quot;], add=True)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Delete specific species
+&gt;&gt;&gt; species([&quot;CO2&quot;], delete=True)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Delete all species
+&gt;&gt;&gt; species(delete=True)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Use output from retrieve()
+&gt;&gt;&gt; zn_species = retrieve(&quot;Zn&quot;, [&quot;O&quot;, &quot;H&quot;], state=&quot;aq&quot;)
+&gt;&gt;&gt; species(zn_species)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.core.subcrt"><code class="name flex">
+<span>def <span class="ident">subcrt</span></span>(<span>species: str | List[str] | int | List[int],<br>coeff: int | float | List[int | float] | None = 1,<br>state: str | List[str] | None = None,<br>property: List[str] = ['logK', 'G', 'H', 'S', 'V', 'Cp'],<br>T: float | numpy.ndarray | List[float] = array([273.16, 298.16, 323.16, 348.16, 373.16, 398.16, 423.16, 448.16,
+473.16, 498.16, 523.16, 548.16, 573.16, 598.16]),<br>P: float | List[float] | numpy.ndarray | str = 'Psat',<br>grid: str | None = None,<br>convert: bool = True,<br>exceed_Ttr: bool = True,<br>exceed_rhomin: bool = False,<br>logact: List[float] | None = None,<br>autobalance: bool = True,<br>use_polymorphs: bool = True,<br>IS: float | List[float] = 0,<br>messages: bool = True,<br>show: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None) ‑> pychnosz.core.subcrt.SubcrtResult</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def subcrt(species: Union[str, List[str], int, List[int]],
+           coeff: Union[int, float, List[Union[int, float]], None] = 1,
+           state: Optional[Union[str, List[str]]] = None,
+           property: List[str] = [&#34;logK&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;V&#34;, &#34;Cp&#34;],
+           T: Union[float, List[float], np.ndarray] = np.arange(273.16, 623.16, 25),
+           P: Union[float, List[float], np.ndarray, str] = &#34;Psat&#34;,
+           grid: Optional[str] = None,
+           convert: bool = True,
+           exceed_Ttr: bool = True,
+           exceed_rhomin: bool = False,
+           logact: Optional[List[float]] = None,
+           autobalance: bool = True,
+           use_polymorphs: bool = True,
+           IS: Union[float, List[float]] = 0,
+           messages: bool = True,
+           show: bool = True,
+           basis: Optional[pd.DataFrame] = None,
+           _recursion_count: int = 0) -&gt; SubcrtResult:
+    &#34;&#34;&#34;
+    Calculate standard molal thermodynamic properties of species and reactions.
+    
+    This function reproduces the behavior of R CHNOSZ subcrt() exactly, including
+    all argument handling, validation, calculations, and output formatting.
+    
+    Parameters
+    ----------
+    species : str, list of str, int, or list of int
+        Species names, formulas, or indices in thermodynamic database
+    coeff : int, float, list, or None
+        Stoichiometric coefficients for reaction calculation
+        If 1 (default), calculate individual species properties
+        If list, calculate reaction with given coefficients
+    state : str, list of str, or None
+        Physical states (&#34;aq&#34;, &#34;cr&#34;, &#34;gas&#34;, &#34;liq&#34;) for species
+    property : list of str
+        Properties to calculate: &#34;logK&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;V&#34;, &#34;Cp&#34;, &#34;rho&#34;, &#34;kT&#34;, &#34;E&#34;
+    T : float, list, or ndarray
+        Temperature(s) in K (default: 273.15 to 623.15 by 25 K)
+    P : float, list, ndarray, or &#34;Psat&#34;
+        Pressure(s) in bar or &#34;Psat&#34; for saturation pressure
+    grid : str or None
+        Grid calculation mode: &#34;T&#34;, &#34;P&#34;, &#34;IS&#34;, or None
+    convert : bool
+        Convert temperature/pressure units (default: True)
+    exceed_Ttr : bool
+        Allow calculations beyond transition temperatures (default: False)
+    exceed_rhomin : bool
+        Allow calculations below minimum water density (default: False)
+    logact : list of float or None
+        Activity coefficients (log10 scale)
+    autobalance : bool
+        Automatically balance reactions using basis species (default: True)
+    use_polymorphs : bool
+        Include polymorphic phases for minerals (default: True)
+    IS : float or list of float
+        Ionic strength for activity corrections (default: 0)
+    messages : bool, default True
+        Whether to print informational messages
+    show : bool, default True
+        Whether to display result tables in Jupyter notebooks (default: True)
+        Set to False when calling subcrt() from other functions
+    basis : pd.DataFrame, optional
+        Basis species definition to use for autobalancing (if not using global basis)
+
+    Returns
+    -------
+    SubcrtResult
+        Object containing:
+        - species: DataFrame with species information
+        - out: DataFrame with calculated thermodynamic properties
+        - reaction: DataFrame with reaction stoichiometry (if reaction)
+        - warnings: List of warning messages
+        
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; pychnosz.reset()
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Single species properties
+    &gt;&gt;&gt; result = subcrt(&#34;H2O&#34;, T=25, P=1)
+    &gt;&gt;&gt; print(result.out[[&#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;Cp&#34;]])
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Reaction calculation
+    &gt;&gt;&gt; result = subcrt([&#34;H2O&#34;, &#34;H+&#34;, &#34;OH-&#34;], [-1, 1, 1], T=25, P=1)
+    &gt;&gt;&gt; print(f&#34;Water dissociation ΔG° = {result.out.G[0]:.3f} kJ/mol&#34;)
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Temperature array
+    &gt;&gt;&gt; result = subcrt(&#34;quartz&#34;, T=[25, 100, 200], P=1)
+    &gt;&gt;&gt; print(result.out[[&#34;T&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;]])
+    
+    Notes
+    -----
+    This implementation maintains complete fidelity to R CHNOSZ subcrt():
+    - Identical argument processing and validation
+    - Same species lookup and polymorphic handling
+    - Exact HKF and CGL equation-of-state calculations
+    - Same reaction balancing and autobalance logic
+    - Identical output structure and formatting
+    - Same warning and error messages
+    &#34;&#34;&#34;
+    
+    result = SubcrtResult()
+
+    # Prevent infinite recursion in auto-balancing
+    if _recursion_count &gt; 5:
+        result.warnings.append(&#34;Maximum recursion depth reached in auto-balancing&#34;)
+        return result
+
+    try:
+        # === Phase 1: Argument Processing and Validation ===
+        # (Exactly matching R subcrt.R lines 21-77)
+        
+        # Handle argument reordering if states are second argument
+        if coeff != 1 and isinstance(coeff, (list, str)) and isinstance(coeff[0] if isinstance(coeff, list) else coeff, str):
+            # States were passed as second argument - reorder
+            if state is not None:
+                if isinstance(state, (int, float)) or (isinstance(state, list) and all(isinstance(x, (int, float)) for x in state)):
+                    # Third argument is coefficients
+                    new_coeff = state
+                    new_state = coeff
+                    return subcrt(species, new_coeff, new_state, property, T, P, grid,
+                                convert, exceed_Ttr, exceed_rhomin, logact, autobalance, use_polymorphs, IS,
+                                messages, show, basis, _recursion_count)
+                else:
+                    raise ValueError(&#34;If both coeff and state are given, one should be numeric coefficients&#34;)
+            else:
+                # Only states provided, no coefficients
+                new_state = coeff
+                return subcrt(species, 1, new_state, property, T, P, grid,
+                            convert, exceed_Ttr, exceed_rhomin, logact, autobalance, use_polymorphs, IS,
+                            messages, show, basis, _recursion_count)
+        
+        # Determine if this is a reaction calculation
+        do_reaction = (coeff != 1 and coeff is not None and 
+                      (isinstance(coeff, list) or isinstance(coeff, (int, float)) and coeff != 1))
+        
+        # Convert inputs to consistent formats
+        species = [species] if isinstance(species, (str, int)) else list(species)
+        if state is not None:
+            state = [state] if isinstance(state, str) else list(state)
+            # Make species and state same length
+            if len(state) &gt; len(species):
+                species = species * (len(state) // len(species) + 1)
+                species = species[:len(state)]
+            elif len(species) &gt; len(state):
+                state = state * (len(species) // len(state) + 1)
+                state = state[:len(species)]
+        
+        if do_reaction:
+            if isinstance(coeff, (int, float)):
+                coeff = [coeff]
+            coeff = list(coeff)
+        
+        # Validate properties
+        allowed_properties = [&#34;rho&#34;, &#34;logK&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;Cp&#34;, &#34;V&#34;, &#34;kT&#34;, &#34;E&#34;]
+        if isinstance(property, str):
+            property = [property]
+        
+        invalid_props = [p for p in property if p not in allowed_properties]
+        if invalid_props:
+            if len(invalid_props) == 1:
+                raise ValueError(f&#34;invalid property name: {invalid_props[0]}&#34;)
+            else:
+                raise ValueError(f&#34;invalid property names: {&#39;, &#39;.join(invalid_props)}&#34;)
+        
+        # Length checking
+        if do_reaction and len(species) != len(coeff):
+            raise ValueError(&#34;the length of &#39;coeff&#39; must equal the number of species&#34;)
+        
+        if logact is not None and len(logact) != len(species):
+            raise ValueError(&#34;the length of &#39;logact&#39; must equal the number of species&#34;)
+        
+        # Unit conversion
+        T_array = np.atleast_1d(np.asarray(T, dtype=float))
+        # Convert temperature to Kelvin if convert=True (matching R CHNOSZ behavior)
+        # R: if(convert) T &lt;- envert(T, &#34;K&#34;) - converts Celsius input to Kelvin
+        # Default parameter np.arange(273.16, 623.16, 25) is already in K, so only convert user input
+        if convert and not np.array_equal(T_array, np.arange(273.16, 623.16, 25)[:len(T_array)]):
+            # User provided temperature, assume Celsius and convert to Kelvin
+            T_array = T_array + 273.15
+
+        # Handle T=273.15K (0°C) exactly - R CHNOSZ uses 273.16K (0.01°C) instead
+        # This avoids numerical issues at the freezing point
+        T_array = np.where(np.abs(T_array - 273.15) &lt; 1e-10, 273.16, T_array)
+        
+        if isinstance(P, str) and P == &#34;Psat&#34;:
+            P_array = &#34;Psat&#34;
+        else:
+            P_array = np.atleast_1d(np.asarray(P, dtype=float))
+            # P is assumed to be in bar (R CHNOSZ standard)
+        
+        # Warning for high temperatures with Psat
+        # Check if P is &#34;Psat&#34; (compare to the original P, not P_array which may be converted)
+        if isinstance(P, str) and P == &#34;Psat&#34; and np.any(T_array &gt; 647.067):
+            n_over = np.sum(T_array &gt; 647.067)
+            vtext = &#34;value&#34; if n_over == 1 else &#34;values&#34;
+            result.warnings.append(f&#34;P = &#39;Psat&#39; undefined for T &gt; Tcritical ({n_over} T {vtext})&#34;)
+        
+        # === Phase 2: Grid Processing ===
+        # Handle grid calculations (T-P arrays)
+        if grid is not None:
+            if grid == &#34;T&#34;:
+                # Grid over temperature
+                new_T = []
+                for temp in T_array:
+                    if isinstance(P_array, str):
+                        new_T.extend([temp] * 1)
+                    else:
+                        new_T.extend([temp] * len(P_array))
+                if isinstance(P_array, str):
+                    new_P = P_array
+                else:
+                    new_P = list(P_array) * len(T_array)
+                T_array = np.array(new_T)
+                P_array = new_P
+            elif grid == &#34;P&#34;:
+                # Grid over pressure
+                if not isinstance(P_array, str):
+                    new_P = []
+                    for press in P_array:
+                        new_P.extend([press] * len(T_array))
+                    new_T = list(T_array) * len(P_array)
+                    T_array = np.array(new_T)
+                    P_array = np.array(new_P)
+            elif grid == &#34;IS&#34;:
+                # Grid over ionic strength
+                IS_array = np.atleast_1d(np.asarray(IS))
+                original_len = max(len(T_array), len(P_array) if not isinstance(P_array, str) else 1)
+                new_IS = []
+                for ionic_str in IS_array:
+                    new_IS.extend([ionic_str] * original_len)
+                T_array = np.tile(T_array, len(IS_array))
+                if isinstance(P_array, str):
+                    P_array = P_array
+                else:
+                    P_array = np.tile(P_array, len(IS_array))
+                IS = new_IS
+        else:
+            # Ensure T and P are same length
+            if isinstance(P_array, str):
+                # P = &#34;Psat&#34;, keep T as is
+                pass
+            else:
+                max_len = max(len(T_array), len(P_array))
+                if len(T_array) &lt; max_len:
+                    T_array = np.resize(T_array, max_len)
+                if len(P_array) &lt; max_len:
+                    P_array = np.resize(P_array, max_len)
+        
+        # === Phase 3: Species Lookup and Validation ===
+        result.species, result.reaction, iphases, isaq, isH2O, iscgl, polymorph_species, ispecies = _process_species(
+            species, state, coeff, do_reaction, use_polymorphs, messages=messages)
+        
+        # === Phase 4: Generate Output Message ===
+        if (len(species) &gt; 1 or convert) and messages:
+            _print_subcrt_message(species, T_array, P_array, isaq.any() or isH2O.any(), messages)
+        
+        # === Phase 5: Reaction Balance Check ===
+        if do_reaction and autobalance:
+            # Use original ispecies and coeff for balance check (before polymorph expansion)
+            # This matches R CHNOSZ behavior where balance check happens before polymorph expansion
+            rebalanced_result = _check_reaction_balance(result, species, coeff, state, property,
+                                                      T_array, P_array, grid, convert, logact,
+                                                      exceed_Ttr, exceed_rhomin, IS, ispecies, _recursion_count, basis, T, P, messages, show)
+            if rebalanced_result is not None:  # If reaction was rebalanced, return the result
+                return rebalanced_result
+        
+        # === Phase 6: Property Calculations ===
+        result.out = _calculate_properties(property, iphases, isaq, isH2O, iscgl, 
+                                         T_array, P_array, exceed_rhomin, exceed_Ttr, IS, logact, do_reaction)
+        
+        # === Phase 6.5: Polymorph Selection ===
+        if use_polymorphs:
+            # Select stable polymorphs based on minimum Gibbs energy
+            # Apply to both individual species AND reactions (matching R CHNOSZ behavior)
+            thermo_sys = thermo()
+            if do_reaction:
+                # For reactions, also update coefficients and rebuild reaction DataFrame
+                result.out, updated_coeff, updated_iphases = _select_stable_polymorphs(result.out, iphases, polymorph_species, ispecies, thermo_sys, result.reaction[&#39;coeff&#39;].tolist(), messages)
+                # Rebuild reaction DataFrame with updated species list
+                reaction_data = []
+                for i, iph in enumerate(updated_iphases):
+                    row = thermo_sys.obigt.loc[iph]
+                    model = row.get(&#39;model&#39;, &#39;unknown&#39;)
+                    if model == &#34;H2O&#34;:
+                        water_model = thermo_sys.get_option(&#39;water&#39;, &#39;SUPCRT92&#39;)
+                        model = f&#34;water.{water_model}&#34;
+                    reaction_data.append({
+                        &#39;coeff&#39;: updated_coeff[i],
+                        &#39;name&#39;: row[&#39;name&#39;],
+                        &#39;formula&#39;: row[&#39;formula&#39;],
+                        &#39;state&#39;: row[&#39;state&#39;],
+                        &#39;ispecies&#39;: iph,
+                        &#39;model&#39;: model
+                    })
+                result.reaction = pd.DataFrame(reaction_data)
+            else:
+                # For individual species, no coefficient update needed
+                result.out, _ = _select_stable_polymorphs(result.out, iphases, polymorph_species, ispecies, thermo_sys, None, messages)
+            
+            # For single species (non-reaction), convert back to DataFrame format
+            if not do_reaction and isinstance(result.out, dict) and &#39;species_data&#39; in result.out and len(result.out[&#39;species_data&#39;]) == 1:
+                result.out = result.out[&#39;species_data&#39;][0]
+        
+        # === Phase 7: Reaction Property Summation ===
+        if do_reaction:
+            result.out = _sum_reaction_properties(result.out, result.reaction[&#39;coeff&#39;])
+        
+        # === Phase 8: Unit Conversion (convert=True) ===
+        if convert:
+            # Apply R CHNOSZ compatible conversion
+            # This matches the observed behavior where convert=TRUE gives different results
+            # than just multiplying by 4.184
+            result.out = _apply_r_chnosz_conversion(result.out, do_reaction)
+            
+            # Recalculate logK after unit conversion to ensure consistency
+            if do_reaction and &#39;logK&#39; in property and &#39;G&#39; in result.out.columns:
+                if not result.out[&#39;G&#39;].isna().all():
+                    R = 8.314462618  # J/(mol·K) - CODATA 2018 value
+                    T_array = np.atleast_1d(T_array)
+                    result.out[&#39;logK&#39;] = -result.out[&#39;G&#39;] / (np.log(10) * R * T_array)
+
+        # Display tables in Jupyter notebooks if show=True
+        if show:
+            _display_subcrt_result(result)
+
+        return result
+        
+    except Exception as e:
+        result.warnings.append(f&#34;subcrt error: {str(e)}&#34;)
+        raise</code></pre>
+</details>
+<div class="desc"><p>Calculate standard molal thermodynamic properties of species and reactions.</p>
+<p>This function reproduces the behavior of R CHNOSZ subcrt() exactly, including
+all argument handling, validation, calculations, and output formatting.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, list</code> of <code>str, int,</code> or <code>list</code> of <code>int</code></dt>
+<dd>Species names, formulas, or indices in thermodynamic database</dd>
+<dt><strong><code>coeff</code></strong> :&ensp;<code>int, float, list,</code> or <code>None</code></dt>
+<dd>Stoichiometric coefficients for reaction calculation
+If 1 (default), calculate individual species properties
+If list, calculate reaction with given coefficients</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>None</code></dt>
+<dd>Physical states ("aq", "cr", "gas", "liq") for species</dd>
+<dt><strong><code>property</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
+<dd>Properties to calculate: "logK", "G", "H", "S", "V", "Cp", "rho", "kT", "E"</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float, list,</code> or <code>ndarray</code></dt>
+<dd>Temperature(s) in K (default: 273.15 to 623.15 by 25 K)</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, list, ndarray,</code> or <code>"Psat"</code></dt>
+<dd>Pressure(s) in bar or "Psat" for saturation pressure</dd>
+<dt><strong><code>grid</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>
+<dd>Grid calculation mode: "T", "P", "IS", or None</dd>
+<dt><strong><code>convert</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Convert temperature/pressure units (default: True)</dd>
+<dt><strong><code>exceed_Ttr</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Allow calculations beyond transition temperatures (default: False)</dd>
+<dt><strong><code>exceed_rhomin</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Allow calculations below minimum water density (default: False)</dd>
+<dt><strong><code>logact</code></strong> :&ensp;<code>list</code> of <code>float</code> or <code>None</code></dt>
+<dd>Activity coefficients (log10 scale)</dd>
+<dt><strong><code>autobalance</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Automatically balance reactions using basis species (default: True)</dd>
+<dt><strong><code>use_polymorphs</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Include polymorphic phases for minerals (default: True)</dd>
+<dt><strong><code>IS</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code></dt>
+<dd>Ionic strength for activity corrections (default: 0)</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+<dt><strong><code>show</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to display result tables in Jupyter notebooks (default: True)
+Set to False when calling subcrt() from other functions</dd>
+<dt><strong><code>basis</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
+<dd>Basis species definition to use for autobalancing (if not using global basis)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>SubcrtResult</code></dt>
+<dd>Object containing:
+- species: DataFrame with species information
+- out: DataFrame with calculated thermodynamic properties
+- reaction: DataFrame with reaction stoichiometry (if reaction)
+- warnings: List of warning messages</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; pychnosz.reset()
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Single species properties
+&gt;&gt;&gt; result = subcrt(&quot;H2O&quot;, T=25, P=1)
+&gt;&gt;&gt; print(result.out[[&quot;G&quot;, &quot;H&quot;, &quot;S&quot;, &quot;Cp&quot;]])
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Reaction calculation
+&gt;&gt;&gt; result = subcrt([&quot;H2O&quot;, &quot;H+&quot;, &quot;OH-&quot;], [-1, 1, 1], T=25, P=1)
+&gt;&gt;&gt; print(f&quot;Water dissociation ΔG° = {result.out.G[0]:.3f} kJ/mol&quot;)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Temperature array
+&gt;&gt;&gt; result = subcrt(&quot;quartz&quot;, T=[25, 100, 200], P=1)
+&gt;&gt;&gt; print(result.out[[&quot;T&quot;, &quot;G&quot;, &quot;H&quot;, &quot;S&quot;]])
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This implementation maintains complete fidelity to R CHNOSZ subcrt():
+- Identical argument processing and validation
+- Same species lookup and polymorphic handling
+- Exact HKF and CGL equation-of-state calculations
+- Same reaction balancing and autobalance logic
+- Identical output structure and formatting
+- Same warning and error messages</p></div>
+</dd>
+<dt id="pychnosz.core.thermo"><code class="name flex">
+<span>def <span class="ident">thermo</span></span>(<span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def thermo(*args, **kwargs):
+    &#34;&#34;&#34;
+    Access or modify the thermodynamic system data object.
+
+    This function provides a convenient interface to get or set parts of the
+    thermodynamic system, similar to R&#39;s par() function for graphics parameters.
+
+    Parameters
+    ----------
+    *args : str or list of str
+        Names of attributes to retrieve (e.g., &#34;element&#34;, &#34;opt$ideal.H&#34;)
+        For nested access, use &#34;$&#34; notation (e.g., &#34;opt$E.units&#34;)
+        Special values:
+        - &#34;WORM&#34;: Load the WORM thermodynamic database (Python-exclusive feature)
+    **kwargs : any
+        Named arguments to set attributes (e.g., element=new_df, opt={&#39;E.units&#39;: &#39;cal&#39;})
+        For nested attributes, use &#34;$&#34; in the name (e.g., **{&#34;opt$ideal.H&#34;: False})
+
+    Returns
+    -------
+    various
+        - If no arguments: returns the ThermoSystem object
+        - If single unnamed argument: returns the requested value
+        - If multiple unnamed arguments: returns list of requested values
+        - If named arguments: returns original values before modification
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; # Get the entire thermo object
+    &gt;&gt;&gt; ts = pychnosz.thermo()
+
+    &gt;&gt;&gt; # Get a specific attribute
+    &gt;&gt;&gt; elem = pychnosz.thermo(&#34;element&#34;)
+
+    &gt;&gt;&gt; # Get nested attribute
+    &gt;&gt;&gt; e_units = pychnosz.thermo(&#34;opt$E.units&#34;)
+
+    &gt;&gt;&gt; # Get multiple attributes
+    &gt;&gt;&gt; elem, buf = pychnosz.thermo(&#34;element&#34;, &#34;buffer&#34;)
+
+    &gt;&gt;&gt; # Set an attribute
+    &gt;&gt;&gt; old_elem = pychnosz.thermo(element=new_element_df)
+
+    &gt;&gt;&gt; # Set nested attribute
+    &gt;&gt;&gt; old_units = pychnosz.thermo(**{&#34;opt$ideal.H&#34;: False})
+
+    &gt;&gt;&gt; # Load WORM database (Python-exclusive feature)
+    &gt;&gt;&gt; pychnosz.thermo(&#34;WORM&#34;)
+
+    Notes
+    -----
+    This function mimics the behavior of R CHNOSZ thermo() function,
+    providing flexible access to the thermodynamic data object.
+
+    The &#34;WORM&#34; special argument is a Python-exclusive feature that loads
+    the Water-Organic-Rock-Microbe thermodynamic database from the
+    WORM-db GitHub repository.
+    &#34;&#34;&#34;
+    # Get the global thermo system
+    thermo_sys = get_thermo_system()
+
+    # If no arguments, return the entire object
+    if len(args) == 0 and len(kwargs) == 0:
+        return thermo_sys
+
+    # Handle character vectors passed as args (like R&#39;s c(&#34;basis&#34;, &#34;species&#34;))
+    # If all args are strings or lists of strings, flatten them
+    flat_args = []
+    for arg in args:
+        if isinstance(arg, (list, tuple)) and all(isinstance(x, str) for x in arg):
+            flat_args.extend(arg)
+        else:
+            flat_args.append(arg)
+    args = flat_args
+
+    # Prepare return values list
+    return_values = []
+
+    # Process unnamed arguments (getters)
+    for arg in args:
+        if not isinstance(arg, str):
+            raise TypeError(f&#34;Unnamed arguments must be strings, got {type(arg)}&#34;)
+
+        # Special handling for &#34;WORM&#34; - load WORM database
+        if arg.upper() == &#34;WORM&#34;:
+            from ..data.worm import load_WORM
+            success = load_WORM(keep_default=False, messages=True)
+            return_values.append(success)
+            continue
+
+        # Parse the argument to get slots (handle nested access with $)
+        slots = arg.split(&#39;$&#39;)
+
+        # Get the value from thermo_sys
+        value = thermo_sys
+        for slot in slots:
+            # Handle OBIGT case-insensitively (R uses uppercase, Python uses lowercase)
+            slot_lower = slot.lower()
+            if hasattr(value, slot_lower):
+                value = getattr(value, slot_lower)
+            elif hasattr(value, slot):
+                value = getattr(value, slot)
+            elif isinstance(value, dict) and slot in value:
+                value = value[slot]
+            else:
+                raise AttributeError(f&#34;Attribute &#39;{arg}&#39; not found in thermo object&#34;)
+
+        return_values.append(value)
+
+    # Process named arguments (setters)
+    setter_returns = {}
+    for key, new_value in kwargs.items():
+        # Parse the key to get slots
+        slots = key.split(&#39;$&#39;)
+
+        # Get the original value before modification
+        orig_value = thermo_sys
+        for slot in slots:
+            # Handle case-insensitive attribute access (for OBIGT, etc.)
+            slot_lower = slot.lower()
+            if hasattr(orig_value, slot_lower):
+                orig_value = getattr(orig_value, slot_lower)
+            elif hasattr(orig_value, slot):
+                orig_value = getattr(orig_value, slot)
+            elif isinstance(orig_value, dict) and slot in orig_value:
+                orig_value = orig_value[slot]
+            else:
+                raise AttributeError(f&#34;Attribute &#39;{key}&#39; not found in thermo object&#34;)
+
+        setter_returns[key] = orig_value
+
+        # Set the new value
+        if len(slots) == 1:
+            # Direct attribute
+            # Special handling for OBIGT - normalize index and handle refs
+            if slots[0].upper() == &#39;OBIGT&#39;:
+                # Handle OBIGT replacement with proper index normalization
+                _set_obigt_data(thermo_sys, new_value)
+            else:
+                # Use lowercase version if it exists (Python convention)
+                slot_lower = slots[0].lower()
+                if hasattr(thermo_sys, slot_lower):
+                    setattr(thermo_sys, slot_lower, new_value)
+                else:
+                    setattr(thermo_sys, slots[0], new_value)
+        elif len(slots) == 2:
+            # Nested attribute (e.g., opt$ideal.H)
+            parent = getattr(thermo_sys, slots[0])
+            if isinstance(parent, dict):
+                parent[slots[1]] = new_value
+            else:
+                setattr(parent, slots[1], new_value)
+        else:
+            # Deeper nesting (if needed)
+            current = thermo_sys
+            for i, slot in enumerate(slots[:-1]):
+                if hasattr(current, slot):
+                    current = getattr(current, slot)
+                elif isinstance(current, dict) and slot in current:
+                    current = current[slot]
+
+            # Set the final value
+            final_slot = slots[-1]
+            if isinstance(current, dict):
+                current[final_slot] = new_value
+            else:
+                setattr(current, final_slot, new_value)
+
+    # Determine return value based on R&#39;s behavior
+    if len(kwargs) &gt; 0:
+        # If we had setters, return the original values as a named dict
+        # In R, setters always return a named list
+        if len(args) == 0:
+            # Only setters - return dict (named list in R)
+            return setter_returns
+        else:
+            # Mix of getters and setters - return all original values
+            combined = {}
+            for i, arg in enumerate(args):
+                combined[arg] = return_values[i]
+            combined.update(setter_returns)
+            return combined
+    else:
+        # Only getters
+        # Single unnamed argument returns the value directly
+        if len(return_values) == 1:
+            return return_values[0]
+        return return_values</code></pre>
+</details>
+<div class="desc"><p>Access or modify the thermodynamic system data object.</p>
+<p>This function provides a convenient interface to get or set parts of the
+thermodynamic system, similar to R's par() function for graphics parameters.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>*args</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Names of attributes to retrieve (e.g., "element", "opt$ideal.H")
+For nested access, use "$" notation (e.g., "opt$E.units")
+Special values:
+- "WORM": Load the WORM thermodynamic database (Python-exclusive feature)</dd>
+<dt><strong><code>**kwargs</code></strong> :&ensp;<code>any</code></dt>
+<dd>Named arguments to set attributes (e.g., element=new_df, opt={'E.units': 'cal'})
+For nested attributes, use "$" in the name (e.g., **{"opt$ideal.H": False})</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>various</code></dt>
+<dd>
+<ul>
+<li>If no arguments: returns the ThermoSystem object</li>
+<li>If single unnamed argument: returns the requested value</li>
+<li>If multiple unnamed arguments: returns list of requested values</li>
+<li>If named arguments: returns original values before modification</li>
+</ul>
+</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; # Get the entire thermo object
+&gt;&gt;&gt; ts = pychnosz.thermo()
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get a specific attribute
+&gt;&gt;&gt; elem = pychnosz.thermo(&quot;element&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get nested attribute
+&gt;&gt;&gt; e_units = pychnosz.thermo(&quot;opt$E.units&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get multiple attributes
+&gt;&gt;&gt; elem, buf = pychnosz.thermo(&quot;element&quot;, &quot;buffer&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Set an attribute
+&gt;&gt;&gt; old_elem = pychnosz.thermo(element=new_element_df)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Set nested attribute
+&gt;&gt;&gt; old_units = pychnosz.thermo(**{&quot;opt$ideal.H&quot;: False})
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Load WORM database (Python-exclusive feature)
+&gt;&gt;&gt; pychnosz.thermo(&quot;WORM&quot;)
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This function mimics the behavior of R CHNOSZ thermo() function,
+providing flexible access to the thermodynamic data object.</p>
+<p>The "WORM" special argument is a Python-exclusive feature that loads
+the Water-Organic-Rock-Microbe thermodynamic database from the
+WORM-db GitHub repository.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.core.BasisError"><code class="flex name class">
+<span>class <span class="ident">BasisError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class BasisError(Exception):
+    &#34;&#34;&#34;Exception raised for basis-related errors.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Exception raised for basis-related errors.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="pychnosz.core.SpeciesError"><code class="flex name class">
+<span>class <span class="ident">SpeciesError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SpeciesError(Exception):
+    &#34;&#34;&#34;Exception raised for species-related errors.&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<div class="desc"><p>Exception raised for species-related errors.</p></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="pychnosz.core.ThermoSystem"><code class="flex name class">
+<span>class <span class="ident">ThermoSystem</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ThermoSystem:
+    &#34;&#34;&#34;
+    Global thermodynamic system manager for CHNOSZ.
+    
+    This class manages the thermodynamic database, basis species, 
+    formed species, and calculation options - essentially serving
+    as the global state container for all CHNOSZ calculations.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the thermodynamic system.&#34;&#34;&#34;
+        self._data_loader = DataLoader()
+        self._obigt_db = None
+        self._initialized = False
+        
+        # Core data containers (similar to R thermo object)
+        self.opt: Dict[str, Any] = {}
+        self.element: Optional[pd.DataFrame] = None
+        self.obigt: Optional[pd.DataFrame] = None
+        self.refs: Optional[pd.DataFrame] = None
+        self.Berman: Optional[pd.DataFrame] = None
+        self.buffer: Optional[pd.DataFrame] = None
+        self.protein: Optional[pd.DataFrame] = None
+        self.groups: Optional[pd.DataFrame] = None
+        self.stoich: Optional[np.ndarray] = None
+        self.stoich_formulas: Optional[np.ndarray] = None
+        self.bdot_acirc: Optional[Dict[str, float]] = None
+        self.formula_ox: Optional[pd.DataFrame] = None
+        
+        # System state
+        self.basis: Optional[pd.DataFrame] = None
+        self.species: Optional[pd.DataFrame] = None
+        
+        # Options and parameters
+        self.opar: Dict[str, Any] = {}
+        
+    def reset(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;
+        Initialize/reset the thermodynamic system.
+
+        This is equivalent to reset() in the R version, loading all
+        the thermodynamic data and initializing the system.
+
+        Parameters
+        ----------
+        messages : bool, default True
+            Whether to print informational messages
+        &#34;&#34;&#34;
+        try:
+            # Load core data files
+            self._load_options(messages)
+            self._load_element_data(messages)
+            self._load_berman_data(messages)
+            self._load_buffer_data(messages)
+            self._load_protein_data(messages)
+            self._load_stoich_data(messages)
+            self._load_bdot_data(messages)
+            self._load_refs_data(messages)
+
+            # Initialize OBIGT database
+            self._obigt_db = OBIGTDatabase()
+            self.obigt = self._obigt_db.get_combined_data()
+
+            # Reset system state
+            self.basis = None
+            self.species = None
+            self.opar = {}
+
+            self._initialized = True
+            if messages:
+                print(&#39;reset: thermodynamic system initialized&#39;)
+
+        except Exception as e:
+            raise RuntimeError(f&#34;Failed to initialize thermodynamic system: {e}&#34;)
+    
+    def _load_options(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load default thermodynamic options.&#34;&#34;&#34;
+        try:
+            opt_file = self._data_loader.get_data_path() / &#34;thermo&#34; / &#34;opt.csv&#34;
+            if opt_file.exists():
+                df = pd.read_csv(opt_file)
+                # Convert to dictionary format (first row contains values)
+                self.opt = dict(zip(df.columns, df.iloc[0]))
+            else:
+                # Default options if file not found
+                self.opt = {
+                    &#39;E.units&#39;: &#39;J&#39;,
+                    &#39;T.units&#39;: &#39;C&#39;,
+                    &#39;P.units&#39;: &#39;bar&#39;,
+                    &#39;state&#39;: &#39;aq&#39;,
+                    &#39;water&#39;: &#39;SUPCRT92&#39;,
+                    &#39;G.tol&#39;: 100,
+                    &#39;Cp.tol&#39;: 1,
+                    &#39;V.tol&#39;: 1,
+                    &#39;varP&#39;: False,
+                    &#39;IAPWS.sat&#39;: &#39;liquid&#39;,
+                    &#39;paramin&#39;: 1000,
+                    &#39;ideal.H&#39;: True,
+                    &#39;ideal.e&#39;: True,
+                    &#39;nonideal&#39;: &#39;Bdot&#39;,
+                    &#39;Setchenow&#39;: &#39;bgamma0&#39;,
+                    &#39;Berman&#39;: np.nan,
+                    &#39;maxcores&#39;: 2,
+                    &#39;ionize.aa&#39;: True
+                }
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load options: {e}&#34;)
+            # Fallback to hardcoded defaults with critical unit options
+            self.opt = {
+                &#39;E.units&#39;: &#39;J&#39;,
+                &#39;T.units&#39;: &#39;C&#39;,
+                &#39;P.units&#39;: &#39;bar&#39;,
+                &#39;state&#39;: &#39;aq&#39;,
+                &#39;water&#39;: &#39;SUPCRT92&#39;,
+                &#39;G.tol&#39;: 100,
+                &#39;Cp.tol&#39;: 1,
+                &#39;V.tol&#39;: 1,
+                &#39;varP&#39;: False,
+                &#39;IAPWS.sat&#39;: &#39;liquid&#39;,
+                &#39;paramin&#39;: 1000,
+                &#39;ideal.H&#39;: True,
+                &#39;ideal.e&#39;: True,
+                &#39;nonideal&#39;: &#39;Bdot&#39;,
+                &#39;Setchenow&#39;: &#39;bgamma0&#39;,
+                &#39;Berman&#39;: np.nan,
+                &#39;maxcores&#39;: 2,
+                &#39;ionize.aa&#39;: True
+            }
+    
+    def _load_element_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load element properties data.&#34;&#34;&#34;
+        try:
+            self.element = self._data_loader.load_elements()
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load element data: {e}&#34;)
+            self.element = None
+    
+    def _load_berman_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load Berman mineral parameters from CSV files.&#34;&#34;&#34;
+        try:
+            # Get path to Berman directory
+            berman_path = self._data_loader.data_path / &#34;Berman&#34;
+
+            if not berman_path.exists():
+                if messages:
+                    print(f&#34;Warning: Berman directory not found: {berman_path}&#34;)
+                self.Berman = None
+                return
+
+            # Find all CSV files in the directory
+            csv_files = list(berman_path.glob(&#34;*.csv&#34;))
+
+            if not csv_files:
+                if messages:
+                    print(f&#34;Warning: No CSV files found in {berman_path}&#34;)
+                self.Berman = None
+                return
+            
+            # Extract year from filename and sort in reverse chronological order (youngest first)
+            # Following R logic: files &lt;- rev(files[order(sapply(strsplit(files, &#34;_&#34;), &#34;[&#34;, 2))])
+            def extract_year(filepath):
+                filename = filepath.name
+                parts = filename.split(&#39;_&#39;)
+                if len(parts) &gt;= 2:
+                    year_part = parts[1].replace(&#39;.csv&#39;, &#39;&#39;)
+                    try:
+                        return int(year_part)
+                    except ValueError:
+                        return 0
+                return 0
+            
+            # Sort files by year (youngest first)
+            sorted_files = sorted(csv_files, key=extract_year, reverse=True)
+            
+            # Read parameters from each file
+            berman_dfs = []
+            for file_path in sorted_files:
+                try:
+                    df = pd.read_csv(file_path)
+                    berman_dfs.append(df)
+                except Exception as e:
+                    print(f&#34;Warning: Could not read Berman file {file_path}: {e}&#34;)
+            
+            # Combine all data frames (equivalent to do.call(rbind, Berman))
+            if berman_dfs:
+                self.Berman = pd.concat(berman_dfs, ignore_index=True)
+                # Ensure all numeric columns are properly typed
+                numeric_cols = [&#39;GfPrTr&#39;, &#39;HfPrTr&#39;, &#39;SPrTr&#39;, &#39;VPrTr&#39;, &#39;k0&#39;, &#39;k1&#39;, &#39;k2&#39;, &#39;k3&#39;, &#39;k4&#39;, &#39;k5&#39;, &#39;k6&#39;,
+                               &#39;v1&#39;, &#39;v2&#39;, &#39;v3&#39;, &#39;v4&#39;, &#39;Tlambda&#39;, &#39;Tref&#39;, &#39;dTdP&#39;, &#39;l1&#39;, &#39;l2&#39;, &#39;DtH&#39;, &#39;Tmax&#39;, &#39;Tmin&#39;,
+                               &#39;d0&#39;, &#39;d1&#39;, &#39;d2&#39;, &#39;d3&#39;, &#39;d4&#39;, &#39;Vad&#39;]
+                for col in numeric_cols:
+                    if col in self.Berman.columns:
+                        self.Berman[col] = pd.to_numeric(self.Berman[col], errors=&#39;coerce&#39;)
+            else:
+                self.Berman = None
+                
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load Berman data: {e}&#34;)
+            self.Berman = None
+
+    def _load_buffer_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load buffer definitions.&#34;&#34;&#34;
+        try:
+            self.buffer = self._data_loader.load_buffers()
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load buffer data: {e}&#34;)
+            self.buffer = None
+
+    def _load_protein_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load protein composition data.&#34;&#34;&#34; 
+        try:
+            self.protein = self._data_loader.load_proteins()
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load protein data: {e}&#34;)
+            self.protein = None
+
+    def _load_stoich_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load stoichiometric matrix data.&#34;&#34;&#34;
+        try:
+            stoich_df = self._data_loader.load_stoich()
+            if stoich_df is not None:
+                # Extract formulas and convert to matrix
+                self.stoich_formulas = stoich_df.iloc[:, 0].values
+                self.stoich = stoich_df.iloc[:, 1:].values
+            else:
+                self.stoich_formulas = None
+                self.stoich = None
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load stoichiometric data: {e}&#34;)
+            self.stoich_formulas = None
+            self.stoich = None
+
+    def _load_bdot_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load B-dot activity coefficient parameters.&#34;&#34;&#34;
+        try:
+            bdot_file = self._data_loader.get_data_path() / &#34;thermo&#34; / &#34;Bdot_acirc.csv&#34;
+            if bdot_file.exists():
+                df = pd.read_csv(bdot_file)
+                if len(df.columns) &gt;= 2:
+                    self.bdot_acirc = dict(zip(df.iloc[:, 0], df.iloc[:, 1]))
+                else:
+                    self.bdot_acirc = {}
+            else:
+                self.bdot_acirc = {}
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load B-dot data: {e}&#34;)
+            self.bdot_acirc = {}
+
+    def _load_refs_data(self, messages: bool = True) -&gt; None:
+        &#34;&#34;&#34;Load references data.&#34;&#34;&#34;
+        try:
+            self.refs = self._data_loader.load_refs()
+        except Exception as e:
+            if messages:
+                print(f&#34;Warning: Could not load refs data: {e}&#34;)
+            self.refs = None
+    
+    def is_initialized(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the thermodynamic system is initialized.&#34;&#34;&#34;
+        return self._initialized
+    
+    def get_obigt_db(self) -&gt; OBIGTDatabase:
+        &#34;&#34;&#34;Get the OBIGT database instance.&#34;&#34;&#34;
+        if not self._initialized:
+            self.reset()
+        return self._obigt_db
+    
+    def get_option(self, key: str, default: Any = None) -&gt; Any:
+        &#34;&#34;&#34;Get a thermodynamic option value.&#34;&#34;&#34;
+        return self.opt.get(key, default)
+    
+    def set_option(self, key: str, value: Any) -&gt; None:
+        &#34;&#34;&#34;Set a thermodynamic option value.&#34;&#34;&#34;
+        self.opt[key] = value
+    
+    def info(self) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;Get information about the current thermodynamic system.&#34;&#34;&#34;
+        if not self._initialized:
+            return {&#34;status&#34;: &#34;Not initialized&#34;}
+        
+        info = {
+            &#34;status&#34;: &#34;Initialized&#34;,
+            &#34;obigt_species&#34;: len(self.obigt) if self.obigt is not None else 0,
+            &#34;elements&#34;: len(self.element) if self.element is not None else 0,
+            &#34;berman_minerals&#34;: len(self.Berman) if self.Berman is not None else 0,
+            &#34;buffers&#34;: len(self.buffer) if self.buffer is not None else 0,
+            &#34;proteins&#34;: len(self.protein) if self.protein is not None else 0,
+            &#34;stoich_species&#34;: len(self.stoich_formulas) if self.stoich_formulas is not None else 0,
+            &#34;basis_species&#34;: len(self.basis) if self.basis is not None else 0,
+            &#34;formed_species&#34;: len(self.species) if self.species is not None else 0,
+            &#34;current_options&#34;: dict(self.opt)
+        }
+        return info
+    
+    def __repr__(self) -&gt; str:
+        &#34;&#34;&#34;String representation of the thermodynamic system.&#34;&#34;&#34;
+        if not self._initialized:
+            return &#34;ThermoSystem(uninitialized)&#34;
+
+        info = self.info()
+        return (f&#34;ThermoSystem(&#34;
+                f&#34;obigt={info[&#39;obigt_species&#39;]} species, &#34;
+                f&#34;basis={info[&#39;basis_species&#39;]}, &#34;
+                f&#34;formed={info[&#39;formed_species&#39;]})&#34;)
+
+    # R-style uppercase property aliases for compatibility
+    @property
+    def OBIGT(self):
+        &#34;&#34;&#34;Alias for obigt (R compatibility).&#34;&#34;&#34;
+        # Auto-initialize if needed AND obigt is None (matches R behavior)
+        if self.obigt is None and not self._initialized:
+            self.reset(messages=True)
+        return self.obigt
+
+    @OBIGT.setter
+    def OBIGT(self, value):
+        &#34;&#34;&#34;Setter for OBIGT (R compatibility).&#34;&#34;&#34;
+        _set_obigt_data(self, value)</code></pre>
+</details>
+<div class="desc"><p>Global thermodynamic system manager for CHNOSZ.</p>
+<p>This class manages the thermodynamic database, basis species,
+formed species, and calculation options - essentially serving
+as the global state container for all CHNOSZ calculations.</p>
+<p>Initialize the thermodynamic system.</p></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pychnosz.core.ThermoSystem.OBIGT"><code class="name">prop <span class="ident">OBIGT</span></code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def OBIGT(self):
+    &#34;&#34;&#34;Alias for obigt (R compatibility).&#34;&#34;&#34;
+    # Auto-initialize if needed AND obigt is None (matches R behavior)
+    if self.obigt is None and not self._initialized:
+        self.reset(messages=True)
+    return self.obigt</code></pre>
+</details>
+<div class="desc"><p>Alias for obigt (R compatibility).</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.core.ThermoSystem.get_obigt_db"><code class="name flex">
+<span>def <span class="ident">get_obigt_db</span></span>(<span>self) ‑> <a title="pychnosz.data.obigt.OBIGTDatabase" href="../data/obigt.html#pychnosz.data.obigt.OBIGTDatabase">OBIGTDatabase</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_obigt_db(self) -&gt; OBIGTDatabase:
+    &#34;&#34;&#34;Get the OBIGT database instance.&#34;&#34;&#34;
+    if not self._initialized:
+        self.reset()
+    return self._obigt_db</code></pre>
+</details>
+<div class="desc"><p>Get the OBIGT database instance.</p></div>
+</dd>
+<dt id="pychnosz.core.ThermoSystem.get_option"><code class="name flex">
+<span>def <span class="ident">get_option</span></span>(<span>self, key: str, default: Any = None) ‑> Any</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_option(self, key: str, default: Any = None) -&gt; Any:
+    &#34;&#34;&#34;Get a thermodynamic option value.&#34;&#34;&#34;
+    return self.opt.get(key, default)</code></pre>
+</details>
+<div class="desc"><p>Get a thermodynamic option value.</p></div>
+</dd>
+<dt id="pychnosz.core.ThermoSystem.info"><code class="name flex">
+<span>def <span class="ident">info</span></span>(<span>self) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def info(self) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;Get information about the current thermodynamic system.&#34;&#34;&#34;
+    if not self._initialized:
+        return {&#34;status&#34;: &#34;Not initialized&#34;}
+    
+    info = {
+        &#34;status&#34;: &#34;Initialized&#34;,
+        &#34;obigt_species&#34;: len(self.obigt) if self.obigt is not None else 0,
+        &#34;elements&#34;: len(self.element) if self.element is not None else 0,
+        &#34;berman_minerals&#34;: len(self.Berman) if self.Berman is not None else 0,
+        &#34;buffers&#34;: len(self.buffer) if self.buffer is not None else 0,
+        &#34;proteins&#34;: len(self.protein) if self.protein is not None else 0,
+        &#34;stoich_species&#34;: len(self.stoich_formulas) if self.stoich_formulas is not None else 0,
+        &#34;basis_species&#34;: len(self.basis) if self.basis is not None else 0,
+        &#34;formed_species&#34;: len(self.species) if self.species is not None else 0,
+        &#34;current_options&#34;: dict(self.opt)
+    }
+    return info</code></pre>
+</details>
+<div class="desc"><p>Get information about the current thermodynamic system.</p></div>
+</dd>
+<dt id="pychnosz.core.ThermoSystem.is_initialized"><code class="name flex">
+<span>def <span class="ident">is_initialized</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_initialized(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the thermodynamic system is initialized.&#34;&#34;&#34;
+    return self._initialized</code></pre>
+</details>
+<div class="desc"><p>Check if the thermodynamic system is initialized.</p></div>
+</dd>
+<dt id="pychnosz.core.ThermoSystem.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self, messages: bool = True) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(self, messages: bool = True) -&gt; None:
+    &#34;&#34;&#34;
+    Initialize/reset the thermodynamic system.
+
+    This is equivalent to reset() in the R version, loading all
+    the thermodynamic data and initializing the system.
+
+    Parameters
+    ----------
+    messages : bool, default True
+        Whether to print informational messages
+    &#34;&#34;&#34;
+    try:
+        # Load core data files
+        self._load_options(messages)
+        self._load_element_data(messages)
+        self._load_berman_data(messages)
+        self._load_buffer_data(messages)
+        self._load_protein_data(messages)
+        self._load_stoich_data(messages)
+        self._load_bdot_data(messages)
+        self._load_refs_data(messages)
+
+        # Initialize OBIGT database
+        self._obigt_db = OBIGTDatabase()
+        self.obigt = self._obigt_db.get_combined_data()
+
+        # Reset system state
+        self.basis = None
+        self.species = None
+        self.opar = {}
+
+        self._initialized = True
+        if messages:
+            print(&#39;reset: thermodynamic system initialized&#39;)
+
+    except Exception as e:
+        raise RuntimeError(f&#34;Failed to initialize thermodynamic system: {e}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Initialize/reset the thermodynamic system.</p>
+<p>This is equivalent to reset() in the R version, loading all
+the thermodynamic data and initializing the system.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.ThermoSystem.set_option"><code class="name flex">
+<span>def <span class="ident">set_option</span></span>(<span>self, key: str, value: Any) ‑> None</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_option(self, key: str, value: Any) -&gt; None:
+    &#34;&#34;&#34;Set a thermodynamic option value.&#34;&#34;&#34;
+    self.opt[key] = value</code></pre>
+</details>
+<div class="desc"><p>Set a thermodynamic option value.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz" href="../index.html">pychnosz</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-submodules">Sub-modules</a></h3>
+<ul>
+<li><code><a title="pychnosz.core.animation" href="animation.html">pychnosz.core.animation</a></code></li>
+<li><code><a title="pychnosz.core.balance" href="balance.html">pychnosz.core.balance</a></code></li>
+<li><code><a title="pychnosz.core.equilibrium" href="equilibrium.html">pychnosz.core.equilibrium</a></code></li>
+<li><code><a title="pychnosz.core.speciation" href="speciation.html">pychnosz.core.speciation</a></code></li>
+<li><code><a title="pychnosz.core.thermocalc" href="thermocalc.html">pychnosz.core.thermocalc</a></code></li>
+<li><code><a title="pychnosz.core.unicurve" href="unicurve.html">pychnosz.core.unicurve</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="pychnosz.core.affinity" href="#pychnosz.core.affinity">affinity</a></code></li>
+<li><code><a title="pychnosz.core.basis" href="#pychnosz.core.basis">basis</a></code></li>
+<li><code><a title="pychnosz.core.diagram" href="#pychnosz.core.diagram">diagram</a></code></li>
+<li><code><a title="pychnosz.core.equilibrate" href="#pychnosz.core.equilibrate">equilibrate</a></code></li>
+<li><code><a title="pychnosz.core.find_species" href="#pychnosz.core.find_species">find_species</a></code></li>
+<li><code><a title="pychnosz.core.get_basis" href="#pychnosz.core.get_basis">get_basis</a></code></li>
+<li><code><a title="pychnosz.core.get_species" href="#pychnosz.core.get_species">get_species</a></code></li>
+<li><code><a title="pychnosz.core.get_species_data" href="#pychnosz.core.get_species_data">get_species_data</a></code></li>
+<li><code><a title="pychnosz.core.info" href="#pychnosz.core.info">info</a></code></li>
+<li><code><a title="pychnosz.core.is_basis_defined" href="#pychnosz.core.is_basis_defined">is_basis_defined</a></code></li>
+<li><code><a title="pychnosz.core.is_species_defined" href="#pychnosz.core.is_species_defined">is_species_defined</a></code></li>
+<li><code><a title="pychnosz.core.list_species" href="#pychnosz.core.list_species">list_species</a></code></li>
+<li><code><a title="pychnosz.core.n_species" href="#pychnosz.core.n_species">n_species</a></code></li>
+<li><code><a title="pychnosz.core.preset_basis" href="#pychnosz.core.preset_basis">preset_basis</a></code></li>
+<li><code><a title="pychnosz.core.retrieve" href="#pychnosz.core.retrieve">retrieve</a></code></li>
+<li><code><a title="pychnosz.core.species" href="#pychnosz.core.species">species</a></code></li>
+<li><code><a title="pychnosz.core.subcrt" href="#pychnosz.core.subcrt">subcrt</a></code></li>
+<li><code><a title="pychnosz.core.thermo" href="#pychnosz.core.thermo">thermo</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.core.BasisError" href="#pychnosz.core.BasisError">BasisError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pychnosz.core.SpeciesError" href="#pychnosz.core.SpeciesError">SpeciesError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="pychnosz.core.ThermoSystem" href="#pychnosz.core.ThermoSystem">ThermoSystem</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pychnosz.core.ThermoSystem.OBIGT" href="#pychnosz.core.ThermoSystem.OBIGT">OBIGT</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.get_obigt_db" href="#pychnosz.core.ThermoSystem.get_obigt_db">get_obigt_db</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.get_option" href="#pychnosz.core.ThermoSystem.get_option">get_option</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.info" href="#pychnosz.core.ThermoSystem.info">info</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.is_initialized" href="#pychnosz.core.ThermoSystem.is_initialized">is_initialized</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.reset" href="#pychnosz.core.ThermoSystem.reset">reset</a></code></li>
+<li><code><a title="pychnosz.core.ThermoSystem.set_option" href="#pychnosz.core.ThermoSystem.set_option">set_option</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

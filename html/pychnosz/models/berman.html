@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.berman API documentation</title>
+<meta name="description" content="Berman mineral equations of state implementation …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.berman</code></h1>
+</header>
+<section id="section-intro">
+<p>Berman mineral equations of state implementation.</p>
+<p>Calculate thermodynamic properties of minerals using equations from:
+Berman, R. G. (1988) Internally-consistent thermodynamic data for minerals
+in the system Na2O-K2O-CaO-MgO-FeO-Fe2O3-Al2O3-SiO2-TiO2-H2O-CO2.
+J. Petrol. 29, 445-522. <a href="https://doi.org/10.1093/petrology/29.2.445">https://doi.org/10.1093/petrology/29.2.445</a></p>
+<p>This is a 1:1 Python replica of CHNOSZ-main/R/Berman.R</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.berman.Berman"><code class="name flex">
+<span>def <span class="ident">Berman</span></span>(<span>name: str,<br>T: float | List[float] = 298.15,<br>P: float | List[float] = 1,<br>check_G: bool = False,<br>calc_transition: bool = True,<br>calc_disorder: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Berman(name: str, T: Union[float, List[float]] = 298.15, P: Union[float, List[float]] = 1, 
+           check_G: bool = False, calc_transition: bool = True, calc_disorder: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate thermodynamic properties of minerals using Berman equations.
+    
+    Parameters
+    ----------
+    name : str
+        Name of the mineral
+    T : float or list, optional
+        Temperature in Kelvin (default: 298.15)
+    P : float or list, optional  
+        Pressure in bar (default: 1)
+    check_G : bool, optional
+        Check consistency of G in data file (default: False)
+    calc_transition : bool, optional
+        Calculate polymorphic transition contributions (default: True)
+    calc_disorder : bool, optional
+        Calculate disorder contributions (default: True)
+        
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with columns T, P, G, H, S, Cp, V
+    &#34;&#34;&#34;
+    
+    # Reference temperature and pressure
+    Pr = 1
+    Tr = 298.15
+    
+    # Make T and P the same length
+    if isinstance(T, (int, float)):
+        T = [T]
+    if isinstance(P, (int, float)):
+        P = [P]
+
+    # Convert to list if numpy array (to avoid element-wise multiplication bug)
+    if isinstance(T, np.ndarray):
+        T = T.tolist()
+    if isinstance(P, np.ndarray):
+        P = P.tolist()
+
+    ncond = max(len(T), len(P))
+    T = np.array(T * (ncond // len(T) + 1), dtype=float)[:ncond]
+    P = np.array(P * (ncond // len(P) + 1), dtype=float)[:ncond]
+    
+    # Get parameters in the Berman equations
+    # Start with thermodynamic parameters provided with CHNOSZ
+    thermo_sys = thermo()
+    if thermo_sys.Berman is None:
+        raise RuntimeError(&#34;Berman data not loaded. Please run pychnosz.reset() first.&#34;)
+    
+    dat = thermo_sys.Berman.copy()
+    
+    # TODO: Handle user-supplied data file (thermo()$opt$Berman)
+    # For now, just use the default data
+    
+    # Remove duplicates (only the first, i.e. most recent entry is kept)
+    dat = dat.drop_duplicates(subset=[&#39;name&#39;], keep=&#39;first&#39;)
+    
+    # Remove the multipliers on volume parameters
+    vcols = [&#39;v1&#39;, &#39;v2&#39;, &#39;v3&#39;, &#39;v4&#39;]  # columns with v1, v2, v3, v4
+    multexp = [5, 5, 5, 8]
+    for i, col in enumerate(vcols):
+        if col in dat.columns:
+            dat[col] = dat[col] / (10 ** multexp[i])
+    
+    # Which row has data for this mineral?
+    matching_rows = dat[dat[&#39;name&#39;] == name]
+    if len(matching_rows) == 0:
+        raise ValueError(f&#34;Data for {name} not available in Berman database&#34;)
+    
+    dat_mineral = matching_rows.iloc[0]
+    
+    # Extract parameters for easier access
+    GfPrTr = dat_mineral[&#39;GfPrTr&#39;]
+    HfPrTr = dat_mineral[&#39;HfPrTr&#39;] 
+    SPrTr = dat_mineral[&#39;SPrTr&#39;]
+    VPrTr = dat_mineral[&#39;VPrTr&#39;]
+    
+    k0 = dat_mineral[&#39;k0&#39;]
+    k1 = dat_mineral[&#39;k1&#39;] 
+    k2 = dat_mineral[&#39;k2&#39;]
+    k3 = dat_mineral[&#39;k3&#39;]
+    k4 = dat_mineral[&#39;k4&#39;] if not pd.isna(dat_mineral[&#39;k4&#39;]) else 0
+    k5 = dat_mineral[&#39;k5&#39;] if not pd.isna(dat_mineral[&#39;k5&#39;]) else 0
+    k6 = dat_mineral[&#39;k6&#39;] if not pd.isna(dat_mineral[&#39;k6&#39;]) else 0
+    
+    v1 = dat_mineral[&#39;v1&#39;] if not pd.isna(dat_mineral[&#39;v1&#39;]) else 0
+    v2 = dat_mineral[&#39;v2&#39;] if not pd.isna(dat_mineral[&#39;v2&#39;]) else 0
+    v3 = dat_mineral[&#39;v3&#39;] if not pd.isna(dat_mineral[&#39;v3&#39;]) else 0
+    v4 = dat_mineral[&#39;v4&#39;] if not pd.isna(dat_mineral[&#39;v4&#39;]) else 0
+    
+    # Transition parameters
+    Tlambda = dat_mineral[&#39;Tlambda&#39;] if not pd.isna(dat_mineral[&#39;Tlambda&#39;]) else None
+    Tref = dat_mineral[&#39;Tref&#39;] if not pd.isna(dat_mineral[&#39;Tref&#39;]) else None
+    dTdP = dat_mineral[&#39;dTdP&#39;] if not pd.isna(dat_mineral[&#39;dTdP&#39;]) else None
+    l1 = dat_mineral[&#39;l1&#39;] if not pd.isna(dat_mineral[&#39;l1&#39;]) else None
+    l2 = dat_mineral[&#39;l2&#39;] if not pd.isna(dat_mineral[&#39;l2&#39;]) else None
+    
+    # Disorder parameters
+    Tmin = dat_mineral[&#39;Tmin&#39;] if not pd.isna(dat_mineral[&#39;Tmin&#39;]) else None
+    Tmax = dat_mineral[&#39;Tmax&#39;] if not pd.isna(dat_mineral[&#39;Tmax&#39;]) else None
+    d0 = dat_mineral[&#39;d0&#39;] if not pd.isna(dat_mineral[&#39;d0&#39;]) else None
+    d1 = dat_mineral[&#39;d1&#39;] if not pd.isna(dat_mineral[&#39;d1&#39;]) else None
+    d2 = dat_mineral[&#39;d2&#39;] if not pd.isna(dat_mineral[&#39;d2&#39;]) else None
+    d3 = dat_mineral[&#39;d3&#39;] if not pd.isna(dat_mineral[&#39;d3&#39;]) else None
+    d4 = dat_mineral[&#39;d4&#39;] if not pd.isna(dat_mineral[&#39;d4&#39;]) else None
+    Vad = dat_mineral[&#39;Vad&#39;] if not pd.isna(dat_mineral[&#39;Vad&#39;]) else None
+    
+    # Get the entropy of the elements using the chemical formula
+    # Get formula from OBIGT and calculate using entropy() function like in R CHNOSZ
+    SPrTr_elements = 0
+    if thermo_sys.obigt is not None:
+        obigt_match = thermo_sys.obigt[thermo_sys.obigt[&#39;name&#39;] == name]
+        if len(obigt_match) &gt; 0:
+            formula = obigt_match.iloc[0][&#39;formula&#39;]
+            # Import entropy function and calculate SPrTr_elements properly
+            from ..utils.formula import entropy
+            SPrTr_elements = entropy(formula)
+    
+    # Check that G in data file follows Benson-Helgeson convention
+    if check_G and not pd.isna(GfPrTr):
+        GfPrTr_calc = HfPrTr - Tr * (SPrTr - SPrTr_elements)
+        Gdiff = GfPrTr_calc - GfPrTr
+        if abs(Gdiff) &gt;= 1000:
+            warnings.warn(f&#34;{name}: GfPrTr(calc) - GfPrTr(table) is too big! == {round(Gdiff)} J/mol&#34;)
+    
+    ### Thermodynamic properties ###
+    # Calculate Cp and V (Berman, 1988 Eqs. 4 and 5)
+    # k4, k5, k6 terms from winTWQ documentation (doi:10.4095/223425)
+    Cp = k0 + k1 * T**(-0.5) + k2 * T**(-2) + k3 * T**(-3) + k4 * T**(-1) + k5 * T + k6 * T**2
+    
+    P_Pr = P - Pr
+    T_Tr = T - Tr
+    V = VPrTr * (1 + v1 * T_Tr + v2 * T_Tr**2 + v3 * P_Pr + v4 * P_Pr**2)
+    
+    # Calculate Ha (symbolically integrated using sympy - expressions not simplified)
+    intCp = (T*k0 - Tr*k0 + k2/Tr - k2/T + k3/(2*Tr**2) - k3/(2*T**2) + 2.0*k1*T**0.5 - 2.0*k1*Tr**0.5 + 
+             k4*np.log(T) - k4*np.log(Tr) + k5*T**2/2 - k5*Tr**2/2 - k6*Tr**3/3 + k6*T**3/3)
+    
+    intVminusTdVdT = (-VPrTr + P*(VPrTr + VPrTr*v4 - VPrTr*v3 - Tr*VPrTr*v1 + VPrTr*v2*Tr**2 - VPrTr*v2*T**2) +
+                      P**2*(VPrTr*v3/2 - VPrTr*v4) + VPrTr*v3/2 - VPrTr*v4/3 + Tr*VPrTr*v1 + 
+                      VPrTr*v2*T**2 - VPrTr*v2*Tr**2 + VPrTr*v4*P**3/3)
+    
+    Ha = HfPrTr + intCp + intVminusTdVdT
+    
+    # Calculate S (also symbolically integrated)
+    intCpoverT = (k0*np.log(T) - k0*np.log(Tr) - k3/(3*T**3) + k3/(3*Tr**3) + k2/(2*Tr**2) - k2/(2*T**2) + 
+                  2.0*k1*Tr**(-0.5) - 2.0*k1*T**(-0.5) + k4/Tr - k4/T + T*k5 - Tr*k5 + k6*T**2/2 - k6*Tr**2/2)
+    
+    intdVdT = -VPrTr*(v1 + v2*(-2*Tr + 2*T)) + P*VPrTr*(v1 + v2*(-2*Tr + 2*T))
+    
+    S = SPrTr + intCpoverT - intdVdT
+    
+    # Calculate Ga --&gt; Berman-Brown convention (DG = DH - T*S, no S(element))
+    Ga = Ha - T * S
+    
+    ### Polymorphic transition properties ###
+    if (Tlambda is not None and Tref is not None and 
+        not pd.isna(Tlambda) and not pd.isna(Tref) and 
+        np.any(T &gt; Tref) and calc_transition):
+        
+        # Starting transition contributions are 0
+        Cptr = np.zeros(ncond)
+        Htr = np.zeros(ncond)
+        Str = np.zeros(ncond)
+        
+        # Eq. 9: Tlambda at P
+        Tlambda_P = Tlambda + dTdP * (P - 1)
+        
+        # Eq. 8a: Cp at P
+        Td = Tlambda - Tlambda_P
+        Tprime = T + Td
+        
+        # With the condition that Tref &lt; Tprime &lt; Tlambda(1bar)
+        iTprime = (Tref &lt; Tprime) &amp; (Tprime &lt; Tlambda)
+        # Handle NA values
+        iTprime = iTprime &amp; ~np.isnan(Tprime)
+        
+        if np.any(iTprime):
+            Tprime_valid = Tprime[iTprime]
+            Cptr[iTprime] = Tprime_valid * (l1 + l2 * Tprime_valid)**2
+        
+        # We got Cp, now calculate the integrations for H and S
+        iTtr = T &gt; Tref
+        if np.any(iTtr):
+            Ttr = T[iTtr].copy()
+            Tlambda_P_tr = Tlambda_P[iTtr].copy()
+            Td_tr = Td[iTtr] if hasattr(Td, &#39;__len__&#39;) else np.full_like(Ttr, Td)
+            
+            # Handle NA values
+            Tlambda_P_tr[np.isnan(Tlambda_P_tr)] = np.inf
+            
+            # The upper integration limit is Tlambda_P
+            Ttr[Ttr &gt;= Tlambda_P_tr] = Tlambda_P_tr[Ttr &gt;= Tlambda_P_tr]
+            
+            # Derived variables
+            tref = Tref - Td_tr
+            x1 = l1**2 * Td_tr + 2 * l1 * l2 * Td_tr**2 + l2**2 * Td_tr**3
+            x2 = l1**2 + 4 * l1 * l2 * Td_tr + 3 * l2**2 * Td_tr**2
+            x3 = 2 * l1 * l2 + 3 * l2**2 * Td_tr
+            x4 = l2**2
+            
+            # Eqs. 10, 11, 12
+            Htr[iTtr] = (x1 * (Ttr - tref) + x2/2 * (Ttr**2 - tref**2) + 
+                        x3/3 * (Ttr**3 - tref**3) + x4/4 * (Ttr**4 - tref**4))
+            Str[iTtr] = (x1 * (np.log(Ttr) - np.log(tref)) + x2 * (Ttr - tref) + 
+                        x3/2 * (Ttr**2 - tref**2) + x4/3 * (Ttr**3 - tref**3))
+        
+        Gtr = Htr - T * Str
+        
+        # Apply the transition contributions
+        Ga = Ga + Gtr
+        Ha = Ha + Htr
+        S = S + Str
+        Cp = Cp + Cptr
+    
+    ### Disorder thermodynamic properties ###
+    if (Tmin is not None and Tmax is not None and 
+        not pd.isna(Tmin) and not pd.isna(Tmax) and 
+        np.any(T &gt; Tmin) and calc_disorder):
+        
+        # Starting disorder contributions are 0
+        Cpds = np.zeros(ncond)
+        Hds = np.zeros(ncond)
+        Sds = np.zeros(ncond)
+        Vds = np.zeros(ncond)
+        
+        # The lower integration limit is Tmin
+        iTds = T &gt; Tmin
+        if np.any(iTds):
+            Tds = T[iTds].copy()
+            # The upper integration limit is Tmax
+            Tds[Tds &gt; Tmax] = Tmax
+            
+            # Ber88 Eqs. 15, 16, 17
+            Cpds[iTds] = d0 + d1*Tds**(-0.5) + d2*Tds**(-2) + d3*Tds + d4*Tds**2
+            Hds[iTds] = (d0*(Tds - Tmin) + d1*(Tds**0.5 - Tmin**0.5)/0.5 +
+                        d2*(Tds**(-1) - Tmin**(-1))/(-1) + d3*(Tds**2 - Tmin**2)/2 + d4*(Tds**3 - Tmin**3)/3)
+            Sds[iTds] = (d0*(np.log(Tds) - np.log(Tmin)) + d1*(Tds**(-0.5) - Tmin**(-0.5))/(-0.5) +
+                        d2*(Tds**(-2) - Tmin**(-2))/(-2) + d3*(Tds - Tmin) + d4*(Tds**2 - Tmin**2)/2)
+        
+        # Eq. 18; we can&#39;t do this if Vad == 0 (dolomite and gehlenite)
+        if Vad is not None and not pd.isna(Vad) and Vad != 0:
+            Vds = Hds / Vad
+        
+        # Include the Vds term with Hds
+        Hds = Hds + Vds * (P - Pr)
+        
+        # Disordering properties above Tmax (Eq. 20)
+        ihigh = T &gt; Tmax
+        if np.any(ihigh):
+            Hds[ihigh] = Hds[ihigh] - (T[ihigh] - Tmax) * Sds[ihigh]
+        
+        Gds = Hds - T * Sds
+        
+        # Apply the disorder contributions
+        Ga = Ga + Gds
+        Ha = Ha + Hds
+        S = S + Sds
+        V = V + Vds
+        Cp = Cp + Cpds
+    
+    ### (for testing) Use G = H - TS to check that integrals for H and S are written correctly
+    Ga_fromHminusTS = Ha - T * S
+    if not np.allclose(Ga_fromHminusTS, Ga, atol=1e-6):
+        raise RuntimeError(f&#34;{name}: incorrect integrals detected using DG = DH - T*S&#34;)
+    
+    ### Thermodynamic and unit conventions used in SUPCRT ###
+    # Use entropy of the elements in calculation of G --&gt; Benson-Helgeson convention (DG = DH - T*DS)
+    Gf = Ga + Tr * SPrTr_elements
+    
+    # The output will just have &#34;G&#34; and &#34;H&#34;
+    G = Gf
+    H = Ha
+    
+    # Convert J/bar to cm^3/mol
+    V = V * 10
+    
+    return pd.DataFrame({
+        &#39;T&#39;: T,
+        &#39;P&#39;: P, 
+        &#39;G&#39;: G,
+        &#39;H&#39;: H,
+        &#39;S&#39;: S,
+        &#39;Cp&#39;: Cp,
+        &#39;V&#39;: V
+    })</code></pre>
+</details>
+<div class="desc"><p>Calculate thermodynamic properties of minerals using Berman equations.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the mineral</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>list</code>, optional</dt>
+<dd>Temperature in Kelvin (default: 298.15)</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>list</code>, optional</dt>
+<dd>Pressure in bar (default: 1)</dd>
+<dt><strong><code>check_G</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Check consistency of G in data file (default: False)</dd>
+<dt><strong><code>calc_transition</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Calculate polymorphic transition contributions (default: True)</dd>
+<dt><strong><code>calc_disorder</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Calculate disorder contributions (default: True)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>DataFrame with columns T, P, G, H, S, Cp, V</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.berman.Berman" href="#pychnosz.models.berman.Berman">Berman</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

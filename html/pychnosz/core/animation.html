@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.core.animation API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.core.animation</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.core.animation.animation"><code class="name flex">
+<span>def <span class="ident">animation</span></span>(<span>basis_args={},<br>species_args={},<br>affinity_args={},<br>equilibrate_args=None,<br>diagram_args={},<br>anim_var='T',<br>anim_range=[0, 350, 8],<br>xlab=None,<br>ylab=None,<br>save_as='newanimationframe',<br>save_format='png',<br>height=300,<br>width=400,<br>save_scale=1,<br>messages=False)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def animation(basis_args={}, species_args={}, affinity_args={},
+              equilibrate_args=None, diagram_args={},
+              anim_var=&#34;T&#34;, anim_range=[0, 350, 8], xlab=None, ylab=None,
+              save_as=&#34;newanimationframe&#34;, save_format=&#34;png&#34;, height=300,
+              width=400, save_scale=1,
+              messages=False):
+    
+    &#34;&#34;&#34;
+    Produce an animated interactive affinity, activity, or predominance diagram.
+    
+    Parameters
+    ----------
+    basis_args : dict
+        Dictionary of options for defining basis species (see `basis`) in the
+        animated diagram.
+        Example: basis_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;O2&#39;, &#39;H2O&#39;, &#39;H+&#39;]}
+
+    species_args : dict
+        Dictionary of options for defining species (see `species`) in the
+        animated diagram, or a list of dicts.
+        Example 1: species_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;]}
+        Example 2: species_args=[
+                {&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;], &#39;state&#39;:[-4]},
+                {&#39;species&#39;:[&#39;graphite&#39;], state:[0], &#39;add&#39;:True}]
+
+    affinity_args : dict
+        Dictionary of options for defining the affinity calculation (see
+        `affinity`).
+        Example: affinity_args={&#34;pH&#34;:[2, 12, 100]}
+        Example: affinity_args={&#34;pH&#34;:[2, 12, 100], &#34;P&#34;:[2000, 4000, 100]}
+    
+    equilibrate_args : dict or None, default None
+        Dictionary of options for defining equilibration calculation
+        (see `equilibrate`). If None, plots output from `affinity`.
+        Example: equilibrate_args={&#34;balance&#34;:1}
+    
+    diagram_args : dict
+        Dictionary of options for diagramming (see `diagram`). Diagram option
+        `interactive` is set to True.
+        Example: diagram_args={&#34;alpha&#34;:True}
+    
+    anim_var : str, default &#34;T&#34;
+        Variable that changes with each frame of animation.
+    
+    anim_range : list of numeric, default [0, 350, 8]
+        The first two numbers in the list are the starting and ending
+        values for `anim_var`. The third number in the list is the desired
+        number of animation frames.
+
+    xlab, ylab : str, optional
+        Custom names for the X and Y axes.
+    
+    messages : bool, default True
+        Display messages from CHNOSZ?
+    
+    Returns
+    -------
+    An interactive animated plot.
+    &#34;&#34;&#34;
+    
+    # cap number of frames in animation. Remove limitation after more testing.
+    if isinstance(anim_range, list):
+        if len(anim_range) == 3:
+            if anim_range[2] &gt; 30:
+                raise Exception(&#34;anim_range is limited to 30 frames.&#34;)
+        else:
+            raise Exception(&#34;anim_range must be a list with three values: starting &#34;
+                            &#34;value of anim_var, stopping value, and number of &#34;
+                            &#34;frames in the animation&#34;)
+    else:
+        raise Exception(&#34;anim_range must be a list with three values: starting &#34;
+                        &#34;value of anim_var, stopping value, and number of &#34;
+                        &#34;frames in the animation&#34;)
+
+    if isinstance(basis_args, dict):
+        if &#34;species&#34; not in basis_args.keys():
+            raise Exception(&#34;basis_args needs to contain a list of species for &#39;species&#39;. &#34;
+                            &#34;Example: basis_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;O2&#39;, &#39;H2O&#39;, &#39;H+&#39;]}&#34;)
+    else:
+        raise Exception(&#34;basis_args needs to be a Python dictionary with a key &#34;
+                        &#34;called &#39;species&#39; (additional keys are optional). &#34;
+                        &#34;Example: basis_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;O2&#39;, &#39;H2O&#39;, &#39;H+&#39;]}&#34;)
+
+
+    # Add messages parameter to basis_args if not already present
+    if &#34;messages&#34; not in basis_args.keys():
+        basis_args[&#34;messages&#34;] = messages
+
+    basis_out = basis(**basis_args)
+    basis_sp = list(basis_out.index)
+    basis_state = list(basis_out[&#34;state&#34;])
+    
+    if isinstance(species_args, dict):
+        if &#34;species&#34; not in species_args.keys():
+            raise Exception(&#34;species_args needs to contain a list of species for &#39;species&#39;. &#34;
+                            &#34;Example: species_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;]}&#34;)
+        species_args_list = [species_args]
+    elif isinstance(species_args, list):
+        species_args_list = species_args
+        for species_args in species_args_list:
+            if &#34;species&#34; not in species_args.keys():
+                raise Exception(&#34;species_args needs to contain a list of species for &#39;species&#39;. &#34;
+                                &#34;Example: species_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;]}&#34;)
+    else:
+        raise Exception(&#34;species_args needs to be either a Python dictionary with a key &#34;
+                        &#34;called &#39;species&#39; (additional keys are optional). &#34;
+                        &#34;Example: species_args={&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;]}&#34;
+                        &#34;or else species_args needs to be a list of Python dictionaries.&#34;
+                        &#34;Example: species_args=[{&#39;species&#39;:[&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;], &#39;state&#39;:[-4]},&#34;
+                        &#34;{&#39;species&#39;:[&#39;graphite&#39;], state:[0], &#39;add&#39;:True}]&#34;)
+
+    # There may be multiple arguments passed to species, especially in cases
+    # where add=True. Loop through all the arguments to apply them.
+    for species_args in species_args_list:
+        if &#34;logact&#34; in species_args.keys():
+            mod_species_logact = copy.copy(species_args[&#39;logact&#39;])
+            del species_args[&#39;logact&#39;]
+        else:
+            mod_species_logact = []
+
+        # Add messages parameter to species_args if not already present
+        if &#34;messages&#34; not in species_args.keys():
+            species_args[&#34;messages&#34;] = messages
+
+        species_out = species(**species_args)
+
+        if len(mod_species_logact)&gt;0:
+            for i in range(0, len(mod_species_logact)) :
+                species_out = species(species_args[&#34;species&#34;][i], mod_species_logact[i], messages=messages)
+
+    sp = list(species_out[&#34;name&#34;])
+
+    if isinstance(sp[0], (int, np.integer)):
+        sp = [info(s, messages=messages)[&#34;name&#34;].values[0] for s in sp]
+
+    dfs = []
+    dmaps = []
+    dmaps_names = []
+    
+    if len(anim_range) == 2:
+        anim_res = 8
+        anim_range = anim_range + [anim_res]
+    elif len(anim_range) == 3:
+        anim_res = anim_range[2]
+        anim_range = [anim_range[0], anim_range[1]]
+    
+    zvals = __seq(anim_range[0], anim_range[1], length_out=anim_res)
+        
+    if &#34;messages&#34; not in affinity_args.keys():
+        affinity_args[&#34;messages&#34;] = messages
+    if &#34;messages&#34; not in diagram_args.keys():
+        diagram_args[&#34;messages&#34;] = messages
+    if &#34;plot_it&#34; not in diagram_args.keys():
+        diagram_args[&#34;plot_it&#34;] = False
+    diagram_args[&#34;interactive&#34;] = True
+    if &#34;format_names&#34; not in diagram_args.keys():
+        format_names=True
+        format_x_names=True
+        format_y_names=True
+    
+    for z in zvals:
+
+        if anim_var in basis_out.index:
+            basis_out = basis(anim_var, z, messages=messages)
+        elif anim_var in list(species_out[&#34;name&#34;]):
+            species_out = species(anim_var, -z, messages=messages)
+        elif anim_var == &#34;pH&#34;:
+            basis_out = basis(&#34;H+&#34;, -z, messages=messages)
+        else:
+            affinity_args[anim_var] = z
+        
+        aeout = affinity(**affinity_args)
+
+        if equilibrate_args != None:
+            equilibrate_args[&#34;aout&#34;] = aeout
+            if &#34;messages&#34; not in equilibrate_args.keys():
+                equilibrate_args[&#34;messages&#34;] = messages
+            aeout = equilibrate(**equilibrate_args)
+
+        # Get affinity arguments from the result dictionary
+        aeout_args = aeout.get(&#34;args&#34;, {})
+        xvar = list(aeout_args.keys())[0]
+        xrange = list(aeout_args[xvar])
+
+        res_default = 256 # default affinity resolution
+        if len(xrange) == 3:
+            xres = int(xrange[2])
+        else:
+            xres = res_default
+        
+        diagram_args[&#34;eout&#34;] = aeout
+
+        # Use diagram_interactive since interactive=True is set
+        # Remove &#39;interactive&#39; key as diagram_interactive doesn&#39;t need it
+        diagram_args_copy = diagram_args.copy()
+        diagram_args_copy.pop(&#39;interactive&#39;, None)
+        df, fig = diagram_interactive(**diagram_args_copy)
+
+        # Check if this is a predominance plot (2D) or affinity/activity plot (1D)
+        if &#39;pred&#39; not in df.columns:
+            # affinity/activity plot (1D) - melt to long format for animation
+            is_predom_plot = False
+            id_vars = [xvar]  # Keep the x-variable as identifier
+            value_vars = [col for col in df.columns if col != xvar]  # All species columns
+            df_melted = df.melt(id_vars=id_vars, value_vars=value_vars,
+                               var_name=&#39;variable&#39;, value_name=&#39;value&#39;)
+            df_melted[anim_var] = z
+            dfs.append(df_melted)
+        else:
+            # predominance plot (2D) - keep original format with pred and prednames
+            is_predom_plot = True
+            df[anim_var] = z
+            dfs.append(df)
+            yvar = list(aeout_args.keys())[1]
+            yrange = list(aeout_args[yvar])
+            if len(yrange) == 3:
+                yres = int(yrange[2])
+            else:
+                yres = res_default
+
+            data = np.array(df.pred)
+            shape = (xres, yres)
+            dmap = data.reshape(shape)
+            dmaps.append(dmap)
+
+            data = np.array(df.prednames)
+            shape = (xres, yres)
+            dmap_names = data.reshape(shape)
+            dmaps_names.append(dmap_names)
+        
+    xvals = __seq(xrange[0], xrange[1], length_out=xres)
+
+
+    unit_dict = {&#34;P&#34;:&#34;bar&#34;, &#34;T&#34;:&#34;°C&#34;, &#34;pH&#34;:&#34;&#34;, &#34;Eh&#34;:&#34;volts&#34;, &#34;IS&#34;:&#34;mol/kg&#34;}
+    
+    if any([anim_var in basis_out.index, anim_var in list(species_out[&#34;name&#34;])]) and anim_var not in unit_dict.keys():
+        unit_dict[anim_var] = &#34;logact &#34;+anim_var
+
+    for i,s in enumerate(basis_sp):
+        if basis_state[i] in [&#34;aq&#34;, &#34;liq&#34;, &#34;cr&#34;]:
+            if format_names:
+                unit_dict[s] = &#34;log &lt;i&gt;a&lt;/i&gt;&lt;sub&gt;{}&lt;/sub&gt;&#34;.format(chemlabel(s))
+            else:
+                unit_dict[s] = &#34;log &lt;i&gt;a&lt;/i&gt;&lt;sub&gt;{}&lt;/sub&gt;&#34;.format(s)
+        else:
+            if format_names:
+                unit_dict[s] = &#34;log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;{}&lt;/sub&gt;&#34;.format(chemlabel(s))
+            else:
+                unit_dict[s] = &#34;log &lt;i&gt;f&lt;/i&gt;&lt;sub&gt;{}&lt;/sub&gt;&#34;.format(s)
+
+    xlab = xvar+&#34;, &#34;+unit_dict[xvar]
+    
+    if xvar in basis_sp:
+        xlab = unit_dict[xvar]
+    if xvar == &#34;pH&#34;:
+        xlab = &#34;pH&#34;
+    
+    if is_predom_plot:
+        ylab = yvar+&#34;, &#34;+unit_dict[yvar]
+        if yvar in basis_sp:
+            ylab = unit_dict[yvar]
+        if yvar == &#34;pH&#34;:
+            yvar = &#34;pH&#34;
+
+    
+    if not is_predom_plot:
+
+        if &#39;loga.equil&#39; not in aeout.keys():
+            yvar = &#34;A/(2.303RT)&#34;
+        else:
+            yvar = &#34;log a&#34;
+        if &#34;alpha&#34; in diagram_args.keys():
+            if diagram_args[&#34;alpha&#34;]:
+                yvar = &#34;alpha&#34;
+        
+        df_c = pd.concat(dfs)
+
+        if &#34;fill&#34; in diagram_args.keys():
+            if isinstance(diagram_args[&#34;fill&#34;], list):
+                colormap = {key:col for key,col in zip(list(dict.fromkeys(df_c[&#34;variable&#34;])), diagram_args[&#34;fill&#34;])}
+            else:
+                colormap = diagram_args[&#34;fill&#34;]
+
+            # with color mapping
+            fig = px.line(df_c, x=xvar, y=&#34;value&#34;, color=&#39;variable&#39;, template=&#34;simple_white&#34;,
+                          width=500,  height=400, animation_frame=anim_var,
+                          color_discrete_map = colormap,
+                          labels=dict(value=yvar, x=xvar),
+                         )
+        else:
+            # without color mapping
+            fig = px.line(df_c, x=xvar, y=&#34;value&#34;, color=&#39;variable&#39;, template=&#34;simple_white&#34;,
+                          width=500,  height=400, animation_frame=anim_var,
+                          labels=dict(value=yvar, x=xvar),
+                         )
+        
+        if &#34;annotation&#34; in diagram_args.keys():
+            if &#34;annotation_coords&#34; not in diagram_args.keys():
+                diagram_args[&#34;annotation_coords&#34;] = [0, 0]
+            fig.add_annotation(x=diagram_args[&#34;annotation_coords&#34;][0],
+                               y=diagram_args[&#34;annotation_coords&#34;][1],
+                               xref=&#34;paper&#34;,
+                               yref=&#34;paper&#34;,
+                               align=&#39;left&#39;,
+                               text=diagram_args[&#34;annotation&#34;],
+                               bgcolor=&#34;rgba(255, 255, 255, 0.5)&#34;,
+                               showarrow=False)
+        
+        if &#39;main&#39; in diagram_args.keys():
+            fig.update_layout(title={&#39;text&#39;:diagram_args[&#34;main&#34;], &#39;x&#39;:0.5, &#39;xanchor&#39;:&#39;center&#39;})
+
+        if isinstance(xlab, str):
+            fig.update_layout(xaxis_title=xlab)
+        if isinstance(ylab, str):
+            fig.update_layout(yaxis_title=ylab)
+        
+        if &#39;fill&#39; in diagram_args.keys():
+            if isinstance(diagram_args[&#34;fill&#34;], list):
+                for i,v in enumerate(diagram_args[&#34;fill&#34;]):
+                    fig[&#39;data&#39;][i][&#39;line&#39;][&#39;color&#39;]=v
+        
+        fig.update_layout(legend_title=None)
+
+        config = {&#39;displaylogo&#39;: False,
+                  &#39;modeBarButtonsToRemove&#39;: [&#39;resetScale2d&#39;, &#39;toggleSpikelines&#39;],
+                  &#39;toImageButtonOptions&#39;: {
+                                             &#39;format&#39;: save_format, # one of png, svg, jpeg, webp
+                                             &#39;filename&#39;: save_as,
+                                             &#39;height&#39;: height,
+                                             &#39;width&#39;: width,
+                                             &#39;scale&#39;: save_scale,
+                                          },
+                 }
+
+        fig.show(config=config)
+        return
+    
+    else:
+        yvals = __seq(yrange[0], yrange[1], length_out=yres)
+
+
+    
+    frames = []
+    slider_steps = []
+    annotations = []
+    cst_data = []
+    heatmaps = []
+    
+    # i is a frame in the animation
+    for i in range(0, len(zvals)):
+
+        annotations_i = []
+        for s in sp:
+            if s in set(dfs[i][&#34;prednames&#34;]):
+                # if an annotation should appear, create one for this frame
+                df_s = dfs[i].loc[dfs[i][&#34;prednames&#34;]==s,]
+                namex = df_s[xvar].mean()
+                namey = df_s[yvar].mean()
+                a = go.layout.Annotation(
+                    x=namex,
+                    y=namey,
+                    xref=&#34;x&#34;,
+                    yref=&#34;y&#34;,
+                    text=chemlabel(s),
+                    bgcolor=&#34;rgba(255, 255, 255, 0.5)&#34;,
+                    showarrow=False,
+                    )
+            else:
+                # if an annotation shouldn&#39;t appear, make an invisible annotation
+                # (workaround for a plotly bug where annotations won&#39;t clear in an animation)
+                namex = statistics.mean(xvals)
+                namey = statistics.mean(yvals)
+                a = go.layout.Annotation(
+                    x=namex,
+                    y=namey,
+                    xref=&#34;x&#34;,
+                    yref=&#34;y&#34;,
+                    text=&#34;&#34;,
+                    bgcolor=&#34;rgba(255, 255, 255, 0)&#34;,
+                    showarrow=False,
+                    )
+            annotations_i.append(a)
+            
+        # allows adding a custom annotation; append to frame
+        if &#34;annotation&#34; in diagram_args.keys():
+            if &#34;annotation_coords&#34; not in diagram_args.keys():
+                diagram_args[&#34;annotation_coords&#34;] = [0, 0]
+            custom_annotation = go.layout.Annotation(
+                    x=diagram_args[&#34;annotation_coords&#34;][0],
+                    y=diagram_args[&#34;annotation_coords&#34;][1],
+                    xref=&#34;paper&#34;,
+                    yref=&#34;paper&#34;,
+                    align=&#39;left&#39;,
+                    text=diagram_args[&#34;annotation&#34;],
+                    bgcolor=&#34;rgba(255, 255, 255, 0.5)&#34;,
+                    showarrow=False,
+                    )
+            annotations_i.append(custom_annotation)
+    
+        annotations.append(annotations_i)
+
+        if &#39;ylab&#39; in diagram_args.keys():
+            ylab = diagram_args[&#34;ylab&#34;]
+            hover_ylab = ylab+&#39;: %{y} &#39;
+        else:
+            ylab = chemlabel(ylab)
+            hover_ylab = yvar+&#39;: %{y} &#39;+unit_dict[yvar]
+
+        if &#39;xlab&#39; in diagram_args.keys():
+            xlab = diagram_args[&#34;xlab&#34;]
+            hover_xlab = xlab+&#39;: %{x} &#39;
+        else:
+            xlab = chemlabel(xlab)
+            hover_xlab = xvar+&#39;: %{x} &#39;+unit_dict[xvar]
+        
+        heatmaps_i = go.Heatmap(z=dmaps[i], x=xvals, y=yvals, zmin=0, zmax=len(sp)-1,
+                                customdata=dmaps_names[i],
+                                hovertemplate=hover_xlab+&#39;&lt;br&gt;&#39;+hover_ylab+&#39;&lt;br&gt;Region: %{customdata}&lt;extra&gt;&lt;/extra&gt;&#39;)
+
+        heatmaps.append(heatmaps_i)
+
+        frame = go.Frame(data=[heatmaps_i],
+                         name=str(i),
+                         layout=go.Layout(annotations=annotations_i))
+
+        frames.append(frame)
+
+        slider_step = dict(
+            method=&#39;animate&#39;,
+            label=zvals[i],
+            value=i,
+            args=[
+                [i],
+                dict(
+                    frame=dict(duration=300, redraw=True),
+                    mode=&#39;immediate&#39;,
+                    transition=dict(duration=0)
+                )
+            ]
+        )
+
+        slider_steps.append(slider_step)
+
+    fig = go.Figure(
+        data = heatmaps[0],
+        layout=go.Layout(
+    #         title=&#34;Frame 0&#34;,
+            title_x=0.5,
+            width=500, height=500,
+            annotations=annotations[0],
+            sliders=[dict(
+                active=0,
+                yanchor=&#39;top&#39;,
+                xanchor=&#39;left&#39;,
+                currentvalue=dict(
+                    font=dict(size=12),
+                    prefix=&#39;{}: &#39;.format(anim_var),
+                    suffix=&#39; &#39;+unit_dict[anim_var],
+                    visible=True,
+                    xanchor=&#39;right&#39;
+                ),
+                transition=dict(duration=0, easing=&#39;cubic-in-out&#39;),
+                pad=dict(b=10, t=50),
+                len=0.9,
+                x=0.1,
+                y=0,
+                steps=slider_steps
+            )],
+            updatemenus=[dict(
+                type=&#34;buttons&#34;,
+                buttons=[dict(label=&#34;Play&#34;,
+                              method=&#34;animate&#34;,
+                              args=[None, {&#34;fromcurrent&#34;:True}]),
+                        dict(label=&#34;Pause&#34;,
+                             method=&#34;animate&#34;,
+                             args=[[None],
+                                   {&#34;frame&#34;: {&#34;duration&#34;: 0, &#34;redraw&#34;: True},
+                                    &#34;mode&#34;: &#34;immediate&#34;,
+                                    &#34;transition&#34;: {&#34;duration&#34;: 0}}],
+                             )],
+                direction=&#34;left&#34;,
+                pad={&#34;r&#34;: 10, &#34;t&#34;: 87},
+                showactive=False,
+                x=0.1,
+                xanchor=&#34;right&#34;,
+                y=0,
+                yanchor=&#34;top&#34;,
+            )]
+        ),
+        frames=frames
+
+    )
+
+
+    if &#39;fill&#39; in diagram_args.keys():
+        if isinstance(diagram_args[&#34;fill&#34;], list):
+            colorscale_temp = []
+            for i,v in enumerate(diagram_args[&#34;fill&#34;]):
+                colorscale_temp.append([i, v])
+            colorscale = colorscale_temp
+        elif isinstance(diagram_args[&#34;fill&#34;], str):
+            colorscale = diagram_args[&#34;fill&#34;]
+    else:
+        colorscale = &#34;viridis&#34;
+    
+    fig.update_traces(dict(showscale=False,
+                           colorscale=colorscale),
+                      selector={&#39;type&#39;:&#39;heatmap&#39;})
+    
+    fig.update_layout(
+        xaxis_title=xlab,
+        yaxis_title=ylab,
+        xaxis={&#34;range&#34;:[list(dfs[0][xvar])[0], list(dfs[0][xvar])[-1]]},
+        yaxis={&#34;range&#34;:[list(dfs[0][yvar])[0], list(dfs[0][yvar])[-1]]},
+        margin={&#34;t&#34;: 60, &#34;r&#34;:60},
+    )
+
+    if &#39;main&#39; in diagram_args.keys():
+        fig.update_layout(title={&#39;text&#39;:diagram_args[&#39;main&#39;], &#39;x&#39;:0.5, &#39;xanchor&#39;:&#39;center&#39;})
+
+    config = {&#39;displaylogo&#39;: False,
+              &#39;modeBarButtonsToRemove&#39;: [&#39;zoom2d&#39;, &#39;pan2d&#39;, &#39;zoomIn2d&#39;, &#39;zoomOut2d&#39;,
+                                         &#39;autoScale2d&#39;, &#39;toggleSpikelines&#39;,
+                                         &#39;hoverClosestCartesian&#39;, &#39;hoverCompareCartesian&#39;],
+              &#39;toImageButtonOptions&#39;: {
+                                       &#39;format&#39;: save_format, # one of png, svg, jpeg, webp
+                                       &#39;filename&#39;: save_as,
+                                       &#39;height&#39;: height,
+                                       &#39;width&#39;: width,
+                                       &#39;scale&#39;: save_scale,
+                                        },
+             }
+    
+
+    fig.show(config=config)</code></pre>
+</details>
+<div class="desc"><p>Produce an animated interactive affinity, activity, or predominance diagram.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>basis_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary of options for defining basis species (see <code>basis</code>) in the
+animated diagram.
+Example: basis_args={'species':['CO2', 'O2', 'H2O', 'H+']}</dd>
+<dt><strong><code>species_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary of options for defining species (see <code>species</code>) in the
+animated diagram, or a list of dicts.
+Example 1: species_args={'species':['CO2', 'HCO3-', 'CO3-2']}
+Example 2: species_args=[
+{'species':['CO2', 'HCO3-', 'CO3-2'], 'state':[-4]},
+{'species':['graphite'], state:[0], 'add':True}]</dd>
+<dt><strong><code>affinity_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary of options for defining the affinity calculation (see
+<code>affinity</code>).
+Example: affinity_args={"pH":[2, 12, 100]}
+Example: affinity_args={"pH":[2, 12, 100], "P":[2000, 4000, 100]}</dd>
+<dt><strong><code>equilibrate_args</code></strong> :&ensp;<code>dict</code> or <code>None</code>, default <code>None</code></dt>
+<dd>Dictionary of options for defining equilibration calculation
+(see <code>equilibrate</code>). If None, plots output from <code>affinity</code>.
+Example: equilibrate_args={"balance":1}</dd>
+<dt><strong><code>diagram_args</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Dictionary of options for diagramming (see <code>diagram</code>). Diagram option
+<code>interactive</code> is set to True.
+Example: diagram_args={"alpha":True}</dd>
+<dt><strong><code>anim_var</code></strong> :&ensp;<code>str</code>, default <code>"T"</code></dt>
+<dd>Variable that changes with each frame of animation.</dd>
+<dt><strong><code>anim_range</code></strong> :&ensp;<code>list</code> of <code>numeric</code>, default <code>[0, 350, 8]</code></dt>
+<dd>The first two numbers in the list are the starting and ending
+values for <code>anim_var</code>. The third number in the list is the desired
+number of animation frames.</dd>
+<dt><strong><code>xlab</code></strong>, <strong><code>ylab</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Custom names for the X and Y axes.</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Display messages from CHNOSZ?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>An interactive animated plot.</p></div>
+</dd>
+<dt id="pychnosz.core.animation.chemlabel"><code class="name flex">
+<span>def <span class="ident">chemlabel</span></span>(<span>s)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def chemlabel(s):
+    &#34;&#34;&#34;Simple fallback for chemical label formatting.&#34;&#34;&#34;
+    return str(s)</code></pre>
+</details>
+<div class="desc"><p>Simple fallback for chemical label formatting.</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.core" href="index.html">pychnosz.core</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.core.animation.animation" href="#pychnosz.core.animation.animation">animation</a></code></li>
+<li><code><a title="pychnosz.core.animation.chemlabel" href="#pychnosz.core.animation.chemlabel">chemlabel</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

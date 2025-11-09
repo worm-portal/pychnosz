@@ -1,0 +1,1124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.fortran.h2o92_interface API documentation</title>
+<meta name="description" content="Python interface to the H2O92 Fortran subroutine …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.fortran.h2o92_interface</code></h1>
+</header>
+<section id="section-intro">
+<p>Python interface to the H2O92 Fortran subroutine.</p>
+<p>This module provides a ctypes-based interface to the original SUPCRT92
+Fortran code for high-precision water property calculations.</p>
+<p>The interface matches exactly what the R CHNOSZ package uses.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.fortran.h2o92_interface.get_h2o92_interface"><code class="name flex">
+<span>def <span class="ident">get_h2o92_interface</span></span>(<span>) ‑> <a title="pychnosz.fortran.h2o92_interface.H2O92Interface" href="#pychnosz.fortran.h2o92_interface.H2O92Interface">H2O92Interface</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_h2o92_interface() -&gt; H2O92Interface:
+    &#34;&#34;&#34;Get global H2O92Interface instance (singleton pattern).&#34;&#34;&#34;
+    global _h2o92_interface
+    if _h2o92_interface is None:
+        _h2o92_interface = H2O92Interface()
+    return _h2o92_interface</code></pre>
+</details>
+<div class="desc"><p>Get global H2O92Interface instance (singleton pattern).</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface"><code class="flex name class">
+<span>class <span class="ident">H2O92Interface</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class H2O92Interface:
+    &#34;&#34;&#34;
+    Python interface to the H2O92 Fortran subroutine.
+    
+    This provides the exact same computational kernel as used by
+    the R CHNOSZ package, ensuring identical results.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the Fortran library interface.&#34;&#34;&#34;
+        self._lib = None
+        self._load_fortran_library()
+        self._setup_function_signatures()
+
+        # Property names (matches H2O92 Fortran order)
+        self.property_names = [
+            &#39;A&#39;, &#39;G&#39;, &#39;S&#39;, &#39;U&#39;, &#39;H&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;Speed&#39;, &#39;alpha&#39;, &#39;beta&#39;,
+            &#39;epsilon&#39;, &#39;visc&#39;, &#39;tcond&#39;, &#39;surten&#39;, &#39;tdiff&#39;, &#39;Prndtl&#39;, &#39;visck&#39;,
+            &#39;albe&#39;, &#39;ZBorn&#39;, &#39;YBorn&#39;, &#39;QBorn&#39;, &#39;daldT&#39;, &#39;XBorn&#39;
+        ]
+
+        # Cache for water property calculations (significant speedup for repeated T,P)
+        self._cache = {}
+        self._cache_enabled = True
+    
+    def _load_fortran_library(self):
+        &#34;&#34;&#34;Load the compiled Fortran shared library.&#34;&#34;&#34;
+        lib_dir = Path(__file__).parent
+        
+        # Determine library extension
+        if sys.platform == &#34;win32&#34;:
+            lib_name = &#34;h2o92.dll&#34;
+        elif sys.platform == &#34;darwin&#34;:
+            lib_name = &#34;h2o92.dylib&#34;
+        else:
+            lib_name = &#34;h2o92.so&#34;
+        
+        lib_path = lib_dir / lib_name
+        
+        if not lib_path.exists():
+            raise FileNotFoundError(
+                f&#34;Fortran library not found: {lib_path}\n&#34;
+                f&#34;Please run compile_fortran.py to build the library first.&#34;
+            )
+        
+        # On Windows, add MinGW bin to PATH to find runtime dependencies
+        original_path = None
+        if sys.platform == &#34;win32&#34;:
+            mingw_bin = r&#39;C:\msys64\mingw64\bin&#39;
+            if os.path.exists(mingw_bin):
+                original_path = os.environ.get(&#39;PATH&#39;, &#39;&#39;)
+                os.environ[&#39;PATH&#39;] = mingw_bin + os.pathsep + original_path
+        
+        try:
+            self._lib = ctypes.CDLL(str(lib_path))
+        except OSError as e:
+            # Try loading with WinDLL on Windows
+            if sys.platform == &#34;win32&#34;:
+                try:
+                    self._lib = ctypes.WinDLL(str(lib_path))
+                except OSError:
+                    raise RuntimeError(
+                        f&#34;Failed to load Fortran library {lib_path}: {e}\n&#34;
+                        f&#34;This may be due to missing MinGW runtime dependencies.\n&#34;
+                        f&#34;Try: \n&#34;
+                        f&#34;1. Ensure MinGW-w64 is properly installed\n&#34;
+                        f&#34;2. Add C:\\msys64\\mingw64\\bin to your system PATH\n&#34;
+                        f&#34;3. Install required MinGW runtime libraries&#34;
+                    )
+            else:
+                raise RuntimeError(f&#34;Failed to load Fortran library {lib_path}: {e}&#34;)
+        finally:
+            # Restore original PATH
+            if original_path is not None:
+                os.environ[&#39;PATH&#39;] = original_path
+    
+    def _setup_function_signatures(self):
+        &#34;&#34;&#34;Setup ctypes function signatures for Fortran subroutines.&#34;&#34;&#34;
+        
+        # H2O92 subroutine signature:
+        # SUBROUTINE H2O92(specs, states, props, error)
+        # INTEGER specs(10)
+        # DOUBLE PRECISION states(4), props(46)  
+        # LOGICAL error
+        
+        self._h2o92 = self._lib.h2o92_
+        self._h2o92.argtypes = [
+            POINTER(c_int * 10),      # specs(10)
+            POINTER(c_double * 4),    # states(4)
+            POINTER(c_double * 46),   # props(46)
+            POINTER(c_bool)           # error
+        ]
+        self._h2o92.restype = None
+        
+        # Try to find IDEAL2 subroutine as well
+        if hasattr(self._lib, &#39;ideal2_&#39;):
+            self._ideal2 = self._lib.ideal2_
+            self._ideal2.argtypes = [
+                POINTER(c_double),    # T
+                POINTER(c_double),    # dummy args (8 total)
+                POINTER(c_double),
+                POINTER(c_double),
+                POINTER(c_double),
+                POINTER(c_double),
+                POINTER(c_double),
+                POINTER(c_double)
+            ]
+            self._ideal2.restype = None
+    
+    def calculate_properties_batch(self, T: np.ndarray, P: Union[np.ndarray, str],
+                                   properties: List[str] = None) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate water properties for multiple T,P points (vectorized).
+
+        This is much faster than calling calculate_properties() in a loop
+        because it reduces ctypes overhead.
+
+        Parameters
+        ----------
+        T : array
+            Temperatures in Kelvin
+        P : array or &#34;Psat&#34;
+            Pressures in bar, or &#34;Psat&#34; for saturation pressure
+        properties : list of str, optional
+            Properties to calculate. If None, calculates all available.
+
+        Returns
+        -------
+        dict
+            Dictionary with calculated property arrays
+        &#34;&#34;&#34;
+        T = np.atleast_1d(T)
+        n = len(T)
+
+        # Handle P input
+        if isinstance(P, str) and P == &#34;Psat&#34;:
+            P_is_psat = True
+            P_vals = np.full(n, np.nan)  # Placeholder
+        else:
+            P_is_psat = False
+            P_vals = np.atleast_1d(P)
+            if len(P_vals) &lt; n:
+                P_vals = np.resize(P_vals, n)
+
+        # Initialize output arrays for all properties
+        all_props = self.property_names + [&#39;V&#39;, &#39;rho&#39;, &#39;Psat&#39;, &#39;E&#39;, &#39;kT&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]
+        results = {prop: np.full(n, np.nan) for prop in all_props}
+
+        # Optimized calculation loop - minimize Python overhead
+        mw_h2o = 18.0152
+        cal_to_j = 4.184
+
+        # Pre-create specs arrays (reuse if possible)
+        if P_is_psat:
+            specs = (c_int * 10)(2, 2, 2, 5, 1, 1, 1, 1, 4, 0)
+        else:
+            specs = (c_int * 10)(2, 2, 2, 5, 1, 0, 2, 1, 4, 0)
+
+        # Reusable arrays
+        states = (c_double * 4)()
+        props = (c_double * 46)()
+        error = c_bool(False)
+
+        # Property name to index mapping (for fast lookup)
+        # R CHNOSZ water.R:159 includes &#39;tcond&#39; in energy conversion list
+        energy_props_idx = {self.property_names.index(p): True for p in [&#39;A&#39;, &#39;G&#39;, &#39;H&#39;, &#39;U&#39;, &#39;S&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;tcond&#39;] if p in self.property_names}
+
+        for i in range(n):
+            if np.isnan(T[i]) or (not P_is_psat and np.isnan(P_vals[i])):
+                continue
+
+            # Check cache first (round to avoid floating point precision issues)
+            if self._cache_enabled:
+                if P_is_psat:
+                    cache_key = (round(T[i], 6), &#39;Psat&#39;)
+                else:
+                    cache_key = (round(T[i], 6), round(P_vals[i], 6))
+
+                if cache_key in self._cache:
+                    # Use cached values
+                    cached_props = self._cache[cache_key]
+                    for prop_name in all_props:
+                        if prop_name in cached_props:
+                            results[prop_name][i] = cached_props[prop_name]
+                    continue
+
+            # Setup states array
+            states[0] = T[i] - 273.15  # K to C
+            if P_is_psat:
+                states[1] = 0.0
+                states[2] = 1.0
+            else:
+                states[1] = P_vals[i]
+                states[2] = 1.0
+            states[3] = 0.0
+
+            # Reset error flag
+            error.value = False
+
+            # Call Fortran
+            try:
+                self._h2o92(ctypes.byref(specs), ctypes.byref(states),
+                           ctypes.byref(props), ctypes.byref(error))
+            except:
+                continue
+
+            if error.value:
+                continue
+
+            # Extract results - optimized
+            rho = states[2]
+            rho2 = states[3]
+
+            if P_is_psat:
+                inc = 1 if rho2 &gt; rho else 0
+                rho_liquid = rho2 if inc == 1 else rho
+                results[&#39;Psat&#39;][i] = states[1]
+            else:
+                rho_liquid = rho
+                inc = 0
+
+            # Store for caching
+            if self._cache_enabled:
+                cached_result = {}
+
+            # Extract 23 properties - optimized loop
+            for j in range(len(self.property_names)):
+                prop_index = 2 * j + inc
+                if prop_index &lt; 46:
+                    val = props[prop_index]
+                    # Apply unit conversions only to energy properties
+                    if j in energy_props_idx:
+                        val *= cal_to_j
+                    results[self.property_names[j]][i] = val
+                    if self._cache_enabled:
+                        cached_result[self.property_names[j]] = val
+
+            # Derived properties
+            if rho_liquid &gt; 0:
+                V_i = mw_h2o / rho_liquid
+                results[&#39;V&#39;][i] = V_i
+                results[&#39;rho&#39;][i] = rho_liquid * 1000
+
+                alpha_i = results[&#39;alpha&#39;][i]
+                if not np.isnan(alpha_i):
+                    results[&#39;E&#39;][i] = V_i * alpha_i
+
+                beta_i = results[&#39;beta&#39;][i]
+                if not np.isnan(beta_i):
+                    results[&#39;kT&#39;][i] = V_i * beta_i
+
+                eps = results[&#39;epsilon&#39;][i]
+                if eps &gt; 0:
+                    sqrt_rho = rho_liquid**0.5
+                    eps_T = eps * T[i]
+                    results[&#39;A_DH&#39;][i] = 1.8246e6 * sqrt_rho / (eps_T**1.5)
+                    results[&#39;B_DH&#39;][i] = 50.29e8 * sqrt_rho / (eps_T**0.5)
+
+                # Cache derived properties too
+                if self._cache_enabled:
+                    cached_result[&#39;V&#39;] = V_i
+                    cached_result[&#39;rho&#39;] = rho_liquid * 1000
+                    if not np.isnan(alpha_i):
+                        cached_result[&#39;E&#39;] = results[&#39;E&#39;][i]
+                    if not np.isnan(beta_i):
+                        cached_result[&#39;kT&#39;] = results[&#39;kT&#39;][i]
+                    if eps &gt; 0:
+                        cached_result[&#39;A_DH&#39;] = results[&#39;A_DH&#39;][i]
+                        cached_result[&#39;B_DH&#39;] = results[&#39;B_DH&#39;][i]
+                    if P_is_psat:
+                        cached_result[&#39;Psat&#39;] = results[&#39;Psat&#39;][i]
+
+            # Store in cache
+            if self._cache_enabled and cache_key:
+                self._cache[cache_key] = cached_result
+
+        # Filter requested properties
+        if properties is not None:
+            filtered_results = {}
+            for prop in properties:
+                if prop in results:
+                    filtered_results[prop] = results[prop]
+                else:
+                    raise ValueError(f&#34;Property &#39;{prop}&#39; not available&#34;)
+            return filtered_results
+
+        return results
+
+    def calculate_properties(self, T: float, P: Union[float, str],
+                           properties: List[str] = None) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;
+        Calculate water properties using the H2O92 Fortran subroutine.
+
+        Parameters
+        ----------
+        T : float
+            Temperature in Kelvin
+        P : float or &#34;Psat&#34;
+            Pressure in bar, or &#34;Psat&#34; for saturation pressure
+        properties : list of str, optional
+            Properties to calculate. If None, calculates all available.
+
+        Returns
+        -------
+        dict
+            Dictionary with calculated properties
+
+        Examples
+        --------
+        &gt;&gt;&gt; h2o = H2O92Interface()
+        &gt;&gt;&gt; props = h2o.calculate_properties(298.15, 1.0, [&#39;rho&#39;, &#39;epsilon&#39;])
+        &gt;&gt;&gt; print(f&#34;Density: {props[&#39;rho&#39;]:.3f} g/cm³&#34;)
+        &gt;&gt;&gt; print(f&#34;Dielectric: {props[&#39;epsilon&#39;]:.1f}&#34;)
+        &#34;&#34;&#34;
+        
+        # Setup specs array (H2O92 parameters) - matches R exactly
+        # it, id, ip, ih, itripl, isat, iopt, useLVS, epseqn, icrit
+        # From R: specs &lt;- c(2, 2, 2, 5, 1, isat, iopt, 1, 4, 0)
+        if isinstance(P, str) and P == &#34;Psat&#34;:
+            isat = 1
+            iopt = 1  # T,D input for saturation 
+        else:
+            isat = 0
+            iopt = 2  # T,P input for single phase
+        
+        specs = (c_int * 10)(2, 2, 2, 5, 1, isat, iopt, 1, 4, 0)
+        
+        # Setup states array
+        states = (c_double * 4)()
+        # Temperature must be in Celsius (like R does: Tc &lt;- convert(T, &#34;C&#34;))
+        states[0] = T - 273.15  # Convert K to C
+        if isinstance(P, str) and P == &#34;Psat&#34;:
+            states[1] = 0.0  # Pressure not used for saturation
+            states[2] = 1.0  # Initial density guess (g/cm³)
+        else:
+            states[1] = P  # Pressure in bar
+            states[2] = 1.0  # Initial density guess (g/cm³)
+        states[3] = 0.0  # Second density for two-phase
+        
+        # Setup output arrays
+        props = (c_double * 46)()  # 46 properties (23 vapor + 23 liquid)
+        error = c_bool(False)
+        
+        # Call Fortran subroutine
+        try:
+            self._h2o92(ctypes.byref(specs), ctypes.byref(states),
+                       ctypes.byref(props), ctypes.byref(error))
+        except Exception as e:
+            raise RuntimeError(f&#34;Fortran subroutine call failed: {e}&#34;)
+        
+        # Check for errors
+        if error.value:
+            warnings.warn(f&#34;H2O92 calculation error at T={T:.1f}K, P={P}&#34;)
+            return {prop: np.nan for prop in self.property_names}
+        
+        # Extract results following R&#39;s approach exactly
+        results = {}
+        
+        # Determine which phase to use (liquid vs vapor) - from R water.R
+        # R code: rho &lt;- H2O[[2]][3]; rho2 &lt;- H2O[[2]][4]
+        rho = states[2]   # First phase density  
+        rho2 = states[3]  # Second phase density
+        
+        if isinstance(P, str) and P == &#34;Psat&#34;:
+            # For saturation: use liquid phase (denser)
+            if rho2 &gt; rho:
+                rho_liquid = rho2
+                inc = 1  # Second state is liquid (R: inc &lt;- 1)
+            else:
+                rho_liquid = rho  
+                inc = 0  # First state is liquid (R: inc &lt;- 0)
+            results[&#39;Psat&#39;] = states[1]  # Saturation pressure
+        else:
+            # Single phase calculation
+            rho_liquid = states[2]
+            inc = 0  # Use first state
+        
+        # Extract properties following R&#39;s method exactly:
+        # R: w &lt;- t(H2O[[3]][seq(1, 45, length.out = 23)+inc])
+        # seq(1, 45, length.out = 23) gives: 1, 3, 5, 7, ..., 45 (in R 1-based indexing)
+        # In Python 0-based: 0, 2, 4, 6, ..., 44, then add inc
+        for i, prop_name in enumerate(self.property_names):
+            prop_index = 2 * i + inc  # Every other element, offset by inc
+            if prop_index &lt; 46:
+                results[prop_name] = props[prop_index]
+        
+        # Apply R CHNOSZ-compatible unit conversions and derived property calculations
+        mw_h2o = 18.0152  # g/mol (matches R SUP92.f)
+
+        # Energy unit conversion: Following R CHNOSZ exactly
+        # R gets values from FORTRAN (in cal/mol with ih=5), then converts TO Joules
+        # Line 159-160 in R water.R:
+        # isenergy &lt;- names(w.out) %in% c(&#34;A&#34;, &#34;G&#34;, &#34;S&#34;, &#34;U&#34;, &#34;H&#34;, &#34;Cv&#34;, &#34;Cp&#34;, &#34;tcond&#34;)
+        # if(any(isenergy)) w.out[, isenergy] &lt;- convert(w.out[, isenergy], &#34;J&#34;)
+        cal_to_j = 4.184  # Conversion factor from cal to J (R uses this)
+
+        # Convert thermodynamic properties from cal/mol to J/mol (like R does)
+        energy_props = [&#39;A&#39;, &#39;G&#39;, &#39;H&#39;, &#39;U&#39;]  # Extensive thermodynamic properties
+        for prop in energy_props:
+            if prop in results:
+                results[prop] = results[prop] * cal_to_j
+
+        # Convert heat capacities and entropy from cal/mol/K to J/mol/K (like R does)
+        entropy_props = [&#39;S&#39;, &#39;Cv&#39;, &#39;Cp&#39;]
+        for prop in entropy_props:
+            if prop in results:
+                results[prop] = results[prop] * cal_to_j
+
+        # Convert thermal conductivity from cal/(s·cm·K) to W/(m·K) (like R does)
+        # R includes &#39;tcond&#39; in the energy conversion list (water.R:159)
+        if &#39;tcond&#39; in results:
+            results[&#39;tcond&#39;] = results[&#39;tcond&#39;] * cal_to_j
+        
+        # Molar volume: cm³/mol (matches R calculation)
+        if rho_liquid &gt; 0:
+            results[&#39;V&#39;] = mw_h2o / rho_liquid  # cm³/mol
+        else:
+            results[&#39;V&#39;] = np.nan
+        
+        # Density conversion: g/cm³ → kg/m³ (matches R line 131: rho &lt;- rho.out*1000)
+        results[&#39;rho&#39;] = rho_liquid * 1000  # Convert g/cm³ to kg/m³ like R
+        
+        # Derived properties (matches R lines 135-136)
+        if &#39;V&#39; in results and not np.isnan(results[&#39;V&#39;]):
+            # E = V * alpha (thermal expansivity)
+            results[&#39;E&#39;] = results[&#39;V&#39;] * results[&#39;alpha&#39;] if &#39;alpha&#39; in results else np.nan
+            # kT = V * beta (isothermal compressibility)  
+            results[&#39;kT&#39;] = results[&#39;V&#39;] * results[&#39;beta&#39;] if &#39;beta&#39; in results else np.nan
+        
+        # Debye-Hückel parameters (matches R lines 140-141)
+        # A_DH &lt;- 1.8246e6 * rho.out^0.5 / (epsilon * T)^1.5
+        # B_DH &lt;- 50.29e8 * rho.out^0.5 / (epsilon * T)^0.5
+        # Note: R actually does use 50.29e8 - must match R exactly
+        if rho_liquid &gt; 0 and &#39;epsilon&#39; in results and results[&#39;epsilon&#39;] &gt; 0:
+            results[&#39;A_DH&#39;] = 1.8246e6 * (rho_liquid**0.5) / ((results[&#39;epsilon&#39;] * T)**1.5)
+            results[&#39;B_DH&#39;] = 50.29e8 * (rho_liquid**0.5) / ((results[&#39;epsilon&#39;] * T)**0.5)  # Match R: 50.29e8
+        else:
+            results[&#39;A_DH&#39;] = np.nan
+            results[&#39;B_DH&#39;] = np.nan
+        
+        # Filter requested properties
+        if properties is not None:
+            filtered_results = {}
+            for prop in properties:
+                if prop in results:
+                    filtered_results[prop] = results[prop]
+                else:
+                    raise ValueError(f&#34;Property &#39;{prop}&#39; not available&#34;)
+            return filtered_results
+        
+        return results
+    
+    def calculate_ideal_gas(self, T: float, property: str) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate ideal gas properties using IDEAL2 subroutine.
+        
+        Parameters
+        ----------
+        T : float
+            Temperature in Kelvin
+        property : str
+            &#39;S&#39; for entropy or &#39;Cp&#39; for heat capacity
+            
+        Returns
+        -------
+        float
+            Property value
+        &#34;&#34;&#34;
+        if not hasattr(self, &#39;_ideal2&#39;):
+            raise NotImplementedError(&#34;IDEAL2 subroutine not available in library&#34;)
+        
+        # Setup parameters (8 dummy args)
+        args = [c_double(T)] + [c_double(0.0) for _ in range(7)]
+        
+        # Call Fortran subroutine
+        self._ideal2(*[ctypes.byref(arg) for arg in args])
+        
+        if property == &#39;S&#39;:
+            return args[3].value  # 4th output
+        elif property == &#39;Cp&#39;:  
+            return args[7].value  # 8th output
+        else:
+            raise ValueError(f&#34;Property &#39;{property}&#39; not supported by IDEAL2&#34;)
+    
+    def available_properties(self) -&gt; List[str]:
+        &#34;&#34;&#34;Get list of available water properties.&#34;&#34;&#34;
+        return self.property_names + [&#39;V&#39;, &#39;rho&#39;, &#39;Psat&#39;, &#39;E&#39;, &#39;kT&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]
+
+    def clear_cache(self):
+        &#34;&#34;&#34;Clear the water properties cache.&#34;&#34;&#34;
+        self._cache.clear()
+
+    def enable_cache(self, enabled: bool = True):
+        &#34;&#34;&#34;Enable or disable caching of water properties.&#34;&#34;&#34;
+        self._cache_enabled = enabled
+        if not enabled:
+            self.clear_cache()</code></pre>
+</details>
+<div class="desc"><p>Python interface to the H2O92 Fortran subroutine.</p>
+<p>This provides the exact same computational kernel as used by
+the R CHNOSZ package, ensuring identical results.</p>
+<p>Initialize the Fortran library interface.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.available_properties"><code class="name flex">
+<span>def <span class="ident">available_properties</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def available_properties(self) -&gt; List[str]:
+    &#34;&#34;&#34;Get list of available water properties.&#34;&#34;&#34;
+    return self.property_names + [&#39;V&#39;, &#39;rho&#39;, &#39;Psat&#39;, &#39;E&#39;, &#39;kT&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]</code></pre>
+</details>
+<div class="desc"><p>Get list of available water properties.</p></div>
+</dd>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_ideal_gas"><code class="name flex">
+<span>def <span class="ident">calculate_ideal_gas</span></span>(<span>self, T: float, property: str) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_ideal_gas(self, T: float, property: str) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate ideal gas properties using IDEAL2 subroutine.
+    
+    Parameters
+    ----------
+    T : float
+        Temperature in Kelvin
+    property : str
+        &#39;S&#39; for entropy or &#39;Cp&#39; for heat capacity
+        
+    Returns
+    -------
+    float
+        Property value
+    &#34;&#34;&#34;
+    if not hasattr(self, &#39;_ideal2&#39;):
+        raise NotImplementedError(&#34;IDEAL2 subroutine not available in library&#34;)
+    
+    # Setup parameters (8 dummy args)
+    args = [c_double(T)] + [c_double(0.0) for _ in range(7)]
+    
+    # Call Fortran subroutine
+    self._ideal2(*[ctypes.byref(arg) for arg in args])
+    
+    if property == &#39;S&#39;:
+        return args[3].value  # 4th output
+    elif property == &#39;Cp&#39;:  
+        return args[7].value  # 8th output
+    else:
+        raise ValueError(f&#34;Property &#39;{property}&#39; not supported by IDEAL2&#34;)</code></pre>
+</details>
+<div class="desc"><p>Calculate ideal gas properties using IDEAL2 subroutine.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>property</code></strong> :&ensp;<code>str</code></dt>
+<dd>'S' for entropy or 'Cp' for heat capacity</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Property value</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties"><code class="name flex">
+<span>def <span class="ident">calculate_properties</span></span>(<span>self, T: float, P: float | str, properties: List[str] = None) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_properties(self, T: float, P: Union[float, str],
+                       properties: List[str] = None) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate water properties using the H2O92 Fortran subroutine.
+
+    Parameters
+    ----------
+    T : float
+        Temperature in Kelvin
+    P : float or &#34;Psat&#34;
+        Pressure in bar, or &#34;Psat&#34; for saturation pressure
+    properties : list of str, optional
+        Properties to calculate. If None, calculates all available.
+
+    Returns
+    -------
+    dict
+        Dictionary with calculated properties
+
+    Examples
+    --------
+    &gt;&gt;&gt; h2o = H2O92Interface()
+    &gt;&gt;&gt; props = h2o.calculate_properties(298.15, 1.0, [&#39;rho&#39;, &#39;epsilon&#39;])
+    &gt;&gt;&gt; print(f&#34;Density: {props[&#39;rho&#39;]:.3f} g/cm³&#34;)
+    &gt;&gt;&gt; print(f&#34;Dielectric: {props[&#39;epsilon&#39;]:.1f}&#34;)
+    &#34;&#34;&#34;
+    
+    # Setup specs array (H2O92 parameters) - matches R exactly
+    # it, id, ip, ih, itripl, isat, iopt, useLVS, epseqn, icrit
+    # From R: specs &lt;- c(2, 2, 2, 5, 1, isat, iopt, 1, 4, 0)
+    if isinstance(P, str) and P == &#34;Psat&#34;:
+        isat = 1
+        iopt = 1  # T,D input for saturation 
+    else:
+        isat = 0
+        iopt = 2  # T,P input for single phase
+    
+    specs = (c_int * 10)(2, 2, 2, 5, 1, isat, iopt, 1, 4, 0)
+    
+    # Setup states array
+    states = (c_double * 4)()
+    # Temperature must be in Celsius (like R does: Tc &lt;- convert(T, &#34;C&#34;))
+    states[0] = T - 273.15  # Convert K to C
+    if isinstance(P, str) and P == &#34;Psat&#34;:
+        states[1] = 0.0  # Pressure not used for saturation
+        states[2] = 1.0  # Initial density guess (g/cm³)
+    else:
+        states[1] = P  # Pressure in bar
+        states[2] = 1.0  # Initial density guess (g/cm³)
+    states[3] = 0.0  # Second density for two-phase
+    
+    # Setup output arrays
+    props = (c_double * 46)()  # 46 properties (23 vapor + 23 liquid)
+    error = c_bool(False)
+    
+    # Call Fortran subroutine
+    try:
+        self._h2o92(ctypes.byref(specs), ctypes.byref(states),
+                   ctypes.byref(props), ctypes.byref(error))
+    except Exception as e:
+        raise RuntimeError(f&#34;Fortran subroutine call failed: {e}&#34;)
+    
+    # Check for errors
+    if error.value:
+        warnings.warn(f&#34;H2O92 calculation error at T={T:.1f}K, P={P}&#34;)
+        return {prop: np.nan for prop in self.property_names}
+    
+    # Extract results following R&#39;s approach exactly
+    results = {}
+    
+    # Determine which phase to use (liquid vs vapor) - from R water.R
+    # R code: rho &lt;- H2O[[2]][3]; rho2 &lt;- H2O[[2]][4]
+    rho = states[2]   # First phase density  
+    rho2 = states[3]  # Second phase density
+    
+    if isinstance(P, str) and P == &#34;Psat&#34;:
+        # For saturation: use liquid phase (denser)
+        if rho2 &gt; rho:
+            rho_liquid = rho2
+            inc = 1  # Second state is liquid (R: inc &lt;- 1)
+        else:
+            rho_liquid = rho  
+            inc = 0  # First state is liquid (R: inc &lt;- 0)
+        results[&#39;Psat&#39;] = states[1]  # Saturation pressure
+    else:
+        # Single phase calculation
+        rho_liquid = states[2]
+        inc = 0  # Use first state
+    
+    # Extract properties following R&#39;s method exactly:
+    # R: w &lt;- t(H2O[[3]][seq(1, 45, length.out = 23)+inc])
+    # seq(1, 45, length.out = 23) gives: 1, 3, 5, 7, ..., 45 (in R 1-based indexing)
+    # In Python 0-based: 0, 2, 4, 6, ..., 44, then add inc
+    for i, prop_name in enumerate(self.property_names):
+        prop_index = 2 * i + inc  # Every other element, offset by inc
+        if prop_index &lt; 46:
+            results[prop_name] = props[prop_index]
+    
+    # Apply R CHNOSZ-compatible unit conversions and derived property calculations
+    mw_h2o = 18.0152  # g/mol (matches R SUP92.f)
+
+    # Energy unit conversion: Following R CHNOSZ exactly
+    # R gets values from FORTRAN (in cal/mol with ih=5), then converts TO Joules
+    # Line 159-160 in R water.R:
+    # isenergy &lt;- names(w.out) %in% c(&#34;A&#34;, &#34;G&#34;, &#34;S&#34;, &#34;U&#34;, &#34;H&#34;, &#34;Cv&#34;, &#34;Cp&#34;, &#34;tcond&#34;)
+    # if(any(isenergy)) w.out[, isenergy] &lt;- convert(w.out[, isenergy], &#34;J&#34;)
+    cal_to_j = 4.184  # Conversion factor from cal to J (R uses this)
+
+    # Convert thermodynamic properties from cal/mol to J/mol (like R does)
+    energy_props = [&#39;A&#39;, &#39;G&#39;, &#39;H&#39;, &#39;U&#39;]  # Extensive thermodynamic properties
+    for prop in energy_props:
+        if prop in results:
+            results[prop] = results[prop] * cal_to_j
+
+    # Convert heat capacities and entropy from cal/mol/K to J/mol/K (like R does)
+    entropy_props = [&#39;S&#39;, &#39;Cv&#39;, &#39;Cp&#39;]
+    for prop in entropy_props:
+        if prop in results:
+            results[prop] = results[prop] * cal_to_j
+
+    # Convert thermal conductivity from cal/(s·cm·K) to W/(m·K) (like R does)
+    # R includes &#39;tcond&#39; in the energy conversion list (water.R:159)
+    if &#39;tcond&#39; in results:
+        results[&#39;tcond&#39;] = results[&#39;tcond&#39;] * cal_to_j
+    
+    # Molar volume: cm³/mol (matches R calculation)
+    if rho_liquid &gt; 0:
+        results[&#39;V&#39;] = mw_h2o / rho_liquid  # cm³/mol
+    else:
+        results[&#39;V&#39;] = np.nan
+    
+    # Density conversion: g/cm³ → kg/m³ (matches R line 131: rho &lt;- rho.out*1000)
+    results[&#39;rho&#39;] = rho_liquid * 1000  # Convert g/cm³ to kg/m³ like R
+    
+    # Derived properties (matches R lines 135-136)
+    if &#39;V&#39; in results and not np.isnan(results[&#39;V&#39;]):
+        # E = V * alpha (thermal expansivity)
+        results[&#39;E&#39;] = results[&#39;V&#39;] * results[&#39;alpha&#39;] if &#39;alpha&#39; in results else np.nan
+        # kT = V * beta (isothermal compressibility)  
+        results[&#39;kT&#39;] = results[&#39;V&#39;] * results[&#39;beta&#39;] if &#39;beta&#39; in results else np.nan
+    
+    # Debye-Hückel parameters (matches R lines 140-141)
+    # A_DH &lt;- 1.8246e6 * rho.out^0.5 / (epsilon * T)^1.5
+    # B_DH &lt;- 50.29e8 * rho.out^0.5 / (epsilon * T)^0.5
+    # Note: R actually does use 50.29e8 - must match R exactly
+    if rho_liquid &gt; 0 and &#39;epsilon&#39; in results and results[&#39;epsilon&#39;] &gt; 0:
+        results[&#39;A_DH&#39;] = 1.8246e6 * (rho_liquid**0.5) / ((results[&#39;epsilon&#39;] * T)**1.5)
+        results[&#39;B_DH&#39;] = 50.29e8 * (rho_liquid**0.5) / ((results[&#39;epsilon&#39;] * T)**0.5)  # Match R: 50.29e8
+    else:
+        results[&#39;A_DH&#39;] = np.nan
+        results[&#39;B_DH&#39;] = np.nan
+    
+    # Filter requested properties
+    if properties is not None:
+        filtered_results = {}
+        for prop in properties:
+            if prop in results:
+                filtered_results[prop] = results[prop]
+            else:
+                raise ValueError(f&#34;Property &#39;{prop}&#39; not available&#34;)
+        return filtered_results
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using the H2O92 Fortran subroutine.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>"Psat"</code></dt>
+<dd>Pressure in bar, or "Psat" for saturation pressure</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>Properties to calculate. If None, calculates all available.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with calculated properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; h2o = H2O92Interface()
+&gt;&gt;&gt; props = h2o.calculate_properties(298.15, 1.0, ['rho', 'epsilon'])
+&gt;&gt;&gt; print(f&quot;Density: {props['rho']:.3f} g/cm³&quot;)
+&gt;&gt;&gt; print(f&quot;Dielectric: {props['epsilon']:.1f}&quot;)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties_batch"><code class="name flex">
+<span>def <span class="ident">calculate_properties_batch</span></span>(<span>self, T: numpy.ndarray, P: numpy.ndarray | str, properties: List[str] = None) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_properties_batch(self, T: np.ndarray, P: Union[np.ndarray, str],
+                               properties: List[str] = None) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate water properties for multiple T,P points (vectorized).
+
+    This is much faster than calling calculate_properties() in a loop
+    because it reduces ctypes overhead.
+
+    Parameters
+    ----------
+    T : array
+        Temperatures in Kelvin
+    P : array or &#34;Psat&#34;
+        Pressures in bar, or &#34;Psat&#34; for saturation pressure
+    properties : list of str, optional
+        Properties to calculate. If None, calculates all available.
+
+    Returns
+    -------
+    dict
+        Dictionary with calculated property arrays
+    &#34;&#34;&#34;
+    T = np.atleast_1d(T)
+    n = len(T)
+
+    # Handle P input
+    if isinstance(P, str) and P == &#34;Psat&#34;:
+        P_is_psat = True
+        P_vals = np.full(n, np.nan)  # Placeholder
+    else:
+        P_is_psat = False
+        P_vals = np.atleast_1d(P)
+        if len(P_vals) &lt; n:
+            P_vals = np.resize(P_vals, n)
+
+    # Initialize output arrays for all properties
+    all_props = self.property_names + [&#39;V&#39;, &#39;rho&#39;, &#39;Psat&#39;, &#39;E&#39;, &#39;kT&#39;, &#39;A_DH&#39;, &#39;B_DH&#39;]
+    results = {prop: np.full(n, np.nan) for prop in all_props}
+
+    # Optimized calculation loop - minimize Python overhead
+    mw_h2o = 18.0152
+    cal_to_j = 4.184
+
+    # Pre-create specs arrays (reuse if possible)
+    if P_is_psat:
+        specs = (c_int * 10)(2, 2, 2, 5, 1, 1, 1, 1, 4, 0)
+    else:
+        specs = (c_int * 10)(2, 2, 2, 5, 1, 0, 2, 1, 4, 0)
+
+    # Reusable arrays
+    states = (c_double * 4)()
+    props = (c_double * 46)()
+    error = c_bool(False)
+
+    # Property name to index mapping (for fast lookup)
+    # R CHNOSZ water.R:159 includes &#39;tcond&#39; in energy conversion list
+    energy_props_idx = {self.property_names.index(p): True for p in [&#39;A&#39;, &#39;G&#39;, &#39;H&#39;, &#39;U&#39;, &#39;S&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;tcond&#39;] if p in self.property_names}
+
+    for i in range(n):
+        if np.isnan(T[i]) or (not P_is_psat and np.isnan(P_vals[i])):
+            continue
+
+        # Check cache first (round to avoid floating point precision issues)
+        if self._cache_enabled:
+            if P_is_psat:
+                cache_key = (round(T[i], 6), &#39;Psat&#39;)
+            else:
+                cache_key = (round(T[i], 6), round(P_vals[i], 6))
+
+            if cache_key in self._cache:
+                # Use cached values
+                cached_props = self._cache[cache_key]
+                for prop_name in all_props:
+                    if prop_name in cached_props:
+                        results[prop_name][i] = cached_props[prop_name]
+                continue
+
+        # Setup states array
+        states[0] = T[i] - 273.15  # K to C
+        if P_is_psat:
+            states[1] = 0.0
+            states[2] = 1.0
+        else:
+            states[1] = P_vals[i]
+            states[2] = 1.0
+        states[3] = 0.0
+
+        # Reset error flag
+        error.value = False
+
+        # Call Fortran
+        try:
+            self._h2o92(ctypes.byref(specs), ctypes.byref(states),
+                       ctypes.byref(props), ctypes.byref(error))
+        except:
+            continue
+
+        if error.value:
+            continue
+
+        # Extract results - optimized
+        rho = states[2]
+        rho2 = states[3]
+
+        if P_is_psat:
+            inc = 1 if rho2 &gt; rho else 0
+            rho_liquid = rho2 if inc == 1 else rho
+            results[&#39;Psat&#39;][i] = states[1]
+        else:
+            rho_liquid = rho
+            inc = 0
+
+        # Store for caching
+        if self._cache_enabled:
+            cached_result = {}
+
+        # Extract 23 properties - optimized loop
+        for j in range(len(self.property_names)):
+            prop_index = 2 * j + inc
+            if prop_index &lt; 46:
+                val = props[prop_index]
+                # Apply unit conversions only to energy properties
+                if j in energy_props_idx:
+                    val *= cal_to_j
+                results[self.property_names[j]][i] = val
+                if self._cache_enabled:
+                    cached_result[self.property_names[j]] = val
+
+        # Derived properties
+        if rho_liquid &gt; 0:
+            V_i = mw_h2o / rho_liquid
+            results[&#39;V&#39;][i] = V_i
+            results[&#39;rho&#39;][i] = rho_liquid * 1000
+
+            alpha_i = results[&#39;alpha&#39;][i]
+            if not np.isnan(alpha_i):
+                results[&#39;E&#39;][i] = V_i * alpha_i
+
+            beta_i = results[&#39;beta&#39;][i]
+            if not np.isnan(beta_i):
+                results[&#39;kT&#39;][i] = V_i * beta_i
+
+            eps = results[&#39;epsilon&#39;][i]
+            if eps &gt; 0:
+                sqrt_rho = rho_liquid**0.5
+                eps_T = eps * T[i]
+                results[&#39;A_DH&#39;][i] = 1.8246e6 * sqrt_rho / (eps_T**1.5)
+                results[&#39;B_DH&#39;][i] = 50.29e8 * sqrt_rho / (eps_T**0.5)
+
+            # Cache derived properties too
+            if self._cache_enabled:
+                cached_result[&#39;V&#39;] = V_i
+                cached_result[&#39;rho&#39;] = rho_liquid * 1000
+                if not np.isnan(alpha_i):
+                    cached_result[&#39;E&#39;] = results[&#39;E&#39;][i]
+                if not np.isnan(beta_i):
+                    cached_result[&#39;kT&#39;] = results[&#39;kT&#39;][i]
+                if eps &gt; 0:
+                    cached_result[&#39;A_DH&#39;] = results[&#39;A_DH&#39;][i]
+                    cached_result[&#39;B_DH&#39;] = results[&#39;B_DH&#39;][i]
+                if P_is_psat:
+                    cached_result[&#39;Psat&#39;] = results[&#39;Psat&#39;][i]
+
+        # Store in cache
+        if self._cache_enabled and cache_key:
+            self._cache[cache_key] = cached_result
+
+    # Filter requested properties
+    if properties is not None:
+        filtered_results = {}
+        for prop in properties:
+            if prop in results:
+                filtered_results[prop] = results[prop]
+            else:
+                raise ValueError(f&#34;Property &#39;{prop}&#39; not available&#34;)
+        return filtered_results
+
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties for multiple T,P points (vectorized).</p>
+<p>This is much faster than calling calculate_properties() in a loop
+because it reduces ctypes overhead.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>T</code></strong> :&ensp;<code>array</code></dt>
+<dd>Temperatures in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>array</code> or <code>"Psat"</code></dt>
+<dd>Pressures in bar, or "Psat" for saturation pressure</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>Properties to calculate. If None, calculates all available.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with calculated property arrays</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.clear_cache"><code class="name flex">
+<span>def <span class="ident">clear_cache</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_cache(self):
+    &#34;&#34;&#34;Clear the water properties cache.&#34;&#34;&#34;
+    self._cache.clear()</code></pre>
+</details>
+<div class="desc"><p>Clear the water properties cache.</p></div>
+</dd>
+<dt id="pychnosz.fortran.h2o92_interface.H2O92Interface.enable_cache"><code class="name flex">
+<span>def <span class="ident">enable_cache</span></span>(<span>self, enabled: bool = True)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def enable_cache(self, enabled: bool = True):
+    &#34;&#34;&#34;Enable or disable caching of water properties.&#34;&#34;&#34;
+    self._cache_enabled = enabled
+    if not enabled:
+        self.clear_cache()</code></pre>
+</details>
+<div class="desc"><p>Enable or disable caching of water properties.</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.fortran" href="index.html">pychnosz.fortran</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.fortran.h2o92_interface.get_h2o92_interface" href="#pychnosz.fortran.h2o92_interface.get_h2o92_interface">get_h2o92_interface</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface" href="#pychnosz.fortran.h2o92_interface.H2O92Interface">H2O92Interface</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.available_properties" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.available_properties">available_properties</a></code></li>
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_ideal_gas" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_ideal_gas">calculate_ideal_gas</a></code></li>
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties">calculate_properties</a></code></li>
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties_batch" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.calculate_properties_batch">calculate_properties_batch</a></code></li>
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.clear_cache" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.clear_cache">clear_cache</a></code></li>
+<li><code><a title="pychnosz.fortran.h2o92_interface.H2O92Interface.enable_cache" href="#pychnosz.fortran.h2o92_interface.H2O92Interface.enable_cache">enable_cache</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

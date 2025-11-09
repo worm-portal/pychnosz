@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.biomolecules.proteins API documentation</title>
+<meta name="description" content="Protein thermodynamics calculations for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.biomolecules.proteins</code></h1>
+</header>
+<section id="section-intro">
+<p>Protein thermodynamics calculations for CHNOSZ.</p>
+<p>This module implements thermodynamic calculations for proteins and biomolecules,
+including amino acid group contribution methods and protein folding/unfolding.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.biomolecules.proteins.amino_acid"><code class="name flex">
+<span>def <span class="ident">amino_acid</span></span>(<span>aa_code: str | List[str], T: float = 298.15, P: float = 1.0) ‑> Dict[str, float] | List[Dict[str, float]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def amino_acid(aa_code: Union[str, List[str]], 
+              T: float = 298.15, P: float = 1.0) -&gt; Union[Dict[str, float], List[Dict[str, float]]]:
+    &#34;&#34;&#34;
+    Get thermodynamic properties of amino acid(s).
+    
+    Parameters
+    ----------
+    aa_code : str or list of str
+        Single-letter amino acid code(s)
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    dict or list of dict
+        Amino acid properties
+    &#34;&#34;&#34;
+    
+    if isinstance(aa_code, str):
+        return _protein_calculator.amino_acid_contribution(aa_code, T, P)
+    else:
+        return [_protein_calculator.amino_acid_contribution(aa, T, P) 
+                for aa in aa_code]</code></pre>
+</details>
+<div class="desc"><p>Get thermodynamic properties of amino acid(s).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aa_code</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Single-letter amino acid code(s)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code> or <code>list</code> of <code>dict</code></dt>
+<dd>Amino acid properties</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.biomolecules.proteins.protein"><code class="name flex">
+<span>def <span class="ident">protein</span></span>(<span>sequence: str | List[str], T: float = 298.15, P: float = 1.0, state: str = 'aq') ‑> Dict[str, float] | List[Dict[str, float]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein(sequence: Union[str, List[str]], 
+           T: float = 298.15, P: float = 1.0,
+           state: str = &#39;aq&#39;) -&gt; Union[Dict[str, float], List[Dict[str, float]]]:
+    &#34;&#34;&#34;
+    Calculate thermodynamic properties of protein(s).
+    
+    Parameters
+    ----------
+    sequence : str or list of str
+        Protein sequence(s) in single-letter amino acid code
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    state : str, default &#39;aq&#39;
+        Physical state
+        
+    Returns
+    -------
+    dict or list of dict
+        Protein thermodynamic properties
+    &#34;&#34;&#34;
+    
+    if isinstance(sequence, str):
+        return _protein_calculator.protein_properties(sequence, T, P, state)
+    else:
+        return [_protein_calculator.protein_properties(seq, T, P, state) 
+                for seq in sequence]</code></pre>
+</details>
+<div class="desc"><p>Calculate thermodynamic properties of protein(s).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Protein sequence(s) in single-letter amino acid code</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, default <code>'aq'</code></dt>
+<dd>Physical state</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code> or <code>list</code> of <code>dict</code></dt>
+<dd>Protein thermodynamic properties</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.biomolecules.proteins.stability"><code class="name flex">
+<span>def <span class="ident">stability</span></span>(<span>sequence: str,<br>T_range: numpy.ndarray | Tuple[float, float, int],<br>P: float = 1.0) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stability(sequence: str, T_range: Union[np.ndarray, Tuple[float, float, int]], 
+             P: float = 1.0) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate protein stability over temperature range.
+    
+    Parameters
+    ----------
+    sequence : str
+        Protein sequence
+    T_range : array or tuple
+        Temperature range. If tuple: (T_min, T_max, n_points)
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    dict
+        Temperature-dependent stability properties
+    &#34;&#34;&#34;
+    
+    if isinstance(T_range, tuple):
+        T_min, T_max, n_points = T_range
+        T_range = np.linspace(T_min, T_max, n_points)
+    
+    return _protein_calculator.protein_stability(sequence, T_range, P)</code></pre>
+</details>
+<div class="desc"><p>Calculate protein stability over temperature range.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
+<dd>Protein sequence</dd>
+<dt><strong><code>T_range</code></strong> :&ensp;<code>array</code> or <code>tuple</code></dt>
+<dd>Temperature range. If tuple: (T_min, T_max, n_points)</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Temperature-dependent stability properties</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.biomolecules.proteins.unfold"><code class="name flex">
+<span>def <span class="ident">unfold</span></span>(<span>sequence: str, T: float = 298.15, P: float = 1.0) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def unfold(sequence: str, T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate protein unfolding thermodynamics.
+    
+    Parameters
+    ----------
+    sequence : str
+        Protein sequence
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    dict
+        Unfolding thermodynamics
+    &#34;&#34;&#34;
+    
+    folded = _protein_calculator.protein_properties(sequence, T, P)
+    unfolded = _protein_calculator._calculate_unfolded_properties(sequence, T, P)
+    
+    delta_G = unfolded[&#39;G&#39;] - folded[&#39;G&#39;]
+    delta_H = unfolded[&#39;H&#39;] - folded[&#39;H&#39;]  
+    delta_S = unfolded[&#39;S&#39;] - folded[&#39;S&#39;]
+    
+    # Melting temperature (where delta_G = 0)
+    if delta_S != 0:
+        T_m = delta_H / delta_S
+    else:
+        T_m = np.inf
+    
+    return {
+        &#39;delta_G&#39;: delta_G,
+        &#39;delta_H&#39;: delta_H,
+        &#39;delta_S&#39;: delta_S,
+        &#39;T_m&#39;: T_m,
+        &#39;K_unfold&#39;: np.exp(-delta_G / (8.314 * T)) if delta_G != 0 else 1.0,
+        &#39;fraction_unfolded&#39;: 1.0 / (1.0 + np.exp(-delta_G / (8.314 * T))) if delta_G != 0 else 0.5
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate protein unfolding thermodynamics.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
+<dd>Protein sequence</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Unfolding thermodynamics</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.biomolecules.proteins.ProteinThermodynamics"><code class="flex name class">
+<span>class <span class="ident">ProteinThermodynamics</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ProteinThermodynamics:
+    &#34;&#34;&#34;
+    Protein thermodynamics calculator.
+    
+    This class implements group contribution methods for calculating
+    thermodynamic properties of proteins and biomolecules.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the protein thermodynamics calculator.&#34;&#34;&#34;
+        self.amino_acid_data = None
+        self._load_amino_acid_data()
+    
+    def _load_amino_acid_data(self):
+        &#34;&#34;&#34;Load amino acid thermodynamic data.&#34;&#34;&#34;
+        try:
+            # This would load from the protein.csv database
+            # For now, create simplified data
+            amino_acids = []
+            for code, info in AMINO_ACIDS.items():
+                amino_acids.append({
+                    &#39;code&#39;: code,
+                    &#39;name&#39;: info[&#39;name&#39;],
+                    &#39;abbrev&#39;: info[&#39;abbrev&#39;],
+                    &#39;formula&#39;: info[&#39;formula&#39;],
+                    # Placeholder thermodynamic data (would come from database)
+                    &#39;G&#39;: -100000 - np.random.random() * 50000,  # J/mol
+                    &#39;H&#39;: -150000 - np.random.random() * 50000,  # J/mol
+                    &#39;S&#39;: 100 + np.random.random() * 50,         # J/(mol·K)
+                    &#39;Cp&#39;: 150 + np.random.random() * 50         # J/(mol·K)
+                })
+            
+            self.amino_acid_data = pd.DataFrame(amino_acids)
+            
+        except Exception as e:
+            warnings.warn(f&#34;Could not load amino acid data: {e}&#34;)
+            self.amino_acid_data = pd.DataFrame()
+    
+    def protein_properties(self, sequence: str, 
+                         T: float = 298.15, P: float = 1.0,
+                         state: str = &#39;aq&#39;) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;
+        Calculate thermodynamic properties of a protein from its sequence.
+        
+        Parameters
+        ----------
+        sequence : str
+            Protein sequence in single-letter amino acid code
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        state : str, default &#39;aq&#39;
+            Physical state (&#39;aq&#39; for aqueous, &#39;cr&#39; for crystalline)
+            
+        Returns
+        -------
+        dict
+            Thermodynamic properties of the protein
+        &#34;&#34;&#34;
+        
+        if self.amino_acid_data.empty:
+            raise ValueError(&#34;Amino acid data not available&#34;)
+        
+        # Count amino acid residues
+        aa_counts = {}
+        for aa in sequence:
+            if aa.upper() in AMINO_ACIDS:
+                aa_counts[aa.upper()] = aa_counts.get(aa.upper(), 0) + 1
+            else:
+                warnings.warn(f&#34;Unknown amino acid: {aa}&#34;)
+        
+        # Calculate properties by group contribution
+        total_G = 0
+        total_H = 0
+        total_S = 0
+        total_Cp = 0
+        
+        for aa_code, count in aa_counts.items():
+            aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
+            if not aa_data.empty:
+                aa_row = aa_data.iloc[0]
+                total_G += count * aa_row[&#39;G&#39;]
+                total_H += count * aa_row[&#39;H&#39;]
+                total_S += count * aa_row[&#39;S&#39;]
+                total_Cp += count * aa_row[&#39;Cp&#39;]
+        
+        # Apply peptide bond corrections
+        n_peptide_bonds = len(sequence) - 1
+        if n_peptide_bonds &gt; 0:
+            # Peptide bond formation: dehydration reaction
+            # -H2O per peptide bond
+            water_props = self._get_water_properties(T, P)
+            total_G += n_peptide_bonds * water_props[&#39;G&#39;]  # Remove water
+            total_H += n_peptide_bonds * water_props[&#39;H&#39;]
+            total_S += n_peptide_bonds * water_props[&#39;S&#39;]
+            total_Cp += n_peptide_bonds * water_props[&#39;Cp&#39;]
+        
+        # Temperature corrections (simplified)
+        if T != 298.15:
+            dT = T - 298.15
+            total_G += total_H * (1 - T/298.15) + total_S * dT
+            total_H += total_Cp * dT  # Assuming constant Cp
+            total_S += total_Cp * np.log(T/298.15)
+        
+        return {
+            &#39;G&#39;: total_G,
+            &#39;H&#39;: total_H,
+            &#39;S&#39;: total_S,
+            &#39;Cp&#39;: total_Cp,
+            &#39;length&#39;: len(sequence),
+            &#39;composition&#39;: aa_counts,
+            &#39;molecular_weight&#39;: self._calculate_molecular_weight(aa_counts)
+        }
+    
+    def protein_stability(self, sequence: str, 
+                         T_range: np.ndarray,
+                         P: float = 1.0) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate protein stability as a function of temperature.
+        
+        Parameters
+        ----------
+        sequence : str
+            Protein sequence
+        T_range : array
+            Temperature range in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        dict
+            Temperature-dependent stability properties
+        &#34;&#34;&#34;
+        
+        results = {
+            &#39;T&#39;: T_range,
+            &#39;G_folded&#39;: np.zeros_like(T_range),
+            &#39;G_unfolded&#39;: np.zeros_like(T_range),
+            &#39;delta_G_fold&#39;: np.zeros_like(T_range),
+            &#39;fraction_folded&#39;: np.zeros_like(T_range)
+        }
+        
+        # Calculate properties at each temperature
+        for i, T in enumerate(T_range):
+            # Folded state (compact)
+            folded_props = self.protein_properties(sequence, T, P, state=&#39;aq&#39;)
+            
+            # Unfolded state (extended) - simplified as sum of individual residues
+            unfolded_props = self._calculate_unfolded_properties(sequence, T, P)
+            
+            results[&#39;G_folded&#39;][i] = folded_props[&#39;G&#39;]
+            results[&#39;G_unfolded&#39;][i] = unfolded_props[&#39;G&#39;]
+            results[&#39;delta_G_fold&#39;][i] = folded_props[&#39;G&#39;] - unfolded_props[&#39;G&#39;]
+            
+            # Fraction folded (equilibrium)
+            if results[&#39;delta_G_fold&#39;][i] != 0:
+                K_fold = np.exp(-results[&#39;delta_G_fold&#39;][i] / (8.314 * T))
+                results[&#39;fraction_folded&#39;][i] = K_fold / (1 + K_fold)
+            else:
+                results[&#39;fraction_folded&#39;][i] = 0.5
+        
+        return results
+    
+    def amino_acid_contribution(self, aa_code: str, 
+                              T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;
+        Get thermodynamic contribution of a single amino acid.
+        
+        Parameters
+        ----------
+        aa_code : str
+            Single-letter amino acid code
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        dict
+            Thermodynamic properties of the amino acid
+        &#34;&#34;&#34;
+        
+        if self.amino_acid_data.empty:
+            raise ValueError(&#34;Amino acid data not available&#34;)
+        
+        aa_code = aa_code.upper()
+        if aa_code not in AMINO_ACIDS:
+            raise ValueError(f&#34;Unknown amino acid: {aa_code}&#34;)
+        
+        aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
+        if aa_data.empty:
+            raise ValueError(f&#34;No data available for amino acid: {aa_code}&#34;)
+        
+        aa_row = aa_data.iloc[0]
+        
+        # Temperature correction
+        G_std = aa_row[&#39;G&#39;]
+        H_std = aa_row[&#39;H&#39;]
+        S_std = aa_row[&#39;S&#39;]
+        Cp_std = aa_row[&#39;Cp&#39;]
+        
+        if T != 298.15:
+            dT = T - 298.15
+            G_T = G_std + H_std * (1 - T/298.15) + S_std * dT
+            H_T = H_std + Cp_std * dT
+            S_T = S_std + Cp_std * np.log(T/298.15)
+        else:
+            G_T, H_T, S_T = G_std, H_std, S_std
+        
+        return {
+            &#39;G&#39;: G_T,
+            &#39;H&#39;: H_T,
+            &#39;S&#39;: S_T,
+            &#39;Cp&#39;: Cp_std,
+            &#39;name&#39;: aa_row[&#39;name&#39;],
+            &#39;formula&#39;: aa_row[&#39;formula&#39;]
+        }
+    
+    def _get_water_properties(self, T: float, P: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Get water thermodynamic properties.&#34;&#34;&#34;
+        try:
+            from ..models import water_SUPCRT92
+            # This would use the water model, but for now use constants
+            return {
+                &#39;G&#39;: -237129,  # J/mol at 25°C
+                &#39;H&#39;: -285830,  # J/mol
+                &#39;S&#39;: 69.95,    # J/(mol·K)
+                &#39;Cp&#39;: 75.31    # J/(mol·K)
+            }
+        except:
+            # Fallback values
+            return {
+                &#39;G&#39;: -237129,
+                &#39;H&#39;: -285830,
+                &#39;S&#39;: 69.95,
+                &#39;Cp&#39;: 75.31
+            }
+    
+    def _calculate_molecular_weight(self, aa_counts: Dict[str, int]) -&gt; float:
+        &#34;&#34;&#34;Calculate molecular weight from amino acid composition.&#34;&#34;&#34;
+        
+        # Approximate molecular weights (g/mol)
+        mw_data = {
+            &#39;A&#39;: 89.1, &#39;R&#39;: 174.2, &#39;N&#39;: 132.1, &#39;D&#39;: 133.1, &#39;C&#39;: 121.0,
+            &#39;Q&#39;: 146.1, &#39;E&#39;: 147.1, &#39;G&#39;: 75.1, &#39;H&#39;: 155.2, &#39;I&#39;: 131.2,
+            &#39;L&#39;: 131.2, &#39;K&#39;: 146.2, &#39;M&#39;: 149.2, &#39;F&#39;: 165.2, &#39;P&#39;: 115.1,
+            &#39;S&#39;: 105.1, &#39;T&#39;: 119.1, &#39;W&#39;: 204.2, &#39;Y&#39;: 181.2, &#39;V&#39;: 117.1
+        }
+        
+        total_mw = 0
+        for aa, count in aa_counts.items():
+            total_mw += count * mw_data.get(aa, 110.0)  # Average if unknown
+        
+        # Subtract water molecules for peptide bonds
+        n_peptide_bonds = sum(aa_counts.values()) - 1
+        total_mw -= n_peptide_bonds * 18.015  # H2O
+        
+        return total_mw
+    
+    def _calculate_unfolded_properties(self, sequence: str, T: float, P: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Calculate properties of unfolded protein state.&#34;&#34;&#34;
+        
+        # Simplified: unfolded state has higher entropy and enthalpy
+        folded_props = self.protein_properties(sequence, T, P)
+        
+        # Unfolding typically increases entropy and enthalpy
+        delta_H_unfold = len(sequence) * 5000  # ~5 kJ/mol per residue
+        delta_S_unfold = len(sequence) * 20    # ~20 J/(mol·K) per residue
+        
+        return {
+            &#39;G&#39;: folded_props[&#39;G&#39;] + delta_H_unfold - T * delta_S_unfold,
+            &#39;H&#39;: folded_props[&#39;H&#39;] + delta_H_unfold,
+            &#39;S&#39;: folded_props[&#39;S&#39;] + delta_S_unfold,
+            &#39;Cp&#39;: folded_props[&#39;Cp&#39;] * 1.2  # Slightly higher Cp
+        }</code></pre>
+</details>
+<div class="desc"><p>Protein thermodynamics calculator.</p>
+<p>This class implements group contribution methods for calculating
+thermodynamic properties of proteins and biomolecules.</p>
+<p>Initialize the protein thermodynamics calculator.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.biomolecules.proteins.ProteinThermodynamics.amino_acid_contribution"><code class="name flex">
+<span>def <span class="ident">amino_acid_contribution</span></span>(<span>self, aa_code: str, T: float = 298.15, P: float = 1.0) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def amino_acid_contribution(self, aa_code: str, 
+                          T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Get thermodynamic contribution of a single amino acid.
+    
+    Parameters
+    ----------
+    aa_code : str
+        Single-letter amino acid code
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    dict
+        Thermodynamic properties of the amino acid
+    &#34;&#34;&#34;
+    
+    if self.amino_acid_data.empty:
+        raise ValueError(&#34;Amino acid data not available&#34;)
+    
+    aa_code = aa_code.upper()
+    if aa_code not in AMINO_ACIDS:
+        raise ValueError(f&#34;Unknown amino acid: {aa_code}&#34;)
+    
+    aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
+    if aa_data.empty:
+        raise ValueError(f&#34;No data available for amino acid: {aa_code}&#34;)
+    
+    aa_row = aa_data.iloc[0]
+    
+    # Temperature correction
+    G_std = aa_row[&#39;G&#39;]
+    H_std = aa_row[&#39;H&#39;]
+    S_std = aa_row[&#39;S&#39;]
+    Cp_std = aa_row[&#39;Cp&#39;]
+    
+    if T != 298.15:
+        dT = T - 298.15
+        G_T = G_std + H_std * (1 - T/298.15) + S_std * dT
+        H_T = H_std + Cp_std * dT
+        S_T = S_std + Cp_std * np.log(T/298.15)
+    else:
+        G_T, H_T, S_T = G_std, H_std, S_std
+    
+    return {
+        &#39;G&#39;: G_T,
+        &#39;H&#39;: H_T,
+        &#39;S&#39;: S_T,
+        &#39;Cp&#39;: Cp_std,
+        &#39;name&#39;: aa_row[&#39;name&#39;],
+        &#39;formula&#39;: aa_row[&#39;formula&#39;]
+    }</code></pre>
+</details>
+<div class="desc"><p>Get thermodynamic contribution of a single amino acid.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aa_code</code></strong> :&ensp;<code>str</code></dt>
+<dd>Single-letter amino acid code</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Thermodynamic properties of the amino acid</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_properties"><code class="name flex">
+<span>def <span class="ident">protein_properties</span></span>(<span>self, sequence: str, T: float = 298.15, P: float = 1.0, state: str = 'aq') ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_properties(self, sequence: str, 
+                     T: float = 298.15, P: float = 1.0,
+                     state: str = &#39;aq&#39;) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Calculate thermodynamic properties of a protein from its sequence.
+    
+    Parameters
+    ----------
+    sequence : str
+        Protein sequence in single-letter amino acid code
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    state : str, default &#39;aq&#39;
+        Physical state (&#39;aq&#39; for aqueous, &#39;cr&#39; for crystalline)
+        
+    Returns
+    -------
+    dict
+        Thermodynamic properties of the protein
+    &#34;&#34;&#34;
+    
+    if self.amino_acid_data.empty:
+        raise ValueError(&#34;Amino acid data not available&#34;)
+    
+    # Count amino acid residues
+    aa_counts = {}
+    for aa in sequence:
+        if aa.upper() in AMINO_ACIDS:
+            aa_counts[aa.upper()] = aa_counts.get(aa.upper(), 0) + 1
+        else:
+            warnings.warn(f&#34;Unknown amino acid: {aa}&#34;)
+    
+    # Calculate properties by group contribution
+    total_G = 0
+    total_H = 0
+    total_S = 0
+    total_Cp = 0
+    
+    for aa_code, count in aa_counts.items():
+        aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
+        if not aa_data.empty:
+            aa_row = aa_data.iloc[0]
+            total_G += count * aa_row[&#39;G&#39;]
+            total_H += count * aa_row[&#39;H&#39;]
+            total_S += count * aa_row[&#39;S&#39;]
+            total_Cp += count * aa_row[&#39;Cp&#39;]
+    
+    # Apply peptide bond corrections
+    n_peptide_bonds = len(sequence) - 1
+    if n_peptide_bonds &gt; 0:
+        # Peptide bond formation: dehydration reaction
+        # -H2O per peptide bond
+        water_props = self._get_water_properties(T, P)
+        total_G += n_peptide_bonds * water_props[&#39;G&#39;]  # Remove water
+        total_H += n_peptide_bonds * water_props[&#39;H&#39;]
+        total_S += n_peptide_bonds * water_props[&#39;S&#39;]
+        total_Cp += n_peptide_bonds * water_props[&#39;Cp&#39;]
+    
+    # Temperature corrections (simplified)
+    if T != 298.15:
+        dT = T - 298.15
+        total_G += total_H * (1 - T/298.15) + total_S * dT
+        total_H += total_Cp * dT  # Assuming constant Cp
+        total_S += total_Cp * np.log(T/298.15)
+    
+    return {
+        &#39;G&#39;: total_G,
+        &#39;H&#39;: total_H,
+        &#39;S&#39;: total_S,
+        &#39;Cp&#39;: total_Cp,
+        &#39;length&#39;: len(sequence),
+        &#39;composition&#39;: aa_counts,
+        &#39;molecular_weight&#39;: self._calculate_molecular_weight(aa_counts)
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate thermodynamic properties of a protein from its sequence.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
+<dd>Protein sequence in single-letter amino acid code</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, default <code>'aq'</code></dt>
+<dd>Physical state ('aq' for aqueous, 'cr' for crystalline)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Thermodynamic properties of the protein</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_stability"><code class="name flex">
+<span>def <span class="ident">protein_stability</span></span>(<span>self, sequence: str, T_range: numpy.ndarray, P: float = 1.0) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_stability(self, sequence: str, 
+                     T_range: np.ndarray,
+                     P: float = 1.0) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate protein stability as a function of temperature.
+    
+    Parameters
+    ----------
+    sequence : str
+        Protein sequence
+    T_range : array
+        Temperature range in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    dict
+        Temperature-dependent stability properties
+    &#34;&#34;&#34;
+    
+    results = {
+        &#39;T&#39;: T_range,
+        &#39;G_folded&#39;: np.zeros_like(T_range),
+        &#39;G_unfolded&#39;: np.zeros_like(T_range),
+        &#39;delta_G_fold&#39;: np.zeros_like(T_range),
+        &#39;fraction_folded&#39;: np.zeros_like(T_range)
+    }
+    
+    # Calculate properties at each temperature
+    for i, T in enumerate(T_range):
+        # Folded state (compact)
+        folded_props = self.protein_properties(sequence, T, P, state=&#39;aq&#39;)
+        
+        # Unfolded state (extended) - simplified as sum of individual residues
+        unfolded_props = self._calculate_unfolded_properties(sequence, T, P)
+        
+        results[&#39;G_folded&#39;][i] = folded_props[&#39;G&#39;]
+        results[&#39;G_unfolded&#39;][i] = unfolded_props[&#39;G&#39;]
+        results[&#39;delta_G_fold&#39;][i] = folded_props[&#39;G&#39;] - unfolded_props[&#39;G&#39;]
+        
+        # Fraction folded (equilibrium)
+        if results[&#39;delta_G_fold&#39;][i] != 0:
+            K_fold = np.exp(-results[&#39;delta_G_fold&#39;][i] / (8.314 * T))
+            results[&#39;fraction_folded&#39;][i] = K_fold / (1 + K_fold)
+        else:
+            results[&#39;fraction_folded&#39;][i] = 0.5
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate protein stability as a function of temperature.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
+<dd>Protein sequence</dd>
+<dt><strong><code>T_range</code></strong> :&ensp;<code>array</code></dt>
+<dd>Temperature range in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Temperature-dependent stability properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.biomolecules" href="index.html">pychnosz.biomolecules</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.biomolecules.proteins.amino_acid" href="#pychnosz.biomolecules.proteins.amino_acid">amino_acid</a></code></li>
+<li><code><a title="pychnosz.biomolecules.proteins.protein" href="#pychnosz.biomolecules.proteins.protein">protein</a></code></li>
+<li><code><a title="pychnosz.biomolecules.proteins.stability" href="#pychnosz.biomolecules.proteins.stability">stability</a></code></li>
+<li><code><a title="pychnosz.biomolecules.proteins.unfold" href="#pychnosz.biomolecules.proteins.unfold">unfold</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.biomolecules.proteins.ProteinThermodynamics" href="#pychnosz.biomolecules.proteins.ProteinThermodynamics">ProteinThermodynamics</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.biomolecules.proteins.ProteinThermodynamics.amino_acid_contribution" href="#pychnosz.biomolecules.proteins.ProteinThermodynamics.amino_acid_contribution">amino_acid_contribution</a></code></li>
+<li><code><a title="pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_properties" href="#pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_properties">protein_properties</a></code></li>
+<li><code><a title="pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_stability" href="#pychnosz.biomolecules.proteins.ProteinThermodynamics.protein_stability">protein_stability</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

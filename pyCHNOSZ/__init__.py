@@ -1,1 +1,0 @@
-from .fun import subcrt, info, add_OBIGT, mod_OBIGT, reset, basis, species, affinity, equilibrate, diagram, seq2aa, add_protein, entropy, zc, mass, makeup, thermo, water, diagram_interactive, animation, unicurve, univariant_TP, syslab, ratlab, retrieve, solubility, convert, add_saturation_lines, get_formula_ox, get_n_element_ox

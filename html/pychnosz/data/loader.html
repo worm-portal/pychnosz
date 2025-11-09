@@ -1,0 +1,1108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.data.loader API documentation</title>
+<meta name="description" content="Data loader module for CHNOSZ thermodynamic database files …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.data.loader</code></h1>
+</header>
+<section id="section-intro">
+<p>Data loader module for CHNOSZ thermodynamic database files.</p>
+<p>This module provides utilities to load and manage the thermodynamic database
+files from the R CHNOSZ package, converting them to pandas-compatible formats.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.data.loader.get_default_loader"><code class="name flex">
+<span>def <span class="ident">get_default_loader</span></span>(<span>) ‑> <a title="pychnosz.data.loader.DataLoader" href="#pychnosz.data.loader.DataLoader">DataLoader</a></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_default_loader() -&gt; DataLoader:
+    &#34;&#34;&#34;
+    Get a default DataLoader instance.
+    
+    Returns:
+    --------
+    DataLoader
+        Default DataLoader instance
+    &#34;&#34;&#34;
+    return DataLoader()</code></pre>
+</details>
+<div class="desc"><p>Get a default DataLoader instance.</p>
+<h2 id="returns">Returns:</h2>
+<p>DataLoader
+Default DataLoader instance</p></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.data.loader.DataLoader"><code class="flex name class">
+<span>class <span class="ident">DataLoader</span></span>
+<span>(</span><span>data_path: str | pathlib.Path | None = None)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class DataLoader:
+    &#34;&#34;&#34;
+    Main data loader class for CHNOSZ thermodynamic database files.
+    
+    This class handles loading of various data files from the CHNOSZ R package,
+    including compressed files, and converts them to pandas DataFrames while
+    preserving data integrity.
+    &#34;&#34;&#34;
+    
+    def __init__(self, data_path: Optional[Union[str, Path]] = None):
+        &#34;&#34;&#34;
+        Initialize the DataLoader.
+
+        Parameters:
+        -----------
+        data_path : str or Path, optional
+            Path to the CHNOSZ data directory. If None, will attempt to find
+            the data/extdata directory relative to this file within the package.
+        &#34;&#34;&#34;
+        if data_path is None:
+            # Try to find the data directory relative to this file
+            # We&#39;re now in pychnosz/data/, so extdata is in the same directory
+            current_dir = Path(__file__).parent
+            self.data_path = current_dir / &#34;extdata&#34;
+        else:
+            self.data_path = Path(data_path)
+
+        if not self.data_path.exists():
+            raise FileNotFoundError(f&#34;Data directory not found: {self.data_path}&#34;)
+
+        self.obigt_path = self.data_path / &#34;OBIGT&#34;
+        self.thermo_path = self.data_path / &#34;thermo&#34;
+
+        # Cache for loaded data
+        self._cache = {}
+    
+    def _read_csv_safe(self, filepath: Path, **kwargs) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Safely read a CSV file with appropriate error handling.
+        
+        Parameters:
+        -----------
+        filepath : Path
+            Path to the CSV file
+        **kwargs
+            Additional arguments to pass to pd.read_csv
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Loaded DataFrame
+        &#34;&#34;&#34;
+        try:
+            # Handle potential encoding issues
+            encodings = [&#39;utf-8&#39;, &#39;latin-1&#39;, &#39;cp1252&#39;]
+            
+            for encoding in encodings:
+                try:
+                    df = pd.read_csv(filepath, encoding=encoding, **kwargs)
+                    return df
+                except UnicodeDecodeError:
+                    continue
+                    
+            # If all encodings fail, try with error handling
+            df = pd.read_csv(filepath, encoding=&#39;utf-8&#39;, errors=&#39;replace&#39;, **kwargs)
+            warnings.warn(f&#34;Used error replacement for file {filepath}&#34;)
+            return df
+            
+        except Exception as e:
+            raise IOError(f&#34;Failed to read {filepath}: {str(e)}&#34;)
+    
+    def _read_compressed_csv(self, filepath: Path, **kwargs) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Read a compressed CSV file (e.g., .xz format).
+        
+        Parameters:
+        -----------
+        filepath : Path
+            Path to the compressed CSV file
+        **kwargs
+            Additional arguments to pass to pd.read_csv
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Loaded DataFrame
+        &#34;&#34;&#34;
+        if filepath.suffix == &#39;.xz&#39;:
+            with lzma.open(filepath, &#39;rt&#39;, encoding=&#39;utf-8&#39;) as f:
+                df = pd.read_csv(f, **kwargs)
+                return df
+        else:
+            raise ValueError(f&#34;Unsupported compression format: {filepath.suffix}&#34;)
+    
+    def load_obigt_file(self, filename: str, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load a specific OBIGT database file.
+        
+        Parameters:
+        -----------
+        filename : str
+            Name of the OBIGT file to load (e.g., &#39;inorganic_aq.csv&#39;)
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Loaded OBIGT data
+        &#34;&#34;&#34;
+        cache_key = f&#34;obigt_{filename}&#34;
+        
+        if use_cache and cache_key in self._cache:
+            return self._cache[cache_key].copy()
+        
+        filepath = self.obigt_path / filename
+        
+        if not filepath.exists():
+            raise FileNotFoundError(f&#34;OBIGT file not found: {filepath}&#34;)
+        
+        # Load the data
+        df = self._read_csv_safe(filepath)
+        
+        # Clean up column names (remove any whitespace)
+        df.columns = df.columns.str.strip()
+        
+        # Cache the result
+        if use_cache:
+            self._cache[cache_key] = df.copy()
+            
+        return df
+    
+    def load_all_obigt_files(self, use_cache: bool = True) -&gt; Dict[str, pd.DataFrame]:
+        &#34;&#34;&#34;
+        Load all OBIGT database files in the same order as R CHNOSZ.
+        
+        This mirrors the exact loading order from R CHNOSZ/thermo.R OBIGT() function
+        to ensure identical species indices between R and Python versions.
+        
+        Parameters:
+        -----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        Dict[str, pd.DataFrame]
+            Dictionary with filenames as keys and DataFrames as values, ordered like R CHNOSZ
+        &#34;&#34;&#34;
+        obigt_files = {}
+        
+        if not self.obigt_path.exists():
+            raise FileNotFoundError(f&#34;OBIGT directory not found: {self.obigt_path}&#34;)
+        
+        # Use exact same order as R CHNOSZ (from thermo.R lines 63-67)
+        # sources_aq &lt;- paste0(c(&#34;H2O&#34;, &#34;inorganic&#34;, &#34;organic&#34;), &#34;_aq&#34;)
+        # sources_cr &lt;- paste0(c(&#34;Berman&#34;, &#34;inorganic&#34;, &#34;organic&#34;), &#34;_cr&#34;)
+        # sources_liq &lt;- paste0(c(&#34;organic&#34;), &#34;_liq&#34;)
+        # sources_gas &lt;- paste0(c(&#34;inorganic&#34;, &#34;organic&#34;), &#34;_gas&#34;)
+        # sources &lt;- c(sources_aq, sources_cr, sources_gas, sources_liq)
+        r_chnosz_order = [
+            &#34;H2O_aq.csv&#34;,
+            &#34;inorganic_aq.csv&#34;, 
+            &#34;organic_aq.csv&#34;,
+            &#34;Berman_cr.csv&#34;,
+            &#34;inorganic_cr.csv&#34;,
+            &#34;organic_cr.csv&#34;, 
+            &#34;inorganic_gas.csv&#34;,
+            &#34;organic_gas.csv&#34;,
+            &#34;organic_liq.csv&#34;
+        ]
+        
+        # Load files in R CHNOSZ order
+        for filename in r_chnosz_order:
+            file_path = self.obigt_path / filename
+            if file_path.exists():
+                obigt_files[filename] = self.load_obigt_file(filename, use_cache=use_cache)
+            else:
+                warnings.warn(f&#34;OBIGT file not found: {filename}&#34;)
+            
+        return obigt_files
+    
+    def load_thermo_file(self, filename: str, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load a specific thermo database file.
+        
+        Parameters:
+        -----------
+        filename : str
+            Name of the thermo file to load (e.g., &#39;element.csv&#39;, &#39;stoich.csv.xz&#39;)
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Loaded thermo data
+        &#34;&#34;&#34;
+        cache_key = f&#34;thermo_{filename}&#34;
+        
+        if use_cache and cache_key in self._cache:
+            return self._cache[cache_key].copy()
+        
+        filepath = self.thermo_path / filename
+        
+        if not filepath.exists():
+            raise FileNotFoundError(f&#34;Thermo file not found: {filepath}&#34;)
+        
+        # Handle compressed files
+        if filepath.suffix == &#39;.xz&#39;:
+            df = self._read_compressed_csv(filepath)
+        else:
+            df = self._read_csv_safe(filepath)
+        
+        # Clean up column names
+        df.columns = df.columns.str.strip()
+        
+        # Cache the result
+        if use_cache:
+            self._cache[cache_key] = df.copy()
+            
+        return df
+    
+    def load_elements(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load the elements data file.
+        
+        Parameters:
+        -----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Elements data with columns: element, state, source, mass, s, n
+        &#34;&#34;&#34;
+        return self.load_thermo_file(&#39;element.csv&#39;, use_cache=use_cache)
+    
+    def load_buffer(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load the buffer data file.
+        
+        Parameters:
+        -----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Buffer data with columns: name, species, state, logact
+        &#34;&#34;&#34;
+        return self.load_thermo_file(&#39;buffer.csv&#39;, use_cache=use_cache)
+    
+    def load_protein(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load the protein data file.
+        
+        Parameters:
+        -----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Protein data with amino acid compositions
+        &#34;&#34;&#34;
+        return self.load_thermo_file(&#39;protein.csv&#39;, use_cache=use_cache)
+    
+    def load_stoich(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load the stoichiometry data file (compressed).
+        
+        Parameters:
+        -----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns:
+        --------
+        pd.DataFrame
+            Stoichiometry matrix for all species
+        &#34;&#34;&#34;
+        return self.load_thermo_file(&#39;stoich.csv.xz&#39;, use_cache=use_cache)
+    
+    def get_available_obigt_files(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        Get list of available OBIGT files.
+        
+        Returns:
+        --------
+        List[str]
+            List of available OBIGT filenames
+        &#34;&#34;&#34;
+        if not self.obigt_path.exists():
+            return []
+        
+        return [f.name for f in self.obigt_path.glob(&#34;*.csv&#34;)]
+    
+    def get_available_thermo_files(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        Get list of available thermo files.
+        
+        Returns:
+        --------
+        List[str]
+            List of available thermo filenames
+        &#34;&#34;&#34;
+        if not self.thermo_path.exists():
+            return []
+        
+        # Get both .csv and .csv.xz files
+        csv_files = [f.name for f in self.thermo_path.glob(&#34;*.csv&#34;)]
+        xz_files = [f.name for f in self.thermo_path.glob(&#34;*.csv.xz&#34;)]
+        
+        return sorted(csv_files + xz_files)
+    
+    def clear_cache(self):
+        &#34;&#34;&#34;Clear all cached data.&#34;&#34;&#34;
+        self._cache.clear()
+    
+    def get_cache_info(self) -&gt; Dict[str, int]:
+        &#34;&#34;&#34;
+        Get information about cached data.
+        
+        Returns:
+        --------
+        Dict[str, int]
+            Dictionary with cache keys and DataFrame sizes
+        &#34;&#34;&#34;
+        return {key: len(df) for key, df in self._cache.items()}
+    
+    def get_data_path(self) -&gt; Path:
+        &#34;&#34;&#34;
+        Get the data directory path.
+        
+        Returns
+        -------
+        Path
+            Path to the data directory
+        &#34;&#34;&#34;
+        return self.data_path
+    
+    def load_buffers(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load buffer data (alias for load_buffer for compatibility).
+        
+        Parameters
+        ----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+            
+        Returns
+        -------
+        pd.DataFrame
+            Buffer data
+        &#34;&#34;&#34;
+        try:
+            return self.load_buffer(use_cache=use_cache)
+        except Exception:
+            # Return empty DataFrame if buffer data not available
+            return pd.DataFrame(columns=[&#39;name&#39;, &#39;species&#39;, &#39;state&#39;, &#39;logact&#39;])
+    
+    def load_proteins(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load protein data (alias for load_protein for compatibility).
+
+        Parameters
+        ----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+
+        Returns
+        -------
+        pd.DataFrame
+            Protein data
+        &#34;&#34;&#34;
+        try:
+            return self.load_protein(use_cache=use_cache)
+        except Exception:
+            # Return empty DataFrame if protein data not available
+            return pd.DataFrame(columns=[&#39;protein&#39;, &#39;organism&#39;, &#39;ref&#39;, &#39;abbrv&#39;, &#39;chains&#39;])
+
+    def load_refs(self, use_cache: bool = True) -&gt; pd.DataFrame:
+        &#34;&#34;&#34;
+        Load references data file.
+
+        Parameters
+        ----------
+        use_cache : bool, default True
+            Whether to use cached data if available
+
+        Returns
+        -------
+        pd.DataFrame
+            References data
+        &#34;&#34;&#34;
+        try:
+            return self.load_thermo_file(&#39;refs.csv&#39;, use_cache=use_cache)
+        except Exception:
+            # Return empty DataFrame if refs data not available
+            return pd.DataFrame(columns=[&#39;key&#39;, &#39;author&#39;, &#39;year&#39;, &#39;citation&#39;])</code></pre>
+</details>
+<div class="desc"><p>Main data loader class for CHNOSZ thermodynamic database files.</p>
+<p>This class handles loading of various data files from the CHNOSZ R package,
+including compressed files, and converts them to pandas DataFrames while
+preserving data integrity.</p>
+<p>Initialize the DataLoader.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>data_path : str or Path, optional
+Path to the CHNOSZ data directory. If None, will attempt to find
+the data/extdata directory relative to this file within the package.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.data.loader.DataLoader.clear_cache"><code class="name flex">
+<span>def <span class="ident">clear_cache</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_cache(self):
+    &#34;&#34;&#34;Clear all cached data.&#34;&#34;&#34;
+    self._cache.clear()</code></pre>
+</details>
+<div class="desc"><p>Clear all cached data.</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.get_available_obigt_files"><code class="name flex">
+<span>def <span class="ident">get_available_obigt_files</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_available_obigt_files(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    Get list of available OBIGT files.
+    
+    Returns:
+    --------
+    List[str]
+        List of available OBIGT filenames
+    &#34;&#34;&#34;
+    if not self.obigt_path.exists():
+        return []
+    
+    return [f.name for f in self.obigt_path.glob(&#34;*.csv&#34;)]</code></pre>
+</details>
+<div class="desc"><p>Get list of available OBIGT files.</p>
+<h2 id="returns">Returns:</h2>
+<p>List[str]
+List of available OBIGT filenames</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.get_available_thermo_files"><code class="name flex">
+<span>def <span class="ident">get_available_thermo_files</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_available_thermo_files(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    Get list of available thermo files.
+    
+    Returns:
+    --------
+    List[str]
+        List of available thermo filenames
+    &#34;&#34;&#34;
+    if not self.thermo_path.exists():
+        return []
+    
+    # Get both .csv and .csv.xz files
+    csv_files = [f.name for f in self.thermo_path.glob(&#34;*.csv&#34;)]
+    xz_files = [f.name for f in self.thermo_path.glob(&#34;*.csv.xz&#34;)]
+    
+    return sorted(csv_files + xz_files)</code></pre>
+</details>
+<div class="desc"><p>Get list of available thermo files.</p>
+<h2 id="returns">Returns:</h2>
+<p>List[str]
+List of available thermo filenames</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.get_cache_info"><code class="name flex">
+<span>def <span class="ident">get_cache_info</span></span>(<span>self) ‑> Dict[str, int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_cache_info(self) -&gt; Dict[str, int]:
+    &#34;&#34;&#34;
+    Get information about cached data.
+    
+    Returns:
+    --------
+    Dict[str, int]
+        Dictionary with cache keys and DataFrame sizes
+    &#34;&#34;&#34;
+    return {key: len(df) for key, df in self._cache.items()}</code></pre>
+</details>
+<div class="desc"><p>Get information about cached data.</p>
+<h2 id="returns">Returns:</h2>
+<p>Dict[str, int]
+Dictionary with cache keys and DataFrame sizes</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.get_data_path"><code class="name flex">
+<span>def <span class="ident">get_data_path</span></span>(<span>self) ‑> pathlib.Path</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_data_path(self) -&gt; Path:
+    &#34;&#34;&#34;
+    Get the data directory path.
+    
+    Returns
+    -------
+    Path
+        Path to the data directory
+    &#34;&#34;&#34;
+    return self.data_path</code></pre>
+</details>
+<div class="desc"><p>Get the data directory path.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Path</code></dt>
+<dd>Path to the data directory</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_all_obigt_files"><code class="name flex">
+<span>def <span class="ident">load_all_obigt_files</span></span>(<span>self, use_cache: bool = True) ‑> Dict[str, pandas.core.frame.DataFrame]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_all_obigt_files(self, use_cache: bool = True) -&gt; Dict[str, pd.DataFrame]:
+    &#34;&#34;&#34;
+    Load all OBIGT database files in the same order as R CHNOSZ.
+    
+    This mirrors the exact loading order from R CHNOSZ/thermo.R OBIGT() function
+    to ensure identical species indices between R and Python versions.
+    
+    Parameters:
+    -----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    Dict[str, pd.DataFrame]
+        Dictionary with filenames as keys and DataFrames as values, ordered like R CHNOSZ
+    &#34;&#34;&#34;
+    obigt_files = {}
+    
+    if not self.obigt_path.exists():
+        raise FileNotFoundError(f&#34;OBIGT directory not found: {self.obigt_path}&#34;)
+    
+    # Use exact same order as R CHNOSZ (from thermo.R lines 63-67)
+    # sources_aq &lt;- paste0(c(&#34;H2O&#34;, &#34;inorganic&#34;, &#34;organic&#34;), &#34;_aq&#34;)
+    # sources_cr &lt;- paste0(c(&#34;Berman&#34;, &#34;inorganic&#34;, &#34;organic&#34;), &#34;_cr&#34;)
+    # sources_liq &lt;- paste0(c(&#34;organic&#34;), &#34;_liq&#34;)
+    # sources_gas &lt;- paste0(c(&#34;inorganic&#34;, &#34;organic&#34;), &#34;_gas&#34;)
+    # sources &lt;- c(sources_aq, sources_cr, sources_gas, sources_liq)
+    r_chnosz_order = [
+        &#34;H2O_aq.csv&#34;,
+        &#34;inorganic_aq.csv&#34;, 
+        &#34;organic_aq.csv&#34;,
+        &#34;Berman_cr.csv&#34;,
+        &#34;inorganic_cr.csv&#34;,
+        &#34;organic_cr.csv&#34;, 
+        &#34;inorganic_gas.csv&#34;,
+        &#34;organic_gas.csv&#34;,
+        &#34;organic_liq.csv&#34;
+    ]
+    
+    # Load files in R CHNOSZ order
+    for filename in r_chnosz_order:
+        file_path = self.obigt_path / filename
+        if file_path.exists():
+            obigt_files[filename] = self.load_obigt_file(filename, use_cache=use_cache)
+        else:
+            warnings.warn(f&#34;OBIGT file not found: {filename}&#34;)
+        
+    return obigt_files</code></pre>
+</details>
+<div class="desc"><p>Load all OBIGT database files in the same order as R CHNOSZ.</p>
+<p>This mirrors the exact loading order from R CHNOSZ/thermo.R OBIGT() function
+to ensure identical species indices between R and Python versions.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>Dict[str, pd.DataFrame]
+Dictionary with filenames as keys and DataFrames as values, ordered like R CHNOSZ</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_buffer"><code class="name flex">
+<span>def <span class="ident">load_buffer</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_buffer(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load the buffer data file.
+    
+    Parameters:
+    -----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Buffer data with columns: name, species, state, logact
+    &#34;&#34;&#34;
+    return self.load_thermo_file(&#39;buffer.csv&#39;, use_cache=use_cache)</code></pre>
+</details>
+<div class="desc"><p>Load the buffer data file.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Buffer data with columns: name, species, state, logact</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_buffers"><code class="name flex">
+<span>def <span class="ident">load_buffers</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_buffers(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load buffer data (alias for load_buffer for compatibility).
+    
+    Parameters
+    ----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns
+    -------
+    pd.DataFrame
+        Buffer data
+    &#34;&#34;&#34;
+    try:
+        return self.load_buffer(use_cache=use_cache)
+    except Exception:
+        # Return empty DataFrame if buffer data not available
+        return pd.DataFrame(columns=[&#39;name&#39;, &#39;species&#39;, &#39;state&#39;, &#39;logact&#39;])</code></pre>
+</details>
+<div class="desc"><p>Load buffer data (alias for load_buffer for compatibility).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>use_cache</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to use cached data if available</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Buffer data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_elements"><code class="name flex">
+<span>def <span class="ident">load_elements</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_elements(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load the elements data file.
+    
+    Parameters:
+    -----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Elements data with columns: element, state, source, mass, s, n
+    &#34;&#34;&#34;
+    return self.load_thermo_file(&#39;element.csv&#39;, use_cache=use_cache)</code></pre>
+</details>
+<div class="desc"><p>Load the elements data file.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Elements data with columns: element, state, source, mass, s, n</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_obigt_file"><code class="name flex">
+<span>def <span class="ident">load_obigt_file</span></span>(<span>self, filename: str, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_obigt_file(self, filename: str, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load a specific OBIGT database file.
+    
+    Parameters:
+    -----------
+    filename : str
+        Name of the OBIGT file to load (e.g., &#39;inorganic_aq.csv&#39;)
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Loaded OBIGT data
+    &#34;&#34;&#34;
+    cache_key = f&#34;obigt_{filename}&#34;
+    
+    if use_cache and cache_key in self._cache:
+        return self._cache[cache_key].copy()
+    
+    filepath = self.obigt_path / filename
+    
+    if not filepath.exists():
+        raise FileNotFoundError(f&#34;OBIGT file not found: {filepath}&#34;)
+    
+    # Load the data
+    df = self._read_csv_safe(filepath)
+    
+    # Clean up column names (remove any whitespace)
+    df.columns = df.columns.str.strip()
+    
+    # Cache the result
+    if use_cache:
+        self._cache[cache_key] = df.copy()
+        
+    return df</code></pre>
+</details>
+<div class="desc"><p>Load a specific OBIGT database file.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>filename : str
+Name of the OBIGT file to load (e.g., 'inorganic_aq.csv')
+use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Loaded OBIGT data</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_protein"><code class="name flex">
+<span>def <span class="ident">load_protein</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_protein(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load the protein data file.
+    
+    Parameters:
+    -----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Protein data with amino acid compositions
+    &#34;&#34;&#34;
+    return self.load_thermo_file(&#39;protein.csv&#39;, use_cache=use_cache)</code></pre>
+</details>
+<div class="desc"><p>Load the protein data file.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Protein data with amino acid compositions</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_proteins"><code class="name flex">
+<span>def <span class="ident">load_proteins</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_proteins(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load protein data (alias for load_protein for compatibility).
+
+    Parameters
+    ----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+
+    Returns
+    -------
+    pd.DataFrame
+        Protein data
+    &#34;&#34;&#34;
+    try:
+        return self.load_protein(use_cache=use_cache)
+    except Exception:
+        # Return empty DataFrame if protein data not available
+        return pd.DataFrame(columns=[&#39;protein&#39;, &#39;organism&#39;, &#39;ref&#39;, &#39;abbrv&#39;, &#39;chains&#39;])</code></pre>
+</details>
+<div class="desc"><p>Load protein data (alias for load_protein for compatibility).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>use_cache</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to use cached data if available</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>Protein data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_refs"><code class="name flex">
+<span>def <span class="ident">load_refs</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_refs(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load references data file.
+
+    Parameters
+    ----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+
+    Returns
+    -------
+    pd.DataFrame
+        References data
+    &#34;&#34;&#34;
+    try:
+        return self.load_thermo_file(&#39;refs.csv&#39;, use_cache=use_cache)
+    except Exception:
+        # Return empty DataFrame if refs data not available
+        return pd.DataFrame(columns=[&#39;key&#39;, &#39;author&#39;, &#39;year&#39;, &#39;citation&#39;])</code></pre>
+</details>
+<div class="desc"><p>Load references data file.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>use_cache</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to use cached data if available</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pd.DataFrame</code></dt>
+<dd>References data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_stoich"><code class="name flex">
+<span>def <span class="ident">load_stoich</span></span>(<span>self, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_stoich(self, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load the stoichiometry data file (compressed).
+    
+    Parameters:
+    -----------
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Stoichiometry matrix for all species
+    &#34;&#34;&#34;
+    return self.load_thermo_file(&#39;stoich.csv.xz&#39;, use_cache=use_cache)</code></pre>
+</details>
+<div class="desc"><p>Load the stoichiometry data file (compressed).</p>
+<h2 id="parameters">Parameters:</h2>
+<p>use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Stoichiometry matrix for all species</p></div>
+</dd>
+<dt id="pychnosz.data.loader.DataLoader.load_thermo_file"><code class="name flex">
+<span>def <span class="ident">load_thermo_file</span></span>(<span>self, filename: str, use_cache: bool = True) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def load_thermo_file(self, filename: str, use_cache: bool = True) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Load a specific thermo database file.
+    
+    Parameters:
+    -----------
+    filename : str
+        Name of the thermo file to load (e.g., &#39;element.csv&#39;, &#39;stoich.csv.xz&#39;)
+    use_cache : bool, default True
+        Whether to use cached data if available
+        
+    Returns:
+    --------
+    pd.DataFrame
+        Loaded thermo data
+    &#34;&#34;&#34;
+    cache_key = f&#34;thermo_{filename}&#34;
+    
+    if use_cache and cache_key in self._cache:
+        return self._cache[cache_key].copy()
+    
+    filepath = self.thermo_path / filename
+    
+    if not filepath.exists():
+        raise FileNotFoundError(f&#34;Thermo file not found: {filepath}&#34;)
+    
+    # Handle compressed files
+    if filepath.suffix == &#39;.xz&#39;:
+        df = self._read_compressed_csv(filepath)
+    else:
+        df = self._read_csv_safe(filepath)
+    
+    # Clean up column names
+    df.columns = df.columns.str.strip()
+    
+    # Cache the result
+    if use_cache:
+        self._cache[cache_key] = df.copy()
+        
+    return df</code></pre>
+</details>
+<div class="desc"><p>Load a specific thermo database file.</p>
+<h2 id="parameters">Parameters:</h2>
+<p>filename : str
+Name of the thermo file to load (e.g., 'element.csv', 'stoich.csv.xz')
+use_cache : bool, default True
+Whether to use cached data if available</p>
+<h2 id="returns">Returns:</h2>
+<p>pd.DataFrame
+Loaded thermo data</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.data" href="index.html">pychnosz.data</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.data.loader.get_default_loader" href="#pychnosz.data.loader.get_default_loader">get_default_loader</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.data.loader.DataLoader" href="#pychnosz.data.loader.DataLoader">DataLoader</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.data.loader.DataLoader.clear_cache" href="#pychnosz.data.loader.DataLoader.clear_cache">clear_cache</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.get_available_obigt_files" href="#pychnosz.data.loader.DataLoader.get_available_obigt_files">get_available_obigt_files</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.get_available_thermo_files" href="#pychnosz.data.loader.DataLoader.get_available_thermo_files">get_available_thermo_files</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.get_cache_info" href="#pychnosz.data.loader.DataLoader.get_cache_info">get_cache_info</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.get_data_path" href="#pychnosz.data.loader.DataLoader.get_data_path">get_data_path</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_all_obigt_files" href="#pychnosz.data.loader.DataLoader.load_all_obigt_files">load_all_obigt_files</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_buffer" href="#pychnosz.data.loader.DataLoader.load_buffer">load_buffer</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_buffers" href="#pychnosz.data.loader.DataLoader.load_buffers">load_buffers</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_elements" href="#pychnosz.data.loader.DataLoader.load_elements">load_elements</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_obigt_file" href="#pychnosz.data.loader.DataLoader.load_obigt_file">load_obigt_file</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_protein" href="#pychnosz.data.loader.DataLoader.load_protein">load_protein</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_proteins" href="#pychnosz.data.loader.DataLoader.load_proteins">load_proteins</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_refs" href="#pychnosz.data.loader.DataLoader.load_refs">load_refs</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_stoich" href="#pychnosz.data.loader.DataLoader.load_stoich">load_stoich</a></code></li>
+<li><code><a title="pychnosz.data.loader.DataLoader.load_thermo_file" href="#pychnosz.data.loader.DataLoader.load_thermo_file">load_thermo_file</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

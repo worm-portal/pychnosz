@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.core.thermocalc API documentation</title>
+<meta name="description" content="Core thermodynamic calculation functions for species …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.core.thermocalc</code></h1>
+</header>
+<section id="section-intro">
+<p>Core thermodynamic calculation functions for species.</p>
+<p>This module implements the fundamental thermodynamic property calculations
+for aqueous, crystalline, gas, and liquid species using various equations
+of state (HKF, CGL, Berman, etc.).</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.core.thermocalc.subcrt"><code class="name flex">
+<span>def <span class="ident">subcrt</span></span>(<span>species: str | List[str] | pandas.core.frame.DataFrame,<br>coeff: int | List[int] | None = None,<br>state: str | List[str] | None = None,<br>T: float | numpy.ndarray | List[float] = 298.15,<br>P: float | numpy.ndarray | List[float] = 1.0,<br>grid: str | None = None,<br>convert: bool = True,<br>exceed_Ttr: bool = True,<br>exceed_rhomin: bool = False) ‑> Dict[str, pandas.core.frame.DataFrame | numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def subcrt(species: Union[str, List[str], pd.DataFrame],
+           coeff: Optional[Union[int, List[int]]] = None,
+           state: Optional[Union[str, List[str]]] = None,
+           T: Union[float, List[float], np.ndarray] = 298.15,
+           P: Union[float, List[float], np.ndarray] = 1.0,
+           grid: Optional[str] = None,
+           convert: bool = True,
+           exceed_Ttr: bool = True,
+           exceed_rhomin: bool = False) -&gt; Dict[str, Union[pd.DataFrame, np.ndarray]]:
+    &#34;&#34;&#34;
+    Calculate standard molal thermodynamic properties of species and reactions.
+    
+    This is the Python equivalent of CHNOSZ&#39;s subcrt() function.
+    
+    Parameters
+    ----------
+    species : str, list of str, or DataFrame
+        Names of species or DataFrame with species data
+    coeff : int, list of int, optional
+        Stoichiometric reaction coefficients (negative for reactants, positive for products)
+    state : str, list of str, optional
+        Physical states of species
+    T : float, list, or array, default 298.15
+        Temperature(s) in Kelvin
+    P : float, list, or array, default 1.0
+        Pressure(s) in bar
+    grid : str, optional
+        &#34;T&#34; or &#34;P&#34; for temperature or pressure grid calculations
+    convert : bool, default True
+        Convert to Joules if True, keep in calories if False
+    exceed_Ttr : bool, default False
+        Allow calculations above temperature limits
+    exceed_rhomin : bool, default False
+        Allow calculations below minimum density limits
+        
+    Returns
+    -------
+    dict
+        Dictionary containing:
+        - &#39;species&#39;: DataFrame with species information
+        - &#39;out&#39;: DataFrame with calculated properties
+        - &#39;reaction&#39;: DataFrame with reaction properties (if coeff provided)
+    &#34;&#34;&#34;
+    
+    from .thermo import thermo
+    from .info import info
+    
+    # Handle input species
+    if isinstance(species, str):
+        species = [species]
+    
+    if isinstance(species, list):
+        # Look up species in database
+        species_data = []
+        for i, sp in enumerate(species):
+            state_i = state[i] if state and len(state) &gt; i else None
+            sp_info = info(sp, state_i)
+            if sp_info is not None:
+                species_data.append(sp_info)
+            else:
+                raise ValueError(f&#34;Species not found: {sp}&#34;)
+        
+        species_df = pd.DataFrame(species_data)
+    else:
+        species_df = species.copy()
+    
+    # Prepare T and P arrays
+    T = np.atleast_1d(T)
+    P = np.atleast_1d(P)
+    
+    if grid is not None:
+        if grid.upper() == &#39;T&#39; and len(P) == 1:
+            P = np.full_like(T, P[0])
+        elif grid.upper() == &#39;P&#39; and len(T) == 1:
+            T = np.full_like(P, T[0])
+    
+    # Calculate thermodynamic properties
+    results = _thermo_calculator.calculate_properties(species_df, T, P)
+    
+    # Create output DataFrame
+    n_conditions = len(T)
+    n_species = len(species_df)
+    
+    # Prepare output data
+    out_data = []
+    
+    for i in range(n_species):
+        for j in range(n_conditions):
+            row = {
+                &#39;T&#39;: T[j],
+                &#39;P&#39;: P[j],
+                &#39;rho&#39;: np.nan,  # Would need water density calculation
+                &#39;logfO2&#39;: np.nan,  # Would need oxygen fugacity calculation
+                &#39;G&#39;: results[&#39;G&#39;][i, j],
+                &#39;H&#39;: results[&#39;H&#39;][i, j], 
+                &#39;S&#39;: results[&#39;S&#39;][i, j],
+                &#39;Cp&#39;: results[&#39;Cp&#39;][i, j],
+                &#39;V&#39;: results[&#39;V&#39;][i, j],
+                &#39;species_index&#39;: i
+            }
+            out_data.append(row)
+    
+    out_df = pd.DataFrame(out_data)
+    
+    # Calculate reaction properties if coefficients provided
+    reaction_df = None
+    if coeff is not None:
+        coeff = np.atleast_1d(coeff)
+        if len(coeff) != n_species:
+            raise ValueError(&#34;Number of coefficients must match number of species&#34;)
+        
+        reaction_data = []
+        for j in range(n_conditions):
+            reaction_props = {}
+            reaction_props[&#39;T&#39;] = T[j]
+            reaction_props[&#39;P&#39;] = P[j]
+            
+            # Calculate reaction properties
+            for prop in [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]:
+                prop_sum = 0
+                for i in range(n_species):
+                    prop_sum += coeff[i] * results[prop][i, j]
+                reaction_props[prop] = prop_sum
+            
+            # Log K calculation  
+            reaction_props[&#39;logK&#39;] = -reaction_props[&#39;G&#39;] / (2.302585 * R_J * T[j])
+            
+            reaction_data.append(reaction_props)
+        
+        reaction_df = pd.DataFrame(reaction_data)
+    
+    return {
+        &#39;species&#39;: species_df,
+        &#39;out&#39;: out_df,
+        &#39;reaction&#39;: reaction_df
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate standard molal thermodynamic properties of species and reactions.</p>
+<p>This is the Python equivalent of CHNOSZ's subcrt() function.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, list</code> of <code>str,</code> or <code>DataFrame</code></dt>
+<dd>Names of species or DataFrame with species data</dd>
+<dt><strong><code>coeff</code></strong> :&ensp;<code>int, list</code> of <code>int</code>, optional</dt>
+<dd>Stoichiometric reaction coefficients (negative for reactants, positive for products)</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str, list</code> of <code>str</code>, optional</dt>
+<dd>Physical states of species</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float, list,</code> or <code>array</code>, default <code>298.15</code></dt>
+<dd>Temperature(s) in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, list,</code> or <code>array</code>, default <code>1.0</code></dt>
+<dd>Pressure(s) in bar</dd>
+<dt><strong><code>grid</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>"T" or "P" for temperature or pressure grid calculations</dd>
+<dt><strong><code>convert</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Convert to Joules if True, keep in calories if False</dd>
+<dt><strong><code>exceed_Ttr</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Allow calculations above temperature limits</dd>
+<dt><strong><code>exceed_rhomin</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Allow calculations below minimum density limits</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary containing:
+- 'species': DataFrame with species information
+- 'out': DataFrame with calculated properties
+- 'reaction': DataFrame with reaction properties (if coeff provided)</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.core.thermocalc.ThermoCalculator"><code class="flex name class">
+<span>class <span class="ident">ThermoCalculator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ThermoCalculator:
+    &#34;&#34;&#34;
+    Core thermodynamic property calculator for species.
+    
+    This class implements the various equations of state used by CHNOSZ:
+    - HKF (Helgeson-Kirkham-Flowers) for aqueous species
+    - CGL (Crystalline-Gas-Liquid) for general heat capacity
+    - Berman for minerals
+    - DEW (Deep Earth Water) for high P-T aqueous species
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the thermodynamic calculator.&#34;&#34;&#34;
+        self.models = {
+            &#39;HKF&#39;: self._calc_hkf,
+            &#39;CGL&#39;: self._calc_cgl,
+            &#39;Berman&#39;: self._calc_berman,
+            &#39;DEW&#39;: self._calc_dew,
+            &#39;AD&#39;: self._calc_ad,  # Akinfiev-Diamond
+        }
+    
+    def calculate_properties(self, species_data: pd.DataFrame, 
+                           T: Union[float, np.ndarray],
+                           P: Union[float, np.ndarray],
+                           properties: Optional[List[str]] = None) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate thermodynamic properties for species at given T and P.
+        
+        Parameters
+        ----------
+        species_data : pd.DataFrame
+            Species data with thermodynamic parameters
+        T : float or array
+            Temperature(s) in Kelvin
+        P : float or array  
+            Pressure(s) in bar
+        properties : list of str, optional
+            Properties to calculate [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]
+            
+        Returns
+        -------
+        dict
+            Dictionary with calculated properties as arrays
+        &#34;&#34;&#34;
+        
+        # Ensure T and P are arrays
+        T = np.atleast_1d(T)
+        P = np.atleast_1d(P) 
+        
+        # Default properties
+        if properties is None:
+            properties = [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]
+        
+        n_species = len(species_data)
+        n_conditions = max(len(T), len(P))
+        
+        # Initialize result arrays
+        results = {}
+        for prop in properties:
+            results[prop] = np.full((n_species, n_conditions), np.nan)
+        
+        # Calculate for each species
+        for i, (idx, species) in enumerate(species_data.iterrows()):
+            model = species[&#39;model&#39;]
+            
+            if model in self.models:
+                try:
+                    species_props = self.models[model](species, T, P)
+                    
+                    # Store results
+                    for prop in properties:
+                        if prop in species_props:
+                            results[prop][i, :] = species_props[prop]
+                            
+                except Exception as e:
+                    warnings.warn(f&#34;Error calculating {model} properties for {species[&#39;name&#39;]}: {e}&#34;)
+                    continue
+            else:
+                warnings.warn(f&#34;Unknown thermodynamic model: {model}&#34;)
+                continue
+        
+        return results
+    
+    def _calc_hkf(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate properties using HKF equation of state for aqueous species.
+        
+        The HKF model is used for ions and aqueous complexes, incorporating
+        temperature and pressure dependence of thermodynamic properties.
+        &#34;&#34;&#34;
+        
+        # Extract standard state properties
+        G0 = species[&#39;G&#39;]  # J/mol or cal/mol 
+        H0 = species[&#39;H&#39;]
+        S0 = species[&#39;S&#39;]
+        Cp0 = species[&#39;Cp&#39;]
+        V0 = species[&#39;V&#39;] if pd.notna(species[&#39;V&#39;]) else 0.0
+        
+        # Extract HKF parameters
+        a1 = species[&#39;a1.a&#39;] * 10 if pd.notna(species[&#39;a1.a&#39;]) else 0.0  # cal/(mol·bar)
+        a2 = species[&#39;a2.b&#39;] * 100 if pd.notna(species[&#39;a2.b&#39;]) else 0.0  # cal/mol
+        a3 = species[&#39;a3.c&#39;] if pd.notna(species[&#39;a3.c&#39;]) else 0.0  # cal·K/(mol·bar)
+        a4 = species[&#39;a4.d&#39;] * 10000 if pd.notna(species[&#39;a4.d&#39;]) else 0.0  # cal·K/mol
+        c1 = species[&#39;c1.e&#39;] if pd.notna(species[&#39;c1.e&#39;]) else 0.0  # cal/(mol·K)
+        c2 = species[&#39;c2.f&#39;] * 10000 if pd.notna(species[&#39;c2.f&#39;]) else 0.0  # cal·K/mol
+        omega = species[&#39;omega.lambda&#39;] * 100000 if pd.notna(species[&#39;omega.lambda&#39;]) else 0.0  # cal/mol
+        charge = species[&#39;z.T&#39;] if pd.notna(species[&#39;z.T&#39;]) else 0.0
+        
+        # Convert units if needed
+        if species[&#39;E_units&#39;] == &#39;cal&#39;:
+            # Already in calories
+            pass
+        else:
+            # Convert from Joules to calories
+            G0 /= 4.184
+            H0 /= 4.184
+            S0 /= 4.184
+            Cp0 /= 4.184
+        
+        # Get water properties at T, P (needed for HKF calculations)
+        from ..models import water_SUPCRT92
+        
+        # Calculate arrays
+        n_points = max(len(T), len(P))
+        results = {}
+        
+        # Broadcast T and P to same length
+        if len(T) == 1:
+            T = np.full(n_points, T[0])
+        if len(P) == 1:
+            P = np.full(n_points, P[0])
+        
+        # Initialize arrays
+        for prop in [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]:
+            results[prop] = np.zeros(n_points)
+        
+        for i in range(n_points):
+            Ti, Pi = T[i], P[i]
+            
+            # Water properties at T, P
+            try:
+                water_props = water_SUPCRT92([&#39;epsilon&#39;, &#39;rho&#39;], Ti, Pi)
+                epsilon = water_props[&#39;epsilon&#39;][0] if hasattr(water_props[&#39;epsilon&#39;], &#39;__len__&#39;) else water_props[&#39;epsilon&#39;]
+                rho = water_props[&#39;rho&#39;][0] if hasattr(water_props[&#39;rho&#39;], &#39;__len__&#39;) else water_props[&#39;rho&#39;] 
+                rho *= 1000  # Convert g/cm³ to kg/m³
+            except:
+                # Fallback values at standard conditions
+                epsilon = 78.47
+                rho = 997.0
+            
+            # HKF calculations
+            
+            # Temperature integrals
+            if Ti != TR:
+                dT = Ti - TR
+                
+                # Apparent volume integral contributions
+                if omega != 0:
+                    # Born function contributions (simplified)
+                    Y = -5.81e-5 - 6.94e-8 * Ti  # Approximate Y function
+                    Q = 1.0 / epsilon  # Simplified Q function
+                    X = 0  # Simplified for now
+                    
+                    # Volume contribution from Born term
+                    V_born = omega * Q
+                    
+                    # Heat capacity from Born term  
+                    Cp_born = omega * Ti * (-Y)
+                else:
+                    V_born = 0
+                    Cp_born = 0
+                
+                # Apparent heat capacity integral
+                Cp_app = c1 + c2 / (Ti * Ti) + Cp_born
+                
+                # Entropy integral
+                S_int = c1 * np.log(Ti / TR) - c2 * (1/(2*Ti*Ti) - 1/(2*TR*TR)) * 2*TR*TR
+                
+                # Enthalpy integral  
+                H_int = c1 * (Ti - TR) + c2 * (1/TR - 1/Ti)
+                
+            else:
+                Cp_app = c1 + c2 / (Ti * Ti) 
+                S_int = 0
+                H_int = 0
+                V_born = 0
+            
+            # Pressure integrals (simplified - should use water properties)
+            if Pi != PR:
+                dP = Pi - PR
+                
+                # Volume from pressure
+                V_P = a1 + a2 / (Ti - 228) + (a3 * Ti + a4) / (680 - Ti)**2
+                
+                # Other pressure corrections would go here
+                V_total = V0 + V_P + V_born
+                
+                # Gibbs energy pressure integral (approximate)
+                G_P = V_total * dP  # Simplified
+                
+            else:
+                V_total = V0 + V_born
+                G_P = 0
+            
+            # Final properties
+            results[&#39;Cp&#39;][i] = Cp0 + Cp_app
+            results[&#39;S&#39;][i] = S0 + S_int
+            results[&#39;H&#39;][i] = H0 + H_int
+            results[&#39;V&#39;][i] = V_total
+            results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+        
+        # Convert back to Joules if needed
+        if species[&#39;E_units&#39;] != &#39;cal&#39;:
+            for prop in [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;]:
+                results[prop] *= 4.184
+        
+        return results
+    
+    def _calc_cgl(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate properties using CGL equation for crystalline, gas, and liquid phases.
+        
+        Uses the heat capacity equation: Cp = a + bT + cT⁻² + dT⁻⁰·⁵ + eT² + fT^λ
+        &#34;&#34;&#34;
+        
+        # Extract standard state properties
+        G0 = species[&#39;G&#39;]
+        H0 = species[&#39;H&#39;] 
+        S0 = species[&#39;S&#39;]
+        Cp0 = species[&#39;Cp&#39;]
+        V0 = species[&#39;V&#39;] if pd.notna(species[&#39;V&#39;]) else 0.0
+        
+        # Extract CGL parameters
+        a = species[&#39;a1.a&#39;] if pd.notna(species[&#39;a1.a&#39;]) else 0.0
+        b = species[&#39;a2.b&#39;] if pd.notna(species[&#39;a2.b&#39;]) else 0.0
+        c = species[&#39;a3.c&#39;] if pd.notna(species[&#39;a3.c&#39;]) else 0.0
+        d = species[&#39;a4.d&#39;] if pd.notna(species[&#39;a4.d&#39;]) else 0.0
+        e = species[&#39;c1.e&#39;] if pd.notna(species[&#39;c1.e&#39;]) else 0.0
+        f = species[&#39;c2.f&#39;] if pd.notna(species[&#39;c2.f&#39;]) else 0.0
+        lam = species[&#39;omega.lambda&#39;] if pd.notna(species[&#39;omega.lambda&#39;]) else 0.0
+        
+        # Unit conversion
+        if species[&#39;E_units&#39;] == &#39;cal&#39;:
+            R = R_CAL
+        else:
+            R = R_J
+        
+        n_points = max(len(T), len(P))
+        
+        # Broadcast arrays
+        if len(T) == 1:
+            T = np.full(n_points, T[0])
+        if len(P) == 1:
+            P = np.full(n_points, P[0])
+        
+        results = {}
+        for prop in [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]:
+            results[prop] = np.zeros(n_points)
+        
+        for i in range(n_points):
+            Ti, Pi = T[i], P[i]
+            
+            # Heat capacity as function of temperature
+            Cp_T = a + b * Ti
+            if c != 0:
+                Cp_T += c / (Ti * Ti)
+            if d != 0:
+                Cp_T += d / np.sqrt(Ti)
+            if e != 0:
+                Cp_T += e * Ti * Ti
+            if f != 0 and lam != 0:
+                Cp_T += f * Ti**lam
+            
+            # Temperature integrals
+            if Ti != TR:
+                # Entropy integral: ∫(Cp/T)dT from TR to T
+                S_int = a * np.log(Ti / TR)
+                S_int += b * (Ti - TR)
+                if c != 0:
+                    S_int += c * (-1/(2*Ti*Ti) + 1/(2*TR*TR))
+                if d != 0:
+                    S_int += d * 2 * (np.sqrt(Ti) - np.sqrt(TR))
+                if e != 0:
+                    S_int += e * (Ti*Ti - TR*TR) / 2
+                if f != 0 and lam != -1:
+                    S_int += f / (lam + 1) * (Ti**(lam+1) - TR**(lam+1))
+                
+                # Enthalpy integral: ∫Cp dT from TR to T  
+                H_int = a * (Ti - TR)
+                H_int += b * (Ti*Ti - TR*TR) / 2
+                if c != 0:
+                    H_int += c * (-1/Ti + 1/TR)
+                if d != 0:
+                    H_int += d * 2 * (Ti**1.5 - TR**1.5) / 1.5
+                if e != 0:
+                    H_int += e * (Ti**3 - TR**3) / 3
+                if f != 0 and lam != -1:
+                    H_int += f / (lam + 1) * (Ti**(lam+1) - TR**(lam+1))
+                
+            else:
+                S_int = 0
+                H_int = 0
+            
+            # Pressure effects (simplified - constant volume)
+            if Pi != PR and V0 != 0:
+                G_P = V0 * (Pi - PR)
+            else:
+                G_P = 0
+            
+            # Final properties
+            results[&#39;Cp&#39;][i] = Cp_T
+            results[&#39;S&#39;][i] = S0 + S_int
+            results[&#39;H&#39;][i] = H0 + H_int
+            results[&#39;V&#39;][i] = V0  # Assumed constant for now
+            results[&#39;G&#39;][i] = G0 + H_int - Ti * S_int + G_P
+        
+        return results
+    
+    def _calc_berman(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate properties using Berman equation for minerals.
+        
+        This is a simplified implementation - the full Berman model includes
+        additional terms for phase transitions and thermal expansion.
+        &#34;&#34;&#34;
+        # For now, use CGL as a fallback
+        return self._calc_cgl(species, T, P)
+    
+    def _calc_dew(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate properties using DEW (Deep Earth Water) model.
+        
+        This is an extension of HKF for high pressure-temperature conditions.
+        &#34;&#34;&#34;
+        # For now, use HKF as a fallback
+        return self._calc_hkf(species, T, P)
+    
+    def _calc_ad(self, species: pd.Series, T: np.ndarray, P: np.ndarray) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;
+        Calculate properties using Akinfiev-Diamond model.
+        
+        Alternative aqueous species model.
+        &#34;&#34;&#34;
+        # For now, use HKF as a fallback
+        return self._calc_hkf(species, T, P)</code></pre>
+</details>
+<div class="desc"><p>Core thermodynamic property calculator for species.</p>
+<p>This class implements the various equations of state used by CHNOSZ:
+- HKF (Helgeson-Kirkham-Flowers) for aqueous species
+- CGL (Crystalline-Gas-Liquid) for general heat capacity
+- Berman for minerals
+- DEW (Deep Earth Water) for high P-T aqueous species</p>
+<p>Initialize the thermodynamic calculator.</p></div>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pychnosz.models.high_pt.HighPTCalculator" href="../models/high_pt.html#pychnosz.models.high_pt.HighPTCalculator">HighPTCalculator</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.core.thermocalc.ThermoCalculator.calculate_properties"><code class="name flex">
+<span>def <span class="ident">calculate_properties</span></span>(<span>self,<br>species_data: pandas.core.frame.DataFrame,<br>T: float | numpy.ndarray,<br>P: float | numpy.ndarray,<br>properties: List[str] | None = None) ‑> Dict[str, numpy.ndarray]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_properties(self, species_data: pd.DataFrame, 
+                       T: Union[float, np.ndarray],
+                       P: Union[float, np.ndarray],
+                       properties: Optional[List[str]] = None) -&gt; Dict[str, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate thermodynamic properties for species at given T and P.
+    
+    Parameters
+    ----------
+    species_data : pd.DataFrame
+        Species data with thermodynamic parameters
+    T : float or array
+        Temperature(s) in Kelvin
+    P : float or array  
+        Pressure(s) in bar
+    properties : list of str, optional
+        Properties to calculate [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]
+        
+    Returns
+    -------
+    dict
+        Dictionary with calculated properties as arrays
+    &#34;&#34;&#34;
+    
+    # Ensure T and P are arrays
+    T = np.atleast_1d(T)
+    P = np.atleast_1d(P) 
+    
+    # Default properties
+    if properties is None:
+        properties = [&#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;]
+    
+    n_species = len(species_data)
+    n_conditions = max(len(T), len(P))
+    
+    # Initialize result arrays
+    results = {}
+    for prop in properties:
+        results[prop] = np.full((n_species, n_conditions), np.nan)
+    
+    # Calculate for each species
+    for i, (idx, species) in enumerate(species_data.iterrows()):
+        model = species[&#39;model&#39;]
+        
+        if model in self.models:
+            try:
+                species_props = self.models[model](species, T, P)
+                
+                # Store results
+                for prop in properties:
+                    if prop in species_props:
+                        results[prop][i, :] = species_props[prop]
+                        
+            except Exception as e:
+                warnings.warn(f&#34;Error calculating {model} properties for {species[&#39;name&#39;]}: {e}&#34;)
+                continue
+        else:
+            warnings.warn(f&#34;Unknown thermodynamic model: {model}&#34;)
+            continue
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate thermodynamic properties for species at given T and P.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species_data</code></strong> :&ensp;<code>pd.DataFrame</code></dt>
+<dd>Species data with thermodynamic parameters</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature(s) in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array
+</code></dt>
+<dd>Pressure(s) in bar</dd>
+<dt><strong><code>properties</code></strong> :&ensp;<code>list</code> of <code>str</code>, optional</dt>
+<dd>Properties to calculate ['G', 'H', 'S', 'Cp', 'V']</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Dictionary with calculated properties as arrays</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.core" href="index.html">pychnosz.core</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.core.thermocalc.subcrt" href="#pychnosz.core.thermocalc.subcrt">subcrt</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.core.thermocalc.ThermoCalculator" href="#pychnosz.core.thermocalc.ThermoCalculator">ThermoCalculator</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.core.thermocalc.ThermoCalculator.calculate_properties" href="#pychnosz.core.thermocalc.ThermoCalculator.calculate_properties">calculate_properties</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

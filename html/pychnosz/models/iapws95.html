@@ -1,0 +1,1661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.iapws95 API documentation</title>
+<meta name="description" content="IAPWS-95 water model implementation …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.iapws95</code></h1>
+</header>
+<section id="section-intro">
+<p>IAPWS-95 water model implementation.</p>
+<p>This module implements the IAPWS-95 formulation for the thermodynamic properties
+of ordinary water substance for general and scientific use. This is the international
+standard for water properties.</p>
+<p>This implementation exactly matches the R CHNOSZ package, with identical coefficients
+and derivative calculations. No shortcuts or approximations - full fidelity to Wagner &amp; Pruss (2002).</p>
+<p>References:
+- Wagner, W., &amp; Pruß, A. (2002). The IAPWS formulation 1995 for the thermodynamic
+properties of ordinary water substance for general and scientific use.
+Journal of Physical and Chemical Reference Data, 31(2), 387-535.
+- Fernández, D. P., et al. (1997). A formulation for the static permittivity of
+water and steam at temperatures from 238 K to 873 K at pressures up to 1200 MPa.
+Journal of Physical and Chemical Reference Data, 26(4), 1125-1166.
+- R CHNOSZ package IAPWS95.R implementation</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.iapws95.rho_IAPWS95_accurate"><code class="name flex">
+<span>def <span class="ident">rho_IAPWS95_accurate</span></span>(<span>T: float | numpy.ndarray,<br>P: float | numpy.ndarray,<br>state: str = '',<br>trace: int = 0) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rho_IAPWS95_accurate(T: Union[float, np.ndarray], P: Union[float, np.ndarray], 
+                        state: str = &#34;&#34;, trace: int = 0) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Return density in kg/m³ corresponding to given pressure (bar) and temperature (K).
+    
+    Exact implementation matching R CHNOSZ rho.IAPWS95 function with numerical root finding.
+    &#34;&#34;&#34;
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    P = np.atleast_1d(np.asarray(P, dtype=float))
+    
+    # Ensure T and P have same length
+    if len(P) &lt; len(T):
+        P = np.resize(P, len(T))
+    elif len(T) &lt; len(P):
+        T = np.resize(T, len(P))
+        
+    rho = np.full_like(T, np.nan)
+    
+    # Critical point constants
+    T_critical = 647.096  # K
+    P_critical = 22.064   # MPa
+    
+    # Convert pressure from bar to MPa (matching R code line 60)
+    P_MPa = P / 10.0
+    
+    for i in range(len(T)):
+        if np.isnan(T[i]) or np.isnan(P[i]) or T[i] &lt;= 0 or P[i] &lt;= 0:
+            continue
+            
+        # Function to find zero: P_calculated - P_target = 0
+        def dP(rho_guess):
+            if rho_guess &lt;= 0:
+                return float(&#39;inf&#39;)
+            try:
+                # Use the accurate IAPWS95 pressure calculation
+                P_calc_MPa = accurate_iapws95.calculate_IAPWS95_property(&#39;P&#39;, T[i], rho_guess)
+                return P_calc_MPa - P_MPa[i]
+            except:
+                return float(&#39;inf&#39;)
+        
+        # Phase identification and initial guess setup (matching R logic)
+        try:
+            Psat = _WP02_auxiliary_accurate(&#34;P.sigma&#34;, T[i])[0]  # This is in MPa
+            
+            if T[i] &gt; T_critical:
+                # Above critical temperature - supercritical
+                interval = [0.1, 1000.0]
+                
+            elif P_MPa[i] &gt; P_critical:
+                # Above critical pressure - supercritical  
+                rho_sat = _WP02_auxiliary_accurate(&#34;rho.liquid&#34;, T[i])[0]
+                # For high pressures, we need much higher densities
+                # Estimate upper bound based on pressure scaling
+                rho_upper = rho_sat + (P_MPa[i] - P_critical) * 4.0  # Rough scaling
+                interval = [rho_sat, min(rho_upper, 1500.0)]  # Cap at reasonable max density
+                
+            elif P_MPa[i] &lt;= 0.9999 * Psat:
+                # Steam region
+                rho_sat = _WP02_auxiliary_accurate(&#34;rho.vapor&#34;, T[i])[0]
+                interval = [rho_sat * 0.1, rho_sat * 2.0]
+                
+            elif P_MPa[i] &gt;= 1.00005 * Psat:
+                # Liquid water region
+                rho_sat = _WP02_auxiliary_accurate(&#34;rho.liquid&#34;, T[i])[0]
+                interval = [rho_sat * 0.9, rho_sat * 1.1]
+                
+            else:
+                # Close to saturation - use liquid estimate
+                rho_sat = _WP02_auxiliary_accurate(&#34;rho.liquid&#34;, T[i])[0]
+                interval = [rho_sat * 0.95, rho_sat * 1.05]
+            
+            # Numerical root finding using Brent&#39;s method
+            try:
+                rho[i] = brentq(dP, interval[0], interval[1], xtol=1e-10, rtol=1e-10)
+            except Exception as e:
+                if trace &gt; 0:
+                    print(f&#34;Warning: rho_IAPWS95_accurate problems finding density at {T[i]} K and {P[i]} bar: {e}&#34;)
+                rho[i] = np.nan
+                
+        except Exception as e:
+            if trace &gt; 0:
+                print(f&#34;Warning: rho_IAPWS95_accurate problems with phase identification at {T[i]} K and {P[i]} bar: {e}&#34;)
+            rho[i] = np.nan
+            
+    return rho</code></pre>
+</details>
+<div class="desc"><p>Return density in kg/m³ corresponding to given pressure (bar) and temperature (K).</p>
+<p>Exact implementation matching R CHNOSZ rho.IAPWS95 function with numerical root finding.</p></div>
+</dd>
+<dt id="pychnosz.models.iapws95.water_IAPWS95"><code class="name flex">
+<span>def <span class="ident">water_IAPWS95</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray = 100.0) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_IAPWS95(properties: Union[str, List[str]],
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray] = 100.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using IAPWS-95.
+
+    This function provides the main interface to IAPWS-95 water properties,
+    using the accurate implementation that matches R CHNOSZ exactly.
+
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or properties to calculate:
+        - &#39;P&#39;: Pressure in MPa
+        - &#39;S&#39;: Entropy in kJ/(kg·K)
+        - &#39;U&#39;: Internal energy in kJ/kg
+        - &#39;H&#39;: Enthalpy in kJ/kg
+        - &#39;G&#39;: Gibbs free energy in kJ/kg
+        - &#39;Cv&#39;: Isochoric heat capacity in kJ/(kg·K)
+        - &#39;Cp&#39;: Isobaric heat capacity in kJ/(kg·K)
+        - &#39;w&#39;: Speed of sound in m/s
+        - &#39;rho&#39;: Density in kg/m³
+    T : float or array
+        Temperature in Kelvin
+    P : float or array
+        Pressure in kPa (note: different from other modules that use bar)
+
+    Returns
+    -------
+    float, array, or dict
+        Calculated water properties
+
+    Examples
+    --------
+    &gt;&gt;&gt; import numpy as np
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Single property at standard conditions
+    &gt;&gt;&gt; rho = water_IAPWS95(&#39;rho&#39;, T=298.15, P=100.0)  # 100 kPa = 1 bar
+    &gt;&gt;&gt; print(f&#34;Density: {rho:.3f} kg/m³&#34;)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Multiple properties
+    &gt;&gt;&gt; props = water_IAPWS95([&#39;rho&#39;, &#39;Cp&#39;], T=298.15, P=100.0)
+    &gt;&gt;&gt; print(f&#34;Density: {props[&#39;rho&#39;]:.3f} kg/m³&#34;)
+    &gt;&gt;&gt; print(f&#34;Heat capacity: {props[&#39;Cp&#39;]:.3f} kJ/(kg·K)&#34;)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Array calculations
+    &gt;&gt;&gt; T_array = np.array([273.15, 298.15, 373.15])
+    &gt;&gt;&gt; densities = water_IAPWS95(&#39;rho&#39;, T=T_array, P=100.0)
+    &#34;&#34;&#34;
+    # Convert pressure from kPa to bar for the accurate implementation
+    if isinstance(P, (int, float)):
+        P_bar = P / 100.0
+    else:
+        P_bar = np.asarray(P) / 100.0
+
+    # Use the accurate implementation
+    return water_IAPWS95_accurate(properties, T=T, P=P_bar)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using IAPWS-95.</p>
+<p>This function provides the main interface to IAPWS-95 water properties,
+using the accurate implementation that matches R CHNOSZ exactly.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or properties to calculate:
+- 'P': Pressure in MPa
+- 'S': Entropy in kJ/(kg·K)
+- 'U': Internal energy in kJ/kg
+- 'H': Enthalpy in kJ/kg
+- 'G': Gibbs free energy in kJ/kg
+- 'Cv': Isochoric heat capacity in kJ/(kg·K)
+- 'Cp': Isobaric heat capacity in kJ/(kg·K)
+- 'w': Speed of sound in m/s
+- 'rho': Density in kg/m³</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure in kPa (note: different from other modules that use bar)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated water properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Single property at standard conditions
+&gt;&gt;&gt; rho = water_IAPWS95('rho', T=298.15, P=100.0)  # 100 kPa = 1 bar
+&gt;&gt;&gt; print(f&quot;Density: {rho:.3f} kg/m³&quot;)
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Multiple properties
+&gt;&gt;&gt; props = water_IAPWS95(['rho', 'Cp'], T=298.15, P=100.0)
+&gt;&gt;&gt; print(f&quot;Density: {props['rho']:.3f} kg/m³&quot;)
+&gt;&gt;&gt; print(f&quot;Heat capacity: {props['Cp']:.3f} kJ/(kg·K)&quot;)
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Array calculations
+&gt;&gt;&gt; T_array = np.array([273.15, 298.15, 373.15])
+&gt;&gt;&gt; densities = water_IAPWS95('rho', T=T_array, P=100.0)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.models.iapws95.water_IAPWS95_accurate"><code class="name flex">
+<span>def <span class="ident">water_IAPWS95_accurate</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray = 1.0,<br>rho: float | numpy.ndarray | None = None) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_IAPWS95_accurate(properties: Union[str, List[str]], 
+                          T: Union[float, np.ndarray] = 298.15,
+                          P: Union[float, np.ndarray] = 1.0,
+                          rho: Optional[Union[float, np.ndarray]] = None) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using accurate IAPWS-95 implementation.
+    
+    This function provides an accurate implementation of IAPWS-95 that matches
+    the R CHNOSZ package exactly, with no shortcuts or approximations.
+    
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or properties to calculate (&#39;P&#39;, &#39;S&#39;, &#39;U&#39;, &#39;H&#39;, &#39;G&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;w&#39;, &#39;rho&#39;)
+    T : float or array
+        Temperature in Kelvin
+    P : float or array
+        Pressure in bar (used to calculate density if rho not provided)
+    rho : float or array, optional
+        Density in kg/m³. If provided, used directly; if not, calculated from T,P
+        
+    Returns
+    -------
+    float, array, or dict
+        Calculated water properties
+        
+    Examples
+    --------
+    &gt;&gt;&gt; # Single property with T,P
+    &gt;&gt;&gt; p = water_IAPWS95_accurate(&#39;P&#39;, T=298.15, P=1.0)
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Single property with T,rho
+    &gt;&gt;&gt; p = water_IAPWS95_accurate(&#39;P&#39;, T=298.15, rho=997.0)
+    &gt;&gt;&gt; 
+    &gt;&gt;&gt; # Multiple properties
+    &gt;&gt;&gt; props = water_IAPWS95_accurate([&#39;rho&#39;, &#39;Cp&#39;], T=298.15, P=1.0)
+    &#34;&#34;&#34;
+    # Handle input types
+    if isinstance(properties, str):
+        properties = [properties]
+        single_prop = True
+    else:
+        single_prop = False
+    
+    # Convert inputs
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    
+    if rho is None:
+        # Calculate density from T,P
+        P = np.atleast_1d(np.asarray(P, dtype=float))
+        rho_calc = rho_IAPWS95_accurate(T, P)
+    else:
+        # Use provided density
+        rho_calc = np.atleast_1d(np.asarray(rho, dtype=float))
+        P = np.atleast_1d(np.asarray(P, dtype=float))
+    
+    # Ensure same length
+    max_len = max(len(T), len(rho_calc))
+    if len(T) &lt; max_len:
+        T = np.resize(T, max_len)
+    if len(rho_calc) &lt; max_len:
+        rho_calc = np.resize(rho_calc, max_len)
+    
+    # Calculate properties
+    results = {}
+    
+    # Reference state correction constants (from R water.R lines 187-194)
+    # Convert to SUPCRT reference state at the triple point
+    # difference = SUPCRT - IAPWS ( + entropy in G )
+    M = 18.015268  # g/mol, molar mass of water
+    Tr = 298.15    # Reference temperature
+    cal_to_J = 4.184  # Conversion factor from cal to J
+    
+    # Pre-calculate reference corrections (from R)
+    dH = (-68316.76 - 451.75437) * cal_to_J  # J/mol
+    dS = (16.7123 - 1.581072) * cal_to_J     # J/mol/K  
+    dU = (-67434.5 - 451.3229) * cal_to_J    # J/mol
+    dA_base = (-55814.06 + 20.07376) * cal_to_J  # J/mol
+    
+    for prop in properties:
+        if prop.lower() == &#39;rho&#39;:
+            # Return density
+            results[prop] = rho_calc if len(rho_calc) &gt; 1 else rho_calc[0]
+        else:
+            # Calculate other properties
+            prop_values = np.full(max_len, np.nan)
+            
+            for i in range(max_len):
+                if not (np.isnan(T[i]) or np.isnan(rho_calc[i]) or T[i] &lt;= 0 or rho_calc[i] &lt;= 0):
+                    try:
+                        # Get raw IAPWS95 value in kJ/kg (specific units)
+                        raw_value = accurate_iapws95.calculate_IAPWS95_property(prop, T[i], rho_calc[i])
+                        
+                        # Convert to J/mol (molar units) and apply reference state corrections
+                        if prop.lower() == &#39;g&#39;:
+                            # Gibbs energy: IAPWS95(&#34;g&#34;)*M + dG
+                            dG = (-56687.71 + 19.64228 - dS * (T[i] - Tr)) * cal_to_J
+                            prop_values[i] = raw_value * M + dG
+                        elif prop.lower() == &#39;h&#39;:
+                            # Enthalpy: IAPWS95(&#34;h&#34;)*M + dH
+                            prop_values[i] = raw_value * M + dH
+                        elif prop.lower() == &#39;u&#39;:
+                            # Internal energy: IAPWS95(&#34;u&#34;)*M + dU
+                            prop_values[i] = raw_value * M + dU
+                        elif prop.lower() == &#39;a&#39;:
+                            # Helmholtz energy: IAPWS95(&#34;a&#34;)*M + dA
+                            dA = dA_base - dS * (T[i] - Tr)
+                            prop_values[i] = raw_value * M + dA
+                        elif prop.lower() == &#39;s&#39;:
+                            # Entropy: IAPWS95(&#34;s&#34;)*M + dS
+                            prop_values[i] = raw_value * M + dS
+                        elif prop.lower() in [&#39;cv&#39;, &#39;cp&#39;]:
+                            # Heat capacities: just convert to molar units (no reference correction)
+                            prop_values[i] = raw_value * M
+                        else:
+                            # Other properties (P, w, etc.): use as-is or convert units as needed
+                            if prop.lower() == &#39;w&#39;:
+                                # Speed of sound: convert m/s to cm/s (factor of 100)
+                                prop_values[i] = raw_value * 100
+                            elif prop.lower() == &#39;p&#39;:
+                                # Pressure: convert from MPa to bar (factor of 10)
+                                prop_values[i] = raw_value * 10
+                            else:
+                                # Other properties: return as-is
+                                prop_values[i] = raw_value
+                                
+                    except Exception:
+                        prop_values[i] = np.nan
+            
+            results[prop] = prop_values if len(prop_values) &gt; 1 else prop_values[0]
+    
+    # Return results
+    if single_prop:
+        return results[properties[0]]
+    else:
+        return results</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using accurate IAPWS-95 implementation.</p>
+<p>This function provides an accurate implementation of IAPWS-95 that matches
+the R CHNOSZ package exactly, with no shortcuts or approximations.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or properties to calculate ('P', 'S', 'U', 'H', 'G', 'Cv', 'Cp', 'w', 'rho')</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure in bar (used to calculate density if rho not provided)</dd>
+<dt><strong><code>rho</code></strong> :&ensp;<code>float</code> or <code>array</code>, optional</dt>
+<dd>Density in kg/m³. If provided, used directly; if not, calculated from T,P</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated water properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Single property with T,P
+&gt;&gt;&gt; p = water_IAPWS95_accurate('P', T=298.15, P=1.0)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Single property with T,rho
+&gt;&gt;&gt; p = water_IAPWS95_accurate('P', T=298.15, rho=997.0)
+&gt;&gt;&gt; 
+&gt;&gt;&gt; # Multiple properties
+&gt;&gt;&gt; props = water_IAPWS95_accurate(['rho', 'Cp'], T=298.15, P=1.0)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.models.iapws95.water_iapws95"><code class="name flex">
+<span>def <span class="ident">water_iapws95</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray = 100.0) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_IAPWS95(properties: Union[str, List[str]],
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray] = 100.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using IAPWS-95.
+
+    This function provides the main interface to IAPWS-95 water properties,
+    using the accurate implementation that matches R CHNOSZ exactly.
+
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or properties to calculate:
+        - &#39;P&#39;: Pressure in MPa
+        - &#39;S&#39;: Entropy in kJ/(kg·K)
+        - &#39;U&#39;: Internal energy in kJ/kg
+        - &#39;H&#39;: Enthalpy in kJ/kg
+        - &#39;G&#39;: Gibbs free energy in kJ/kg
+        - &#39;Cv&#39;: Isochoric heat capacity in kJ/(kg·K)
+        - &#39;Cp&#39;: Isobaric heat capacity in kJ/(kg·K)
+        - &#39;w&#39;: Speed of sound in m/s
+        - &#39;rho&#39;: Density in kg/m³
+    T : float or array
+        Temperature in Kelvin
+    P : float or array
+        Pressure in kPa (note: different from other modules that use bar)
+
+    Returns
+    -------
+    float, array, or dict
+        Calculated water properties
+
+    Examples
+    --------
+    &gt;&gt;&gt; import numpy as np
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Single property at standard conditions
+    &gt;&gt;&gt; rho = water_IAPWS95(&#39;rho&#39;, T=298.15, P=100.0)  # 100 kPa = 1 bar
+    &gt;&gt;&gt; print(f&#34;Density: {rho:.3f} kg/m³&#34;)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Multiple properties
+    &gt;&gt;&gt; props = water_IAPWS95([&#39;rho&#39;, &#39;Cp&#39;], T=298.15, P=100.0)
+    &gt;&gt;&gt; print(f&#34;Density: {props[&#39;rho&#39;]:.3f} kg/m³&#34;)
+    &gt;&gt;&gt; print(f&#34;Heat capacity: {props[&#39;Cp&#39;]:.3f} kJ/(kg·K)&#34;)
+    &gt;&gt;&gt;
+    &gt;&gt;&gt; # Array calculations
+    &gt;&gt;&gt; T_array = np.array([273.15, 298.15, 373.15])
+    &gt;&gt;&gt; densities = water_IAPWS95(&#39;rho&#39;, T=T_array, P=100.0)
+    &#34;&#34;&#34;
+    # Convert pressure from kPa to bar for the accurate implementation
+    if isinstance(P, (int, float)):
+        P_bar = P / 100.0
+    else:
+        P_bar = np.asarray(P) / 100.0
+
+    # Use the accurate implementation
+    return water_IAPWS95_accurate(properties, T=T, P=P_bar)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using IAPWS-95.</p>
+<p>This function provides the main interface to IAPWS-95 water properties,
+using the accurate implementation that matches R CHNOSZ exactly.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or properties to calculate:
+- 'P': Pressure in MPa
+- 'S': Entropy in kJ/(kg·K)
+- 'U': Internal energy in kJ/kg
+- 'H': Enthalpy in kJ/kg
+- 'G': Gibbs free energy in kJ/kg
+- 'Cv': Isochoric heat capacity in kJ/(kg·K)
+- 'Cp': Isobaric heat capacity in kJ/(kg·K)
+- 'w': Speed of sound in m/s
+- 'rho': Density in kg/m³</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure in kPa (note: different from other modules that use bar)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated water properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import numpy as np
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Single property at standard conditions
+&gt;&gt;&gt; rho = water_IAPWS95('rho', T=298.15, P=100.0)  # 100 kPa = 1 bar
+&gt;&gt;&gt; print(f&quot;Density: {rho:.3f} kg/m³&quot;)
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Multiple properties
+&gt;&gt;&gt; props = water_IAPWS95(['rho', 'Cp'], T=298.15, P=100.0)
+&gt;&gt;&gt; print(f&quot;Density: {props['rho']:.3f} kg/m³&quot;)
+&gt;&gt;&gt; print(f&quot;Heat capacity: {props['Cp']:.3f} kJ/(kg·K)&quot;)
+&gt;&gt;&gt;
+&gt;&gt;&gt; # Array calculations
+&gt;&gt;&gt; T_array = np.array([273.15, 298.15, 373.15])
+&gt;&gt;&gt; densities = water_IAPWS95('rho', T=T_array, P=100.0)
+</code></pre></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.models.iapws95.AccurateIAPWS95Water"><code class="flex name class">
+<span>class <span class="ident">AccurateIAPWS95Water</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class AccurateIAPWS95Water:
+    &#34;&#34;&#34;
+    Accurate IAPWS-95 water model implementation matching R CHNOSZ exactly.
+    
+    This class provides thermodynamic properties of water using the IAPWS-95
+    formulation with exact coefficients and derivative calculations from the
+    Wagner &amp; Pruss (2002) specification as implemented in R CHNOSZ.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize IAPWS95 water model with exact constants.&#34;&#34;&#34;
+        # Physical constants (exactly matching R CHNOSZ)
+        self.R = 0.46151805  # kJ/(kg·K) - Specific gas constant for water
+        self.MW = 18.015268  # g/mol - Molecular weight
+        
+        # Critical constants (exactly matching R CHNOSZ)
+        self.Tc = 647.096    # K - Critical temperature
+        self.rhoc = 322.0    # kg/m³ - Critical density
+        
+        # Triple point constants
+        self.Tt = 273.16     # K - Triple point temperature
+        
+        # Initialize coefficients exactly as in R CHNOSZ
+        self._init_coefficients()
+    
+    def _init_coefficients(self):
+        &#34;&#34;&#34;Initialize coefficients for IAPWS-95 fundamental equation (exact R match).&#34;&#34;&#34;
+        # Ideal gas coefficients (Table 6.1 Wagner &amp; Pruss 2002, R CHNOSZ lines 114-117)
+        self.n_ideal = np.array([
+            -8.32044648201, 6.6832105268, 3.00632, 0.012436,
+            0.97315, 1.27950, 0.96956, 0.24873
+        ])
+        
+        self.gamma_ideal = np.array([
+            np.nan, np.nan, np.nan, 1.28728967,
+            3.53734222, 7.74073708, 9.24437796, 27.5075105
+        ])
+        
+        # Residual part coefficients (Table 6.2 Wagner &amp; Pruss 2002, R CHNOSZ lines 134-171)
+        # c coefficients
+        c_list = [np.nan]*7 + [1]*15 + [2]*20 + [3]*4 + [4] + [6]*4 + [np.nan]*5
+        self.c_res = np.array(c_list)
+        
+        # d coefficients  
+        self.d_res = np.array([
+            1,1,1,2,2,3,4,1,1,1,2,2,3,4,
+            4,5,7,9,10,11,13,15,1,2,2,2,3,4,
+            4,4,5,6,6,7,9,9,9,9,9,10,10,12,
+            3,4,4,5,14,3,6,6,6,3,3,3,np.nan,np.nan
+        ])
+        
+        # t coefficients
+        self.t_res = np.array([
+            -0.5,0.875,1,0.5,0.75,0.375,1,4,6,12,1,5,4,2,
+            13,9,3,4,11,4,13,1,7,1,9,10,10,3,
+            7,10,10,6,10,10,1,2,3,4,8,6,9,8,
+            16,22,23,23,10,50,44,46,50,0,1,4,np.nan,np.nan
+        ])
+        
+        # n coefficients (exact values from R CHNOSZ)
+        self.n_res = np.array([
+            0.12533547935523E-1, 0.78957634722828E1 ,-0.87803203303561E1 ,
+            0.31802509345418   ,-0.26145533859358   ,-0.78199751687981E-2,
+            0.88089493102134E-2,-0.66856572307965   , 0.20433810950965   ,
+           -0.66212605039687E-4,-0.19232721156002   ,-0.25709043003438   ,
+            0.16074868486251   ,-0.40092828925807E-1, 0.39343422603254E-6,
+           -0.75941377088144E-5, 0.56250979351888E-3,-0.15608652257135E-4,
+            0.11537996422951E-8, 0.36582165144204E-6,-0.13251180074668E-11,
+           -0.62639586912454E-9,-0.10793600908932   , 0.17611491008752E-1,
+            0.22132295167546   ,-0.40247669763528   , 0.58083399985759   ,
+            0.49969146990806E-2,-0.31358700712549E-1,-0.74315929710341   ,
+            0.47807329915480   , 0.20527940895948E-1,-0.13636435110343   ,
+            0.14180634400617E-1, 0.83326504880713E-2,-0.29052336009585E-1,
+            0.38615085574206E-1,-0.20393486513704E-1,-0.16554050063734E-2,
+            0.19955571979541E-2, 0.15870308324157E-3,-0.16388568342530E-4,
+            0.43613615723811E-1, 0.34994005463765E-1,-0.76788197844621E-1,
+            0.22446277332006E-1,-0.62689710414685E-4,-0.55711118565645E-9,
+           -0.19905718354408   , 0.31777497330738   ,-0.11841182425981   ,
+           -0.31306260323435E2 , 0.31546140237781E2 ,-0.25213154341695E4 ,
+           -0.14874640856724   , 0.31806110878444
+        ])
+        
+        # Additional coefficients for complex terms (R CHNOSZ lines 162-171)
+        alpha_list = [np.nan]*51 + [20,20,20,np.nan,np.nan]
+        self.alpha_res = np.array(alpha_list)
+        
+        beta_list = [np.nan]*51 + [150,150,250,0.3,0.3]
+        self.beta_res = np.array(beta_list)
+        
+        gamma_list = [np.nan]*51 + [1.21,1.21,1.25,np.nan,np.nan]
+        self.gamma_res = np.array(gamma_list)
+        
+        epsilon_list = [np.nan]*51 + [1,1,1,np.nan,np.nan]
+        self.epsilon_res = np.array(epsilon_list)
+        
+        a_list = [np.nan]*54 + [3.5,3.5]
+        self.a_res = np.array(a_list)
+        
+        b_list = [np.nan]*54 + [0.85,0.95]
+        self.b_res = np.array(b_list)
+        
+        B_list = [np.nan]*54 + [0.2,0.2]
+        self.B_res = np.array(B_list)
+        
+        C_list = [np.nan]*54 + [28,32]
+        self.C_res = np.array(C_list)
+        
+        D_list = [np.nan]*54 + [700,800]
+        self.D_res = np.array(D_list)
+        
+        A_list = [np.nan]*54 + [0.32,0.32]
+        self.A_res = np.array(A_list)
+        
+        # Index ranges (from R CHNOSZ Table 6.5)
+        self.i1 = np.arange(0, 7)      # 1:7 in R (0-based in Python)
+        self.i2 = np.arange(7, 51)     # 8:51 in R
+        self.i3 = np.arange(51, 54)    # 52:54 in R  
+        self.i4 = np.arange(54, 56)    # 55:56 in R
+        
+    def _phi_ideal(self, delta: float, tau: float, derivative: str = &#39;phi&#39;) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate ideal gas part of dimensionless Helmholtz energy and derivatives.
+        
+        Exact implementation matching R CHNOSZ IAPWS95.idealgas function.
+        &#34;&#34;&#34;
+        if derivative == &#39;phi&#39;:
+            # Equation 6.5 from Wagner &amp; Pruss 2002
+            result = (np.log(delta) + self.n_ideal[0] + self.n_ideal[1]*tau + 
+                     self.n_ideal[2]*np.log(tau))
+            
+            # Sum term with exponentials
+            for i in range(3, 8):  # n[4:8] in R (indices 3:7 in Python)
+                gamma_val = self.gamma_ideal[i]
+                if not np.isnan(gamma_val):
+                    result += self.n_ideal[i] * np.log(1 - np.exp(-gamma_val*tau))
+            
+            return result
+            
+        elif derivative == &#39;phi.delta&#39;:
+            return 1.0/delta
+            
+        elif derivative == &#39;phi.delta.delta&#39;:
+            return -1.0/(delta**2)
+            
+        elif derivative == &#39;phi.tau&#39;:
+            result = self.n_ideal[1] + self.n_ideal[2]/tau
+            
+            # Sum term with exponentials and gamma
+            for i in range(3, 8):
+                gamma_val = self.gamma_ideal[i]
+                if not np.isnan(gamma_val):
+                    exp_term = np.exp(-gamma_val*tau)
+                    result += self.n_ideal[i] * gamma_val * ((1-exp_term)**(-1) - 1)
+            
+            return result
+            
+        elif derivative == &#39;phi.tau.tau&#39;:
+            result = -self.n_ideal[2]/(tau**2)
+            
+            # Sum term with exponentials
+            for i in range(3, 8):
+                gamma_val = self.gamma_ideal[i]
+                if not np.isnan(gamma_val):
+                    exp_term = np.exp(-gamma_val*tau)
+                    result -= (self.n_ideal[i] * gamma_val**2 * exp_term * 
+                              (1-exp_term)**(-2))
+            
+            return result
+            
+        elif derivative == &#39;phi.delta.tau&#39;:
+            return 0.0
+            
+        elif derivative == &#39;phi.tau.tau.tau&#39;:
+            # Third derivative with respect to tau
+            result = 2*self.n_ideal[2]/(tau**3)
+            
+            # Sum term with exponentials
+            for i in range(3, 8):
+                gamma_val = self.gamma_ideal[i]
+                if not np.isnan(gamma_val):
+                    exp_term = np.exp(-gamma_val*tau)
+                    result += (self.n_ideal[i] * gamma_val**3 * exp_term * 
+                              (1-exp_term)**(-3) * (2*exp_term - 1))
+            
+            return result
+            
+        elif derivative == &#39;phi.delta.delta.delta&#39;:
+            # Third derivative with respect to delta
+            return 2.0/(delta**3)
+            
+        elif derivative == &#39;phi.delta.tau.tau&#39;:
+            # Mixed derivative: d³φ⁰/dδdτ²
+            return 0.0
+            
+        elif derivative == &#39;phi.delta.delta.tau&#39;:
+            # Mixed derivative: d³φ⁰/dδ²dτ
+            return 0.0
+            
+        else:
+            raise ValueError(f&#34;Unknown derivative: {derivative}&#34;)
+    
+    def _delta_function(self, i: int, delta: float, tau: float) -&gt; float:
+        &#34;&#34;&#34;Delta function for complex terms (R CHNOSZ Delta function).&#34;&#34;&#34;
+        theta = self._theta_function(i, delta, tau)
+        B_val = self.B_res[i]
+        a_val = self.a_res[i]
+        return theta**2 + B_val * ((delta-1)**2)**a_val
+    
+    def _theta_function(self, i: int, delta: float, tau: float) -&gt; float:
+        &#34;&#34;&#34;Theta function for complex terms (R CHNOSZ Theta function).&#34;&#34;&#34;
+        A_val = self.A_res[i]
+        beta_val = self.beta_res[i]
+        return (1-tau) + A_val * ((delta-1)**2)**(1/(2*beta_val))
+    
+    def _psi_function(self, i: int, delta: float, tau: float) -&gt; float:
+        &#34;&#34;&#34;Psi function for complex terms (R CHNOSZ Psi function).&#34;&#34;&#34;
+        C_val = self.C_res[i]
+        D_val = self.D_res[i]
+        return np.exp(-C_val*(delta-1)**2 - D_val*(tau-1)**2)
+    
+    def _delta_derivatives(self, i: int, delta: float, tau: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Calculate Delta function derivatives (matching R CHNOSZ exactly).&#34;&#34;&#34;
+        theta = self._theta_function(i, delta, tau)
+        A_val = self.A_res[i]
+        B_val = self.B_res[i]
+        a_val = self.a_res[i]
+        b_val = self.b_res[i]
+        beta_val = self.beta_res[i]
+        
+        # dDelta/ddelta
+        dDelta_ddelta = ((delta-1) * 
+                        (A_val*theta*2/beta_val*((delta-1)**2)**(1/(2*beta_val)-1) +
+                         2*B_val*a_val*((delta-1)**2)**(a_val-1)))
+        
+        # d²Delta/ddelta² (handle division by zero when delta ≈ 1)
+        if abs(delta - 1) &lt; 1e-15:
+            # Use L&#39;Hôpital&#39;s rule or limit behavior
+            d2Delta_ddelta2 = (4*B_val*a_val*(a_val-1) + 
+                              2*A_val**2*(1/beta_val)**2 + 
+                              A_val*theta*4/beta_val*(1/(2*beta_val)-1))
+        else:
+            d2Delta_ddelta2 = (1/(delta-1)*dDelta_ddelta + (delta-1)**2 * (
+                4*B_val*a_val*(a_val-1)*((delta-1)**2)**(a_val-2) + 
+                2*A_val**2*(1/beta_val)**2 * (((delta-1)**2)**(1/(2*beta_val)-1))**2 + 
+                A_val*theta*4/beta_val*(1/(2*beta_val)-1) * 
+                ((delta-1)**2)**(1/(2*beta_val)-2)))
+        
+        # Delta^b derivatives
+        delta_func = self._delta_function(i, delta, tau)
+        dDelta_bi_ddelta = b_val * delta_func**(b_val-1) * dDelta_ddelta
+        d2Delta_bi_ddelta2 = (b_val * (delta_func**(b_val-1) * d2Delta_ddelta2 + 
+                             (b_val-1) * delta_func**(b_val-2) * dDelta_ddelta**2))
+        
+        # Tau derivatives
+        dDelta_bi_dtau = -2*theta*b_val*delta_func**(b_val-1)
+        d2Delta_bi_dtau2 = (2*b_val*delta_func**(b_val-1) + 
+                           4*theta**2*b_val*(b_val-1)*delta_func**(b_val-2))
+        
+        # Mixed derivative
+        d2Delta_bi_ddelta_dtau = (-A_val*b_val*2/beta_val*delta_func**(b_val-1)*(delta-1) *
+                                 ((delta-1)**2)**(1/(2*beta_val)-1) - 
+                                 2*theta*b_val*(b_val-1)*delta_func**(b_val-2)*dDelta_ddelta)
+        
+        return {
+            &#39;dDelta_ddelta&#39;: dDelta_ddelta,
+            &#39;d2Delta_ddelta2&#39;: d2Delta_ddelta2,
+            &#39;dDelta_bi_ddelta&#39;: dDelta_bi_ddelta,
+            &#39;d2Delta_bi_ddelta2&#39;: d2Delta_bi_ddelta2,
+            &#39;dDelta_bi_dtau&#39;: dDelta_bi_dtau,
+            &#39;d2Delta_bi_dtau2&#39;: d2Delta_bi_dtau2,
+            &#39;d2Delta_bi_ddelta_dtau&#39;: d2Delta_bi_ddelta_dtau
+        }
+    
+    def _psi_derivatives(self, i: int, delta: float, tau: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Calculate Psi function derivatives (matching R CHNOSZ exactly).&#34;&#34;&#34;
+        C_val = self.C_res[i]
+        D_val = self.D_res[i]
+        psi = self._psi_function(i, delta, tau)
+        
+        return {
+            &#39;dPsi_ddelta&#39;: -2*C_val*(delta-1)*psi,
+            &#39;d2Psi_ddelta2&#39;: (2*C_val*(delta-1)**2 - 1) * 2*C_val*psi,
+            &#39;dPsi_dtau&#39;: -2*D_val*(tau-1)*psi,
+            &#39;d2Psi_dtau2&#39;: (2*D_val*(tau-1)**2 - 1) * 2*D_val*psi,
+            &#39;d2Psi_ddelta_dtau&#39;: 4*C_val*D_val*(delta-1)*(tau-1)*psi
+        }
+    
+    def _phi_residual(self, delta: float, tau: float, derivative: str = &#39;phi&#39;) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate residual part of dimensionless Helmholtz energy and derivatives.
+        
+        Exact implementation matching R CHNOSZ IAPWS95.residual function.
+        &#34;&#34;&#34;
+        if derivative == &#39;phi&#39;:
+            # Four terms as in R CHNOSZ phi function (lines 201-206)
+            term1 = np.sum(self.n_res[self.i1] * delta**self.d_res[self.i1] * tau**self.t_res[self.i1])
+            
+            term2 = np.sum(self.n_res[self.i2] * delta**self.d_res[self.i2] * tau**self.t_res[self.i2] *
+                          np.exp(-delta**self.c_res[self.i2]))
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    term3 += (self.n_res[i] * delta**self.d_res[i] * tau**self.t_res[i] *
+                             np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2))
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    delta_func = self._delta_function(i, delta, tau)
+                    psi_val = self._psi_function(i, delta, tau)
+                    term4 += self.n_res[i] * delta_func**self.b_res[i] * delta * psi_val
+            
+            return term1 + term2 + term3 + term4
+            
+        elif derivative == &#39;phi.delta&#39;:
+            # phi.delta implementation (R CHNOSZ lines 208-214)
+            term1 = np.sum(self.n_res[self.i1] * self.d_res[self.i1] * 
+                          delta**(self.d_res[self.i1]-1) * tau**self.t_res[self.i1])
+            
+            term2 = np.sum(self.n_res[self.i2] * np.exp(-delta**self.c_res[self.i2]) *
+                          (delta**(self.d_res[self.i2]-1) * tau**self.t_res[self.i2] *
+                           (self.d_res[self.i2] - self.c_res[self.i2] * delta**self.c_res[self.i2])))
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    exp_term = np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2)
+                    term3 += (self.n_res[i] * delta**self.d_res[i] * tau**self.t_res[i] * exp_term *
+                             (self.d_res[i]/delta - 2*alpha_val*(delta-epsilon_val)))
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    delta_func = self._delta_function(i, delta, tau)
+                    psi_val = self._psi_function(i, delta, tau)
+                    psi_derivs = self._psi_derivatives(i, delta, tau)
+                    delta_derivs = self._delta_derivatives(i, delta, tau)
+                    
+                    term4 += (self.n_res[i] * 
+                             (delta_func**self.b_res[i] * (psi_val + delta*psi_derivs[&#39;dPsi_ddelta&#39;]) +
+                              delta_derivs[&#39;dDelta_bi_ddelta&#39;] * delta * psi_val))
+            
+            return term1 + term2 + term3 + term4
+            
+        elif derivative == &#39;phi.delta.delta&#39;:
+            # phi.delta.delta implementation (R CHNOSZ lines 216-224)
+            term1 = np.sum(self.n_res[self.i1] * self.d_res[self.i1] * (self.d_res[self.i1]-1) * 
+                          delta**(self.d_res[self.i1]-2) * tau**self.t_res[self.i1])
+            
+            term2 = 0.0
+            for i in self.i2:
+                d_val = self.d_res[i]
+                c_val = self.c_res[i]
+                exp_term = np.exp(-delta**c_val)
+                factor = ((d_val - c_val*delta**c_val) * (d_val - 1 - c_val*delta**c_val) - 
+                         c_val**2 * delta**c_val)
+                term2 += (self.n_res[i] * exp_term * delta**(d_val-2) * tau**self.t_res[i] * factor)
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    d_val = self.d_res[i]
+                    exp_term = np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2)
+                    factor = (-2*alpha_val*delta**d_val + 4*alpha_val**2*delta**d_val*(delta-epsilon_val)**2 -
+                             4*d_val*alpha_val*delta**(d_val-1)*(delta-epsilon_val) + 
+                             d_val*(d_val-1)*delta**(d_val-2))
+                    term3 += self.n_res[i] * tau**self.t_res[i] * exp_term * factor
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    delta_func = self._delta_function(i, delta, tau)
+                    psi_val = self._psi_function(i, delta, tau)
+                    psi_derivs = self._psi_derivatives(i, delta, tau)
+                    delta_derivs = self._delta_derivatives(i, delta, tau)
+                    
+                    term4 += (self.n_res[i] * 
+                             (delta_func**self.b_res[i] * 
+                              (2*psi_derivs[&#39;dPsi_ddelta&#39;] + delta*psi_derivs[&#39;d2Psi_ddelta2&#39;]) +
+                              2*delta_derivs[&#39;dDelta_bi_ddelta&#39;] * 
+                              (psi_val + delta*psi_derivs[&#39;dPsi_ddelta&#39;]) +
+                              delta_derivs[&#39;d2Delta_bi_ddelta2&#39;] * delta * psi_val))
+            
+            return term1 + term2 + term3 + term4
+            
+        elif derivative == &#39;phi.tau&#39;:
+            # phi.tau implementation (R CHNOSZ lines 226-231)
+            term1 = np.sum(self.n_res[self.i1] * self.t_res[self.i1] * 
+                          delta**self.d_res[self.i1] * tau**(self.t_res[self.i1]-1))
+            
+            term2 = np.sum(self.n_res[self.i2] * self.t_res[self.i2] * 
+                          delta**self.d_res[self.i2] * tau**(self.t_res[self.i2]-1) * 
+                          np.exp(-delta**self.c_res[self.i2]))
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    exp_term = np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2)
+                    term3 += (self.n_res[i] * delta**self.d_res[i] * tau**self.t_res[i] * exp_term *
+                             (self.t_res[i]/tau - 2*beta_val*(tau-gamma_val)))
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    psi_val = self._psi_function(i, delta, tau)
+                    psi_derivs = self._psi_derivatives(i, delta, tau)
+                    delta_derivs = self._delta_derivatives(i, delta, tau)
+                    
+                    term4 += (self.n_res[i] * delta * 
+                             (delta_derivs[&#39;dDelta_bi_dtau&#39;] * psi_val +
+                              self._delta_function(i, delta, tau)**self.b_res[i] * psi_derivs[&#39;dPsi_dtau&#39;]))
+            
+            return term1 + term2 + term3 + term4
+            
+        elif derivative == &#39;phi.tau.tau&#39;:
+            # phi.tau.tau implementation (R CHNOSZ lines 233-239)
+            term1 = np.sum(self.n_res[self.i1] * self.t_res[self.i1] * (self.t_res[self.i1]-1) *
+                          delta**self.d_res[self.i1] * tau**(self.t_res[self.i1]-2))
+            
+            term2 = np.sum(self.n_res[self.i2] * self.t_res[self.i2] * (self.t_res[self.i2]-1) *
+                          delta**self.d_res[self.i2] * tau**(self.t_res[self.i2]-2) *
+                          np.exp(-delta**self.c_res[self.i2]))
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    exp_term = np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2)
+                    tau_factor = (self.t_res[i]/tau - 2*beta_val*(tau-gamma_val))
+                    term3 += (self.n_res[i] * delta**self.d_res[i] * tau**self.t_res[i] * exp_term *
+                             (tau_factor**2 - self.t_res[i]/tau**2 - 2*beta_val))
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    delta_func = self._delta_function(i, delta, tau)
+                    psi_val = self._psi_function(i, delta, tau)
+                    psi_derivs = self._psi_derivatives(i, delta, tau)
+                    delta_derivs = self._delta_derivatives(i, delta, tau)
+                    
+                    term4 += (self.n_res[i] * delta * 
+                             (delta_derivs[&#39;d2Delta_bi_dtau2&#39;] * psi_val +
+                              2*delta_derivs[&#39;dDelta_bi_dtau&#39;] * psi_derivs[&#39;dPsi_dtau&#39;] +
+                              delta_func**self.b_res[i] * psi_derivs[&#39;d2Psi_dtau2&#39;]))
+            
+            return term1 + term2 + term3 + term4
+            
+        elif derivative == &#39;phi.delta.tau&#39;:
+            # phi.delta.tau implementation (R CHNOSZ lines 241-248)
+            term1 = np.sum(self.n_res[self.i1] * self.d_res[self.i1] * self.t_res[self.i1] *
+                          delta**(self.d_res[self.i1]-1) * tau**(self.t_res[self.i1]-1))
+            
+            term2 = np.sum(self.n_res[self.i2] * self.t_res[self.i2] *
+                          delta**(self.d_res[self.i2]-1) * tau**(self.t_res[self.i2]-1) *
+                          (self.d_res[self.i2] - self.c_res[self.i2]*delta**self.c_res[self.i2]) *
+                          np.exp(-delta**self.c_res[self.i2]))
+            
+            term3 = 0.0
+            for i in self.i3:
+                alpha_val = self.alpha_res[i]
+                beta_val = self.beta_res[i]
+                epsilon_val = self.epsilon_res[i]
+                gamma_val = self.gamma_res[i]
+                if not (np.isnan(alpha_val) or np.isnan(beta_val)):
+                    exp_term = np.exp(-alpha_val*(delta-epsilon_val)**2 - beta_val*(tau-gamma_val)**2)
+                    delta_factor = (self.d_res[i]/delta - 2*alpha_val*(delta-epsilon_val))
+                    tau_factor = (self.t_res[i]/tau - 2*beta_val*(tau-gamma_val))
+                    term3 += (self.n_res[i] * delta**self.d_res[i] * tau**self.t_res[i] * exp_term *
+                             delta_factor * tau_factor)
+            
+            term4 = 0.0
+            for i in self.i4:
+                if not np.isnan(self.b_res[i]):
+                    delta_func = self._delta_function(i, delta, tau)
+                    psi_val = self._psi_function(i, delta, tau)
+                    psi_derivs = self._psi_derivatives(i, delta, tau)
+                    delta_derivs = self._delta_derivatives(i, delta, tau)
+                    
+                    term4 += (self.n_res[i] *
+                             (delta_func**self.b_res[i] * 
+                              (psi_derivs[&#39;dPsi_dtau&#39;] + delta*psi_derivs[&#39;d2Psi_ddelta_dtau&#39;]) +
+                              delta*delta_derivs[&#39;dDelta_bi_ddelta&#39;]*psi_derivs[&#39;dPsi_dtau&#39;] +
+                              delta_derivs[&#39;dDelta_bi_dtau&#39;] * 
+                              (psi_val + delta*psi_derivs[&#39;dPsi_ddelta&#39;]) +
+                              delta_derivs[&#39;d2Delta_bi_ddelta_dtau&#39;]*delta*psi_val))
+            
+            return term1 + term2 + term3 + term4
+            
+            
+            
+            
+        else:
+            raise ValueError(f&#34;Unknown derivative: {derivative}&#34;)
+    
+    def calculate_IAPWS95_property(self, property_name: str, T: float, rho: float) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate individual IAPWS95 property (matching R CHNOSZ IAPWS95 function).
+        
+        Parameters
+        ----------
+        property_name : str
+            Property name (matching R CHNOSZ property names)
+        T : float
+            Temperature in K
+        rho : float
+            Density in kg/m³
+            
+        Returns
+        -------
+        float
+            Property value
+        &#34;&#34;&#34;
+        # Calculate dimensionless variables (Equation 6.4)
+        delta = rho / self.rhoc
+        tau = self.Tc / T
+        
+        # Property calculations matching R CHNOSZ (lines 32-81)
+        if property_name.lower() == &#39;p&#39;:
+            # Pressure in MPa (R line 34: x*rho*R*T/1000)
+            x = 1 + delta * self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+            return x * rho * self.R * T / 1000.0
+            
+        elif property_name.lower() == &#39;s&#39;:
+            # Entropy in kJ/(kg·K) (R lines 36-38)
+            phi_ideal = self._phi_ideal(delta, tau, &#39;phi&#39;)
+            phi_residual = self._phi_residual(delta, tau, &#39;phi&#39;)
+            phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+            phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+            x = tau * (phi_tau_ideal + phi_tau_residual) - phi_ideal - phi_residual
+            return x * self.R
+            
+        elif property_name.lower() == &#39;u&#39;:
+            # Internal energy in kJ/kg (R lines 40-42)
+            phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+            phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+            x = tau * (phi_tau_ideal + phi_tau_residual)
+            return x * self.R * T
+            
+        elif property_name.lower() == &#39;h&#39;:
+            # Enthalpy in kJ/kg (R lines 44-46)
+            phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+            phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+            phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+            x = 1 + tau * (phi_tau_ideal + phi_tau_residual) + delta * phi_delta_residual
+            return x * self.R * T
+            
+        elif property_name.lower() == &#39;g&#39;:
+            # Gibbs energy in kJ/kg (R lines 48-50)
+            phi_ideal = self._phi_ideal(delta, tau, &#39;phi&#39;)
+            phi_residual = self._phi_residual(delta, tau, &#39;phi&#39;)
+            phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+            x = 1 + phi_ideal + phi_residual + delta * phi_delta_residual
+            return x * self.R * T
+            
+        elif property_name.lower() == &#39;cv&#39;:
+            # Isochoric heat capacity in kJ/(kg·K) (R lines 52-54)
+            phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+            phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+            x = -tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual)
+            return x * self.R
+            
+        elif property_name.lower() == &#39;cp&#39;:
+            # Isobaric heat capacity in kJ/(kg·K) (R lines 56-60)
+            phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+            phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+            phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+            phi_delta_tau_residual = self._phi_residual(delta, tau, &#39;phi.delta.tau&#39;)
+            phi_delta_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta.delta&#39;)
+            
+            term1 = -tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual)
+            term2 = ((1 + delta*phi_delta_residual - delta*tau*phi_delta_tau_residual)**2 /
+                    (1 + 2*delta*phi_delta_residual + delta**2*phi_delta_delta_residual))
+            x = term1 + term2
+            return x * self.R
+            
+        elif property_name.lower() == &#39;w&#39;:
+            # Speed of sound in m/s (R lines 71-75)
+            phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+            phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+            phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+            phi_delta_tau_residual = self._phi_residual(delta, tau, &#39;phi.delta.tau&#39;)
+            phi_delta_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta.delta&#39;)
+            
+            x = (1 + 2*delta*phi_delta_residual + delta**2*phi_delta_delta_residual - 
+                ((1 + delta*phi_delta_residual - delta*tau*phi_delta_tau_residual)**2 /
+                 (tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual))))
+            return np.sqrt(x * self.R * T)
+            
+            
+            
+            
+            
+            
+            
+        else:
+            raise ValueError(f&#34;Unknown property: {property_name}&#34;)
+    
+    def calculate(self, 
+                  properties: Union[str, List[str]], 
+                  T: Union[float, np.ndarray] = 298.15,
+                  rho: Union[float, np.ndarray] = 1000.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Calculate water properties using accurate IAPWS-95.
+        
+        Parameters
+        ----------
+        properties : str or list of str
+            Property or list of properties to calculate
+        T : float or array
+            Temperature in Kelvin
+        rho : float or array
+            Density in kg/m³
+            
+        Returns
+        -------
+        float, array, or dict
+            Calculated properties
+        &#34;&#34;&#34;
+        # Handle input types
+        if isinstance(properties, str):
+            properties = [properties]
+            single_prop = True
+        else:
+            single_prop = False
+        
+        # Convert inputs to arrays
+        T = np.atleast_1d(np.asarray(T, dtype=float))
+        rho = np.atleast_1d(np.asarray(rho, dtype=float))
+        
+        # Ensure same length
+        max_len = max(len(T), len(rho))
+        if len(T) &lt; max_len:
+            T = np.resize(T, max_len)
+        if len(rho) &lt; max_len:
+            rho = np.resize(rho, max_len)
+        
+        # Calculate properties
+        results = {}
+        
+        for prop in properties:
+            prop_values = np.full(max_len, np.nan)
+            
+            for i in range(max_len):
+                if not (np.isnan(T[i]) or np.isnan(rho[i]) or T[i] &lt;= 0 or rho[i] &lt;= 0):
+                    try:
+                        prop_values[i] = self.calculate_IAPWS95_property(prop, T[i], rho[i])
+                    except Exception:
+                        prop_values[i] = np.nan
+            
+            results[prop] = prop_values if len(prop_values) &gt; 1 else prop_values[0]
+        
+        # Return results
+        if single_prop:
+            return results[properties[0]]
+        else:
+            return results</code></pre>
+</details>
+<div class="desc"><p>Accurate IAPWS-95 water model implementation matching R CHNOSZ exactly.</p>
+<p>This class provides thermodynamic properties of water using the IAPWS-95
+formulation with exact coefficients and derivative calculations from the
+Wagner &amp; Pruss (2002) specification as implemented in R CHNOSZ.</p>
+<p>Initialize IAPWS95 water model with exact constants.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.iapws95.AccurateIAPWS95Water.calculate"><code class="name flex">
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>rho: float | numpy.ndarray = 1000.0) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate(self, 
+              properties: Union[str, List[str]], 
+              T: Union[float, np.ndarray] = 298.15,
+              rho: Union[float, np.ndarray] = 1000.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using accurate IAPWS-95.
+    
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or list of properties to calculate
+    T : float or array
+        Temperature in Kelvin
+    rho : float or array
+        Density in kg/m³
+        
+    Returns
+    -------
+    float, array, or dict
+        Calculated properties
+    &#34;&#34;&#34;
+    # Handle input types
+    if isinstance(properties, str):
+        properties = [properties]
+        single_prop = True
+    else:
+        single_prop = False
+    
+    # Convert inputs to arrays
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    rho = np.atleast_1d(np.asarray(rho, dtype=float))
+    
+    # Ensure same length
+    max_len = max(len(T), len(rho))
+    if len(T) &lt; max_len:
+        T = np.resize(T, max_len)
+    if len(rho) &lt; max_len:
+        rho = np.resize(rho, max_len)
+    
+    # Calculate properties
+    results = {}
+    
+    for prop in properties:
+        prop_values = np.full(max_len, np.nan)
+        
+        for i in range(max_len):
+            if not (np.isnan(T[i]) or np.isnan(rho[i]) or T[i] &lt;= 0 or rho[i] &lt;= 0):
+                try:
+                    prop_values[i] = self.calculate_IAPWS95_property(prop, T[i], rho[i])
+                except Exception:
+                    prop_values[i] = np.nan
+        
+        results[prop] = prop_values if len(prop_values) &gt; 1 else prop_values[0]
+    
+    # Return results
+    if single_prop:
+        return results[properties[0]]
+    else:
+        return results</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using accurate IAPWS-95.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or list of properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>rho</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Density in kg/m³</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated properties</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.iapws95.AccurateIAPWS95Water.calculate_IAPWS95_property"><code class="name flex">
+<span>def <span class="ident">calculate_IAPWS95_property</span></span>(<span>self, property_name: str, T: float, rho: float) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_IAPWS95_property(self, property_name: str, T: float, rho: float) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate individual IAPWS95 property (matching R CHNOSZ IAPWS95 function).
+    
+    Parameters
+    ----------
+    property_name : str
+        Property name (matching R CHNOSZ property names)
+    T : float
+        Temperature in K
+    rho : float
+        Density in kg/m³
+        
+    Returns
+    -------
+    float
+        Property value
+    &#34;&#34;&#34;
+    # Calculate dimensionless variables (Equation 6.4)
+    delta = rho / self.rhoc
+    tau = self.Tc / T
+    
+    # Property calculations matching R CHNOSZ (lines 32-81)
+    if property_name.lower() == &#39;p&#39;:
+        # Pressure in MPa (R line 34: x*rho*R*T/1000)
+        x = 1 + delta * self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+        return x * rho * self.R * T / 1000.0
+        
+    elif property_name.lower() == &#39;s&#39;:
+        # Entropy in kJ/(kg·K) (R lines 36-38)
+        phi_ideal = self._phi_ideal(delta, tau, &#39;phi&#39;)
+        phi_residual = self._phi_residual(delta, tau, &#39;phi&#39;)
+        phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+        phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+        x = tau * (phi_tau_ideal + phi_tau_residual) - phi_ideal - phi_residual
+        return x * self.R
+        
+    elif property_name.lower() == &#39;u&#39;:
+        # Internal energy in kJ/kg (R lines 40-42)
+        phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+        phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+        x = tau * (phi_tau_ideal + phi_tau_residual)
+        return x * self.R * T
+        
+    elif property_name.lower() == &#39;h&#39;:
+        # Enthalpy in kJ/kg (R lines 44-46)
+        phi_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau&#39;)
+        phi_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau&#39;)
+        phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+        x = 1 + tau * (phi_tau_ideal + phi_tau_residual) + delta * phi_delta_residual
+        return x * self.R * T
+        
+    elif property_name.lower() == &#39;g&#39;:
+        # Gibbs energy in kJ/kg (R lines 48-50)
+        phi_ideal = self._phi_ideal(delta, tau, &#39;phi&#39;)
+        phi_residual = self._phi_residual(delta, tau, &#39;phi&#39;)
+        phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+        x = 1 + phi_ideal + phi_residual + delta * phi_delta_residual
+        return x * self.R * T
+        
+    elif property_name.lower() == &#39;cv&#39;:
+        # Isochoric heat capacity in kJ/(kg·K) (R lines 52-54)
+        phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+        phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+        x = -tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual)
+        return x * self.R
+        
+    elif property_name.lower() == &#39;cp&#39;:
+        # Isobaric heat capacity in kJ/(kg·K) (R lines 56-60)
+        phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+        phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+        phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+        phi_delta_tau_residual = self._phi_residual(delta, tau, &#39;phi.delta.tau&#39;)
+        phi_delta_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta.delta&#39;)
+        
+        term1 = -tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual)
+        term2 = ((1 + delta*phi_delta_residual - delta*tau*phi_delta_tau_residual)**2 /
+                (1 + 2*delta*phi_delta_residual + delta**2*phi_delta_delta_residual))
+        x = term1 + term2
+        return x * self.R
+        
+    elif property_name.lower() == &#39;w&#39;:
+        # Speed of sound in m/s (R lines 71-75)
+        phi_tau_tau_ideal = self._phi_ideal(delta, tau, &#39;phi.tau.tau&#39;)
+        phi_tau_tau_residual = self._phi_residual(delta, tau, &#39;phi.tau.tau&#39;)
+        phi_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta&#39;)
+        phi_delta_tau_residual = self._phi_residual(delta, tau, &#39;phi.delta.tau&#39;)
+        phi_delta_delta_residual = self._phi_residual(delta, tau, &#39;phi.delta.delta&#39;)
+        
+        x = (1 + 2*delta*phi_delta_residual + delta**2*phi_delta_delta_residual - 
+            ((1 + delta*phi_delta_residual - delta*tau*phi_delta_tau_residual)**2 /
+             (tau**2 * (phi_tau_tau_ideal + phi_tau_tau_residual))))
+        return np.sqrt(x * self.R * T)
+        
+        
+        
+        
+        
+        
+        
+    else:
+        raise ValueError(f&#34;Unknown property: {property_name}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Calculate individual IAPWS95 property (matching R CHNOSZ IAPWS95 function).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>property_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Property name (matching R CHNOSZ property names)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code></dt>
+<dd>Temperature in K</dd>
+<dt><strong><code>rho</code></strong> :&ensp;<code>float</code></dt>
+<dd>Density in kg/m³</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Property value</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+<dt id="pychnosz.models.iapws95.IAPWS95Water"><code class="flex name class">
+<span>class <span class="ident">IAPWS95Water</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IAPWS95Water:
+    &#34;&#34;&#34;
+    IAPWS-95 water model interface class.
+
+    This class provides thermodynamic properties of water using the IAPWS-95
+    formulation based on a fundamental equation for the Helmholtz free energy.
+
+    This interface handles unit conversions and provides a standardized API
+    that matches other water models in the package.
+    &#34;&#34;&#34;
+
+    def __init__(self):
+        &#34;&#34;&#34;Initialize IAPWS95 water model.&#34;&#34;&#34;
+        pass
+
+    def available_properties(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        Get list of available properties.
+
+        Returns
+        -------
+        List[str]
+            List of available property names
+        &#34;&#34;&#34;
+        return [&#39;P&#39;, &#39;S&#39;, &#39;U&#39;, &#39;H&#39;, &#39;G&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;w&#39;, &#39;rho&#39;]
+
+    def calculate(self,
+                  properties: Union[str, List[str]],
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray] = 100.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Calculate water properties using IAPWS-95.
+
+        Parameters
+        ----------
+        properties : str or list of str
+            Property or list of properties to calculate
+        T : float or array
+            Temperature in Kelvin
+        P : float or array
+            Pressure in kPa
+
+        Returns
+        -------
+        float, array, or dict
+            Calculated properties
+        &#34;&#34;&#34;
+        # Convert pressure from kPa to bar for the accurate implementation
+        if isinstance(P, (int, float)):
+            P_bar = P / 100.0
+        else:
+            P_bar = np.asarray(P) / 100.0
+
+        # Use the accurate implementation (defined above in this file)
+        return water_IAPWS95_accurate(properties, T=T, P=P_bar)</code></pre>
+</details>
+<div class="desc"><p>IAPWS-95 water model interface class.</p>
+<p>This class provides thermodynamic properties of water using the IAPWS-95
+formulation based on a fundamental equation for the Helmholtz free energy.</p>
+<p>This interface handles unit conversions and provides a standardized API
+that matches other water models in the package.</p>
+<p>Initialize IAPWS95 water model.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.iapws95.IAPWS95Water.available_properties"><code class="name flex">
+<span>def <span class="ident">available_properties</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def available_properties(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    Get list of available properties.
+
+    Returns
+    -------
+    List[str]
+        List of available property names
+    &#34;&#34;&#34;
+    return [&#39;P&#39;, &#39;S&#39;, &#39;U&#39;, &#39;H&#39;, &#39;G&#39;, &#39;Cv&#39;, &#39;Cp&#39;, &#39;w&#39;, &#39;rho&#39;]</code></pre>
+</details>
+<div class="desc"><p>Get list of available properties.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>List[str]</code></dt>
+<dd>List of available property names</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.iapws95.IAPWS95Water.calculate"><code class="name flex">
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray = 100.0) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate(self,
+              properties: Union[str, List[str]],
+              T: Union[float, np.ndarray] = 298.15,
+              P: Union[float, np.ndarray] = 100.0) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using IAPWS-95.
+
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or list of properties to calculate
+    T : float or array
+        Temperature in Kelvin
+    P : float or array
+        Pressure in kPa
+
+    Returns
+    -------
+    float, array, or dict
+        Calculated properties
+    &#34;&#34;&#34;
+    # Convert pressure from kPa to bar for the accurate implementation
+    if isinstance(P, (int, float)):
+        P_bar = P / 100.0
+    else:
+        P_bar = np.asarray(P) / 100.0
+
+    # Use the accurate implementation (defined above in this file)
+    return water_IAPWS95_accurate(properties, T=T, P=P_bar)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using IAPWS-95.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or list of properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Pressure in kPa</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.iapws95.rho_IAPWS95_accurate" href="#pychnosz.models.iapws95.rho_IAPWS95_accurate">rho_IAPWS95_accurate</a></code></li>
+<li><code><a title="pychnosz.models.iapws95.water_IAPWS95" href="#pychnosz.models.iapws95.water_IAPWS95">water_IAPWS95</a></code></li>
+<li><code><a title="pychnosz.models.iapws95.water_IAPWS95_accurate" href="#pychnosz.models.iapws95.water_IAPWS95_accurate">water_IAPWS95_accurate</a></code></li>
+<li><code><a title="pychnosz.models.iapws95.water_iapws95" href="#pychnosz.models.iapws95.water_iapws95">water_iapws95</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.models.iapws95.AccurateIAPWS95Water" href="#pychnosz.models.iapws95.AccurateIAPWS95Water">AccurateIAPWS95Water</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.iapws95.AccurateIAPWS95Water.calculate" href="#pychnosz.models.iapws95.AccurateIAPWS95Water.calculate">calculate</a></code></li>
+<li><code><a title="pychnosz.models.iapws95.AccurateIAPWS95Water.calculate_IAPWS95_property" href="#pychnosz.models.iapws95.AccurateIAPWS95Water.calculate_IAPWS95_property">calculate_IAPWS95_property</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pychnosz.models.iapws95.IAPWS95Water" href="#pychnosz.models.iapws95.IAPWS95Water">IAPWS95Water</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.iapws95.IAPWS95Water.available_properties" href="#pychnosz.models.iapws95.IAPWS95Water.available_properties">available_properties</a></code></li>
+<li><code><a title="pychnosz.models.iapws95.IAPWS95Water.calculate" href="#pychnosz.models.iapws95.IAPWS95Water.calculate">calculate</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

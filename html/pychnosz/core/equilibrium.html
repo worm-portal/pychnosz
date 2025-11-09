@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.core.equilibrium API documentation</title>
+<meta name="description" content="Chemical equilibrium solver for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.core.equilibrium</code></h1>
+</header>
+<section id="section-intro">
+<p>Chemical equilibrium solver for CHNOSZ.</p>
+<p>This module implements equilibrium calculations including:
+- Activity coefficient models
+- Chemical speciation
+- Equilibrium constants
+- Activity-concentration relationships</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.core.equilibrium.affinity"><code class="name flex">
+<span>def <span class="ident">affinity</span></span>(<span>species: str | List[str] | None = None,<br>property: str = 'A',<br>T: float = 298.15,<br>P: float = 1.0) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def affinity(species: Optional[Union[str, List[str]]] = None,
+            property: str = &#39;A&#39;, T: float = 298.15, P: float = 1.0) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate chemical affinity for formation reactions.
+    
+    Parameters
+    ----------
+    species : str, list, or None
+        Species to calculate affinity for. If None, uses current thermo species.
+    property : str, default &#39;A&#39;  
+        Property to calculate (&#39;A&#39; for affinity, &#39;logK&#39; for log K, &#39;logQ&#39; for log Q)
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    DataFrame
+        Affinities and related properties
+    &#34;&#34;&#34;
+    
+    # This would interface with the basis system to calculate formation reaction affinities
+    # For now, return a placeholder
+    
+    if species is None:
+        if thermo.species is None:
+            raise ValueError(&#34;No species defined. Use species() function first.&#34;)
+        species_list = thermo.species[&#39;name&#39;].tolist()
+    elif isinstance(species, str):
+        species_list = [species]
+    else:
+        species_list = species
+    
+    results = []
+    for sp in species_list:
+        # Calculate formation reaction from basis species
+        # This requires implementing the basis system and formation reactions
+        result = {
+            &#39;species&#39;: sp,
+            &#39;T&#39;: T,
+            &#39;P&#39;: P,
+            &#39;A&#39;: 0.0,  # Placeholder - would calculate actual affinity
+            &#39;logK&#39;: 0.0,  # Placeholder
+            &#39;logQ&#39;: 0.0   # Placeholder
+        }
+        results.append(result)
+    
+    return pd.DataFrame(results)</code></pre>
+</details>
+<div class="desc"><p>Calculate chemical affinity for formation reactions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>species</code></strong> :&ensp;<code>str, list,</code> or <code>None</code></dt>
+<dd>Species to calculate affinity for. If None, uses current thermo species.</dd>
+<dt><strong><code>property</code></strong> :&ensp;<code>str</code>, default <code>'A'</code></dt>
+<dd>Property to calculate ('A' for affinity, 'logK' for log K, 'logQ' for log Q)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Affinities and related properties</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.equilibrium.equilibrate"><code class="name flex">
+<span>def <span class="ident">equilibrate</span></span>(<span>aout: pandas.core.frame.DataFrame | None = None,<br>balance: str | int | None = None,<br>normalize: bool = False,<br>as_residue: bool = False) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def equilibrate(aout: Optional[pd.DataFrame] = None, 
+               balance: Optional[Union[str, int]] = None,
+               normalize: bool = False,
+               as_residue: bool = False) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Find chemical equilibrium using an optimization approach.
+    
+    Parameters
+    ----------
+    aout : DataFrame, optional
+        Output from affinity() function
+    balance : str or int, optional
+        Balanced chemical component
+    normalize : bool, default False
+        Normalize activities to sum to 1
+    as_residue : bool, default False
+        Return residue of optimization
+        
+    Returns
+    -------
+    dict
+        Equilibrium results
+    &#34;&#34;&#34;
+    
+    # Placeholder implementation
+    # This would implement the equilibrium optimization using affinity calculations
+    
+    if aout is None:
+        raise ValueError(&#34;affinity output required&#34;)
+    
+    # For now, return equal distribution
+    n_species = len(aout)
+    activities = np.ones(n_species) / n_species
+    
+    result = {
+        &#39;activities&#39;: activities,
+        &#39;residual&#39;: 0.0,
+        &#39;converged&#39;: True
+    }
+    
+    return result</code></pre>
+</details>
+<div class="desc"><p>Find chemical equilibrium using an optimization approach.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aout</code></strong> :&ensp;<code>DataFrame</code>, optional</dt>
+<dd>Output from affinity() function</dd>
+<dt><strong><code>balance</code></strong> :&ensp;<code>str</code> or <code>int</code>, optional</dt>
+<dd>Balanced chemical component</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Normalize activities to sum to 1</dd>
+<dt><strong><code>as_residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Return residue of optimization</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Equilibrium results</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.equilibrium.solubility"><code class="name flex">
+<span>def <span class="ident">solubility</span></span>(<span>species: str | List[str],<br>mineral: str,<br>T: float = 298.15,<br>P: float = 1.0,<br>pH_range: Tuple[float, float] | None = None) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def solubility(species: Union[str, List[str]], 
+              mineral: str,
+              T: float = 298.15, P: float = 1.0,
+              pH_range: Optional[Tuple[float, float]] = None) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate mineral solubility in aqueous solution.
+    
+    Parameters
+    ----------  
+    species : str or list
+        Aqueous species in equilibrium with mineral
+    mineral : str
+        Mineral name
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0  
+        Pressure in bar
+    pH_range : tuple, optional
+        pH range for calculation (min_pH, max_pH)
+        
+    Returns
+    -------
+    dict
+        Solubility results
+    &#34;&#34;&#34;
+    
+    if pH_range is None:
+        pH_range = (0, 14)
+    
+    pH_values = np.linspace(pH_range[0], pH_range[1], 100)
+    
+    # Calculate dissolution reaction
+    # This requires implementing mineral dissolution reactions
+    
+    results = {
+        &#39;pH&#39;: pH_values,
+        &#39;solubility&#39;: np.zeros_like(pH_values),  # Placeholder
+        &#39;species_distribution&#39;: {}  # Placeholder
+    }
+    
+    return results</code></pre>
+</details>
+<div class="desc"><p>Calculate mineral solubility in aqueous solution.</p>
+<h2 id="parameters">Parameters</h2>
+<p>species : str or list
+Aqueous species in equilibrium with mineral
+mineral : str
+Mineral name
+T : float, default 298.15
+Temperature in Kelvin
+P : float, default 1.0<br>
+Pressure in bar
+pH_range : tuple, optional
+pH range for calculation (min_pH, max_pH)</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Solubility results</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.core.equilibrium.EquilibriumSolver"><code class="flex name class">
+<span>class <span class="ident">EquilibriumSolver</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EquilibriumSolver:
+    &#34;&#34;&#34;
+    Chemical equilibrium solver for aqueous systems.
+    
+    This class implements various equilibrium calculation methods:
+    - Activity coefficient corrections (Debye-Hückel, B-dot, Pitzer)
+    - Chemical speciation calculations
+    - Reaction equilibrium constants
+    - Mass balance constraints
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the equilibrium solver.&#34;&#34;&#34;
+        self.activity_models = {
+            &#39;ideal&#39;: self._activity_ideal,
+            &#39;debye_huckel&#39;: self._activity_debye_huckel,
+            &#39;bdot&#39;: self._activity_bdot,
+            &#39;pitzer&#39;: self._activity_pitzer
+        }
+        
+        # Default parameters
+        self.ionic_strength_limit = 3.0  # mol/kg
+        self.max_iterations = 100
+        self.tolerance = 1e-8
+    
+    def calculate_logK(self, reaction: Dict[str, float],
+                      T: Union[float, np.ndarray] = 298.15,
+                      P: Union[float, np.ndarray] = 1.0) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Calculate equilibrium constant for a reaction.
+        
+        Parameters
+        ----------
+        reaction : dict
+            Reaction dictionary with species names as keys and 
+            stoichiometric coefficients as values (negative for reactants)
+        T : float or array, default 298.15
+            Temperature in Kelvin
+        P : float or array, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        array
+            log K values at given T and P
+        &#34;&#34;&#34;
+        
+        # Get species names and coefficients
+        species_names = list(reaction.keys())
+        coefficients = list(reaction.values())
+        
+        # Calculate standard properties
+        result = subcrt(species_names, coefficients, T=T, P=P, show=False)
+        
+        if result[&#39;reaction&#39;] is not None:
+            return result[&#39;reaction&#39;][&#39;logK&#39;].values
+        else:
+            raise ValueError(&#34;Could not calculate reaction properties&#34;)
+    
+    def calculate_speciation(self, total_concentrations: Dict[str, float],
+                           reactions: Dict[str, Dict[str, float]],
+                           T: float = 298.15, P: float = 1.0,
+                           pH: Optional[float] = None,
+                           ionic_strength: Optional[float] = None,
+                           activity_model: str = &#39;debye_huckel&#39;) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Calculate chemical speciation for an aqueous system.
+        
+        Parameters
+        ----------
+        total_concentrations : dict
+            Total concentrations of components (mol/kg)
+        reactions : dict
+            Formation reactions for each species
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0  
+            Pressure in bar
+        pH : float, optional
+            pH constraint (if provided)
+        ionic_strength : float, optional
+            Ionic strength (if known, otherwise calculated)
+        activity_model : str, default &#39;debye_huckel&#39;
+            Activity coefficient model to use
+            
+        Returns
+        -------
+        dict
+            Speciation results with concentrations, activities, and properties
+        &#34;&#34;&#34;
+        
+        # Get equilibrium constants for all reactions
+        logK_values = {}
+        for species, reaction in reactions.items():
+            try:
+                logK = self.calculate_logK(reaction, T, P)
+                logK_values[species] = logK[0] if hasattr(logK, &#39;__len__&#39;) else logK
+            except Exception as e:
+                warnings.warn(f&#34;Could not calculate logK for {species}: {e}&#34;)
+                logK_values[species] = 0.0
+        
+        # Initial guess for species concentrations
+        species_names = list(reactions.keys())
+        basis_species = set()
+        for reaction in reactions.values():
+            basis_species.update(reaction.keys())
+        basis_species = list(basis_species)
+        
+        # Create initial guess (equal distribution)
+        n_species = len(species_names)
+        n_basis = len(basis_species)
+        
+        if n_species == 0:
+            return {&#39;concentrations&#39;: {}, &#39;activities&#39;: {}, &#39;ionic_strength&#39;: 0.0}
+        
+        # Initial concentrations (log scale for stability)
+        x0 = np.ones(n_species + n_basis) * (-6.0)  # log concentrations
+        
+        if pH is not None:
+            # Find H+ index and set pH constraint
+            if &#39;H+&#39; in basis_species:
+                h_idx = basis_species.index(&#39;H+&#39;)
+                x0[n_species + h_idx] = -pH
+        
+        # Solve equilibrium system
+        try:
+            solution = fsolve(self._equilibrium_equations, x0, 
+                            args=(species_names, basis_species, reactions, 
+                                  logK_values, total_concentrations, pH,
+                                  T, P, activity_model))
+            
+            if not np.allclose(self._equilibrium_equations(solution, species_names, basis_species,
+                                                          reactions, logK_values, 
+                                                          total_concentrations, pH,
+                                                          T, P, activity_model), 0, atol=1e-6):
+                warnings.warn(&#34;Equilibrium solution may not have converged&#34;)
+            
+        except Exception as e:
+            warnings.warn(f&#34;Equilibrium calculation failed: {e}&#34;)
+            solution = x0  # Use initial guess
+        
+        # Extract results
+        log_species_conc = solution[:n_species]
+        log_basis_conc = solution[n_species:]
+        
+        species_conc = 10**log_species_conc
+        basis_conc = 10**log_basis_conc
+        
+        # Calculate ionic strength
+        ionic_str = self._calculate_ionic_strength(species_names, species_conc, 
+                                                  basis_species, basis_conc)
+        
+        # Calculate activity coefficients
+        gamma_species = {}
+        gamma_basis = {}
+        
+        for i, species in enumerate(species_names):
+            gamma_species[species] = self._get_activity_coefficient(
+                species, ionic_str, T, P, activity_model)
+        
+        for i, species in enumerate(basis_species):
+            gamma_basis[species] = self._get_activity_coefficient(
+                species, ionic_str, T, P, activity_model)
+        
+        # Calculate activities
+        activities_species = {species: conc * gamma_species[species] 
+                            for species, conc in zip(species_names, species_conc)}
+        activities_basis = {species: conc * gamma_basis[species]
+                           for species, conc in zip(basis_species, basis_conc)}
+        
+        return {
+            &#39;concentrations&#39;: {**dict(zip(species_names, species_conc)),
+                             **dict(zip(basis_species, basis_conc))},
+            &#39;activities&#39;: {**activities_species, **activities_basis},
+            &#39;activity_coefficients&#39;: {**gamma_species, **gamma_basis},
+            &#39;ionic_strength&#39;: ionic_str,
+            &#39;pH&#39;: -np.log10(basis_conc[basis_species.index(&#39;H+&#39;)]) if &#39;H+&#39; in basis_species else None
+        }
+    
+    def _equilibrium_equations(self, x: np.ndarray, species_names: List[str],
+                              basis_species: List[str], reactions: Dict[str, Dict[str, float]],
+                              logK_values: Dict[str, float], 
+                              total_concentrations: Dict[str, float],
+                              pH: Optional[float], T: float, P: float,
+                              activity_model: str) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Equilibrium equations to solve for speciation.
+        
+        Returns array of residuals for:
+        1. Mass balance equations
+        2. Equilibrium constant equations  
+        3. Charge balance (if applicable)
+        4. pH constraint (if provided)
+        &#34;&#34;&#34;
+        
+        n_species = len(species_names)
+        n_basis = len(basis_species)
+        
+        # Extract log concentrations
+        log_species_conc = x[:n_species] 
+        log_basis_conc = x[n_species:]
+        
+        species_conc = 10**log_species_conc
+        basis_conc = 10**log_basis_conc
+        
+        # Calculate ionic strength for activity coefficients
+        ionic_str = self._calculate_ionic_strength(species_names, species_conc,
+                                                  basis_species, basis_conc)
+        
+        equations = []
+        
+        # 1. Equilibrium constant equations
+        for i, species in enumerate(species_names):
+            if species in reactions:
+                reaction = reactions[species]
+                logK = logK_values[species]
+                
+                # log K = log(activity of products) - log(activity of reactants)
+                log_activity_ratio = 0
+                
+                for reactant, coeff in reaction.items():
+                    if reactant in basis_species:
+                        idx = basis_species.index(reactant)
+                        gamma = self._get_activity_coefficient(reactant, ionic_str, T, P, activity_model)
+                        log_activity_ratio += coeff * (log_basis_conc[idx] + np.log10(gamma))
+                
+                # Activity of species being formed
+                gamma_species = self._get_activity_coefficient(species, ionic_str, T, P, activity_model)
+                log_species_activity = log_species_conc[i] + np.log10(gamma_species)
+                
+                # Equilibrium equation: logK - log_activity_ratio + log_species_activity = 0
+                equations.append(logK - log_activity_ratio + log_species_activity)
+        
+        # 2. Mass balance equations
+        for component, total_conc in total_concentrations.items():
+            if total_conc &lt;= 0:
+                continue
+                
+            mass_balance = 0
+            
+            # Contribution from basis species
+            if component in basis_species:
+                idx = basis_species.index(component)
+                mass_balance += basis_conc[idx]
+            
+            # Contributions from formed species
+            for i, species in enumerate(species_names):
+                if species in reactions and component in reactions[species]:
+                    coeff = abs(reactions[species][component])  # Take absolute value for mass balance
+                    mass_balance += coeff * species_conc[i]
+            
+            # Mass balance equation: (calculated - total) / total = 0
+            equations.append((mass_balance - total_conc) / total_conc)
+        
+        # 3. pH constraint
+        if pH is not None and &#39;H+&#39; in basis_species:
+            h_idx = basis_species.index(&#39;H+&#39;)
+            equations.append(log_basis_conc[h_idx] + pH)  # log[H+] + pH = 0
+        
+        return np.array(equations)
+    
+    def _calculate_ionic_strength(self, species_names: List[str], species_conc: np.ndarray,
+                                 basis_species: List[str], basis_conc: np.ndarray) -&gt; float:
+        &#34;&#34;&#34;Calculate ionic strength of the solution.&#34;&#34;&#34;
+        
+        ionic_strength = 0
+        
+        # Contributions from basis species (assume they have charges)
+        for i, species in enumerate(basis_species):
+            charge = self._get_species_charge(species)
+            ionic_strength += 0.5 * basis_conc[i] * charge**2
+        
+        # Contributions from formed species  
+        for i, species in enumerate(species_names):
+            charge = self._get_species_charge(species)
+            ionic_strength += 0.5 * species_conc[i] * charge**2
+        
+        return ionic_strength
+    
+    def _get_species_charge(self, species: str) -&gt; int:
+        &#34;&#34;&#34;Extract charge from species name (simplified).&#34;&#34;&#34;
+        
+        if &#39;+&#39; in species:
+            charge_str = species.split(&#39;+&#39;)[-1]
+            try:
+                return int(charge_str) if charge_str.isdigit() else 1
+            except:
+                return 1
+        elif &#39;-&#39; in species:
+            charge_str = species.split(&#39;-&#39;)[-1]
+            try:
+                return -int(charge_str) if charge_str.isdigit() else -1
+            except:
+                return -1
+        else:
+            return 0
+    
+    def _get_activity_coefficient(self, species: str, ionic_strength: float,
+                                 T: float, P: float, model: str) -&gt; float:
+        &#34;&#34;&#34;Calculate activity coefficient for a species.&#34;&#34;&#34;
+        
+        if model in self.activity_models:
+            return self.activity_models[model](species, ionic_strength, T, P)
+        else:
+            warnings.warn(f&#34;Unknown activity model: {model}, using ideal&#34;)
+            return 1.0
+    
+    def _activity_ideal(self, species: str, I: float, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;Ideal activity coefficient (γ = 1).&#34;&#34;&#34;
+        return 1.0
+    
+    def _activity_debye_huckel(self, species: str, I: float, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;Debye-Hückel activity coefficient.&#34;&#34;&#34;
+        
+        charge = self._get_species_charge(species)
+        
+        if charge == 0:
+            return 1.0  # Neutral species
+        
+        # Debye-Hückel parameters (approximate)
+        A = 0.509  # at 25°C, valid for higher T too approximately
+        
+        # Extended Debye-Hückel equation
+        if I &lt;= 0.1:
+            log_gamma = -A * charge**2 * np.sqrt(I) / (1 + np.sqrt(I))
+        else:
+            # For higher ionic strengths, use extended form
+            B = 0.328  # approximate
+            log_gamma = -A * charge**2 * np.sqrt(I) / (1 + B * np.sqrt(I))
+        
+        return 10**log_gamma
+    
+    def _activity_bdot(self, species: str, I: float, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;B-dot activity coefficient model.&#34;&#34;&#34;
+        
+        charge = self._get_species_charge(species)
+        
+        if charge == 0:
+            return 1.0
+        
+        # B-dot equation parameters (simplified)
+        A = 0.509  # Debye-Hückel A parameter
+        B = 0.328  # B parameter
+        bdot = 0.041  # B-dot parameter (approximate)
+        
+        sqrt_I = np.sqrt(I)
+        log_gamma = -A * charge**2 * sqrt_I / (1 + B * sqrt_I) + bdot * I
+        
+        return 10**log_gamma
+    
+    def _activity_pitzer(self, species: str, I: float, T: float, P: float) -&gt; float:
+        &#34;&#34;&#34;Pitzer activity coefficient model (simplified).&#34;&#34;&#34;
+        
+        # For now, fall back to B-dot model
+        return self._activity_bdot(species, I, T, P)</code></pre>
+</details>
+<div class="desc"><p>Chemical equilibrium solver for aqueous systems.</p>
+<p>This class implements various equilibrium calculation methods:
+- Activity coefficient corrections (Debye-Hückel, B-dot, Pitzer)
+- Chemical speciation calculations
+- Reaction equilibrium constants
+- Mass balance constraints</p>
+<p>Initialize the equilibrium solver.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.core.equilibrium.EquilibriumSolver.calculate_logK"><code class="name flex">
+<span>def <span class="ident">calculate_logK</span></span>(<span>self,<br>reaction: Dict[str, float],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray = 1.0) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_logK(self, reaction: Dict[str, float],
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray] = 1.0) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Calculate equilibrium constant for a reaction.
+    
+    Parameters
+    ----------
+    reaction : dict
+        Reaction dictionary with species names as keys and 
+        stoichiometric coefficients as values (negative for reactants)
+    T : float or array, default 298.15
+        Temperature in Kelvin
+    P : float or array, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    array
+        log K values at given T and P
+    &#34;&#34;&#34;
+    
+    # Get species names and coefficients
+    species_names = list(reaction.keys())
+    coefficients = list(reaction.values())
+    
+    # Calculate standard properties
+    result = subcrt(species_names, coefficients, T=T, P=P, show=False)
+    
+    if result[&#39;reaction&#39;] is not None:
+        return result[&#39;reaction&#39;][&#39;logK&#39;].values
+    else:
+        raise ValueError(&#34;Could not calculate reaction properties&#34;)</code></pre>
+</details>
+<div class="desc"><p>Calculate equilibrium constant for a reaction.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>reaction</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Reaction dictionary with species names as keys and
+stoichiometric coefficients as values (negative for reactants)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>array</code></dt>
+<dd>log K values at given T and P</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.core.equilibrium.EquilibriumSolver.calculate_speciation"><code class="name flex">
+<span>def <span class="ident">calculate_speciation</span></span>(<span>self,<br>total_concentrations: Dict[str, float],<br>reactions: Dict[str, Dict[str, float]],<br>T: float = 298.15,<br>P: float = 1.0,<br>pH: float | None = None,<br>ionic_strength: float | None = None,<br>activity_model: str = 'debye_huckel') ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate_speciation(self, total_concentrations: Dict[str, float],
+                       reactions: Dict[str, Dict[str, float]],
+                       T: float = 298.15, P: float = 1.0,
+                       pH: Optional[float] = None,
+                       ionic_strength: Optional[float] = None,
+                       activity_model: str = &#39;debye_huckel&#39;) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Calculate chemical speciation for an aqueous system.
+    
+    Parameters
+    ----------
+    total_concentrations : dict
+        Total concentrations of components (mol/kg)
+    reactions : dict
+        Formation reactions for each species
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0  
+        Pressure in bar
+    pH : float, optional
+        pH constraint (if provided)
+    ionic_strength : float, optional
+        Ionic strength (if known, otherwise calculated)
+    activity_model : str, default &#39;debye_huckel&#39;
+        Activity coefficient model to use
+        
+    Returns
+    -------
+    dict
+        Speciation results with concentrations, activities, and properties
+    &#34;&#34;&#34;
+    
+    # Get equilibrium constants for all reactions
+    logK_values = {}
+    for species, reaction in reactions.items():
+        try:
+            logK = self.calculate_logK(reaction, T, P)
+            logK_values[species] = logK[0] if hasattr(logK, &#39;__len__&#39;) else logK
+        except Exception as e:
+            warnings.warn(f&#34;Could not calculate logK for {species}: {e}&#34;)
+            logK_values[species] = 0.0
+    
+    # Initial guess for species concentrations
+    species_names = list(reactions.keys())
+    basis_species = set()
+    for reaction in reactions.values():
+        basis_species.update(reaction.keys())
+    basis_species = list(basis_species)
+    
+    # Create initial guess (equal distribution)
+    n_species = len(species_names)
+    n_basis = len(basis_species)
+    
+    if n_species == 0:
+        return {&#39;concentrations&#39;: {}, &#39;activities&#39;: {}, &#39;ionic_strength&#39;: 0.0}
+    
+    # Initial concentrations (log scale for stability)
+    x0 = np.ones(n_species + n_basis) * (-6.0)  # log concentrations
+    
+    if pH is not None:
+        # Find H+ index and set pH constraint
+        if &#39;H+&#39; in basis_species:
+            h_idx = basis_species.index(&#39;H+&#39;)
+            x0[n_species + h_idx] = -pH
+    
+    # Solve equilibrium system
+    try:
+        solution = fsolve(self._equilibrium_equations, x0, 
+                        args=(species_names, basis_species, reactions, 
+                              logK_values, total_concentrations, pH,
+                              T, P, activity_model))
+        
+        if not np.allclose(self._equilibrium_equations(solution, species_names, basis_species,
+                                                      reactions, logK_values, 
+                                                      total_concentrations, pH,
+                                                      T, P, activity_model), 0, atol=1e-6):
+            warnings.warn(&#34;Equilibrium solution may not have converged&#34;)
+        
+    except Exception as e:
+        warnings.warn(f&#34;Equilibrium calculation failed: {e}&#34;)
+        solution = x0  # Use initial guess
+    
+    # Extract results
+    log_species_conc = solution[:n_species]
+    log_basis_conc = solution[n_species:]
+    
+    species_conc = 10**log_species_conc
+    basis_conc = 10**log_basis_conc
+    
+    # Calculate ionic strength
+    ionic_str = self._calculate_ionic_strength(species_names, species_conc, 
+                                              basis_species, basis_conc)
+    
+    # Calculate activity coefficients
+    gamma_species = {}
+    gamma_basis = {}
+    
+    for i, species in enumerate(species_names):
+        gamma_species[species] = self._get_activity_coefficient(
+            species, ionic_str, T, P, activity_model)
+    
+    for i, species in enumerate(basis_species):
+        gamma_basis[species] = self._get_activity_coefficient(
+            species, ionic_str, T, P, activity_model)
+    
+    # Calculate activities
+    activities_species = {species: conc * gamma_species[species] 
+                        for species, conc in zip(species_names, species_conc)}
+    activities_basis = {species: conc * gamma_basis[species]
+                       for species, conc in zip(basis_species, basis_conc)}
+    
+    return {
+        &#39;concentrations&#39;: {**dict(zip(species_names, species_conc)),
+                         **dict(zip(basis_species, basis_conc))},
+        &#39;activities&#39;: {**activities_species, **activities_basis},
+        &#39;activity_coefficients&#39;: {**gamma_species, **gamma_basis},
+        &#39;ionic_strength&#39;: ionic_str,
+        &#39;pH&#39;: -np.log10(basis_conc[basis_species.index(&#39;H+&#39;)]) if &#39;H+&#39; in basis_species else None
+    }</code></pre>
+</details>
+<div class="desc"><p>Calculate chemical speciation for an aqueous system.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>total_concentrations</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Total concentrations of components (mol/kg)</dd>
+<dt><strong><code>reactions</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Formation reactions for each species</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0
+</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>pH constraint (if provided)</dd>
+<dt><strong><code>ionic_strength</code></strong> :&ensp;<code>float</code>, optional</dt>
+<dd>Ionic strength (if known, otherwise calculated)</dd>
+<dt><strong><code>activity_model</code></strong> :&ensp;<code>str</code>, default <code>'debye_huckel'</code></dt>
+<dd>Activity coefficient model to use</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Speciation results with concentrations, activities, and properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.core" href="index.html">pychnosz.core</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.core.equilibrium.affinity" href="#pychnosz.core.equilibrium.affinity">affinity</a></code></li>
+<li><code><a title="pychnosz.core.equilibrium.equilibrate" href="#pychnosz.core.equilibrium.equilibrate">equilibrate</a></code></li>
+<li><code><a title="pychnosz.core.equilibrium.solubility" href="#pychnosz.core.equilibrium.solubility">solubility</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.core.equilibrium.EquilibriumSolver" href="#pychnosz.core.equilibrium.EquilibriumSolver">EquilibriumSolver</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.core.equilibrium.EquilibriumSolver.calculate_logK" href="#pychnosz.core.equilibrium.EquilibriumSolver.calculate_logK">calculate_logK</a></code></li>
+<li><code><a title="pychnosz.core.equilibrium.EquilibriumSolver.calculate_speciation" href="#pychnosz.core.equilibrium.EquilibriumSolver.calculate_speciation">calculate_speciation</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

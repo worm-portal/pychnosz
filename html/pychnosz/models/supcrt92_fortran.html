@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.models.supcrt92_fortran API documentation</title>
+<meta name="description" content="SUPCRT92 water model with Fortran backend …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.models.supcrt92_fortran</code></h1>
+</header>
+<section id="section-intro">
+<p>SUPCRT92 water model with Fortran backend.</p>
+<p>This implementation uses the original H2O92 Fortran subroutine for exact
+compatibility with R CHNOSZ. Falls back to Python approximations if
+the Fortran library is not available.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.models.supcrt92_fortran.water_SUPCRT92"><code class="name flex">
+<span>def <span class="ident">water_SUPCRT92</span></span>(<span>property: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def water_SUPCRT92(property: Union[str, List[str]], 
+                   T: Union[float, np.ndarray] = 298.15,
+                   P: Union[float, np.ndarray, str] = 1.0,
+                   **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using SUPCRT92 model.
+    
+    This function provides the same interface as the original Python
+    implementation but with Fortran backend support for high accuracy.
+    
+    Parameters
+    ----------
+    property : str or list of str
+        Property or list of properties to calculate
+    T : float or array
+        Temperature in Kelvin
+    P : float, array, or &#39;Psat&#39;
+        Pressure in bar, or &#39;Psat&#39; for saturation pressure
+    **kwargs
+        Additional options (e.g., Psat_floor)
+    
+    Returns
+    -------
+    float, array, or dict
+        Calculated properties
+        
+    Examples
+    --------
+    &gt;&gt;&gt; # Basic usage
+    &gt;&gt;&gt; rho = water_SUPCRT92(&#39;rho&#39;, 298.15, 1.0)
+    &gt;&gt;&gt; print(f&#34;Density: {rho:.3f} g/cm³&#34;)
+    
+    &gt;&gt;&gt; # Multiple properties  
+    &gt;&gt;&gt; props = water_SUPCRT92([&#39;rho&#39;, &#39;epsilon&#39;], 298.15, 1.0)
+    &gt;&gt;&gt; print(f&#34;ρ = {props[&#39;rho&#39;]:.3f}, ε = {props[&#39;epsilon&#39;]:.1f}&#34;)
+    
+    &gt;&gt;&gt; # Saturation pressure
+    &gt;&gt;&gt; Psat = water_SUPCRT92(&#39;Psat&#39;, 373.15, &#39;Psat&#39;)
+    &gt;&gt;&gt; print(f&#34;Psat at 100°C: {Psat:.2f} bar&#34;)
+    &#34;&#34;&#34;
+    return supcrt92_water.calculate(property, T, P, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using SUPCRT92 model.</p>
+<p>This function provides the same interface as the original Python
+implementation but with Fortran backend support for high accuracy.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>property</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or list of properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, array,</code> or <code>'Psat'</code></dt>
+<dd>Pressure in bar, or 'Psat' for saturation pressure</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional options (e.g., Psat_floor)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Basic usage
+&gt;&gt;&gt; rho = water_SUPCRT92('rho', 298.15, 1.0)
+&gt;&gt;&gt; print(f&quot;Density: {rho:.3f} g/cm³&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Multiple properties  
+&gt;&gt;&gt; props = water_SUPCRT92(['rho', 'epsilon'], 298.15, 1.0)
+&gt;&gt;&gt; print(f&quot;ρ = {props['rho']:.3f}, ε = {props['epsilon']:.1f}&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Saturation pressure
+&gt;&gt;&gt; Psat = water_SUPCRT92('Psat', 373.15, 'Psat')
+&gt;&gt;&gt; print(f&quot;Psat at 100°C: {Psat:.2f} bar&quot;)
+</code></pre></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.models.supcrt92_fortran.SUPCRT92Water"><code class="flex name class">
+<span>class <span class="ident">SUPCRT92Water</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SUPCRT92Water:
+    &#34;&#34;&#34;
+    SUPCRT92 water model with Fortran backend.
+    
+    This class provides an interface to the original SUPCRT92 Fortran
+    subroutines for calculating water properties. If the Fortran library
+    is not available, it falls back to Python approximations.
+    
+    The Fortran implementation gives exact compatibility with R CHNOSZ
+    and includes all 23+ thermodynamic properties.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;
+        Initialize SUPCRT92 water model.
+        
+        SUPCRT92 requires the compiled FORTRAN interface for accuracy and 
+        compatibility with R CHNOSZ. No pure Python fallback is provided.
+        &#34;&#34;&#34;
+        if not HAS_FORTRAN:
+            raise ImportError(
+                f&#34;SUPCRT92 water model requires compiled FORTRAN interface. &#34;
+                f&#34;Error: {_fortran_error}. &#34;
+                f&#34;Please compile the FORTRAN subroutines using: &#34;
+                f&#34;python compile_fortran.py. &#34;
+                f&#34;See setup_fortran_instructions.md for details.&#34;
+            )
+        
+        # Initialize Fortran interface (required)
+        try:
+            self._fortran_interface = get_h2o92_interface()
+        except Exception as e:
+            raise RuntimeError(f&#34;Failed to initialize FORTRAN interface: {e}&#34;) from e
+    
+    def calculate(self, 
+                  properties: Union[str, List[str]], 
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray, str] = 1.0,
+                  **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+        &#34;&#34;&#34;
+        Calculate water properties using SUPCRT92 model.
+        
+        Parameters
+        ----------
+        properties : str or list of str
+            Property or list of properties to calculate
+        T : float or array
+            Temperature in Kelvin
+        P : float, array, or &#39;Psat&#39;
+            Pressure in bar, or &#39;Psat&#39; for saturation pressure
+        **kwargs
+            Additional options (e.g., Psat_floor)
+        
+        Returns
+        -------
+        float, array, or dict
+            Calculated properties
+        &#34;&#34;&#34;
+        
+        # Handle input types
+        if isinstance(properties, str):
+            properties = [properties]
+            single_prop = True
+        else:
+            single_prop = False
+            
+        # Convert inputs to arrays
+        T = np.atleast_1d(np.asarray(T, dtype=float))
+        
+        # Always use FORTRAN backend (no fallback)
+        return self._calculate_fortran(properties, T, P, single_prop, **kwargs)
+    
+    def _calculate_fortran(self, properties: List[str], T: np.ndarray,
+                          P: Union[np.ndarray, str], single_prop: bool,
+                          **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+        &#34;&#34;&#34;Calculate properties using Fortran backend.&#34;&#34;&#34;
+
+        # Handle pressure input
+        if isinstance(P, str) and P == &#39;Psat&#39;:
+            P_vals = &#39;Psat&#39;
+        else:
+            P = np.atleast_1d(np.asarray(P, dtype=float))
+            if len(P) &lt; len(T):
+                P = np.resize(P, len(T))
+            elif len(T) &lt; len(P):
+                T = np.resize(T, len(P))
+            P_vals = P
+
+        # Use batched calculation for better performance
+        try:
+            results = self._fortran_interface.calculate_properties_batch(
+                T, P_vals, properties
+            )
+        except Exception as e:
+            warnings.warn(f&#34;Batch Fortran calculation failed: {e}&#34;)
+            # Fallback to individual calculations if batch fails
+            results = {}
+            for prop in properties:
+                results[prop] = np.full_like(T, np.nan)
+
+            for i in range(len(T)):
+                T_i = T[i]
+
+                # Skip invalid points
+                if np.isnan(T_i):
+                    continue
+
+                if isinstance(P_vals, str):
+                    P_i = P_vals
+                else:
+                    P_i = P_vals[i]
+                    if np.isnan(P_i):
+                        continue
+
+                try:
+                    # Call Fortran interface
+                    props_i = self._fortran_interface.calculate_properties(
+                        T_i, P_i, properties
+                    )
+
+                    # Store results
+                    for prop in properties:
+                        if prop in props_i:
+                            results[prop][i] = props_i[prop]
+
+                except Exception as e:
+                    warnings.warn(f&#34;Fortran calculation failed at T={T_i:.1f}K, P={P_i}: {e}&#34;)
+                    continue
+
+        # Handle Psat_floor for saturation pressure
+        if &#39;Psat&#39; in results and &#39;Psat_floor&#39; in kwargs:
+            Psat_floor = kwargs[&#39;Psat_floor&#39;]
+            if Psat_floor is not None:
+                results[&#39;Psat&#39;] = np.maximum(results[&#39;Psat&#39;], Psat_floor)
+        
+        # Return results
+        if single_prop:
+            result = results[properties[0]]
+            return result[0] if len(result) == 1 else result
+        else:
+            # Convert single-element arrays to scalars if appropriate
+            if len(T) == 1:
+                for key in results:
+                    if len(results[key]) == 1:
+                        results[key] = results[key][0]
+            return results
+    
+    def available_properties(self) -&gt; List[str]:
+        &#34;&#34;&#34;
+        Get list of available properties.
+        
+        Returns
+        -------
+        List[str]
+            List of available property names
+        &#34;&#34;&#34;
+        if self._use_fortran:
+            return self._fortran_interface.available_properties()
+        else:
+            return self._python_backend.available_properties()
+    
+    @property
+    def backend(self) -&gt; str:
+        &#34;&#34;&#34;Get the active backend (&#39;fortran&#39; or &#39;python&#39;).&#34;&#34;&#34;
+        return &#39;fortran&#39; if self._use_fortran else &#39;python&#39;
+    
+    @property
+    def has_fortran(self) -&gt; bool:
+        &#34;&#34;&#34;Check if Fortran backend is available.&#34;&#34;&#34;
+        return HAS_FORTRAN</code></pre>
+</details>
+<div class="desc"><p>SUPCRT92 water model with Fortran backend.</p>
+<p>This class provides an interface to the original SUPCRT92 Fortran
+subroutines for calculating water properties. If the Fortran library
+is not available, it falls back to Python approximations.</p>
+<p>The Fortran implementation gives exact compatibility with R CHNOSZ
+and includes all 23+ thermodynamic properties.</p>
+<p>Initialize SUPCRT92 water model.</p>
+<p>SUPCRT92 requires the compiled FORTRAN interface for accuracy and
+compatibility with R CHNOSZ. No pure Python fallback is provided.</p></div>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pychnosz.models.supcrt92_fortran.SUPCRT92Water.backend"><code class="name">prop <span class="ident">backend</span> : str</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def backend(self) -&gt; str:
+    &#34;&#34;&#34;Get the active backend (&#39;fortran&#39; or &#39;python&#39;).&#34;&#34;&#34;
+    return &#39;fortran&#39; if self._use_fortran else &#39;python&#39;</code></pre>
+</details>
+<div class="desc"><p>Get the active backend ('fortran' or 'python').</p></div>
+</dd>
+<dt id="pychnosz.models.supcrt92_fortran.SUPCRT92Water.has_fortran"><code class="name">prop <span class="ident">has_fortran</span> : bool</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@property
+def has_fortran(self) -&gt; bool:
+    &#34;&#34;&#34;Check if Fortran backend is available.&#34;&#34;&#34;
+    return HAS_FORTRAN</code></pre>
+</details>
+<div class="desc"><p>Check if Fortran backend is available.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.models.supcrt92_fortran.SUPCRT92Water.available_properties"><code class="name flex">
+<span>def <span class="ident">available_properties</span></span>(<span>self) ‑> List[str]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def available_properties(self) -&gt; List[str]:
+    &#34;&#34;&#34;
+    Get list of available properties.
+    
+    Returns
+    -------
+    List[str]
+        List of available property names
+    &#34;&#34;&#34;
+    if self._use_fortran:
+        return self._fortran_interface.available_properties()
+    else:
+        return self._python_backend.available_properties()</code></pre>
+</details>
+<div class="desc"><p>Get list of available properties.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>List[str]</code></dt>
+<dd>List of available property names</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.models.supcrt92_fortran.SUPCRT92Water.calculate"><code class="name flex">
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def calculate(self, 
+              properties: Union[str, List[str]], 
+              T: Union[float, np.ndarray] = 298.15,
+              P: Union[float, np.ndarray, str] = 1.0,
+              **kwargs) -&gt; Union[float, np.ndarray, Dict[str, Any]]:
+    &#34;&#34;&#34;
+    Calculate water properties using SUPCRT92 model.
+    
+    Parameters
+    ----------
+    properties : str or list of str
+        Property or list of properties to calculate
+    T : float or array
+        Temperature in Kelvin
+    P : float, array, or &#39;Psat&#39;
+        Pressure in bar, or &#39;Psat&#39; for saturation pressure
+    **kwargs
+        Additional options (e.g., Psat_floor)
+    
+    Returns
+    -------
+    float, array, or dict
+        Calculated properties
+    &#34;&#34;&#34;
+    
+    # Handle input types
+    if isinstance(properties, str):
+        properties = [properties]
+        single_prop = True
+    else:
+        single_prop = False
+        
+    # Convert inputs to arrays
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    
+    # Always use FORTRAN backend (no fallback)
+    return self._calculate_fortran(properties, T, P, single_prop, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Calculate water properties using SUPCRT92 model.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>properties</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
+<dd>Property or list of properties to calculate</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, array,</code> or <code>'Psat'</code></dt>
+<dd>Pressure in bar, or 'Psat' for saturation pressure</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional options (e.g., Psat_floor)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float, array,</code> or <code>dict</code></dt>
+<dd>Calculated properties</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.models" href="index.html">pychnosz.models</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.models.supcrt92_fortran.water_SUPCRT92" href="#pychnosz.models.supcrt92_fortran.water_SUPCRT92">water_SUPCRT92</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.models.supcrt92_fortran.SUPCRT92Water" href="#pychnosz.models.supcrt92_fortran.SUPCRT92Water">SUPCRT92Water</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.models.supcrt92_fortran.SUPCRT92Water.available_properties" href="#pychnosz.models.supcrt92_fortran.SUPCRT92Water.available_properties">available_properties</a></code></li>
+<li><code><a title="pychnosz.models.supcrt92_fortran.SUPCRT92Water.backend" href="#pychnosz.models.supcrt92_fortran.SUPCRT92Water.backend">backend</a></code></li>
+<li><code><a title="pychnosz.models.supcrt92_fortran.SUPCRT92Water.calculate" href="#pychnosz.models.supcrt92_fortran.SUPCRT92Water.calculate">calculate</a></code></li>
+<li><code><a title="pychnosz.models.supcrt92_fortran.SUPCRT92Water.has_fortran" href="#pychnosz.models.supcrt92_fortran.SUPCRT92Water.has_fortran">has_fortran</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

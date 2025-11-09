@@ -7,11 +7,11 @@ authors:
     given-names: Grayson
     orcid: "https://orcid.org/0000-0002-7670-9273"
 
-cff-version: "0.9.0"
+cff-version: "0.10.0"
 license: MIT
 message: "If you use this software, please cite it using these metadata."
-repository-code: "https://github.com/worm-portal/pyCHNOSZ"
-title: "pyCHNOSZ: Python wrapper for the thermodynamic package CHNOSZ"
-version: "0.9.0"
-date-released: 2025-06-18
+repository-code: "https://github.com/worm-portal/pychnosz"
+title: "pyCHNOSZ: Python conversion of the thermodynamic package CHNOSZ"
+version: "0.10.0"
+date-released: 2025-11-1
 ...

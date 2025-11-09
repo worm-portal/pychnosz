@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.utils.formula_ox API documentation</title>
+<meta name="description" content="Formula oxidation state utilities for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.utils.formula_ox</code></h1>
+</header>
+<section id="section-intro">
+<p>Formula oxidation state utilities for CHNOSZ.</p>
+<p>This module provides functions for working with chemical formulas that include
+element oxidation states, specifically for use with the WORM thermodynamic database.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.utils.formula_ox.get_formula_ox"><code class="name flex">
+<span>def <span class="ident">get_formula_ox</span></span>(<span>name: str | int) ‑> Dict[str, float]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_formula_ox(name: Union[str, int]) -&gt; Dict[str, float]:
+    &#34;&#34;&#34;
+    Get quantities of elements and their oxidation states in a chemical compound.
+
+    This function only works when a thermodynamic database with the &#39;formula_ox&#39;
+    column is loaded (e.g., the WORM database). For example, an input of &#34;magnetite&#34;
+    would return the following: {&#39;Fe+3&#39;: 2.0, &#39;Fe+2&#39;: 1.0, &#39;O-2&#39;: 4.0}.
+
+    Parameters
+    ----------
+    name : str or int
+        The name or database index of the chemical species of interest. Example:
+        &#34;magnetite&#34; or 738.
+
+    Returns
+    -------
+    dict
+        A dictionary where each key represents an element in a specific
+        oxidation state, and its value is the number of that element in the
+        chemical species&#39; formula.
+
+    Raises
+    ------
+    TypeError
+        If input is not a string or integer.
+    AttributeError
+        If the WORM thermodynamic database is not loaded (no formula_ox attribute).
+    ValueError
+        If the species is not found in the database or does not have oxidation
+        state information.
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; # Load the WORM database
+    &gt;&gt;&gt; pychnosz.thermo(&#34;WORM&#34;)
+    &gt;&gt;&gt; # Get formula with oxidation states for magnetite
+    &gt;&gt;&gt; pychnosz.get_formula_ox(&#34;magnetite&#34;)
+    {&#39;Fe+3&#39;: 2.0, &#39;Fe+2&#39;: 1.0, &#39;O-2&#39;: 4.0}
+    &gt;&gt;&gt; # Can also use species index
+    &gt;&gt;&gt; pychnosz.get_formula_ox(738)
+    {&#39;Fe+3&#39;: 2.0, &#39;Fe+2&#39;: 1.0, &#39;O-2&#39;: 4.0}
+
+    Notes
+    -----
+    This function requires the wormutils package to be installed for parsing
+    the formula_ox strings. Install it with: pip install wormutils
+    &#34;&#34;&#34;
+
+    # Import parse_formula_ox from wormutils
+    try:
+        from wormutils import parse_formula_ox
+    except ImportError:
+        raise ImportError(
+            &#34;The wormutils package is required to use get_formula_ox(). &#34;
+            &#34;Install it with: pip install wormutils&#34;
+        )
+
+    # Validate input type
+    if not isinstance(name, str) and not isinstance(name, int):
+        raise TypeError(
+            &#34;Must provide input as a string (chemical species name) or &#34;
+            &#34;an integer (chemical species index).&#34;
+        )
+
+    # Get the thermo system
+    thermo_sys = thermo()
+
+    # Convert index to name if necessary
+    if isinstance(name, int):
+        species_info = info(name, messages=False)
+        if species_info is None or len(species_info) == 0:
+            raise ValueError(f&#34;Species index {name} not found in the database.&#34;)
+        name = species_info.name.iloc[0]
+
+    # Check if formula_ox exists in thermo()
+    if not hasattr(thermo_sys, &#39;formula_ox&#39;) or thermo_sys.formula_ox is None:
+        raise AttributeError(
+            &#34;The &#39;formula_ox&#39; attribute is not available. &#34;
+            &#34;This function only works when the WORM thermodynamic database &#34;
+            &#34;is loaded. Load it with: pychnosz.thermo(&#39;WORM&#39;)&#34;
+        )
+
+    df = thermo_sys.formula_ox
+
+    # Check if the species name exists in the database
+    if name not in list(df[&#34;name&#34;]):
+        raise ValueError(
+            f&#34;The species &#39;{name}&#39; was not found in the loaded thermodynamic database.&#34;
+        )
+
+    # Get the formula_ox string for this species
+    try:
+        formula_ox_str = df[df[&#34;name&#34;] == name][&#34;formula_ox&#34;].iloc[0]
+    except (KeyError, IndexError):
+        raise ValueError(
+            f&#34;The species &#39;{name}&#39; does not have elemental oxidation states &#34;
+            &#34;given in the &#39;formula_ox&#39; column of the loaded thermodynamic database.&#34;
+        )
+
+    # Check if formula_ox is valid (not NaN or empty)
+    if formula_ox_str is None or (isinstance(formula_ox_str, float) and pd.isna(formula_ox_str)) or formula_ox_str == &#34;&#34;:
+        raise ValueError(
+            f&#34;The species &#39;{name}&#39; does not have elemental oxidation states &#34;
+            &#34;given in the &#39;formula_ox&#39; column of the loaded thermodynamic database.&#34;
+        )
+
+    # Parse the formula_ox string and return
+    return parse_formula_ox(formula_ox_str)</code></pre>
+</details>
+<div class="desc"><p>Get quantities of elements and their oxidation states in a chemical compound.</p>
+<p>This function only works when a thermodynamic database with the 'formula_ox'
+column is loaded (e.g., the WORM database). For example, an input of "magnetite"
+would return the following: {'Fe+3': 2.0, 'Fe+2': 1.0, 'O-2': 4.0}.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>name</code></strong> :&ensp;<code>str</code> or <code>int</code></dt>
+<dd>The name or database index of the chemical species of interest. Example:
+"magnetite" or 738.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>A dictionary where each key represents an element in a specific
+oxidation state, and its value is the number of that element in the
+chemical species' formula.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>If input is not a string or integer.</dd>
+<dt><code>AttributeError</code></dt>
+<dd>If the WORM thermodynamic database is not loaded (no formula_ox attribute).</dd>
+<dt><code>ValueError</code></dt>
+<dd>If the species is not found in the database or does not have oxidation
+state information.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; # Load the WORM database
+&gt;&gt;&gt; pychnosz.thermo(&quot;WORM&quot;)
+&gt;&gt;&gt; # Get formula with oxidation states for magnetite
+&gt;&gt;&gt; pychnosz.get_formula_ox(&quot;magnetite&quot;)
+{'Fe+3': 2.0, 'Fe+2': 1.0, 'O-2': 4.0}
+&gt;&gt;&gt; # Can also use species index
+&gt;&gt;&gt; pychnosz.get_formula_ox(738)
+{'Fe+3': 2.0, 'Fe+2': 1.0, 'O-2': 4.0}
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This function requires the wormutils package to be installed for parsing
+the formula_ox strings. Install it with: pip install wormutils</p></div>
+</dd>
+<dt id="pychnosz.utils.formula_ox.get_n_element_ox"><code class="name flex">
+<span>def <span class="ident">get_n_element_ox</span></span>(<span>names: str | int | List[str | int] | pandas.core.series.Series,<br>element_ox: str,<br>binary: bool = False) ‑> List[float | bool]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_n_element_ox(names: Union[str, int, List[Union[str, int]], pd.Series],
+                     element_ox: str,
+                     binary: bool = False) -&gt; List[Union[float, bool]]:
+    &#34;&#34;&#34;
+    Get the number of an element of a chosen oxidation state in chemical species formulas.
+
+    This function only works when a thermodynamic database with the &#39;formula_ox&#39;
+    column is loaded (e.g., the WORM database).
+
+    If binary is False, returns a list containing the number of the chosen
+    element and oxidation state in the chemical species. For example, how many
+    ferrous irons are in the formulae of hematite, fayalite, and magnetite,
+    respectively?
+
+    &gt;&gt;&gt; get_n_element_ox(names=[&#34;hematite&#34;, &#34;fayalite&#34;, &#34;magnetite&#34;],
+    ...                  element_ox=&#34;Fe+2&#34;,
+    ...                  binary=False)
+    [0, 2.0, 1.0]
+
+    If binary is True, returns a list of whether or not ferrous iron is in their
+    formulas:
+
+    &gt;&gt;&gt; get_n_element_ox(names=[&#34;hematite&#34;, &#34;fayalite&#34;, &#34;magnetite&#34;],
+    ...                  element_ox=&#34;Fe+2&#34;,
+    ...                  binary=True)
+    [False, True, True]
+
+    Parameters
+    ----------
+    names : str, int, list of str/int, or pd.Series
+        The name or database index of a chemical species, or a list of
+        names or indices. Can also be a pandas Series (e.g., from retrieve()).
+        Example: [&#34;hematite&#34;, &#34;fayalite&#34;, &#34;magnetite&#34;] or [788, 782, 798].
+    element_ox : str
+        An element with a specific oxidation state. For example: &#34;Fe+2&#34; for
+        ferrous iron.
+    binary : bool, default False
+        Should the output list show True/False for presence or absence of the
+        element defined by `element_ox`? By default, this parameter is set to
+        False so the output list shows quantities of the element instead.
+
+    Returns
+    -------
+    list of float or list of bool
+        A list containing quantities of the chosen element oxidation state in
+        the formulas of the chemical species (if `binary=False`) or whether the
+        chosen element oxidation state is present in the formulae (if `binary=True`).
+
+    Raises
+    ------
+    AttributeError
+        If the WORM thermodynamic database is not loaded (no formula_ox attribute).
+    ValueError
+        If a species is not found in the database or does not have oxidation
+        state information.
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pychnosz
+    &gt;&gt;&gt; # Load the WORM database
+    &gt;&gt;&gt; pychnosz.thermo(&#34;WORM&#34;)
+    &gt;&gt;&gt; # Get counts of Fe+2 in several minerals
+    &gt;&gt;&gt; pychnosz.get_n_element_ox([&#34;hematite&#34;, &#34;fayalite&#34;, &#34;magnetite&#34;], &#34;Fe+2&#34;)
+    [0, 2.0, 1.0]
+    &gt;&gt;&gt; # Get binary presence/absence
+    &gt;&gt;&gt; pychnosz.get_n_element_ox([&#34;hematite&#34;, &#34;fayalite&#34;, &#34;magnetite&#34;], &#34;Fe+2&#34;, binary=True)
+    [False, True, True]
+    &gt;&gt;&gt; # Can also use with retrieve()
+    &gt;&gt;&gt; r = pychnosz.retrieve(&#34;Fe&#34;, [&#34;Si&#34;, &#34;O&#34;, &#34;H&#34;], state=[&#34;cr&#34;])
+    &gt;&gt;&gt; pychnosz.get_n_element_ox(r, &#34;Fe+2&#34;)
+    [1, 0, 0, 2.0, 1, 0, 1, 3.0, 1, 3.0, 0, 7.0]
+
+    Notes
+    -----
+    This function requires the wormutils package to be installed for parsing
+    the formula_ox strings. Install it with: pip install wormutils
+    &#34;&#34;&#34;
+
+    # Handle pandas Series (e.g., from retrieve())
+    if isinstance(names, pd.Series):
+        # Convert Series to list of indices
+        names = names.values.tolist()
+    # Handle single name/index
+    elif not isinstance(names, list):
+        names = [names]
+
+    # Get the count of element_ox for each species
+    n_list = []
+    for name in names:
+        # Get the formula_ox dictionary for this species
+        formula_ox_dict = get_formula_ox(name)
+        # Get the count of element_ox (default to 0 if not present)
+        count = formula_ox_dict.get(element_ox, 0)
+        n_list.append(count)
+
+    # Convert to binary if requested
+    if binary:
+        out_list = [True if n != 0 else False for n in n_list]
+    else:
+        out_list = n_list
+
+    return out_list</code></pre>
+</details>
+<div class="desc"><p>Get the number of an element of a chosen oxidation state in chemical species formulas.</p>
+<p>This function only works when a thermodynamic database with the 'formula_ox'
+column is loaded (e.g., the WORM database).</p>
+<p>If binary is False, returns a list containing the number of the chosen
+element and oxidation state in the chemical species. For example, how many
+ferrous irons are in the formulae of hematite, fayalite, and magnetite,
+respectively?</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; get_n_element_ox(names=[&quot;hematite&quot;, &quot;fayalite&quot;, &quot;magnetite&quot;],
+...                  element_ox=&quot;Fe+2&quot;,
+...                  binary=False)
+[0, 2.0, 1.0]
+</code></pre>
+<p>If binary is True, returns a list of whether or not ferrous iron is in their
+formulas:</p>
+<pre><code class="language-python-repl">&gt;&gt;&gt; get_n_element_ox(names=[&quot;hematite&quot;, &quot;fayalite&quot;, &quot;magnetite&quot;],
+...                  element_ox=&quot;Fe+2&quot;,
+...                  binary=True)
+[False, True, True]
+</code></pre>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>names</code></strong> :&ensp;<code>str, int, list</code> of <code>str/int,</code> or <code>pd.Series</code></dt>
+<dd>The name or database index of a chemical species, or a list of
+names or indices. Can also be a pandas Series (e.g., from retrieve()).
+Example: ["hematite", "fayalite", "magnetite"] or [788, 782, 798].</dd>
+<dt><strong><code>element_ox</code></strong> :&ensp;<code>str</code></dt>
+<dd>An element with a specific oxidation state. For example: "Fe+2" for
+ferrous iron.</dd>
+<dt><strong><code>binary</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Should the output list show True/False for presence or absence of the
+element defined by <code>element_ox</code>? By default, this parameter is set to
+False so the output list shows quantities of the element instead.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code> of <code>float</code> or <code>list</code> of <code>bool</code></dt>
+<dd>A list containing quantities of the chosen element oxidation state in
+the formulas of the chemical species (if <code>binary=False</code>) or whether the
+chosen element oxidation state is present in the formulae (if <code>binary=True</code>).</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>AttributeError</code></dt>
+<dd>If the WORM thermodynamic database is not loaded (no formula_ox attribute).</dd>
+<dt><code>ValueError</code></dt>
+<dd>If a species is not found in the database or does not have oxidation
+state information.</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pychnosz
+&gt;&gt;&gt; # Load the WORM database
+&gt;&gt;&gt; pychnosz.thermo(&quot;WORM&quot;)
+&gt;&gt;&gt; # Get counts of Fe+2 in several minerals
+&gt;&gt;&gt; pychnosz.get_n_element_ox([&quot;hematite&quot;, &quot;fayalite&quot;, &quot;magnetite&quot;], &quot;Fe+2&quot;)
+[0, 2.0, 1.0]
+&gt;&gt;&gt; # Get binary presence/absence
+&gt;&gt;&gt; pychnosz.get_n_element_ox([&quot;hematite&quot;, &quot;fayalite&quot;, &quot;magnetite&quot;], &quot;Fe+2&quot;, binary=True)
+[False, True, True]
+&gt;&gt;&gt; # Can also use with retrieve()
+&gt;&gt;&gt; r = pychnosz.retrieve(&quot;Fe&quot;, [&quot;Si&quot;, &quot;O&quot;, &quot;H&quot;], state=[&quot;cr&quot;])
+&gt;&gt;&gt; pychnosz.get_n_element_ox(r, &quot;Fe+2&quot;)
+[1, 0, 0, 2.0, 1, 0, 1, 3.0, 1, 3.0, 0, 7.0]
+</code></pre>
+<h2 id="notes">Notes</h2>
+<p>This function requires the wormutils package to be installed for parsing
+the formula_ox strings. Install it with: pip install wormutils</p></div>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.utils" href="index.html">pychnosz.utils</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.utils.formula_ox.get_formula_ox" href="#pychnosz.utils.formula_ox.get_formula_ox">get_formula_ox</a></code></li>
+<li><code><a title="pychnosz.utils.formula_ox.get_n_element_ox" href="#pychnosz.utils.formula_ox.get_n_element_ox">get_n_element_ox</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

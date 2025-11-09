@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>pychnosz.geochemistry.redox API documentation</title>
+<meta name="description" content="Redox reactions and Eh-pH diagram calculations for CHNOSZ …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pychnosz.geochemistry.redox</code></h1>
+</header>
+<section id="section-intro">
+<p>Redox reactions and Eh-pH diagram calculations for CHNOSZ.</p>
+<p>This module implements redox equilibria calculations, Eh-pH diagrams,
+and electron activity (pe) calculations for environmental geochemistry.</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pychnosz.geochemistry.redox.eh"><code class="name flex">
+<span>def <span class="ident">eh</span></span>(<span>pe_value: float, T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eh(pe_value: float, T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Convert pe to Eh.
+    
+    Parameters
+    ----------
+    pe_value : float
+        Electron activity
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Eh in Volts
+    &#34;&#34;&#34;
+    
+    return _redox_calculator.eh_from_pe(pe_value, T)</code></pre>
+</details>
+<div class="desc"><p>Convert pe to Eh.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pe_value</code></strong> :&ensp;<code>float</code></dt>
+<dd>Electron activity</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Eh in Volts</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.eh_ph"><code class="name flex">
+<span>def <span class="ident">eh_ph</span></span>(<span>element: str, **kwargs) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eh_ph(element: str, **kwargs) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Create Eh-pH diagram for an element.
+    
+    Parameters
+    ----------
+    element : str
+        Element symbol
+    **kwargs
+        Additional parameters for eh_ph_diagram()
+        
+    Returns
+    -------
+    dict
+        Eh-pH diagram data
+    &#34;&#34;&#34;
+    
+    return _redox_calculator.eh_ph_diagram(element, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Create Eh-pH diagram for an element.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>Element symbol</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional parameters for eh_ph_diagram()</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Eh-pH diagram data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.logfO2"><code class="name flex">
+<span>def <span class="ident">logfO2</span></span>(<span>pe_value: float, pH: float = 7.0, **kwargs) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def logfO2(pe_value: float, pH: float = 7.0, **kwargs) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate log oxygen fugacity.
+    
+    Parameters
+    ----------
+    pe_value : float
+        Electron activity
+    pH : float, default 7.0
+        Solution pH
+    **kwargs
+        Additional parameters
+        
+    Returns
+    -------
+    float
+        log fO2
+    &#34;&#34;&#34;
+    
+    return _redox_calculator.oxygen_fugacity(pe_value, pH, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Calculate log oxygen fugacity.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pe_value</code></strong> :&ensp;<code>float</code></dt>
+<dd>Electron activity</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code>, default <code>7.0</code></dt>
+<dd>Solution pH</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional parameters</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>log fO2</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.pe"><code class="name flex">
+<span>def <span class="ident">pe</span></span>(<span>redox_couple: str | Dict[str, float],<br>concentrations: Dict[str, float],<br>**kwargs) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pe(redox_couple: Union[str, Dict[str, float]], 
+      concentrations: Dict[str, float], **kwargs) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate pe for a redox couple.
+    
+    Parameters
+    ----------
+    redox_couple : str or dict
+        Redox couple or reaction
+    concentrations : dict
+        Species concentrations
+    **kwargs
+        Additional parameters
+        
+    Returns
+    -------
+    float
+        pe value
+    &#34;&#34;&#34;
+    
+    return _redox_calculator.pe_calculation(redox_couple, concentrations, **kwargs)</code></pre>
+</details>
+<div class="desc"><p>Calculate pe for a redox couple.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>redox_couple</code></strong> :&ensp;<code>str</code> or <code>dict</code></dt>
+<dd>Redox couple or reaction</dd>
+<dt><strong><code>concentrations</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Species concentrations</dd>
+<dt><strong><code>**kwargs</code></strong></dt>
+<dd>Additional parameters</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>pe value</dd>
+</dl></div>
+</dd>
+</dl>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator"><code class="flex name class">
+<span>class <span class="ident">RedoxCalculator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RedoxCalculator:
+    &#34;&#34;&#34;
+    Redox equilibria calculator for geochemical systems.
+    
+    This class handles redox reactions, pe-pH diagrams, and
+    electron activity calculations.
+    &#34;&#34;&#34;
+    
+    def __init__(self):
+        &#34;&#34;&#34;Initialize the redox calculator.&#34;&#34;&#34;
+        self.equilibrium_solver = EquilibriumSolver()
+        
+        # Standard electrode potentials (V) at 25°C
+        self.standard_potentials = {
+            &#39;O2/H2O&#39;: 1.229,
+            &#39;H+/H2&#39;: 0.000,
+            &#39;Fe+3/Fe+2&#39;: 0.771,
+            &#39;NO3-/NO2-&#39;: 0.835,
+            &#39;SO4-2/HS-&#39;: -0.217,
+            &#39;CO2/CH4&#39;: -0.244,
+            &#39;N2/NH4+&#39;: -0.277,
+            &#39;Fe+2/Fe&#39;: -0.447,
+            &#39;S/HS-&#39;: -0.065,
+        }
+        
+        # Common redox couples and their reactions
+        self.redox_reactions = {
+            # Oxygen reduction
+            &#39;O2_H2O&#39;: {&#39;O2&#39;: 1, &#39;H+&#39;: 4, &#39;e-&#39;: 4, &#39;H2O&#39;: -2},
+            &#39;H2O_H2&#39;: {&#39;H2O&#39;: 2, &#39;e-&#39;: 2, &#39;H2&#39;: -1, &#39;OH-&#39;: -2},
+            
+            # Iron redox
+            &#39;Fe3_Fe2&#39;: {&#39;Fe+3&#39;: 1, &#39;e-&#39;: 1, &#39;Fe+2&#39;: -1},
+            &#39;Fe2_Fe&#39;: {&#39;Fe+2&#39;: 1, &#39;e-&#39;: 2, &#39;Fe&#39;: -1},
+            &#39;Fe2O3_Fe2&#39;: {&#39;Fe2O3&#39;: 1, &#39;H+&#39;: 6, &#39;e-&#39;: 2, &#39;Fe+2&#39;: -2, &#39;H2O&#39;: -3},
+            
+            # Nitrogen redox
+            &#39;NO3_NO2&#39;: {&#39;NO3-&#39;: 1, &#39;H+&#39;: 2, &#39;e-&#39;: 2, &#39;NO2-&#39;: -1, &#39;H2O&#39;: -1},
+            &#39;NO2_NH4&#39;: {&#39;NO2-&#39;: 1, &#39;H+&#39;: 8, &#39;e-&#39;: 6, &#39;NH4+&#39;: -1, &#39;H2O&#39;: -2},
+            
+            # Sulfur redox
+            &#39;SO4_HS&#39;: {&#39;SO4-2&#39;: 1, &#39;H+&#39;: 9, &#39;e-&#39;: 8, &#39;HS-&#39;: -1, &#39;H2O&#39;: -4},
+            &#39;S_HS&#39;: {&#39;S&#39;: 1, &#39;H+&#39;: 1, &#39;e-&#39;: 2, &#39;HS-&#39;: -1},
+            
+            # Carbon redox
+            &#39;CO2_CH4&#39;: {&#39;CO2&#39;: 1, &#39;H+&#39;: 8, &#39;e-&#39;: 8, &#39;CH4&#39;: -1, &#39;H2O&#39;: -2},
+            &#39;HCO3_CH4&#39;: {&#39;HCO3-&#39;: 1, &#39;H+&#39;: 9, &#39;e-&#39;: 8, &#39;CH4&#39;: -1, &#39;H2O&#39;: -3}
+        }
+    
+    def eh_ph_diagram(self, element: str, 
+                     pH_range: Tuple[float, float] = (0, 14),
+                     pe_range: Tuple[float, float] = (-10, 15),
+                     T: float = 298.15, P: float = 1.0,
+                     total_concentration: float = 1e-6,
+                     resolution: int = 100) -&gt; Dict[str, Any]:
+        &#34;&#34;&#34;
+        Create Eh-pH (pe-pH) diagram for an element.
+        
+        Parameters
+        ----------
+        element : str
+            Element symbol (e.g., &#39;Fe&#39;, &#39;S&#39;, &#39;N&#39;, &#39;C&#39;)
+        pH_range : tuple, default (0, 14)
+            pH range for diagram
+        pe_range : tuple, default (-10, 15)
+            pe (electron activity) range
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+        total_concentration : float, default 1e-6
+            Total element concentration (molal)
+        resolution : int, default 100
+            Grid resolution
+            
+        Returns
+        -------
+        dict
+            Eh-pH diagram data
+        &#34;&#34;&#34;
+        
+        pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+        pe_grid = np.linspace(pe_range[0], pe_range[1], resolution)
+        pH_mesh, pe_mesh = np.meshgrid(pH_grid, pe_grid)
+        
+        # Get species for this element
+        element_species = self._get_element_species(element)
+        
+        if not element_species:
+            raise ValueError(f&#34;No species found for element {element}&#34;)
+        
+        # Calculate predominance at each point
+        predominant = np.zeros_like(pH_mesh, dtype=int)
+        activities = {species: np.zeros_like(pH_mesh) for species in element_species}
+        
+        for i in range(len(pe_grid)):
+            for j in range(len(pH_grid)):
+                pH, pe = pH_mesh[i, j], pe_mesh[i, j]
+                
+                # Calculate speciation at this point
+                spec_result = self._calculate_redox_speciation(
+                    element_species, pH, pe, T, P, total_concentration)
+                
+                # Find predominant species
+                max_activity = -np.inf
+                max_idx = 0
+                
+                for k, species in enumerate(element_species):
+                    activity = spec_result.get(species, 1e-20)
+                    activities[species][i, j] = activity
+                    
+                    if np.log10(activity) &gt; max_activity:
+                        max_activity = np.log10(activity)
+                        max_idx = k
+                
+                predominant[i, j] = max_idx
+        
+        # Add water stability limits
+        water_limits = self._water_stability_lines(pH_grid, T, P)
+        
+        return {
+            &#39;pH&#39;: pH_grid,
+            &#39;pe&#39;: pe_grid,
+            &#39;pH_mesh&#39;: pH_mesh,
+            &#39;pe_mesh&#39;: pe_mesh,
+            &#39;predominant&#39;: predominant,
+            &#39;activities&#39;: activities,
+            &#39;species_names&#39;: element_species,
+            &#39;water_limits&#39;: water_limits,
+            &#39;element&#39;: element,
+            &#39;T&#39;: T,
+            &#39;P&#39;: P,
+            &#39;total_concentration&#39;: total_concentration
+        }
+    
+    def pe_calculation(self, redox_couple: Union[str, Dict[str, float]],
+                      concentrations: Dict[str, float],
+                      pH: float = 7.0, T: float = 298.15, P: float = 1.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate pe (electron activity) for a redox couple.
+        
+        Parameters
+        ----------
+        redox_couple : str or dict
+            Redox couple name or reaction dictionary
+        concentrations : dict
+            Species concentrations {species: concentration}
+        pH : float, default 7.0
+            Solution pH
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        float
+            pe value
+        &#34;&#34;&#34;
+        
+        if isinstance(redox_couple, str):
+            if redox_couple not in self.redox_reactions:
+                raise ValueError(f&#34;Unknown redox couple: {redox_couple}&#34;)
+            reaction = self.redox_reactions[redox_couple]
+        else:
+            reaction = redox_couple
+        
+        # Calculate equilibrium constant
+        try:
+            species_names = [sp for sp in reaction.keys() if sp != &#39;e-&#39;]
+            coefficients = [reaction[sp] for sp in species_names]
+            
+            result = subcrt(species_names, coefficients, T=T, P=P, show=False)
+            if result[&#39;reaction&#39;] is not None:
+                logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+            else:
+                logK = 0.0
+        except Exception as e:
+            warnings.warn(f&#34;Could not calculate logK: {e}&#34;)
+            logK = 0.0
+        
+        # Apply Nernst equation
+        n_electrons = abs(reaction.get(&#39;e-&#39;, 1))  # Number of electrons
+        
+        # Calculate activity quotient
+        log_Q = 0.0
+        for species, coeff in reaction.items():
+            if species == &#39;e-&#39;:
+                continue
+            elif species == &#39;H+&#39;:
+                activity = 10**(-pH)
+            elif species in concentrations:
+                activity = concentrations[species]
+                # Apply activity coefficients if needed
+                gamma = self._get_activity_coefficient(species, concentrations, T)
+                activity *= gamma
+            else:
+                activity = 1.0  # Default for species not specified
+            
+            if activity &gt; 0:
+                log_Q += coeff * np.log10(activity)
+        
+        # Nernst equation: pe = pe° + (1/n) * log(Q)
+        # where pe° = logK/n for the half-reaction
+        pe = logK / n_electrons + log_Q / n_electrons
+        
+        return pe
+    
+    def eh_from_pe(self, pe: float, T: float = 298.15) -&gt; float:
+        &#34;&#34;&#34;
+        Convert pe to Eh (redox potential).
+        
+        Parameters
+        ----------
+        pe : float
+            Electron activity (pe)
+        T : float, default 298.15
+            Temperature in Kelvin
+            
+        Returns
+        -------
+        float
+            Redox potential (Eh) in Volts
+        &#34;&#34;&#34;
+        
+        # Eh = (RT/F) * ln(10) * pe
+        # where R = 8.314 J/(mol·K), F = 96485 C/mol
+        RT_F = 8.314 * T / 96485
+        Eh = RT_F * 2.302585 * pe  # ln(10) = 2.302585
+        
+        return Eh
+    
+    def pe_from_eh(self, eh: float, T: float = 298.15) -&gt; float:
+        &#34;&#34;&#34;
+        Convert Eh (redox potential) to pe.
+        
+        Parameters
+        ----------
+        eh : float
+            Redox potential (Eh) in Volts
+        T : float, default 298.15
+            Temperature in Kelvin
+            
+        Returns
+        -------
+        float
+            Electron activity (pe)
+        &#34;&#34;&#34;
+        
+        # pe = F * Eh / (RT * ln(10))
+        RT_F = 8.314 * T / 96485
+        pe = eh / (RT_F * 2.302585)
+        
+        return pe
+    
+    def oxygen_fugacity(self, pe: float, pH: float = 7.0, 
+                       T: float = 298.15, P: float = 1.0) -&gt; float:
+        &#34;&#34;&#34;
+        Calculate oxygen fugacity from pe and pH.
+        
+        Parameters
+        ----------
+        pe : float
+            Electron activity
+        pH : float, default 7.0
+            Solution pH
+        T : float, default 298.15
+            Temperature in Kelvin
+        P : float, default 1.0
+            Pressure in bar
+            
+        Returns
+        -------
+        float
+            log fO2 (log oxygen fugacity)
+        &#34;&#34;&#34;
+        
+        # O2 + 4H+ + 4e- = 2H2O
+        # At equilibrium: log fO2 = 4*pe + 4*pH - logK
+        
+        try:
+            # Calculate logK for oxygen-water reaction
+            result = subcrt([&#39;O2&#39;, &#39;H+&#39;, &#39;H2O&#39;], [1, 4, -2], T=T, P=P, show=False)
+            if result[&#39;reaction&#39;] is not None:
+                logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+            else:
+                logK = 83.1  # Approximate value at 25°C
+        except:
+            logK = 83.1
+        
+        log_fO2 = 4 * pe + 4 * pH - logK
+        
+        return log_fO2
+    
+    def _get_element_species(self, element: str) -&gt; List[str]:
+        &#34;&#34;&#34;Get list of species containing the specified element.&#34;&#34;&#34;
+        
+        # Simplified species lists for common elements
+        element_species = {
+            &#39;Fe&#39;: [&#39;Fe+2&#39;, &#39;Fe+3&#39;, &#39;Fe2O3&#39;, &#39;FeOH+&#39;, &#39;Fe(OH)2&#39;, &#39;Fe(OH)3&#39;],
+            &#39;S&#39;: [&#39;SO4-2&#39;, &#39;SO3-2&#39;, &#39;S2O3-2&#39;, &#39;HS-&#39;, &#39;S0&#39;, &#39;S-2&#39;],
+            &#39;N&#39;: [&#39;NO3-&#39;, &#39;NO2-&#39;, &#39;NH4+&#39;, &#39;NH3&#39;, &#39;N2O&#39;, &#39;N2&#39;],
+            &#39;C&#39;: [&#39;CO2&#39;, &#39;HCO3-&#39;, &#39;CO3-2&#39;, &#39;CH4&#39;, &#39;HCOOH&#39;, &#39;CH3COO-&#39;],
+            &#39;Mn&#39;: [&#39;Mn+2&#39;, &#39;MnO4-&#39;, &#39;MnO2&#39;, &#39;Mn+3&#39;, &#39;MnOH+&#39;],
+            &#39;As&#39;: [&#39;AsO4-3&#39;, &#39;AsO3-3&#39;, &#39;H3AsO4&#39;, &#39;H3AsO3&#39;, &#39;As0&#39;]
+        }
+        
+        return element_species.get(element, [f&#39;{element}+2&#39;, f&#39;{element}+3&#39;])
+    
+    def _calculate_redox_speciation(self, species: List[str], pH: float, pe: float,
+                                  T: float, P: float, total_conc: float) -&gt; Dict[str, float]:
+        &#34;&#34;&#34;Calculate speciation at given pH and pe.&#34;&#34;&#34;
+        
+        # Simplified speciation calculation
+        # Full implementation would solve equilibrium system
+        
+        activities = {}
+        
+        for sp in species:
+            # Simplified pe-pH dependence
+            if &#39;+&#39; in sp:  # Cations (more stable at low pH, high pe)
+                charge = self._extract_charge(sp)
+                log_activity = -6 + charge * (14 - pH) / 14 + pe / 10
+            elif &#39;-&#39; in sp:  # Anions (more stable at high pH, high pe)  
+                charge = abs(self._extract_charge(sp))
+                log_activity = -6 + charge * pH / 14 + pe / 10
+            else:  # Neutral (less pH/pe dependence)
+                log_activity = -6 + (pe - pH) / 20
+            
+            activities[sp] = 10**log_activity
+        
+        # Normalize to total concentration
+        total_calculated = sum(activities.values())
+        if total_calculated &gt; 0:
+            factor = total_conc / total_calculated
+            activities = {sp: act * factor for sp, act in activities.items()}
+        
+        return activities
+    
+    def _extract_charge(self, species: str) -&gt; int:
+        &#34;&#34;&#34;Extract charge from species name.&#34;&#34;&#34;
+        
+        if &#39;+&#39; in species:
+            parts = species.split(&#39;+&#39;)
+            if len(parts) &gt; 1 and parts[-1].isdigit():
+                return int(parts[-1])
+            else:
+                return 1
+        elif &#39;-&#39; in species:
+            parts = species.split(&#39;-&#39;)
+            if len(parts) &gt; 1 and parts[-1].isdigit():
+                return -int(parts[-1])
+            else:
+                return -1
+        else:
+            return 0
+    
+    def _water_stability_lines(self, pH_values: np.ndarray, 
+                              T: float, P: float) -&gt; Dict[str, np.ndarray]:
+        &#34;&#34;&#34;Calculate water stability limits (H2O/H2 and O2/H2O).&#34;&#34;&#34;
+        
+        # Upper limit: O2/H2O
+        # O2 + 4H+ + 4e- = 2H2O
+        # pe = 20.75 - pH (at 25°C, 1 atm O2)
+        pe_upper = 20.75 - pH_values
+        
+        # Lower limit: H2O/H2
+        # 2H2O + 2e- = H2 + 2OH-
+        # pe = -pH (at 25°C, 1 atm H2)
+        pe_lower = -pH_values
+        
+        # Temperature corrections (simplified)
+        if T != 298.15:
+            dT = T - 298.15
+            pe_upper += dT * 0.001  # Small temperature dependence
+            pe_lower -= dT * 0.001
+        
+        return {
+            &#39;upper&#39;: pe_upper,  # O2/H2O line
+            &#39;lower&#39;: pe_lower   # H2O/H2 line
+        }
+    
+    def _get_activity_coefficient(self, species: str, composition: Dict[str, float],
+                                 T: float) -&gt; float:
+        &#34;&#34;&#34;Get activity coefficient for species.&#34;&#34;&#34;
+        
+        # Simplified - would use proper activity models
+        charge = abs(self._extract_charge(species))
+        
+        if charge == 0:
+            return 1.0
+        else:
+            # Simple ionic strength correction
+            I = 0.001  # Assume low ionic strength
+            return 10**(-0.509 * charge**2 * np.sqrt(I))</code></pre>
+</details>
+<div class="desc"><p>Redox equilibria calculator for geochemical systems.</p>
+<p>This class handles redox reactions, pe-pH diagrams, and
+electron activity calculations.</p>
+<p>Initialize the redox calculator.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator.eh_from_pe"><code class="name flex">
+<span>def <span class="ident">eh_from_pe</span></span>(<span>self, pe: float, T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eh_from_pe(self, pe: float, T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Convert pe to Eh (redox potential).
+    
+    Parameters
+    ----------
+    pe : float
+        Electron activity (pe)
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Redox potential (Eh) in Volts
+    &#34;&#34;&#34;
+    
+    # Eh = (RT/F) * ln(10) * pe
+    # where R = 8.314 J/(mol·K), F = 96485 C/mol
+    RT_F = 8.314 * T / 96485
+    Eh = RT_F * 2.302585 * pe  # ln(10) = 2.302585
+    
+    return Eh</code></pre>
+</details>
+<div class="desc"><p>Convert pe to Eh (redox potential).</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pe</code></strong> :&ensp;<code>float</code></dt>
+<dd>Electron activity (pe)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Redox potential (Eh) in Volts</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator.eh_ph_diagram"><code class="name flex">
+<span>def <span class="ident">eh_ph_diagram</span></span>(<span>self,<br>element: str,<br>pH_range: Tuple[float, float] = (0, 14),<br>pe_range: Tuple[float, float] = (-10, 15),<br>T: float = 298.15,<br>P: float = 1.0,<br>total_concentration: float = 1e-06,<br>resolution: int = 100) ‑> Dict[str, Any]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def eh_ph_diagram(self, element: str, 
+                 pH_range: Tuple[float, float] = (0, 14),
+                 pe_range: Tuple[float, float] = (-10, 15),
+                 T: float = 298.15, P: float = 1.0,
+                 total_concentration: float = 1e-6,
+                 resolution: int = 100) -&gt; Dict[str, Any]:
+    &#34;&#34;&#34;
+    Create Eh-pH (pe-pH) diagram for an element.
+    
+    Parameters
+    ----------
+    element : str
+        Element symbol (e.g., &#39;Fe&#39;, &#39;S&#39;, &#39;N&#39;, &#39;C&#39;)
+    pH_range : tuple, default (0, 14)
+        pH range for diagram
+    pe_range : tuple, default (-10, 15)
+        pe (electron activity) range
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+    total_concentration : float, default 1e-6
+        Total element concentration (molal)
+    resolution : int, default 100
+        Grid resolution
+        
+    Returns
+    -------
+    dict
+        Eh-pH diagram data
+    &#34;&#34;&#34;
+    
+    pH_grid = np.linspace(pH_range[0], pH_range[1], resolution)
+    pe_grid = np.linspace(pe_range[0], pe_range[1], resolution)
+    pH_mesh, pe_mesh = np.meshgrid(pH_grid, pe_grid)
+    
+    # Get species for this element
+    element_species = self._get_element_species(element)
+    
+    if not element_species:
+        raise ValueError(f&#34;No species found for element {element}&#34;)
+    
+    # Calculate predominance at each point
+    predominant = np.zeros_like(pH_mesh, dtype=int)
+    activities = {species: np.zeros_like(pH_mesh) for species in element_species}
+    
+    for i in range(len(pe_grid)):
+        for j in range(len(pH_grid)):
+            pH, pe = pH_mesh[i, j], pe_mesh[i, j]
+            
+            # Calculate speciation at this point
+            spec_result = self._calculate_redox_speciation(
+                element_species, pH, pe, T, P, total_concentration)
+            
+            # Find predominant species
+            max_activity = -np.inf
+            max_idx = 0
+            
+            for k, species in enumerate(element_species):
+                activity = spec_result.get(species, 1e-20)
+                activities[species][i, j] = activity
+                
+                if np.log10(activity) &gt; max_activity:
+                    max_activity = np.log10(activity)
+                    max_idx = k
+            
+            predominant[i, j] = max_idx
+    
+    # Add water stability limits
+    water_limits = self._water_stability_lines(pH_grid, T, P)
+    
+    return {
+        &#39;pH&#39;: pH_grid,
+        &#39;pe&#39;: pe_grid,
+        &#39;pH_mesh&#39;: pH_mesh,
+        &#39;pe_mesh&#39;: pe_mesh,
+        &#39;predominant&#39;: predominant,
+        &#39;activities&#39;: activities,
+        &#39;species_names&#39;: element_species,
+        &#39;water_limits&#39;: water_limits,
+        &#39;element&#39;: element,
+        &#39;T&#39;: T,
+        &#39;P&#39;: P,
+        &#39;total_concentration&#39;: total_concentration
+    }</code></pre>
+</details>
+<div class="desc"><p>Create Eh-pH (pe-pH) diagram for an element.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>element</code></strong> :&ensp;<code>str</code></dt>
+<dd>Element symbol (e.g., 'Fe', 'S', 'N', 'C')</dd>
+<dt><strong><code>pH_range</code></strong> :&ensp;<code>tuple</code>, default <code>(0, 14)</code></dt>
+<dd>pH range for diagram</dd>
+<dt><strong><code>pe_range</code></strong> :&ensp;<code>tuple</code>, default <code>(-10, 15)</code></dt>
+<dd>pe (electron activity) range</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+<dt><strong><code>total_concentration</code></strong> :&ensp;<code>float</code>, default <code>1e-6</code></dt>
+<dd>Total element concentration (molal)</dd>
+<dt><strong><code>resolution</code></strong> :&ensp;<code>int</code>, default <code>100</code></dt>
+<dd>Grid resolution</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Eh-pH diagram data</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator.oxygen_fugacity"><code class="name flex">
+<span>def <span class="ident">oxygen_fugacity</span></span>(<span>self, pe: float, pH: float = 7.0, T: float = 298.15, P: float = 1.0) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def oxygen_fugacity(self, pe: float, pH: float = 7.0, 
+                   T: float = 298.15, P: float = 1.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate oxygen fugacity from pe and pH.
+    
+    Parameters
+    ----------
+    pe : float
+        Electron activity
+    pH : float, default 7.0
+        Solution pH
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    float
+        log fO2 (log oxygen fugacity)
+    &#34;&#34;&#34;
+    
+    # O2 + 4H+ + 4e- = 2H2O
+    # At equilibrium: log fO2 = 4*pe + 4*pH - logK
+    
+    try:
+        # Calculate logK for oxygen-water reaction
+        result = subcrt([&#39;O2&#39;, &#39;H+&#39;, &#39;H2O&#39;], [1, 4, -2], T=T, P=P, show=False)
+        if result[&#39;reaction&#39;] is not None:
+            logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+        else:
+            logK = 83.1  # Approximate value at 25°C
+    except:
+        logK = 83.1
+    
+    log_fO2 = 4 * pe + 4 * pH - logK
+    
+    return log_fO2</code></pre>
+</details>
+<div class="desc"><p>Calculate oxygen fugacity from pe and pH.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>pe</code></strong> :&ensp;<code>float</code></dt>
+<dd>Electron activity</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code>, default <code>7.0</code></dt>
+<dd>Solution pH</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>log fO2 (log oxygen fugacity)</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator.pe_calculation"><code class="name flex">
+<span>def <span class="ident">pe_calculation</span></span>(<span>self,<br>redox_couple: str | Dict[str, float],<br>concentrations: Dict[str, float],<br>pH: float = 7.0,<br>T: float = 298.15,<br>P: float = 1.0) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pe_calculation(self, redox_couple: Union[str, Dict[str, float]],
+                  concentrations: Dict[str, float],
+                  pH: float = 7.0, T: float = 298.15, P: float = 1.0) -&gt; float:
+    &#34;&#34;&#34;
+    Calculate pe (electron activity) for a redox couple.
+    
+    Parameters
+    ----------
+    redox_couple : str or dict
+        Redox couple name or reaction dictionary
+    concentrations : dict
+        Species concentrations {species: concentration}
+    pH : float, default 7.0
+        Solution pH
+    T : float, default 298.15
+        Temperature in Kelvin
+    P : float, default 1.0
+        Pressure in bar
+        
+    Returns
+    -------
+    float
+        pe value
+    &#34;&#34;&#34;
+    
+    if isinstance(redox_couple, str):
+        if redox_couple not in self.redox_reactions:
+            raise ValueError(f&#34;Unknown redox couple: {redox_couple}&#34;)
+        reaction = self.redox_reactions[redox_couple]
+    else:
+        reaction = redox_couple
+    
+    # Calculate equilibrium constant
+    try:
+        species_names = [sp for sp in reaction.keys() if sp != &#39;e-&#39;]
+        coefficients = [reaction[sp] for sp in species_names]
+        
+        result = subcrt(species_names, coefficients, T=T, P=P, show=False)
+        if result[&#39;reaction&#39;] is not None:
+            logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+        else:
+            logK = 0.0
+    except Exception as e:
+        warnings.warn(f&#34;Could not calculate logK: {e}&#34;)
+        logK = 0.0
+    
+    # Apply Nernst equation
+    n_electrons = abs(reaction.get(&#39;e-&#39;, 1))  # Number of electrons
+    
+    # Calculate activity quotient
+    log_Q = 0.0
+    for species, coeff in reaction.items():
+        if species == &#39;e-&#39;:
+            continue
+        elif species == &#39;H+&#39;:
+            activity = 10**(-pH)
+        elif species in concentrations:
+            activity = concentrations[species]
+            # Apply activity coefficients if needed
+            gamma = self._get_activity_coefficient(species, concentrations, T)
+            activity *= gamma
+        else:
+            activity = 1.0  # Default for species not specified
+        
+        if activity &gt; 0:
+            log_Q += coeff * np.log10(activity)
+    
+    # Nernst equation: pe = pe° + (1/n) * log(Q)
+    # where pe° = logK/n for the half-reaction
+    pe = logK / n_electrons + log_Q / n_electrons
+    
+    return pe</code></pre>
+</details>
+<div class="desc"><p>Calculate pe (electron activity) for a redox couple.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>redox_couple</code></strong> :&ensp;<code>str</code> or <code>dict</code></dt>
+<dd>Redox couple name or reaction dictionary</dd>
+<dt><strong><code>concentrations</code></strong> :&ensp;<code>dict</code></dt>
+<dd>Species concentrations {species: concentration}</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code>, default <code>7.0</code></dt>
+<dd>Solution pH</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
+<dd>Pressure in bar</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>pe value</dd>
+</dl></div>
+</dd>
+<dt id="pychnosz.geochemistry.redox.RedoxCalculator.pe_from_eh"><code class="name flex">
+<span>def <span class="ident">pe_from_eh</span></span>(<span>self, eh: float, T: float = 298.15) ‑> float</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pe_from_eh(self, eh: float, T: float = 298.15) -&gt; float:
+    &#34;&#34;&#34;
+    Convert Eh (redox potential) to pe.
+    
+    Parameters
+    ----------
+    eh : float
+        Redox potential (Eh) in Volts
+    T : float, default 298.15
+        Temperature in Kelvin
+        
+    Returns
+    -------
+    float
+        Electron activity (pe)
+    &#34;&#34;&#34;
+    
+    # pe = F * Eh / (RT * ln(10))
+    RT_F = 8.314 * T / 96485
+    pe = eh / (RT_F * 2.302585)
+    
+    return pe</code></pre>
+</details>
+<div class="desc"><p>Convert Eh (redox potential) to pe.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>eh</code></strong> :&ensp;<code>float</code></dt>
+<dd>Redox potential (Eh) in Volts</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
+<dd>Temperature in Kelvin</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>Electron activity (pe)</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pychnosz.geochemistry" href="index.html">pychnosz.geochemistry</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pychnosz.geochemistry.redox.eh" href="#pychnosz.geochemistry.redox.eh">eh</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.eh_ph" href="#pychnosz.geochemistry.redox.eh_ph">eh_ph</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.logfO2" href="#pychnosz.geochemistry.redox.logfO2">logfO2</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.pe" href="#pychnosz.geochemistry.redox.pe">pe</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pychnosz.geochemistry.redox.RedoxCalculator" href="#pychnosz.geochemistry.redox.RedoxCalculator">RedoxCalculator</a></code></h4>
+<ul class="">
+<li><code><a title="pychnosz.geochemistry.redox.RedoxCalculator.eh_from_pe" href="#pychnosz.geochemistry.redox.RedoxCalculator.eh_from_pe">eh_from_pe</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.RedoxCalculator.eh_ph_diagram" href="#pychnosz.geochemistry.redox.RedoxCalculator.eh_ph_diagram">eh_ph_diagram</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.RedoxCalculator.oxygen_fugacity" href="#pychnosz.geochemistry.redox.RedoxCalculator.oxygen_fugacity">oxygen_fugacity</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.RedoxCalculator.pe_calculation" href="#pychnosz.geochemistry.redox.RedoxCalculator.pe_calculation">pe_calculation</a></code></li>
+<li><code><a title="pychnosz.geochemistry.redox.RedoxCalculator.pe_from_eh" href="#pychnosz.geochemistry.redox.RedoxCalculator.pe_from_eh">pe_from_eh</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>
