@@ -8,6 +8,11 @@ __pycache__/
 *.dll
 *.dylib
 
+# But keep Fortran binaries (required for package functionality)
+!pychnosz/fortran/*.so
+!pychnosz/fortran/*.dll
+!pychnosz/fortran/*.dylib
+
 # Distribution / packaging
 .Python
 build/
