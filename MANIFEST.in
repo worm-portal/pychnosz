@@ -12,6 +12,7 @@ recursive-include pychnosz/data *.csv *.csv.gz *.json
 recursive-include pychnosz/fortran *.so *.dll *.dylib
 
 # Exclude test files and development artifacts
+prune test
 global-exclude *.pyc
 global-exclude *.pyo
 global-exclude *.pyd

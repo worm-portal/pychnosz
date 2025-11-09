@@ -157,16 +157,8 @@ test_old/
 html_old/
 pychnosz_old/
 
-# Test and development files (keep essential tests, ignore exploration notebooks)
-test/*.ipynb
-test/*.csv
-test/*.png
-test/*.R
-
-# Keep specific test files that are documentation
-!test/1-Geothermometry.ipynb
-!test/2-Univariant-Curves-T-P.ipynb
-!test/3-Univariant-Curves-T-or-P-logK.ipynb
+# Test and development files
+test/
 
 # Alternative gitignore files
 gitignore
