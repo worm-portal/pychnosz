@@ -5,7 +5,7 @@ include CITATION.cff
 include pyproject.toml
 
 # Include HTML documentation
-recursive-include html *.html *.css *.js *.md
+recursive-include html *.html *.css *.js
 
 # Include all thermodynamic database files
 recursive-include pychnosz/data/extdata *.csv *.csv.gz *.csv.xz *.json
