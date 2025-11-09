@@ -4,6 +4,9 @@ include LICENSE.txt
 include CITATION.cff
 include pyproject.toml
 
+# Include HTML documentation
+recursive-include html *.html *.css *.js *.md
+
 # Include all thermodynamic database files
 recursive-include pychnosz/data/extdata *.csv *.csv.gz *.csv.xz *.json
 recursive-include pychnosz/data *.csv *.csv.gz *.json

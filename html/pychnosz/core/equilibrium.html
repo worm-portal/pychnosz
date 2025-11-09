@@ -328,9 +328,9 @@ pH range for calculation (min_pH, max_pH)</p>
         
         # Calculate standard properties
         result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-        
-        if result[&#39;reaction&#39;] is not None:
-            return result[&#39;reaction&#39;][&#39;logK&#39;].values
+
+        if result.out is not None and &#39;logK&#39; in result.out.columns:
+            return result.out[&#39;logK&#39;].values
         else:
             raise ValueError(&#34;Could not calculate reaction properties&#34;)
     
@@ -676,9 +676,9 @@ pH range for calculation (min_pH, max_pH)</p>
     
     # Calculate standard properties
     result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-    
-    if result[&#39;reaction&#39;] is not None:
-        return result[&#39;reaction&#39;][&#39;logK&#39;].values
+
+    if result.out is not None and &#39;logK&#39; in result.out.columns:
+        return result.out[&#39;logK&#39;].values
     else:
         raise ValueError(&#34;Could not calculate reaction properties&#34;)</code></pre>
 </details>

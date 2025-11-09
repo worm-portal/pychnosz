@@ -45,7 +45,7 @@ including proteins, amino acids, and other biomolecules.</p>
 <dl>
 <dt><code class="name"><a title="pychnosz.biomolecules.proteins" href="proteins.html">pychnosz.biomolecules.proteins</a></code></dt>
 <dd>
-<div class="desc"><p>Protein thermodynamics calculations for CHNOSZ …</p></div>
+<div class="desc"><p>Protein functions for CHNOSZ …</p></div>
 </dd>
 </dl>
 </section>
@@ -54,784 +54,1008 @@ including proteins, amino acids, and other biomolecules.</p>
 <section>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
-<dt id="pychnosz.biomolecules.amino_acid"><code class="name flex">
-<span>def <span class="ident">amino_acid</span></span>(<span>aa_code: str | List[str], T: float = 298.15, P: float = 1.0) ‑> Dict[str, float] | List[Dict[str, float]]</span>
+<dt id="pychnosz.biomolecules.add_protein"><code class="name flex">
+<span>def <span class="ident">add_protein</span></span>(<span>aa: pandas.core.frame.DataFrame, as_residue: bool = False) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def amino_acid(aa_code: Union[str, List[str]], 
-              T: float = 298.15, P: float = 1.0) -&gt; Union[Dict[str, float], List[Dict[str, float]]]:
+<pre><code class="python">def add_protein(aa: pd.DataFrame, as_residue: bool = False) -&gt; np.ndarray:
     &#34;&#34;&#34;
-    Get thermodynamic properties of amino acid(s).
-    
+    Add protein amino acid compositions to thermo().protein.
+
     Parameters
     ----------
-    aa_code : str or list of str
-        Single-letter amino acid code(s)
-    T : float, default 298.15
-        Temperature in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-        
+    aa : DataFrame
+        DataFrame with protein amino acid compositions.
+        Must have same columns as thermo().protein
+    as_residue : bool, default False
+        Normalize amino acid counts by protein length
+
     Returns
     -------
-    dict or list of dict
-        Amino acid properties
+    array
+        Row numbers of added/updated proteins in thermo().protein
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pandas as pd
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; aa = pd.read_csv(&#34;POLG.csv&#34;)
+    &gt;&gt;&gt; iprotein = add_protein(aa)
     &#34;&#34;&#34;
-    
-    if isinstance(aa_code, str):
-        return _protein_calculator.amino_acid_contribution(aa_code, T, P)
-    else:
-        return [_protein_calculator.amino_acid_contribution(aa, T, P) 
-                for aa in aa_code]</code></pre>
+    t = thermo()
+
+    if t.protein is None:
+        raise RuntimeError(&#34;Protein database not loaded. Run reset() first.&#34;)
+
+    # Check that columns match
+    if list(aa.columns) != list(t.protein.columns):
+        raise ValueError(&#34;&#39;aa&#39; does not have the same columns as thermo().protein&#34;)
+
+    # Check that new protein IDs are unique
+    po = aa[&#39;protein&#39;] + &#39;_&#39; + aa[&#39;organism&#39;]
+    idup = po.duplicated()
+    if idup.any():
+        dup_proteins = po[idup].unique()
+        raise ValueError(f&#34;some protein IDs are duplicated: {&#39; &#39;.join(dup_proteins)}&#34;)
+
+    # Normalize by protein length if as_residue = True
+    if as_residue:
+        pl = protein_length(aa)
+        aa.iloc[:, 4:24] = aa.iloc[:, 4:24].div(pl, axis=0)
+
+    # Find any protein IDs that are already present
+    ip = pinfo(po.tolist())
+    if isinstance(ip, (int, np.integer)):
+        ip = np.array([ip])
+    elif not isinstance(ip, np.ndarray):
+        ip = np.array([ip])
+
+    ip_present = ~np.isnan(ip)
+
+    # Now we&#39;re ready to go
+    tp_new = t.protein.copy()
+
+    # Add new proteins
+    if not all(ip_present):
+        new_proteins = aa[~ip_present].copy()
+        tp_new = pd.concat([tp_new, new_proteins], ignore_index=True)
+
+    # Update existing proteins
+    if any(ip_present):
+        valid_ip = ip[ip_present].astype(int)
+        tp_new.iloc[valid_ip] = aa[ip_present].values
+
+    # Update the protein database
+    tp_new.reset_index(drop=True, inplace=True)
+    t.protein = tp_new
+
+    # Return the new row numbers
+    ip_new = pinfo(po.tolist())
+    if isinstance(ip_new, (int, np.integer)):
+        ip_new = np.array([ip_new])
+
+    # Print messages
+    n_added = sum(~ip_present)
+    n_replaced = sum(ip_present)
+
+    if n_added &gt; 0:
+        print(f&#34;add_protein: added {n_added} new protein(s) to thermo().protein&#34;)
+    if n_replaced &gt; 0:
+        print(f&#34;add_protein: replaced {n_replaced} existing protein(s) in thermo().protein&#34;)
+
+    return ip_new</code></pre>
 </details>
-<div class="desc"><p>Get thermodynamic properties of amino acid(s).</p>
+<div class="desc"><p>Add protein amino acid compositions to thermo().protein.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>aa_code</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
-<dd>Single-letter amino acid code(s)</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
-<dd>Temperature in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
+<dt><strong><code>aa</code></strong> :&ensp;<code>DataFrame</code></dt>
+<dd>DataFrame with protein amino acid compositions.
+Must have same columns as thermo().protein</dd>
+<dt><strong><code>as_residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Normalize amino acid counts by protein length</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code> or <code>list</code> of <code>dict</code></dt>
-<dd>Amino acid properties</dd>
+<dt><code>array</code></dt>
+<dd>Row numbers of added/updated proteins in thermo().protein</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; aa = pd.read_csv(&quot;POLG.csv&quot;)
+&gt;&gt;&gt; iprotein = add_protein(aa)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.group_formulas"><code class="name flex">
+<span>def <span class="ident">group_formulas</span></span>(<span>) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def group_formulas() -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Return chemical formulas of amino acid residues.
+
+    This function returns a DataFrame with the chemical formulas of
+    H2O, the 20 amino acid sidechain groups, and the unfolded protein
+    backbone group [UPBB].
+
+    Returns
+    -------
+    DataFrame
+        Chemical formulas with elements C, H, N, O, S as columns
+        and residues as rows
+    &#34;&#34;&#34;
+    # Chemical formulas as a numpy array
+    # Rows: water, [Ala], [Cys], [Asp], [Glu], [Phe], [Gly], [His], [Ile], [Lys], [Leu],
+    #       [Met], [Asn], [Pro], [Gln], [Arg], [Ser], [Thr], [Val], [Trp], [Tyr], [UPBB]
+    # Columns: C, H, N, O, S
+    A = np.array([
+        [0, 2, 0, 1, 0],      # H2O
+        [1, 3, 0, 0, 0],      # [Ala]
+        [1, 3, 0, 0, 1],      # [Cys]
+        [2, 3, 0, 2, 0],      # [Asp]
+        [3, 5, 0, 2, 0],      # [Glu]
+        [7, 7, 0, 0, 0],      # [Phe]
+        [0, 1, 0, 0, 0],      # [Gly]
+        [4, 5, 2, 0, 0],      # [His]
+        [4, 9, 0, 0, 0],      # [Ile]
+        [4, 10, 1, 0, 0],     # [Lys]
+        [4, 9, 0, 0, 0],      # [Leu]
+        [3, 7, 0, 0, 1],      # [Met]
+        [2, 4, 1, 1, 0],      # [Asn]
+        [3, 5, 0, 0, 0],      # [Pro]
+        [3, 6, 1, 1, 0],      # [Gln]
+        [4, 10, 3, 0, 0],     # [Arg]
+        [1, 3, 0, 1, 0],      # [Ser]
+        [2, 5, 0, 1, 0],      # [Thr]
+        [3, 7, 0, 0, 0],      # [Val]
+        [9, 8, 1, 0, 0],      # [Trp]
+        [7, 7, 0, 1, 0],      # [Tyr]
+        [2, 2, 1, 1, 0]       # [UPBB]
+    ])
+
+    rownames = [&#39;H2O&#39;, &#39;[Ala]&#39;, &#39;[Cys]&#39;, &#39;[Asp]&#39;, &#39;[Glu]&#39;, &#39;[Phe]&#39;, &#39;[Gly]&#39;,
+                &#39;[His]&#39;, &#39;[Ile]&#39;, &#39;[Lys]&#39;, &#39;[Leu]&#39;, &#39;[Met]&#39;, &#39;[Asn]&#39;, &#39;[Pro]&#39;,
+                &#39;[Gln]&#39;, &#39;[Arg]&#39;, &#39;[Ser]&#39;, &#39;[Thr]&#39;, &#39;[Val]&#39;, &#39;[Trp]&#39;, &#39;[Tyr]&#39;,
+                &#39;[UPBB]&#39;]
+
+    # Add [UPBB] to the sidechain groups to get residues
+    out = A.copy()
+    # Add [UPBB] (last row) to each sidechain group (rows 1-20)
+    out[1:21, :] = out[1:21, :] + A[21, :]
+
+    # Create DataFrame
+    df = pd.DataFrame(out[0:21, :],
+                     index=rownames[0:21],
+                     columns=[&#39;C&#39;, &#39;H&#39;, &#39;N&#39;, &#39;O&#39;, &#39;S&#39;])
+
+    return df</code></pre>
+</details>
+<div class="desc"><p>Return chemical formulas of amino acid residues.</p>
+<p>This function returns a DataFrame with the chemical formulas of
+H2O, the 20 amino acid sidechain groups, and the unfolded protein
+backbone group [UPBB].</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Chemical formulas with elements C, H, N, O, S as columns
+and residues as rows</dd>
 </dl></div>
 </dd>
-<dt id="pychnosz.biomolecules.protein"><code class="name flex">
-<span>def <span class="ident">protein</span></span>(<span>sequence: str | List[str], T: float = 298.15, P: float = 1.0, state: str = 'aq') ‑> Dict[str, float] | List[Dict[str, float]]</span>
+<dt id="pychnosz.biomolecules.ionize_aa"><code class="name flex">
+<span>def <span class="ident">ionize_aa</span></span>(<span>aa: pandas.core.frame.DataFrame,<br>property: str = 'Z',<br>T: float | numpy.ndarray = 25.0,<br>P: float | str | numpy.ndarray = 'Psat',<br>pH: float | numpy.ndarray = 7.0,<br>ret_val: str | None = None,<br>suppress_Cys: bool = False) ‑> pandas.core.frame.DataFrame</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def protein(sequence: Union[str, List[str]], 
-           T: float = 298.15, P: float = 1.0,
-           state: str = &#39;aq&#39;) -&gt; Union[Dict[str, float], List[Dict[str, float]]]:
+<pre><code class="python">def ionize_aa(aa: pd.DataFrame,
+              property: str = &#34;Z&#34;,
+              T: Union[float, np.ndarray] = 25.0,
+              P: Union[float, str, np.ndarray] = &#34;Psat&#34;,
+              pH: Union[float, np.ndarray] = 7.0,
+              ret_val: Optional[str] = None,
+              suppress_Cys: bool = False) -&gt; pd.DataFrame:
     &#34;&#34;&#34;
-    Calculate thermodynamic properties of protein(s).
-    
+    Calculate additive ionization properties of proteins.
+
+    This function calculates the net charge or other ionization properties
+    of proteins based on amino acid composition at specified T, P, and pH.
+
     Parameters
     ----------
-    sequence : str or list of str
-        Protein sequence(s) in single-letter amino acid code
-    T : float, default 298.15
-        Temperature in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-    state : str, default &#39;aq&#39;
-        Physical state
-        
+    aa : DataFrame
+        Amino acid composition data
+    property : str, default &#34;Z&#34;
+        Property to calculate:
+        - &#34;Z&#34;: net charge
+        - &#34;A&#34;: chemical affinity
+        - Other subcrt properties (G, H, S, Cp, V)
+    T : float or array, default 25.0
+        Temperature in degrees Celsius
+    P : float, str, or array, default &#34;Psat&#34;
+        Pressure in bar, or &#34;Psat&#34; for saturation
+    pH : float or array, default 7.0
+        pH value(s)
+    ret_val : str, optional
+        Return value type:
+        - &#34;pK&#34;: return pK values
+        - &#34;alpha&#34;: return degree of formation
+        - &#34;aavals&#34;: return amino acid values
+        - None: return ionization property (default)
+    suppress_Cys : bool, default False
+        Suppress cysteine ionization
+
     Returns
     -------
-    dict or list of dict
-        Protein thermodynamic properties
+    DataFrame
+        Ionization properties
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; aa = pinfo(pinfo(&#34;LYSC_CHICK&#34;))
+    &gt;&gt;&gt; Z = ionize_aa(aa, pH=7.0)
     &#34;&#34;&#34;
-    
-    if isinstance(sequence, str):
-        return _protein_calculator.protein_properties(sequence, T, P, state)
+    # Ensure inputs are arrays
+    T = np.atleast_1d(T)
+    if isinstance(P, str):
+        P = np.array([P] * len(T))
     else:
-        return [_protein_calculator.protein_properties(seq, T, P, state) 
-                for seq in sequence]</code></pre>
-</details>
-<div class="desc"><p>Calculate thermodynamic properties of protein(s).</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code> or <code>list</code> of <code>str</code></dt>
-<dd>Protein sequence(s) in single-letter amino acid code</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
-<dd>Temperature in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
-<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, default <code>'aq'</code></dt>
-<dd>Physical state</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code> or <code>list</code> of <code>dict</code></dt>
-<dd>Protein thermodynamic properties</dd>
-</dl></div>
-</dd>
-<dt id="pychnosz.biomolecules.stability"><code class="name flex">
-<span>def <span class="ident">stability</span></span>(<span>sequence: str,<br>T_range: numpy.ndarray | Tuple[float, float, int],<br>P: float = 1.0) ‑> Dict[str, numpy.ndarray]</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def stability(sequence: str, T_range: Union[np.ndarray, Tuple[float, float, int]], 
-             P: float = 1.0) -&gt; Dict[str, np.ndarray]:
-    &#34;&#34;&#34;
-    Calculate protein stability over temperature range.
-    
-    Parameters
-    ----------
-    sequence : str
-        Protein sequence
-    T_range : array or tuple
-        Temperature range. If tuple: (T_min, T_max, n_points)
-    P : float, default 1.0
-        Pressure in bar
-        
-    Returns
-    -------
-    dict
-        Temperature-dependent stability properties
-    &#34;&#34;&#34;
-    
-    if isinstance(T_range, tuple):
-        T_min, T_max, n_points = T_range
-        T_range = np.linspace(T_min, T_max, n_points)
-    
-    return _protein_calculator.protein_stability(sequence, T_range, P)</code></pre>
-</details>
-<div class="desc"><p>Calculate protein stability over temperature range.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
-<dd>Protein sequence</dd>
-<dt><strong><code>T_range</code></strong> :&ensp;<code>array</code> or <code>tuple</code></dt>
-<dd>Temperature range. If tuple: (T_min, T_max, n_points)</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Temperature-dependent stability properties</dd>
-</dl></div>
-</dd>
-<dt id="pychnosz.biomolecules.unfold"><code class="name flex">
-<span>def <span class="ident">unfold</span></span>(<span>sequence: str, T: float = 298.15, P: float = 1.0) ‑> Dict[str, float]</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def unfold(sequence: str, T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
-    &#34;&#34;&#34;
-    Calculate protein unfolding thermodynamics.
-    
-    Parameters
-    ----------
-    sequence : str
-        Protein sequence
-    T : float, default 298.15
-        Temperature in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-        
-    Returns
-    -------
-    dict
-        Unfolding thermodynamics
-    &#34;&#34;&#34;
-    
-    folded = _protein_calculator.protein_properties(sequence, T, P)
-    unfolded = _protein_calculator._calculate_unfolded_properties(sequence, T, P)
-    
-    delta_G = unfolded[&#39;G&#39;] - folded[&#39;G&#39;]
-    delta_H = unfolded[&#39;H&#39;] - folded[&#39;H&#39;]  
-    delta_S = unfolded[&#39;S&#39;] - folded[&#39;S&#39;]
-    
-    # Melting temperature (where delta_G = 0)
-    if delta_S != 0:
-        T_m = delta_H / delta_S
+        P = np.atleast_1d(P)
+    pH_arr = np.atleast_1d(pH)
+
+    # Get maximum length and replicate arrays
+    lmax = max(len(T), len(P), len(pH_arr))
+    T = np.resize(T, lmax)
+    if isinstance(P[0], str):
+        P = np.array([P[0]] * lmax)
     else:
-        T_m = np.inf
-    
-    return {
-        &#39;delta_G&#39;: delta_G,
-        &#39;delta_H&#39;: delta_H,
-        &#39;delta_S&#39;: delta_S,
-        &#39;T_m&#39;: T_m,
-        &#39;K_unfold&#39;: np.exp(-delta_G / (8.314 * T)) if delta_G != 0 else 1.0,
-        &#39;fraction_unfolded&#39;: 1.0 / (1.0 + np.exp(-delta_G / (8.314 * T))) if delta_G != 0 else 0.5
-    }</code></pre>
+        P = np.resize(P, lmax)
+    pH_arr = np.resize(pH_arr, lmax)
+
+    # Turn pH into a matrix with as many columns as ionizable groups (9)
+    pH_matrix = np.tile(pH_arr[:, np.newaxis], (1, 9))
+
+    # Charges for ionizable groups
+    charges = np.array([-1, -1, -1, 1, 1, 1, -1, 1, -1])
+    charges_matrix = np.tile(charges, (lmax, 1))
+
+    # The ionizable groups
+    neutral = [&#34;[Cys]&#34;, &#34;[Asp]&#34;, &#34;[Glu]&#34;, &#34;[His]&#34;, &#34;[Lys]&#34;, &#34;[Arg]&#34;, &#34;[Tyr]&#34;, &#34;[AABB]&#34;, &#34;[AABB]&#34;]
+    charged = [&#34;[Cys-]&#34;, &#34;[Asp-]&#34;, &#34;[Glu-]&#34;, &#34;[His+]&#34;, &#34;[Lys+]&#34;, &#34;[Arg+]&#34;, &#34;[Tyr-]&#34;, &#34;[AABB+]&#34;, &#34;[AABB-]&#34;]
+
+    # Get row numbers in OBIGT
+    ineutral = [info(g, &#34;aq&#34;) for g in neutral]
+    icharged = [info(g, &#34;aq&#34;) for g in charged]
+
+    # Get unique T, P combinations
+    pTP = [f&#34;{t}_{p}&#34; for t, p in zip(T, P)]
+    unique_pTP = []
+    seen = set()
+    indices = []
+    for i, tp in enumerate(pTP):
+        if tp not in seen:
+            unique_pTP.append(i)
+            seen.add(tp)
+        indices.append(list(seen).index(tp))
+
+    # Determine which property to calculate
+    sprop = [&#34;G&#34;, property] if property not in [&#34;A&#34;, &#34;Z&#34;] else [&#34;G&#34;]
+
+    # Convert T to Kelvin for subcrt
+    TK = convert(T, &#34;K&#34;)
+
+    # Call subcrt for unique T, P combinations
+    unique_T = TK[unique_pTP]
+    unique_P = P[unique_pTP]
+
+    all_species = ineutral + icharged
+    sout = subcrt(all_species, T=unique_T, P=unique_P, property=sprop, convert=False)
+
+    # Extract G values
+    Gs = np.zeros((len(unique_pTP), len(all_species)))
+    for i, spec_idx in enumerate(all_species):
+        if isinstance(sout[&#39;out&#39;], dict):
+            # Single species result
+            Gs[:, i] = sout[&#39;out&#39;][&#39;G&#39;]
+        else:
+            # Multiple species result
+            Gs[:, i] = sout[&#39;out&#39;][i][&#39;G&#39;].values
+
+    # Gibbs energy difference for each group
+    DG = Gs[:, 9:18] - Gs[:, 0:9]
+
+    # Build matrix for all T, P values (including duplicates)
+    DG_full = DG[indices, :]
+
+    # Calculate pK values
+    DG_full = DG_full * charges
+    pK = np.zeros_like(DG_full)
+    for i in range(pK.shape[1]):
+        pK[:, i] = convert(DG_full[:, i], &#34;logK&#34;, T=TK)
+
+    # Return pK if requested
+    if ret_val == &#34;pK&#34;:
+        return pd.DataFrame(pK, columns=charged)
+
+    # Calculate alpha (degree of formation)
+    alpha = 1 / (1 + 10 ** (charges_matrix * (pH_matrix - pK)))
+
+    # Suppress cysteine ionization if requested
+    if suppress_Cys:
+        alpha[:, 0] = 0
+
+    # Return alpha if requested
+    if ret_val == &#34;alpha&#34;:
+        return pd.DataFrame(alpha, columns=charged)
+
+    # Calculate amino acid values
+    if property == &#34;Z&#34;:
+        aavals = charges_matrix.copy()
+    elif property == &#34;A&#34;:
+        aavals = -charges_matrix * (pH_matrix - pK)
+    else:
+        # Extract property values from subcrt output
+        prop_vals = np.zeros((len(unique_pTP), len(all_species)))
+        for i, spec_idx in enumerate(all_species):
+            if isinstance(sout[&#39;out&#39;], dict):
+                prop_vals[:, i] = sout[&#39;out&#39;][property]
+            else:
+                prop_vals[:, i] = sout[&#39;out&#39;][i][property].values
+
+        # Build matrix for all T, P values
+        prop_vals_full = prop_vals[indices, :]
+
+        # Property difference for each group
+        aavals = prop_vals_full[:, 9:18] - prop_vals_full[:, 0:9]
+
+    # Return aavals if requested
+    if ret_val == &#34;aavals&#34;:
+        return pd.DataFrame(aavals, columns=charged)
+
+    # Contribution from each group
+    aavals = aavals * alpha
+
+    # Get counts of ionizable groups from aa
+    # Columns: Cys, Asp, Glu, His, Lys, Arg, Tyr, chains, chains
+    ionize_cols = [&#34;Cys&#34;, &#34;Asp&#34;, &#34;Glu&#34;, &#34;His&#34;, &#34;Lys&#34;, &#34;Arg&#34;, &#34;Tyr&#34;, &#34;chains&#34;, &#34;chains&#34;]
+    aa_counts = aa[ionize_cols].values.astype(float)
+
+    # Calculate total ionization property
+    out = np.dot(aavals, aa_counts.T)
+
+    # Create DataFrame
+    result = pd.DataFrame(out)
+
+    return result</code></pre>
 </details>
-<div class="desc"><p>Calculate protein unfolding thermodynamics.</p>
+<div class="desc"><p>Calculate additive ionization properties of proteins.</p>
+<p>This function calculates the net charge or other ionization properties
+of proteins based on amino acid composition at specified T, P, and pH.</p>
 <h2 id="parameters">Parameters</h2>
 <dl>
-<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
-<dd>Protein sequence</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
-<dd>Temperature in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
+<dt><strong><code>aa</code></strong> :&ensp;<code>DataFrame</code></dt>
+<dd>Amino acid composition data</dd>
+<dt><strong><code>property</code></strong> :&ensp;<code>str</code>, default <code>"Z"</code></dt>
+<dd>Property to calculate:
+- "Z": net charge
+- "A": chemical affinity
+- Other subcrt properties (G, H, S, Cp, V)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>25.0</code></dt>
+<dd>Temperature in degrees Celsius</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, str,</code> or <code>array</code>, default <code>"Psat"</code></dt>
+<dd>Pressure in bar, or "Psat" for saturation</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>7.0</code></dt>
+<dd>pH value(s)</dd>
+<dt><strong><code>ret_val</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Return value type:
+- "pK": return pK values
+- "alpha": return degree of formation
+- "aavals": return amino acid values
+- None: return ionization property (default)</dd>
+<dt><strong><code>suppress_Cys</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Suppress cysteine ionization</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>dict</code></dt>
-<dd>Unfolding thermodynamics</dd>
-</dl></div>
+<dt><code>DataFrame</code></dt>
+<dd>Ionization properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; aa = pinfo(pinfo(&quot;LYSC_CHICK&quot;))
+&gt;&gt;&gt; Z = ionize_aa(aa, pH=7.0)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.pinfo"><code class="name flex">
+<span>def <span class="ident">pinfo</span></span>(<span>protein: str | int | pandas.core.frame.DataFrame | List,<br>organism: str | None = None,<br>residue: bool = False,<br>regexp: bool = False) ‑> pandas.core.frame.DataFrame | numpy.ndarray | int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pinfo(protein: Union[str, int, pd.DataFrame, List],
+          organism: Optional[str] = None,
+          residue: bool = False,
+          regexp: bool = False) -&gt; Union[pd.DataFrame, np.ndarray, int]:
+    &#34;&#34;&#34;
+    Get protein information from thermo().protein.
+
+    This function retrieves protein data from the thermodynamic database.
+    The behavior depends on the input type:
+    - DataFrame: returns the DataFrame (possibly per residue)
+    - int or list of ints: returns rows from thermo().protein
+    - str: searches for protein by name, returns row number(s)
+
+    Parameters
+    ----------
+    protein : str, int, DataFrame, or list
+        Protein identifier(s) or data
+    organism : str, optional
+        Organism identifier (used with protein name)
+    residue : bool, default False
+        Return per-residue amino acid composition
+    regexp : bool, default False
+        Use regular expression matching for protein search
+
+    Returns
+    -------
+    DataFrame, array, or int
+        Protein information or row numbers
+
+    Examples
+    --------
+    &gt;&gt;&gt; # Get protein by name
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; # Get protein data by row number
+    &gt;&gt;&gt; protein_data = pinfo(iprotein)
+    &#34;&#34;&#34;
+    t_p = thermo().protein
+
+    if t_p is None:
+        raise RuntimeError(&#34;Protein database not loaded. Run reset() first.&#34;)
+
+    # If input is a DataFrame, return it (possibly per residue)
+    if isinstance(protein, pd.DataFrame):
+        out = protein.copy()
+        if residue:
+            # Normalize by total amino acid count (columns 5:25)
+            row_sums = out.iloc[:, 5:25].sum(axis=1)
+            out.iloc[:, 4:24] = out.iloc[:, 4:24].div(row_sums, axis=0)
+        return out
+
+    # If input is numeric, get rows from thermo().protein
+    if isinstance(protein, (int, np.integer)):
+        protein = [protein]
+
+    if isinstance(protein, (list, np.ndarray)) and all(isinstance(x, (int, np.integer)) for x in protein):
+        # Get amino acid counts
+        iproteins = list(range(len(t_p)))
+        # Replace invalid indices with NaN
+        protein_clean = [p if p in iproteins else np.nan for p in protein]
+        # Filter out NaN values for indexing
+        valid_indices = [p for p in protein_clean if not np.isnan(p)]
+
+        if not valid_indices:
+            return pd.DataFrame()
+
+        out = t_p.iloc[valid_indices].copy()
+
+        # Compute per-residue counts if requested
+        if residue:
+            row_sums = out.iloc[:, 5:25].sum(axis=1)
+            out.iloc[:, 4:24] = out.iloc[:, 4:24].div(row_sums, axis=0)
+
+        return out
+
+    # If input is string or list of strings, search for protein
+    if isinstance(protein, str):
+        protein = [protein]
+
+    if isinstance(protein, list) and all(isinstance(x, str) for x in protein):
+        # Search for protein or protein_organism in thermo().protein
+        t_p_names = t_p[&#39;protein&#39;] + &#39;_&#39; + t_p[&#39;organism&#39;]
+
+        if regexp:
+            # Use regular expression matching
+            matches = []
+            for prot in protein:
+                iprotein = t_p[&#39;protein&#39;].str.contains(prot, regex=True, na=False)
+                if organism is not None:
+                    iorganism = t_p[&#39;organism&#39;].str.contains(organism, regex=True, na=False)
+                    iprotein = iprotein &amp; iorganism
+                indices = np.where(iprotein)[0]
+                if len(indices) &gt; 0:
+                    matches.extend(indices.tolist())
+                else:
+                    matches.append(np.nan)
+
+            if len(matches) == 1:
+                if np.isnan(matches[0]):
+                    return np.nan
+                return int(matches[0])
+            return np.array(matches)
+        else:
+            # Exact matching
+            if organism is None:
+                my_names = protein
+            else:
+                my_names = [f&#34;{p}_{organism}&#34; for p in protein]
+
+            # Find matches
+            matches = []
+            for name in my_names:
+                idx = np.where(t_p_names == name)[0]
+                if len(idx) &gt; 0:
+                    matches.append(idx[0])
+                else:
+                    matches.append(np.nan)
+
+            if len(matches) == 1:
+                if np.isnan(matches[0]):
+                    return np.nan
+                return int(matches[0])
+            return np.array(matches)
+
+    raise TypeError(f&#34;Unsupported protein type: {type(protein)}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Get protein information from thermo().protein.</p>
+<p>This function retrieves protein data from the thermodynamic database.
+The behavior depends on the input type:
+- DataFrame: returns the DataFrame (possibly per residue)
+- int or list of ints: returns rows from thermo().protein
+- str: searches for protein by name, returns row number(s)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>str, int, DataFrame,</code> or <code>list</code></dt>
+<dd>Protein identifier(s) or data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein name)</dd>
+<dt><strong><code>residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Return per-residue amino acid composition</dd>
+<dt><strong><code>regexp</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Use regular expression matching for protein search</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame, array,</code> or <code>int</code></dt>
+<dd>Protein information or row numbers</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get protein by name
+&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; # Get protein data by row number
+&gt;&gt;&gt; protein_data = pinfo(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.protein_OBIGT"><code class="name flex">
+<span>def <span class="ident">protein_OBIGT</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None,<br>state: str | None = None) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_OBIGT(protein: Union[int, List[int], pd.DataFrame],
+                 organism: Optional[str] = None,
+                 state: Optional[str] = None) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate protein properties using group additivity.
+
+    This function calculates thermodynamic properties of proteins
+    from amino acid composition using the group additivity approach.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier
+    state : str, optional
+        Physical state (&#39;aq&#39; or &#39;cr&#39;). If None, uses thermo().opt[&#39;state&#39;]
+
+    Returns
+    -------
+    DataFrame
+        Thermodynamic properties in OBIGT format
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; props = protein_OBIGT(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get state
+    if state is None:
+        state = thermo().opt.get(&#39;state&#39;, &#39;aq&#39;)
+
+    # The names of the protein backbone groups depend on the state
+    # [UPBB] for aq or [PBB] for cr
+    if state == &#39;aq&#39;:
+        bbgroup = &#39;UPBB&#39;
+    else:
+        bbgroup = &#39;PBB&#39;
+
+    # Names of the AABB, sidechain and protein backbone groups
+    aa_cols = aa.columns[5:25].tolist()  # Get amino acid column names
+    groups = [&#39;AABB&#39;] + aa_cols + [bbgroup]
+
+    # Put brackets around the group names
+    groups = [f&#34;[{g}]&#34; for g in groups]
+
+    # The row numbers of the groups in thermo().OBIGT
+    from ..core.info import info
+
+    groups_state = [f&#34;{g}&#34; for g in groups]
+    obigt = thermo().obigt
+
+    # Find groups in OBIGT
+    igroup = []
+    for group_name in groups_state:
+        # Search for the group with the specified state
+        matches = obigt[(obigt[&#39;name&#39;] == group_name) &amp; (obigt[&#39;state&#39;] == state)]
+        if len(matches) &gt; 0:
+            igroup.append(matches.index[0])
+        else:
+            # Try without brackets if not found
+            group_alt = group_name.strip(&#39;[]&#39;)
+            matches = obigt[(obigt[&#39;name&#39;] == group_alt) &amp; (obigt[&#39;state&#39;] == state)]
+            if len(matches) &gt; 0:
+                igroup.append(matches.index[0])
+            else:
+                raise ValueError(f&#34;Group {group_name} not found in OBIGT for state {state}&#34;)
+
+    # The properties are in columns 9:21 of thermo().OBIGT (G, H, S, Cp, V, etc.)
+    # Column indices: G=9, H=10, S=11, Cp=12, V=13, a1.a=14, a2.b=15, a3.c=16, a4.d=17, c1.e=18, c2.f=19, omega.lambda=20, z.T=21
+    groupprops = obigt.loc[igroup, obigt.columns[9:22]]
+
+    # The elements in each of the groups
+    groupelements = i2A(igroup)
+
+    results = []
+
+    # Process each protein
+    for idx in range(len(aa)):
+        aa_row = aa.iloc[idx]
+
+        # Numbers of groups: chains [=AABB], sidechains, protein backbone
+        nchains = float(aa_row.iloc[4])  # chains column
+        length = float(aa_row.iloc[5:25].sum())  # sum of amino acids
+        npbb = length - nchains
+
+        # Create ngroups array
+        ngroups = np.array([nchains] + aa_row.iloc[5:25].tolist() + [npbb], dtype=float)
+
+        # Calculate thermodynamic properties by group additivity
+        eos = (groupprops.values * ngroups[:, np.newaxis]).sum(axis=0)
+
+        # Calculate formula
+        f_in = (groupelements.values * ngroups[:, np.newaxis]).sum(axis=0).round(3)
+
+        # Remove elements that don&#39;t appear
+        element_names = groupelements.columns
+        f_dict = {elem: f_in[i] for i, elem in enumerate(element_names) if f_in[i] != 0}
+
+        # Turn it into a formula string
+        f = as_chemical_formula(f_dict)
+
+        # Species name
+        name = f&#34;{aa_row[&#39;protein&#39;]}_{aa_row[&#39;organism&#39;]}&#34;
+
+        # Print message
+        print(f&#34;protein_OBIGT: found {name} ({f}, {round(length, 3)} residues)&#34;)
+
+        ref = aa_row[&#39;ref&#39;]
+
+        # Include &#39;model&#39; column
+        model = &#39;HKF&#39; if state == &#39;aq&#39; else &#39;CGL&#39;
+
+        # Create header
+        header = {
+            &#39;name&#39;: name,
+            &#39;abbrv&#39;: None,
+            &#39;formula&#39;: f,
+            &#39;state&#39;: state,
+            &#39;ref1&#39;: ref,
+            &#39;ref2&#39;: None,
+            &#39;date&#39;: None,
+            &#39;model&#39;: model,
+            &#39;E_units&#39;: &#39;cal&#39;
+        }
+
+        # Combine header and eos
+        eosout = {**header, **dict(zip(groupprops.columns, eos))}
+        results.append(eosout)
+
+    # Convert to DataFrame
+    out = pd.DataFrame(results)
+    out.reset_index(drop=True, inplace=True)
+
+    return out</code></pre>
+</details>
+<div class="desc"><p>Calculate protein properties using group additivity.</p>
+<p>This function calculates thermodynamic properties of proteins
+from amino acid composition using the group additivity approach.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state ('aq' or 'cr'). If None, uses thermo().opt['state']</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Thermodynamic properties in OBIGT format</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; props = protein_OBIGT(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.protein_basis"><code class="name flex">
+<span>def <span class="ident">protein_basis</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>T: float = 25.0,<br>normalize: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_basis(protein: Union[int, List[int], pd.DataFrame],
+                 T: float = 25.0,
+                 normalize: bool = False) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate coefficients of basis species in protein formation reactions.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    T : float, default 25.0
+        Temperature in degrees Celsius
+    normalize : bool, default False
+        Normalize by protein length
+
+    Returns
+    -------
+    DataFrame
+        Coefficients of basis species
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; basis(&#34;CHNOSe&#34;)
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; coeffs = protein_basis(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get protein formulas
+    pf = protein_formula(aa)
+
+    # Calculate coefficients of basis species in formation reactions
+    sb = species_basis(pf)
+
+    # Calculate ionization states if H+ is a basis species
+    t = thermo()
+    if t.basis is not None:
+        basis_species = t.basis.index.tolist()
+        if &#39;H+&#39; in basis_species:
+            iHplus = basis_species.index(&#39;H+&#39;)
+            pH = -t.basis.loc[&#39;H+&#39;, &#39;logact&#39;]
+            Z = ionize_aa(aa, T=T, pH=pH).iloc[0, :]
+            sb.iloc[:, iHplus] = sb.iloc[:, iHplus] + Z.values
+
+    # Normalize by length if requested
+    if normalize:
+        plen = protein_length(aa)
+        sb = sb.div(plen, axis=0)
+
+    return sb</code></pre>
+</details>
+<div class="desc"><p>Calculate coefficients of basis species in protein formation reactions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>25.0</code></dt>
+<dd>Temperature in degrees Celsius</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Normalize by protein length</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Coefficients of basis species</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; basis(&quot;CHNOSe&quot;)
+&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; coeffs = protein_basis(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.protein_formula"><code class="name flex">
+<span>def <span class="ident">protein_formula</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None,<br>residue: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_formula(protein: Union[int, List[int], pd.DataFrame],
+                   organism: Optional[str] = None,
+                   residue: bool = False) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate chemical formulas of proteins.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier (used with protein number)
+    residue : bool, default False
+        Return per-residue formula
+
+    Returns
+    -------
+    DataFrame
+        Chemical formulas with elements C, H, N, O, S as columns
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; formula = protein_formula(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get group formulas
+    rf = group_formulas()
+
+    # Matrix multiplication: amino acid counts * residue formulas
+    # Columns 5:25 contain amino acid counts (excluding chains column at 4)
+    # We need to add H2O (chains column) separately
+    aa_counts = aa.iloc[:, 5:25].values.astype(float)
+    chains = aa.iloc[:, 4].values.astype(float)
+    rf_values = rf.iloc[1:, :].values.astype(float)  # Skip H2O row, use amino acid residues
+    rf_H2O = rf.iloc[0, :].values.astype(float)  # H2O row
+
+    # Calculate protein formula: amino acids + H2O for chains
+    out = np.dot(aa_counts, rf_values) + np.outer(chains, rf_H2O)
+
+    # Normalize by residue if requested
+    if residue:
+        row_sums = aa.iloc[:, 5:25].sum(axis=1).values
+        out = out / row_sums[:, np.newaxis]
+
+    # Create DataFrame with protein names as index
+    protein_names = aa[&#39;protein&#39;] + &#39;_&#39; + aa[&#39;organism&#39;]
+    # Make names unique if there are duplicates
+    if protein_names.duplicated().any():
+        counts = {}
+        unique_names = []
+        for name in protein_names:
+            if name in counts:
+                counts[name] += 1
+                unique_names.append(f&#34;{name}.{counts[name]}&#34;)
+            else:
+                counts[name] = 0
+                unique_names.append(name)
+        protein_names = unique_names
+
+    result = pd.DataFrame(out,
+                         index=protein_names,
+                         columns=[&#39;C&#39;, &#39;H&#39;, &#39;N&#39;, &#39;O&#39;, &#39;S&#39;])
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Calculate chemical formulas of proteins.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein number)</dd>
+<dt><strong><code>residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Return per-residue formula</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Chemical formulas with elements C, H, N, O, S as columns</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; formula = protein_formula(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.biomolecules.protein_length"><code class="name flex">
+<span>def <span class="ident">protein_length</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None) ‑> int | numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_length(protein: Union[int, List[int], pd.DataFrame],
+                   organism: Optional[str] = None) -&gt; Union[int, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate the length(s) of proteins.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier (used with protein number)
+
+    Returns
+    -------
+    int or array
+        Protein length(s) in amino acid residues
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; length = protein_length(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if isinstance(aa, pd.DataFrame):
+        # Use sum on the columns containing amino acid counts (columns 5:25)
+        pl = aa.iloc[:, 5:25].sum(axis=1).values
+        return pl
+    else:
+        return 0</code></pre>
+</details>
+<div class="desc"><p>Calculate the length(s) of proteins.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein number)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code> or <code>array</code></dt>
+<dd>Protein length(s) in amino acid residues</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; length = protein_length(iprotein)
+</code></pre></div>
 </dd>
 </dl>
 </section>
 <section>
-<h2 class="section-title" id="header-classes">Classes</h2>
-<dl>
-<dt id="pychnosz.biomolecules.ProteinThermodynamics"><code class="flex name class">
-<span>class <span class="ident">ProteinThermodynamics</span></span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class ProteinThermodynamics:
-    &#34;&#34;&#34;
-    Protein thermodynamics calculator.
-    
-    This class implements group contribution methods for calculating
-    thermodynamic properties of proteins and biomolecules.
-    &#34;&#34;&#34;
-    
-    def __init__(self):
-        &#34;&#34;&#34;Initialize the protein thermodynamics calculator.&#34;&#34;&#34;
-        self.amino_acid_data = None
-        self._load_amino_acid_data()
-    
-    def _load_amino_acid_data(self):
-        &#34;&#34;&#34;Load amino acid thermodynamic data.&#34;&#34;&#34;
-        try:
-            # This would load from the protein.csv database
-            # For now, create simplified data
-            amino_acids = []
-            for code, info in AMINO_ACIDS.items():
-                amino_acids.append({
-                    &#39;code&#39;: code,
-                    &#39;name&#39;: info[&#39;name&#39;],
-                    &#39;abbrev&#39;: info[&#39;abbrev&#39;],
-                    &#39;formula&#39;: info[&#39;formula&#39;],
-                    # Placeholder thermodynamic data (would come from database)
-                    &#39;G&#39;: -100000 - np.random.random() * 50000,  # J/mol
-                    &#39;H&#39;: -150000 - np.random.random() * 50000,  # J/mol
-                    &#39;S&#39;: 100 + np.random.random() * 50,         # J/(mol·K)
-                    &#39;Cp&#39;: 150 + np.random.random() * 50         # J/(mol·K)
-                })
-            
-            self.amino_acid_data = pd.DataFrame(amino_acids)
-            
-        except Exception as e:
-            warnings.warn(f&#34;Could not load amino acid data: {e}&#34;)
-            self.amino_acid_data = pd.DataFrame()
-    
-    def protein_properties(self, sequence: str, 
-                         T: float = 298.15, P: float = 1.0,
-                         state: str = &#39;aq&#39;) -&gt; Dict[str, float]:
-        &#34;&#34;&#34;
-        Calculate thermodynamic properties of a protein from its sequence.
-        
-        Parameters
-        ----------
-        sequence : str
-            Protein sequence in single-letter amino acid code
-        T : float, default 298.15
-            Temperature in Kelvin
-        P : float, default 1.0
-            Pressure in bar
-        state : str, default &#39;aq&#39;
-            Physical state (&#39;aq&#39; for aqueous, &#39;cr&#39; for crystalline)
-            
-        Returns
-        -------
-        dict
-            Thermodynamic properties of the protein
-        &#34;&#34;&#34;
-        
-        if self.amino_acid_data.empty:
-            raise ValueError(&#34;Amino acid data not available&#34;)
-        
-        # Count amino acid residues
-        aa_counts = {}
-        for aa in sequence:
-            if aa.upper() in AMINO_ACIDS:
-                aa_counts[aa.upper()] = aa_counts.get(aa.upper(), 0) + 1
-            else:
-                warnings.warn(f&#34;Unknown amino acid: {aa}&#34;)
-        
-        # Calculate properties by group contribution
-        total_G = 0
-        total_H = 0
-        total_S = 0
-        total_Cp = 0
-        
-        for aa_code, count in aa_counts.items():
-            aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
-            if not aa_data.empty:
-                aa_row = aa_data.iloc[0]
-                total_G += count * aa_row[&#39;G&#39;]
-                total_H += count * aa_row[&#39;H&#39;]
-                total_S += count * aa_row[&#39;S&#39;]
-                total_Cp += count * aa_row[&#39;Cp&#39;]
-        
-        # Apply peptide bond corrections
-        n_peptide_bonds = len(sequence) - 1
-        if n_peptide_bonds &gt; 0:
-            # Peptide bond formation: dehydration reaction
-            # -H2O per peptide bond
-            water_props = self._get_water_properties(T, P)
-            total_G += n_peptide_bonds * water_props[&#39;G&#39;]  # Remove water
-            total_H += n_peptide_bonds * water_props[&#39;H&#39;]
-            total_S += n_peptide_bonds * water_props[&#39;S&#39;]
-            total_Cp += n_peptide_bonds * water_props[&#39;Cp&#39;]
-        
-        # Temperature corrections (simplified)
-        if T != 298.15:
-            dT = T - 298.15
-            total_G += total_H * (1 - T/298.15) + total_S * dT
-            total_H += total_Cp * dT  # Assuming constant Cp
-            total_S += total_Cp * np.log(T/298.15)
-        
-        return {
-            &#39;G&#39;: total_G,
-            &#39;H&#39;: total_H,
-            &#39;S&#39;: total_S,
-            &#39;Cp&#39;: total_Cp,
-            &#39;length&#39;: len(sequence),
-            &#39;composition&#39;: aa_counts,
-            &#39;molecular_weight&#39;: self._calculate_molecular_weight(aa_counts)
-        }
-    
-    def protein_stability(self, sequence: str, 
-                         T_range: np.ndarray,
-                         P: float = 1.0) -&gt; Dict[str, np.ndarray]:
-        &#34;&#34;&#34;
-        Calculate protein stability as a function of temperature.
-        
-        Parameters
-        ----------
-        sequence : str
-            Protein sequence
-        T_range : array
-            Temperature range in Kelvin
-        P : float, default 1.0
-            Pressure in bar
-            
-        Returns
-        -------
-        dict
-            Temperature-dependent stability properties
-        &#34;&#34;&#34;
-        
-        results = {
-            &#39;T&#39;: T_range,
-            &#39;G_folded&#39;: np.zeros_like(T_range),
-            &#39;G_unfolded&#39;: np.zeros_like(T_range),
-            &#39;delta_G_fold&#39;: np.zeros_like(T_range),
-            &#39;fraction_folded&#39;: np.zeros_like(T_range)
-        }
-        
-        # Calculate properties at each temperature
-        for i, T in enumerate(T_range):
-            # Folded state (compact)
-            folded_props = self.protein_properties(sequence, T, P, state=&#39;aq&#39;)
-            
-            # Unfolded state (extended) - simplified as sum of individual residues
-            unfolded_props = self._calculate_unfolded_properties(sequence, T, P)
-            
-            results[&#39;G_folded&#39;][i] = folded_props[&#39;G&#39;]
-            results[&#39;G_unfolded&#39;][i] = unfolded_props[&#39;G&#39;]
-            results[&#39;delta_G_fold&#39;][i] = folded_props[&#39;G&#39;] - unfolded_props[&#39;G&#39;]
-            
-            # Fraction folded (equilibrium)
-            if results[&#39;delta_G_fold&#39;][i] != 0:
-                K_fold = np.exp(-results[&#39;delta_G_fold&#39;][i] / (8.314 * T))
-                results[&#39;fraction_folded&#39;][i] = K_fold / (1 + K_fold)
-            else:
-                results[&#39;fraction_folded&#39;][i] = 0.5
-        
-        return results
-    
-    def amino_acid_contribution(self, aa_code: str, 
-                              T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
-        &#34;&#34;&#34;
-        Get thermodynamic contribution of a single amino acid.
-        
-        Parameters
-        ----------
-        aa_code : str
-            Single-letter amino acid code
-        T : float, default 298.15
-            Temperature in Kelvin
-        P : float, default 1.0
-            Pressure in bar
-            
-        Returns
-        -------
-        dict
-            Thermodynamic properties of the amino acid
-        &#34;&#34;&#34;
-        
-        if self.amino_acid_data.empty:
-            raise ValueError(&#34;Amino acid data not available&#34;)
-        
-        aa_code = aa_code.upper()
-        if aa_code not in AMINO_ACIDS:
-            raise ValueError(f&#34;Unknown amino acid: {aa_code}&#34;)
-        
-        aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
-        if aa_data.empty:
-            raise ValueError(f&#34;No data available for amino acid: {aa_code}&#34;)
-        
-        aa_row = aa_data.iloc[0]
-        
-        # Temperature correction
-        G_std = aa_row[&#39;G&#39;]
-        H_std = aa_row[&#39;H&#39;]
-        S_std = aa_row[&#39;S&#39;]
-        Cp_std = aa_row[&#39;Cp&#39;]
-        
-        if T != 298.15:
-            dT = T - 298.15
-            G_T = G_std + H_std * (1 - T/298.15) + S_std * dT
-            H_T = H_std + Cp_std * dT
-            S_T = S_std + Cp_std * np.log(T/298.15)
-        else:
-            G_T, H_T, S_T = G_std, H_std, S_std
-        
-        return {
-            &#39;G&#39;: G_T,
-            &#39;H&#39;: H_T,
-            &#39;S&#39;: S_T,
-            &#39;Cp&#39;: Cp_std,
-            &#39;name&#39;: aa_row[&#39;name&#39;],
-            &#39;formula&#39;: aa_row[&#39;formula&#39;]
-        }
-    
-    def _get_water_properties(self, T: float, P: float) -&gt; Dict[str, float]:
-        &#34;&#34;&#34;Get water thermodynamic properties.&#34;&#34;&#34;
-        try:
-            from ..models import water_SUPCRT92
-            # This would use the water model, but for now use constants
-            return {
-                &#39;G&#39;: -237129,  # J/mol at 25°C
-                &#39;H&#39;: -285830,  # J/mol
-                &#39;S&#39;: 69.95,    # J/(mol·K)
-                &#39;Cp&#39;: 75.31    # J/(mol·K)
-            }
-        except:
-            # Fallback values
-            return {
-                &#39;G&#39;: -237129,
-                &#39;H&#39;: -285830,
-                &#39;S&#39;: 69.95,
-                &#39;Cp&#39;: 75.31
-            }
-    
-    def _calculate_molecular_weight(self, aa_counts: Dict[str, int]) -&gt; float:
-        &#34;&#34;&#34;Calculate molecular weight from amino acid composition.&#34;&#34;&#34;
-        
-        # Approximate molecular weights (g/mol)
-        mw_data = {
-            &#39;A&#39;: 89.1, &#39;R&#39;: 174.2, &#39;N&#39;: 132.1, &#39;D&#39;: 133.1, &#39;C&#39;: 121.0,
-            &#39;Q&#39;: 146.1, &#39;E&#39;: 147.1, &#39;G&#39;: 75.1, &#39;H&#39;: 155.2, &#39;I&#39;: 131.2,
-            &#39;L&#39;: 131.2, &#39;K&#39;: 146.2, &#39;M&#39;: 149.2, &#39;F&#39;: 165.2, &#39;P&#39;: 115.1,
-            &#39;S&#39;: 105.1, &#39;T&#39;: 119.1, &#39;W&#39;: 204.2, &#39;Y&#39;: 181.2, &#39;V&#39;: 117.1
-        }
-        
-        total_mw = 0
-        for aa, count in aa_counts.items():
-            total_mw += count * mw_data.get(aa, 110.0)  # Average if unknown
-        
-        # Subtract water molecules for peptide bonds
-        n_peptide_bonds = sum(aa_counts.values()) - 1
-        total_mw -= n_peptide_bonds * 18.015  # H2O
-        
-        return total_mw
-    
-    def _calculate_unfolded_properties(self, sequence: str, T: float, P: float) -&gt; Dict[str, float]:
-        &#34;&#34;&#34;Calculate properties of unfolded protein state.&#34;&#34;&#34;
-        
-        # Simplified: unfolded state has higher entropy and enthalpy
-        folded_props = self.protein_properties(sequence, T, P)
-        
-        # Unfolding typically increases entropy and enthalpy
-        delta_H_unfold = len(sequence) * 5000  # ~5 kJ/mol per residue
-        delta_S_unfold = len(sequence) * 20    # ~20 J/(mol·K) per residue
-        
-        return {
-            &#39;G&#39;: folded_props[&#39;G&#39;] + delta_H_unfold - T * delta_S_unfold,
-            &#39;H&#39;: folded_props[&#39;H&#39;] + delta_H_unfold,
-            &#39;S&#39;: folded_props[&#39;S&#39;] + delta_S_unfold,
-            &#39;Cp&#39;: folded_props[&#39;Cp&#39;] * 1.2  # Slightly higher Cp
-        }</code></pre>
-</details>
-<div class="desc"><p>Protein thermodynamics calculator.</p>
-<p>This class implements group contribution methods for calculating
-thermodynamic properties of proteins and biomolecules.</p>
-<p>Initialize the protein thermodynamics calculator.</p></div>
-<h3>Methods</h3>
-<dl>
-<dt id="pychnosz.biomolecules.ProteinThermodynamics.amino_acid_contribution"><code class="name flex">
-<span>def <span class="ident">amino_acid_contribution</span></span>(<span>self, aa_code: str, T: float = 298.15, P: float = 1.0) ‑> Dict[str, float]</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def amino_acid_contribution(self, aa_code: str, 
-                          T: float = 298.15, P: float = 1.0) -&gt; Dict[str, float]:
-    &#34;&#34;&#34;
-    Get thermodynamic contribution of a single amino acid.
-    
-    Parameters
-    ----------
-    aa_code : str
-        Single-letter amino acid code
-    T : float, default 298.15
-        Temperature in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-        
-    Returns
-    -------
-    dict
-        Thermodynamic properties of the amino acid
-    &#34;&#34;&#34;
-    
-    if self.amino_acid_data.empty:
-        raise ValueError(&#34;Amino acid data not available&#34;)
-    
-    aa_code = aa_code.upper()
-    if aa_code not in AMINO_ACIDS:
-        raise ValueError(f&#34;Unknown amino acid: {aa_code}&#34;)
-    
-    aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
-    if aa_data.empty:
-        raise ValueError(f&#34;No data available for amino acid: {aa_code}&#34;)
-    
-    aa_row = aa_data.iloc[0]
-    
-    # Temperature correction
-    G_std = aa_row[&#39;G&#39;]
-    H_std = aa_row[&#39;H&#39;]
-    S_std = aa_row[&#39;S&#39;]
-    Cp_std = aa_row[&#39;Cp&#39;]
-    
-    if T != 298.15:
-        dT = T - 298.15
-        G_T = G_std + H_std * (1 - T/298.15) + S_std * dT
-        H_T = H_std + Cp_std * dT
-        S_T = S_std + Cp_std * np.log(T/298.15)
-    else:
-        G_T, H_T, S_T = G_std, H_std, S_std
-    
-    return {
-        &#39;G&#39;: G_T,
-        &#39;H&#39;: H_T,
-        &#39;S&#39;: S_T,
-        &#39;Cp&#39;: Cp_std,
-        &#39;name&#39;: aa_row[&#39;name&#39;],
-        &#39;formula&#39;: aa_row[&#39;formula&#39;]
-    }</code></pre>
-</details>
-<div class="desc"><p>Get thermodynamic contribution of a single amino acid.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>aa_code</code></strong> :&ensp;<code>str</code></dt>
-<dd>Single-letter amino acid code</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
-<dd>Temperature in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Thermodynamic properties of the amino acid</dd>
-</dl></div>
-</dd>
-<dt id="pychnosz.biomolecules.ProteinThermodynamics.protein_properties"><code class="name flex">
-<span>def <span class="ident">protein_properties</span></span>(<span>self, sequence: str, T: float = 298.15, P: float = 1.0, state: str = 'aq') ‑> Dict[str, float]</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def protein_properties(self, sequence: str, 
-                     T: float = 298.15, P: float = 1.0,
-                     state: str = &#39;aq&#39;) -&gt; Dict[str, float]:
-    &#34;&#34;&#34;
-    Calculate thermodynamic properties of a protein from its sequence.
-    
-    Parameters
-    ----------
-    sequence : str
-        Protein sequence in single-letter amino acid code
-    T : float, default 298.15
-        Temperature in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-    state : str, default &#39;aq&#39;
-        Physical state (&#39;aq&#39; for aqueous, &#39;cr&#39; for crystalline)
-        
-    Returns
-    -------
-    dict
-        Thermodynamic properties of the protein
-    &#34;&#34;&#34;
-    
-    if self.amino_acid_data.empty:
-        raise ValueError(&#34;Amino acid data not available&#34;)
-    
-    # Count amino acid residues
-    aa_counts = {}
-    for aa in sequence:
-        if aa.upper() in AMINO_ACIDS:
-            aa_counts[aa.upper()] = aa_counts.get(aa.upper(), 0) + 1
-        else:
-            warnings.warn(f&#34;Unknown amino acid: {aa}&#34;)
-    
-    # Calculate properties by group contribution
-    total_G = 0
-    total_H = 0
-    total_S = 0
-    total_Cp = 0
-    
-    for aa_code, count in aa_counts.items():
-        aa_data = self.amino_acid_data[self.amino_acid_data[&#39;code&#39;] == aa_code]
-        if not aa_data.empty:
-            aa_row = aa_data.iloc[0]
-            total_G += count * aa_row[&#39;G&#39;]
-            total_H += count * aa_row[&#39;H&#39;]
-            total_S += count * aa_row[&#39;S&#39;]
-            total_Cp += count * aa_row[&#39;Cp&#39;]
-    
-    # Apply peptide bond corrections
-    n_peptide_bonds = len(sequence) - 1
-    if n_peptide_bonds &gt; 0:
-        # Peptide bond formation: dehydration reaction
-        # -H2O per peptide bond
-        water_props = self._get_water_properties(T, P)
-        total_G += n_peptide_bonds * water_props[&#39;G&#39;]  # Remove water
-        total_H += n_peptide_bonds * water_props[&#39;H&#39;]
-        total_S += n_peptide_bonds * water_props[&#39;S&#39;]
-        total_Cp += n_peptide_bonds * water_props[&#39;Cp&#39;]
-    
-    # Temperature corrections (simplified)
-    if T != 298.15:
-        dT = T - 298.15
-        total_G += total_H * (1 - T/298.15) + total_S * dT
-        total_H += total_Cp * dT  # Assuming constant Cp
-        total_S += total_Cp * np.log(T/298.15)
-    
-    return {
-        &#39;G&#39;: total_G,
-        &#39;H&#39;: total_H,
-        &#39;S&#39;: total_S,
-        &#39;Cp&#39;: total_Cp,
-        &#39;length&#39;: len(sequence),
-        &#39;composition&#39;: aa_counts,
-        &#39;molecular_weight&#39;: self._calculate_molecular_weight(aa_counts)
-    }</code></pre>
-</details>
-<div class="desc"><p>Calculate thermodynamic properties of a protein from its sequence.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
-<dd>Protein sequence in single-letter amino acid code</dd>
-<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>298.15</code></dt>
-<dd>Temperature in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
-<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, default <code>'aq'</code></dt>
-<dd>Physical state ('aq' for aqueous, 'cr' for crystalline)</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Thermodynamic properties of the protein</dd>
-</dl></div>
-</dd>
-<dt id="pychnosz.biomolecules.ProteinThermodynamics.protein_stability"><code class="name flex">
-<span>def <span class="ident">protein_stability</span></span>(<span>self, sequence: str, T_range: numpy.ndarray, P: float = 1.0) ‑> Dict[str, numpy.ndarray]</span>
-</code></dt>
-<dd>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def protein_stability(self, sequence: str, 
-                     T_range: np.ndarray,
-                     P: float = 1.0) -&gt; Dict[str, np.ndarray]:
-    &#34;&#34;&#34;
-    Calculate protein stability as a function of temperature.
-    
-    Parameters
-    ----------
-    sequence : str
-        Protein sequence
-    T_range : array
-        Temperature range in Kelvin
-    P : float, default 1.0
-        Pressure in bar
-        
-    Returns
-    -------
-    dict
-        Temperature-dependent stability properties
-    &#34;&#34;&#34;
-    
-    results = {
-        &#39;T&#39;: T_range,
-        &#39;G_folded&#39;: np.zeros_like(T_range),
-        &#39;G_unfolded&#39;: np.zeros_like(T_range),
-        &#39;delta_G_fold&#39;: np.zeros_like(T_range),
-        &#39;fraction_folded&#39;: np.zeros_like(T_range)
-    }
-    
-    # Calculate properties at each temperature
-    for i, T in enumerate(T_range):
-        # Folded state (compact)
-        folded_props = self.protein_properties(sequence, T, P, state=&#39;aq&#39;)
-        
-        # Unfolded state (extended) - simplified as sum of individual residues
-        unfolded_props = self._calculate_unfolded_properties(sequence, T, P)
-        
-        results[&#39;G_folded&#39;][i] = folded_props[&#39;G&#39;]
-        results[&#39;G_unfolded&#39;][i] = unfolded_props[&#39;G&#39;]
-        results[&#39;delta_G_fold&#39;][i] = folded_props[&#39;G&#39;] - unfolded_props[&#39;G&#39;]
-        
-        # Fraction folded (equilibrium)
-        if results[&#39;delta_G_fold&#39;][i] != 0:
-            K_fold = np.exp(-results[&#39;delta_G_fold&#39;][i] / (8.314 * T))
-            results[&#39;fraction_folded&#39;][i] = K_fold / (1 + K_fold)
-        else:
-            results[&#39;fraction_folded&#39;][i] = 0.5
-    
-    return results</code></pre>
-</details>
-<div class="desc"><p>Calculate protein stability as a function of temperature.</p>
-<h2 id="parameters">Parameters</h2>
-<dl>
-<dt><strong><code>sequence</code></strong> :&ensp;<code>str</code></dt>
-<dd>Protein sequence</dd>
-<dt><strong><code>T_range</code></strong> :&ensp;<code>array</code></dt>
-<dd>Temperature range in Kelvin</dd>
-<dt><strong><code>P</code></strong> :&ensp;<code>float</code>, default <code>1.0</code></dt>
-<dd>Pressure in bar</dd>
-</dl>
-<h2 id="returns">Returns</h2>
-<dl>
-<dt><code>dict</code></dt>
-<dd>Temperature-dependent stability properties</dd>
-</dl></div>
-</dd>
-</dl>
-</dd>
-</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -850,23 +1074,15 @@ thermodynamic properties of proteins and biomolecules.</p>
 </ul>
 </li>
 <li><h3><a href="#header-functions">Functions</a></h3>
-<ul class="">
-<li><code><a title="pychnosz.biomolecules.amino_acid" href="#pychnosz.biomolecules.amino_acid">amino_acid</a></code></li>
-<li><code><a title="pychnosz.biomolecules.protein" href="#pychnosz.biomolecules.protein">protein</a></code></li>
-<li><code><a title="pychnosz.biomolecules.stability" href="#pychnosz.biomolecules.stability">stability</a></code></li>
-<li><code><a title="pychnosz.biomolecules.unfold" href="#pychnosz.biomolecules.unfold">unfold</a></code></li>
-</ul>
-</li>
-<li><h3><a href="#header-classes">Classes</a></h3>
-<ul>
-<li>
-<h4><code><a title="pychnosz.biomolecules.ProteinThermodynamics" href="#pychnosz.biomolecules.ProteinThermodynamics">ProteinThermodynamics</a></code></h4>
-<ul class="">
-<li><code><a title="pychnosz.biomolecules.ProteinThermodynamics.amino_acid_contribution" href="#pychnosz.biomolecules.ProteinThermodynamics.amino_acid_contribution">amino_acid_contribution</a></code></li>
-<li><code><a title="pychnosz.biomolecules.ProteinThermodynamics.protein_properties" href="#pychnosz.biomolecules.ProteinThermodynamics.protein_properties">protein_properties</a></code></li>
-<li><code><a title="pychnosz.biomolecules.ProteinThermodynamics.protein_stability" href="#pychnosz.biomolecules.ProteinThermodynamics.protein_stability">protein_stability</a></code></li>
-</ul>
-</li>
+<ul class="two-column">
+<li><code><a title="pychnosz.biomolecules.add_protein" href="#pychnosz.biomolecules.add_protein">add_protein</a></code></li>
+<li><code><a title="pychnosz.biomolecules.group_formulas" href="#pychnosz.biomolecules.group_formulas">group_formulas</a></code></li>
+<li><code><a title="pychnosz.biomolecules.ionize_aa" href="#pychnosz.biomolecules.ionize_aa">ionize_aa</a></code></li>
+<li><code><a title="pychnosz.biomolecules.pinfo" href="#pychnosz.biomolecules.pinfo">pinfo</a></code></li>
+<li><code><a title="pychnosz.biomolecules.protein_OBIGT" href="#pychnosz.biomolecules.protein_OBIGT">protein_OBIGT</a></code></li>
+<li><code><a title="pychnosz.biomolecules.protein_basis" href="#pychnosz.biomolecules.protein_basis">protein_basis</a></code></li>
+<li><code><a title="pychnosz.biomolecules.protein_formula" href="#pychnosz.biomolecules.protein_formula">protein_formula</a></code></li>
+<li><code><a title="pychnosz.biomolecules.protein_length" href="#pychnosz.biomolecules.protein_length">protein_length</a></code></li>
 </ul>
 </li>
 </ul>

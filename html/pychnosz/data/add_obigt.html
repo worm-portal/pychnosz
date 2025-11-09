@@ -162,9 +162,18 @@ behavior of R CHNOSZ add.OBIGT() function.</p>
     # Get the current OBIGT database to determine required columns
     to1 = thermo_sys.obigt
 
-    # Define required columns (exclude &#39;source_file&#39; since it&#39;s added by this function)
+    # Define core required columns that all species must have
+    # These are the fundamental columns needed for thermodynamic calculations
+    # Model-specific columns (logK*, T*, P*, etc.) are optional
+    core_required_columns = [
+        &#39;name&#39;, &#39;abbrv&#39;, &#39;formula&#39;, &#39;state&#39;, &#39;ref1&#39;, &#39;ref2&#39;, &#39;date&#39;, &#39;E_units&#39;,
+        &#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;,
+        &#39;a1.a&#39;, &#39;a2.b&#39;, &#39;a3.c&#39;, &#39;a4.d&#39;, &#39;c1.e&#39;, &#39;c2.f&#39;, &#39;omega.lambda&#39;, &#39;z.T&#39;
+    ]
+
     # The &#39;model&#39; column is optional and will be auto-generated if missing
-    required_columns = [col for col in to1.columns if col not in [&#39;source_file&#39;, &#39;model&#39;]]
+    # Filter to only include columns that exist in current OBIGT (for compatibility)
+    required_columns = [col for col in core_required_columns if col in to1.columns]
 
     # Check for missing required columns
     missing_columns = [col for col in required_columns if col not in new_data.columns]

@@ -406,8 +406,8 @@ and electron activity (pe) calculations for environmental geochemistry.</p>
             coefficients = [reaction[sp] for sp in species_names]
             
             result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-            if result[&#39;reaction&#39;] is not None:
-                logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+            if result.out is not None and &#39;logK&#39; in result.out.columns:
+                logK = result.out[&#39;logK&#39;].iloc[0]
             else:
                 logK = 0.0
         except Exception as e:
@@ -516,8 +516,8 @@ and electron activity (pe) calculations for environmental geochemistry.</p>
         try:
             # Calculate logK for oxygen-water reaction
             result = subcrt([&#39;O2&#39;, &#39;H+&#39;, &#39;H2O&#39;], [1, 4, -2], T=T, P=P, show=False)
-            if result[&#39;reaction&#39;] is not None:
-                logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+            if result.out is not None and &#39;logK&#39; in result.out.columns:
+                logK = result.out[&#39;logK&#39;].iloc[0]
             else:
                 logK = 83.1  # Approximate value at 25°C
         except:
@@ -835,8 +835,8 @@ electron activity calculations.</p>
     try:
         # Calculate logK for oxygen-water reaction
         result = subcrt([&#39;O2&#39;, &#39;H+&#39;, &#39;H2O&#39;], [1, 4, -2], T=T, P=P, show=False)
-        if result[&#39;reaction&#39;] is not None:
-            logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+        if result.out is not None and &#39;logK&#39; in result.out.columns:
+            logK = result.out[&#39;logK&#39;].iloc[0]
         else:
             logK = 83.1  # Approximate value at 25°C
     except:
@@ -910,8 +910,8 @@ electron activity calculations.</p>
         coefficients = [reaction[sp] for sp in species_names]
         
         result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-        if result[&#39;reaction&#39;] is not None:
-            logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+        if result.out is not None and &#39;logK&#39; in result.out.columns:
+            logK = result.out[&#39;logK&#39;].iloc[0]
         else:
             logK = 0.0
     except Exception as e:

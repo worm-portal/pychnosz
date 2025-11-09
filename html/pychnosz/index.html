@@ -42,7 +42,7 @@ and geobiochemistry. Functions are provided for writing balanced reactions to fo
 species from user-selected basis species and for calculating the standard molal
 properties of species and reactions, including the standard Gibbs energy and
 equilibrium constant.</p>
-<p>Python port of the CHNOSZ package for R.</p>
+<p>Python port of the CHNOSZ package for R. The original CHNOSZ package belongs to Dr. Jeffrey Dick.</p>
 </section>
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
@@ -722,9 +722,18 @@ optionally fills in missing G, H, or S values.</p>
     # Get the current OBIGT database to determine required columns
     to1 = thermo_sys.obigt
 
-    # Define required columns (exclude &#39;source_file&#39; since it&#39;s added by this function)
+    # Define core required columns that all species must have
+    # These are the fundamental columns needed for thermodynamic calculations
+    # Model-specific columns (logK*, T*, P*, etc.) are optional
+    core_required_columns = [
+        &#39;name&#39;, &#39;abbrv&#39;, &#39;formula&#39;, &#39;state&#39;, &#39;ref1&#39;, &#39;ref2&#39;, &#39;date&#39;, &#39;E_units&#39;,
+        &#39;G&#39;, &#39;H&#39;, &#39;S&#39;, &#39;Cp&#39;, &#39;V&#39;,
+        &#39;a1.a&#39;, &#39;a2.b&#39;, &#39;a3.c&#39;, &#39;a4.d&#39;, &#39;c1.e&#39;, &#39;c2.f&#39;, &#39;omega.lambda&#39;, &#39;z.T&#39;
+    ]
+
     # The &#39;model&#39; column is optional and will be auto-generated if missing
-    required_columns = [col for col in to1.columns if col not in [&#39;source_file&#39;, &#39;model&#39;]]
+    # Filter to only include columns that exist in current OBIGT (for compatibility)
+    required_columns = [col for col in core_required_columns if col in to1.columns]
 
     # Check for missing required columns
     missing_columns = [col for col in required_columns if col not in new_data.columns]
@@ -1063,8 +1072,124 @@ For Plotly: 'best' defaults to 'lower right'</dd>
 adding legends. In Jupyter notebooks, use display(d['fig']) or d['fig'].show()
 for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savefig().</p></div>
 </dd>
+<dt id="pychnosz.add_protein"><code class="name flex">
+<span>def <span class="ident">add_protein</span></span>(<span>aa: pandas.core.frame.DataFrame, as_residue: bool = False) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_protein(aa: pd.DataFrame, as_residue: bool = False) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Add protein amino acid compositions to thermo().protein.
+
+    Parameters
+    ----------
+    aa : DataFrame
+        DataFrame with protein amino acid compositions.
+        Must have same columns as thermo().protein
+    as_residue : bool, default False
+        Normalize amino acid counts by protein length
+
+    Returns
+    -------
+    array
+        Row numbers of added/updated proteins in thermo().protein
+
+    Examples
+    --------
+    &gt;&gt;&gt; import pandas as pd
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; aa = pd.read_csv(&#34;POLG.csv&#34;)
+    &gt;&gt;&gt; iprotein = add_protein(aa)
+    &#34;&#34;&#34;
+    t = thermo()
+
+    if t.protein is None:
+        raise RuntimeError(&#34;Protein database not loaded. Run reset() first.&#34;)
+
+    # Check that columns match
+    if list(aa.columns) != list(t.protein.columns):
+        raise ValueError(&#34;&#39;aa&#39; does not have the same columns as thermo().protein&#34;)
+
+    # Check that new protein IDs are unique
+    po = aa[&#39;protein&#39;] + &#39;_&#39; + aa[&#39;organism&#39;]
+    idup = po.duplicated()
+    if idup.any():
+        dup_proteins = po[idup].unique()
+        raise ValueError(f&#34;some protein IDs are duplicated: {&#39; &#39;.join(dup_proteins)}&#34;)
+
+    # Normalize by protein length if as_residue = True
+    if as_residue:
+        pl = protein_length(aa)
+        aa.iloc[:, 4:24] = aa.iloc[:, 4:24].div(pl, axis=0)
+
+    # Find any protein IDs that are already present
+    ip = pinfo(po.tolist())
+    if isinstance(ip, (int, np.integer)):
+        ip = np.array([ip])
+    elif not isinstance(ip, np.ndarray):
+        ip = np.array([ip])
+
+    ip_present = ~np.isnan(ip)
+
+    # Now we&#39;re ready to go
+    tp_new = t.protein.copy()
+
+    # Add new proteins
+    if not all(ip_present):
+        new_proteins = aa[~ip_present].copy()
+        tp_new = pd.concat([tp_new, new_proteins], ignore_index=True)
+
+    # Update existing proteins
+    if any(ip_present):
+        valid_ip = ip[ip_present].astype(int)
+        tp_new.iloc[valid_ip] = aa[ip_present].values
+
+    # Update the protein database
+    tp_new.reset_index(drop=True, inplace=True)
+    t.protein = tp_new
+
+    # Return the new row numbers
+    ip_new = pinfo(po.tolist())
+    if isinstance(ip_new, (int, np.integer)):
+        ip_new = np.array([ip_new])
+
+    # Print messages
+    n_added = sum(~ip_present)
+    n_replaced = sum(ip_present)
+
+    if n_added &gt; 0:
+        print(f&#34;add_protein: added {n_added} new protein(s) to thermo().protein&#34;)
+    if n_replaced &gt; 0:
+        print(f&#34;add_protein: replaced {n_replaced} existing protein(s) in thermo().protein&#34;)
+
+    return ip_new</code></pre>
+</details>
+<div class="desc"><p>Add protein amino acid compositions to thermo().protein.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aa</code></strong> :&ensp;<code>DataFrame</code></dt>
+<dd>DataFrame with protein amino acid compositions.
+Must have same columns as thermo().protein</dd>
+<dt><strong><code>as_residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Normalize amino acid counts by protein length</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>array</code></dt>
+<dd>Row numbers of added/updated proteins in thermo().protein</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; aa = pd.read_csv(&quot;POLG.csv&quot;)
+&gt;&gt;&gt; iprotein = add_protein(aa)
+</code></pre></div>
+</dd>
 <dt id="pychnosz.affinity"><code class="name flex">
-<span>def <span class="ident">affinity</span></span>(<span>messages: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None,<br>species: pandas.core.frame.DataFrame | None = None,<br>**kwargs) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">affinity</span></span>(<span>messages: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None,<br>species: pandas.core.frame.DataFrame | None = None,<br>iprotein: int | List[int] | numpy.ndarray | None = None,<br>loga_protein: float | List[float] = 0.0,<br>**kwargs) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1072,7 +1197,8 @@ for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savef
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
-             species: Optional[pd.DataFrame] = None, **kwargs) -&gt; Dict[str, Any]:
+             species: Optional[pd.DataFrame] = None, iprotein: Optional[Union[int, List[int], np.ndarray]] = None,
+             loga_protein: Union[float, List[float]] = 0.0, **kwargs) -&gt; Dict[str, Any]:
     &#34;&#34;&#34;
     Calculate affinities of formation reactions.
 
@@ -1088,6 +1214,10 @@ for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savef
         Basis species definition to use (if not using global basis)
     species : pd.DataFrame, optional
         Species definition to use (if not using global species)
+    iprotein : int, list of int, or array, optional
+        Build proteins from residues (row numbers in thermo().protein)
+    loga_protein : float or list of float, default 0.0
+        Activity of proteins (log scale)
     **kwargs : dict
         Variable arguments defining calculation conditions:
         - Basis species names (e.g., CO2=[-60, 20, 5]): Variable basis species activities
@@ -1124,6 +1254,13 @@ for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savef
     &gt;&gt;&gt; result = pychnosz.affinity(CO2=[-60, 20, 5], T=350, P=2000)
     &gt;&gt;&gt; print(result[&#39;values&#39;][1566])  # Glycine affinities
 
+    &gt;&gt;&gt; # With proteins
+    &gt;&gt;&gt; import pandas as pd
+    &gt;&gt;&gt; aa = pd.read_csv(&#34;POLG.csv&#34;)
+    &gt;&gt;&gt; iprotein = pychnosz.add_protein(aa)
+    &gt;&gt;&gt; pychnosz.basis(&#34;CHNOSe&#34;)
+    &gt;&gt;&gt; a = pychnosz.affinity(iprotein=iprotein, pH=[2, 14], Eh=[-1, 1])
+
     Notes
     -----
     This implementation maintains complete fidelity to R CHNOSZ affinity():
@@ -1131,7 +1268,51 @@ for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savef
     - Same variable expansion and multi-dimensional calculations
     - Exact energy() function behavior for property calculations
     - Identical output structure and formatting
+    - Support for protein calculations via iprotein parameter
     &#34;&#34;&#34;
+
+    # Get thermo object for protein handling
+    thermo_obj = thermo()
+
+    # Handle iprotein parameter
+    ires = None
+    original_species = None
+    if iprotein is not None:
+        # Convert to array
+        if isinstance(iprotein, (int, np.integer)):
+            iprotein = np.array([iprotein])
+        elif isinstance(iprotein, list):
+            iprotein = np.array(iprotein)
+
+        # Check all proteins are available
+        if np.any(np.isnan(iprotein)):
+            raise AffinityError(&#34;`iprotein` has some NA values&#34;)
+        if thermo_obj.protein is None or not np.all(iprotein &lt; len(thermo_obj.protein)):
+            raise AffinityError(&#34;some value(s) of `iprotein` are not rownumbers of thermo().protein&#34;)
+
+        # Add protein residues to the species list
+        # Amino acids in 3-letter code
+        aminoacids_3 = [&#34;Ala&#34;, &#34;Cys&#34;, &#34;Asp&#34;, &#34;Glu&#34;, &#34;Phe&#34;, &#34;Gly&#34;, &#34;His&#34;, &#34;Ile&#34;, &#34;Lys&#34;, &#34;Leu&#34;,
+                        &#34;Met&#34;, &#34;Asn&#34;, &#34;Pro&#34;, &#34;Gln&#34;, &#34;Arg&#34;, &#34;Ser&#34;, &#34;Thr&#34;, &#34;Val&#34;, &#34;Trp&#34;, &#34;Tyr&#34;]
+
+        # Use _RESIDUE notation (matches R CHNOSZ affinity.R line 84)
+        resnames_residue = [&#34;H2O_RESIDUE&#34;] + [f&#34;{aa}_RESIDUE&#34; for aa in aminoacids_3]
+
+        # Save original species
+        from .species import species as species_func
+        original_species = get_species() if is_species_defined() else None
+
+        # Add residue species with activity 0 (all in &#34;aq&#34; state)
+        species_func(resnames_residue, state=&#34;aq&#34;, add=True, messages=messages)
+
+        # Get indices of residues in species list
+        species_df_temp = get_species()
+        ires = []
+        for name in resnames_residue:
+            idx = np.where(species_df_temp[&#39;name&#39;] == name)[0]
+            if len(idx) &gt; 0:
+                ires.append(idx[0])
+        ires = np.array(ires)
 
     # Check if basis and species are defined (use provided or global)
     if basis is None:
@@ -1211,6 +1392,215 @@ for Plotly diagrams. Outside Jupyter, use plt.show() or save with d['fig'].savef
         )
         affinity_values = energy_result[&#39;a&#39;]
         energy_sout = energy_result[&#39;sout&#39;]
+
+    # Handle protein affinity calculations if iprotein was provided
+    if iprotein is not None and ires is not None:
+        # Calculate protein affinities from residue affinities using group additivity
+        # Normalize loga_protein to match number of proteins
+        if isinstance(loga_protein, (int, float)):
+            loga_protein_arr = np.full(len(iprotein), loga_protein)
+        else:
+            loga_protein_arr = np.array(loga_protein)
+            if len(loga_protein_arr) &lt; len(iprotein):
+                loga_protein_arr = np.resize(loga_protein_arr, len(iprotein))
+
+        # Calculate affinity for each protein
+        protein_affinities = {}
+
+        for ip, iprot in enumerate(iprotein):
+            # Get protein amino acid composition from thermo().protein
+            # Columns 4:24 contain chains and amino acid counts (0-indexed: columns 4-23)
+            protein_row = thermo_obj.protein.iloc[iprot]
+            aa_counts = protein_row.iloc[4:24].values.astype(float)
+
+            # Calculate protein affinity by summing residue affinities weighted by composition
+            # affinity_values keys are ispecies indices
+            # Get the ispecies for each residue
+            species_df_current = get_species()
+            residue_ispecies = species_df_current.iloc[ires][&#39;ispecies&#39;].values
+
+            # Initialize protein affinity with same shape as residue affinities
+            first_residue_key = residue_ispecies[0]
+            if first_residue_key in affinity_values:
+                template_affinity = affinity_values[first_residue_key]
+                protein_affinity = np.zeros_like(template_affinity)
+
+                # Sum up contributions from all residues
+                for i, res_ispecies in enumerate(residue_ispecies):
+                    if res_ispecies in affinity_values:
+                        residue_contrib = affinity_values[res_ispecies] * aa_counts[i]
+                        protein_affinity = protein_affinity + residue_contrib
+
+                # Subtract protein activity
+                protein_affinity = protein_affinity - loga_protein_arr[ip]
+
+                # Use negative index to denote protein (matches R CHNOSZ convention)
+                protein_key = -(iprot + 1)  # Negative of (row number + 1)
+                protein_affinities[protein_key] = protein_affinity
+
+        # Add ionization affinity if H+ is in basis (matching R CHNOSZ behavior)
+        if &#39;H+&#39; in basis_df.index:
+            if messages:
+                print(&#34;affinity: ionizing proteins ...&#34;)
+
+            # Get protein amino acid compositions
+            from ..biomolecules.proteins import pinfo
+            from ..biomolecules.ionize_aa import ionize_aa
+
+            # Get aa compositions for these proteins
+            aa = pinfo(iprotein)
+
+            # Determine pH values from vars/vals or basis
+            # Check if H+ is a variable
+            if &#39;H+&#39; in args[&#39;vars&#39;]:
+                # H+ is a variable - get pH from vals
+                iHplus = args[&#39;vars&#39;].index(&#39;H+&#39;)
+                pH_vals = -np.array(args[&#39;vals&#39;][iHplus])  # pH = -log(a_H+)
+            else:
+                # H+ is constant - get from basis
+                pH_val = -basis_df.loc[&#39;H+&#39;, &#39;logact&#39;]  # pH = -log(a_H+)
+                pH_vals = np.array([pH_val])
+
+            # Get T values (already processed earlier)
+            T_vals = args[&#39;T&#39;]
+            if isinstance(T_vals, (int, float)):
+                T_celsius = T_vals - 273.15
+            else:
+                T_celsius = T_vals - 273.15
+
+            # Get P values
+            P_vals = args[&#39;P&#39;]
+
+            # Calculate ionization affinity
+            # ionize_aa expects arrays, so ensure T, P, pH are properly shaped
+            # For grid calculations, we need to expand T, P, pH into a grid matching the affinity grid
+            if len(args[&#39;vars&#39;]) &gt;= 2:
+                # Multi-dimensional case - create grid
+                # Figure out which vars are T, P, H+
+                var_names = args[&#39;vars&#39;]
+                has_T_var = &#39;T&#39; in var_names
+                has_P_var = &#39;P&#39; in var_names
+                has_Hplus_var = &#39;H+&#39; in var_names
+
+                # Build T, P, pH grids matching the affinity calculation grid
+                if has_T_var and has_Hplus_var:
+                    # Both T and pH vary - create meshgrid
+                    T_grid, pH_grid = np.meshgrid(T_celsius, pH_vals, indexing=&#39;ij&#39;)
+                    T_flat = T_grid.flatten()
+                    pH_flat = pH_grid.flatten()
+                    if isinstance(P_vals, str):
+                        P_flat = np.array([P_vals] * len(T_flat))
+                    else:
+                        P_flat = np.full(len(T_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
+                elif has_T_var:
+                    # Only T varies
+                    T_flat = T_celsius if isinstance(T_celsius, np.ndarray) else np.array([T_celsius])
+                    pH_flat = np.full(len(T_flat), pH_vals[0])
+                    P_flat = np.array([P_vals] * len(T_flat)) if isinstance(P_vals, str) else np.full(len(T_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
+                elif has_Hplus_var:
+                    # Only pH varies
+                    pH_flat = pH_vals
+                    T_flat = np.full(len(pH_flat), T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0])
+                    P_flat = np.array([P_vals] * len(pH_flat)) if isinstance(P_vals, str) else np.full(len(pH_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
+                else:
+                    # No T or pH variables
+                    T_flat = np.array([T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0]])
+                    pH_flat = pH_vals
+                    P_flat = np.array([P_vals] if isinstance(P_vals, str) else [P_vals if isinstance(P_vals, (int, float)) else P_vals[0]])
+            else:
+                # Single or no variable case
+                T_flat = np.array([T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0]])
+                pH_flat = pH_vals if isinstance(pH_vals, np.ndarray) else np.array([pH_vals[0] if hasattr(pH_vals, &#39;__getitem__&#39;) else pH_vals])
+                P_flat = np.array([P_vals] if isinstance(P_vals, str) else [P_vals if isinstance(P_vals, (int, float)) else P_vals[0]])
+
+            # Call ionize_aa to get ionization affinity
+            ionization_result = ionize_aa(aa, property=&#34;A&#34;, T=T_flat, P=P_flat, pH=pH_flat)
+
+            # Add ionization affinity to formation affinity for each protein
+            for ip, iprot in enumerate(iprotein):
+                protein_key = -(iprot + 1)
+                ionization_affinity = ionization_result.iloc[:, ip].values
+
+                # Reshape to match formation affinity dimensions if needed
+                formation_affinity = protein_affinities[protein_key]
+                if isinstance(formation_affinity, np.ndarray):
+                    if formation_affinity.shape != ionization_affinity.shape:
+                        # Reshape ionization affinity to match formation affinity
+                        ionization_affinity = ionization_affinity.reshape(formation_affinity.shape)
+
+                # Add ionization to formation affinity
+                protein_affinities[protein_key] = formation_affinity + ionization_affinity
+
+        # Replace affinity_values with protein affinities
+        affinity_values = protein_affinities
+
+        # Calculate stoichiometric coefficients for proteins using matrix multiplication
+        # This matches R CHNOSZ: protbasis &lt;- t(t((resspecies[ires, 1:nrow(thermo$basis)])) %*% t((thermo$protein[iprotein, 5:25])))
+        # IMPORTANT: Get the species list BEFORE deletion
+        species_df_with_residues = get_species()
+
+        # Extract basis species coefficients from residue species (rows = residues, cols = basis species)
+        # ires contains indices of residues in the species list
+        # We need the columns corresponding to basis species
+        basis_cols = list(basis_df.index)  # e.g., [&#39;CO2&#39;, &#39;H2O&#39;, &#39;NH3&#39;, &#39;H2S&#39;, &#39;e-&#39;, &#39;H+&#39;]
+
+        # Create residue coefficient matrix (n_residues x n_basis)
+        # resspecies[ires, 1:nrow(thermo$basis)] in R
+        res_coeffs = species_df_with_residues.iloc[ires][basis_cols].values.astype(float)
+
+        # Get amino acid composition matrix (n_proteins x n_residues)
+        # thermo$protein[iprotein, 5:25] in R (columns 5-25 contain chains and 20 amino acids)
+        # In Python (0-indexed): columns 4:24 contain chains and 20 amino acids
+        aa_composition = []
+        for iprot in iprotein:
+            protein_row = thermo_obj.protein.iloc[iprot]
+            # Columns 4:24 contain: chains, Ala, Cys, Asp, Glu, Phe, Gly, His, Ile, Lys, Leu,
+            #                       Met, Asn, Pro, Gln, Arg, Ser, Thr, Val, Trp, Tyr
+            aa_counts = protein_row.iloc[4:24].values.astype(float)
+            aa_composition.append(aa_counts)
+        aa_composition = np.array(aa_composition)  # Shape: (n_proteins, 21)
+
+        # Matrix multiplication: (n_proteins x 21) @ (21 x n_basis) = (n_proteins x n_basis)
+        # Note: res_coeffs has shape (21, n_basis) - first row is H2O, next 20 are amino acids
+        # R code: t(t(resspecies) %*% t(protein)) means: (n_basis x n_residues) @ (n_residues x n_proteins) = (n_basis x n_proteins)
+        # Then transpose to get (n_proteins x n_basis)
+        # In Python: (n_proteins x n_residues) @ (n_residues x n_basis) = (n_proteins x n_basis)
+        protein_coeffs = aa_composition @ res_coeffs  # Shape: (n_proteins, n_basis)
+
+        # Delete residue species from species list now that we have the coefficients
+        from .species import species as species_func
+        species_func(ires.tolist(), delete=True, messages=False)
+
+        if original_species is not None:
+            # Restore original species (but we&#39;ve already calculated, so just update species_df)
+            pass
+
+        # Create DataFrame for proteins with basis species coefficients
+        species_data = {}
+
+        # Add basis species columns
+        for j, basis_sp in enumerate(basis_cols):
+            species_data[basis_sp] = protein_coeffs[:, j]
+
+        # Add metadata columns
+        protein_names = []
+        protein_ispecies = []
+
+        for iprot in iprotein:
+            prot_row = thermo_obj.protein.iloc[iprot]
+            # Escape underscores for LaTeX compatibility in diagram labels
+            protein_name = f&#34;{prot_row[&#39;protein&#39;]}_{prot_row[&#39;organism&#39;]}&#34;
+            # Replace underscores with escaped version for matplotlib/LaTeX
+            protein_name_escaped = protein_name.replace(&#39;_&#39;, r&#39;\_&#39;)
+            protein_names.append(protein_name_escaped)
+            protein_ispecies.append(-(iprot + 1))  # Negative index
+
+        species_data[&#39;ispecies&#39;] = protein_ispecies
+        species_data[&#39;logact&#39;] = loga_protein_arr[:len(iprotein)]
+        species_data[&#39;state&#39;] = [&#39;aq&#39;] * len(iprotein)
+        species_data[&#39;name&#39;] = protein_names
+
+        species_df = pd.DataFrame(species_data)
 
     # Process temperature and pressure for output
     T_out = args[&#39;T&#39;]
@@ -1295,6 +1685,10 @@ calculated as A/2.303RT where A is the chemical affinity.</p>
 <dd>Basis species definition to use (if not using global basis)</dd>
 <dt><strong><code>species</code></strong> :&ensp;<code>pd.DataFrame</code>, optional</dt>
 <dd>Species definition to use (if not using global species)</dd>
+<dt><strong><code>iprotein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>array</code>, optional</dt>
+<dd>Build proteins from residues (row numbers in thermo().protein)</dd>
+<dt><strong><code>loga_protein</code></strong> :&ensp;<code>float</code> or <code>list</code> of <code>float</code>, default <code>0.0</code></dt>
+<dd>Activity of proteins (log scale)</dd>
 <dt><strong><code>**kwargs</code></strong> :&ensp;<code>dict</code></dt>
 <dd>Variable arguments defining calculation conditions:
 - Basis species names (e.g., CO2=[-60, 20, 5]): Variable basis species activities
@@ -1330,12 +1724,20 @@ calculated as A/2.303RT where A is the chemical affinity.</p>
 &gt;&gt;&gt; result = pychnosz.affinity(CO2=[-60, 20, 5], T=350, P=2000)
 &gt;&gt;&gt; print(result['values'][1566])  # Glycine affinities
 </code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # With proteins
+&gt;&gt;&gt; import pandas as pd
+&gt;&gt;&gt; aa = pd.read_csv(&quot;POLG.csv&quot;)
+&gt;&gt;&gt; iprotein = pychnosz.add_protein(aa)
+&gt;&gt;&gt; pychnosz.basis(&quot;CHNOSe&quot;)
+&gt;&gt;&gt; a = pychnosz.affinity(iprotein=iprotein, pH=[2, 14], Eh=[-1, 1])
+</code></pre>
 <h2 id="notes">Notes</h2>
 <p>This implementation maintains complete fidelity to R CHNOSZ affinity():
 - Identical argument processing including dynamic basis species parameters
 - Same variable expansion and multi-dimensional calculations
 - Exact energy() function behavior for property calculations
-- Identical output structure and formatting</p></div>
+- Identical output structure and formatting
+- Support for protein calculations via iprotein parameter</p></div>
 </dd>
 <dt id="pychnosz.animation"><code class="name flex">
 <span>def <span class="ident">animation</span></span>(<span>basis_args={},<br>species_args={},<br>affinity_args={},<br>equilibrate_args=None,<br>diagram_args={},<br>anim_var='T',<br>anim_range=[0, 350, 8],<br>xlab=None,<br>ylab=None,<br>save_as='newanimationframe',<br>save_format='png',<br>height=300,<br>width=400,<br>save_scale=1,<br>messages=False)</span>
@@ -6411,6 +6813,85 @@ the formula_ox strings. Install it with: pip install wormutils</p></div>
 </details>
 <div class="desc"></div>
 </dd>
+<dt id="pychnosz.group_formulas"><code class="name flex">
+<span>def <span class="ident">group_formulas</span></span>(<span>) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def group_formulas() -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Return chemical formulas of amino acid residues.
+
+    This function returns a DataFrame with the chemical formulas of
+    H2O, the 20 amino acid sidechain groups, and the unfolded protein
+    backbone group [UPBB].
+
+    Returns
+    -------
+    DataFrame
+        Chemical formulas with elements C, H, N, O, S as columns
+        and residues as rows
+    &#34;&#34;&#34;
+    # Chemical formulas as a numpy array
+    # Rows: water, [Ala], [Cys], [Asp], [Glu], [Phe], [Gly], [His], [Ile], [Lys], [Leu],
+    #       [Met], [Asn], [Pro], [Gln], [Arg], [Ser], [Thr], [Val], [Trp], [Tyr], [UPBB]
+    # Columns: C, H, N, O, S
+    A = np.array([
+        [0, 2, 0, 1, 0],      # H2O
+        [1, 3, 0, 0, 0],      # [Ala]
+        [1, 3, 0, 0, 1],      # [Cys]
+        [2, 3, 0, 2, 0],      # [Asp]
+        [3, 5, 0, 2, 0],      # [Glu]
+        [7, 7, 0, 0, 0],      # [Phe]
+        [0, 1, 0, 0, 0],      # [Gly]
+        [4, 5, 2, 0, 0],      # [His]
+        [4, 9, 0, 0, 0],      # [Ile]
+        [4, 10, 1, 0, 0],     # [Lys]
+        [4, 9, 0, 0, 0],      # [Leu]
+        [3, 7, 0, 0, 1],      # [Met]
+        [2, 4, 1, 1, 0],      # [Asn]
+        [3, 5, 0, 0, 0],      # [Pro]
+        [3, 6, 1, 1, 0],      # [Gln]
+        [4, 10, 3, 0, 0],     # [Arg]
+        [1, 3, 0, 1, 0],      # [Ser]
+        [2, 5, 0, 1, 0],      # [Thr]
+        [3, 7, 0, 0, 0],      # [Val]
+        [9, 8, 1, 0, 0],      # [Trp]
+        [7, 7, 0, 1, 0],      # [Tyr]
+        [2, 2, 1, 1, 0]       # [UPBB]
+    ])
+
+    rownames = [&#39;H2O&#39;, &#39;[Ala]&#39;, &#39;[Cys]&#39;, &#39;[Asp]&#39;, &#39;[Glu]&#39;, &#39;[Phe]&#39;, &#39;[Gly]&#39;,
+                &#39;[His]&#39;, &#39;[Ile]&#39;, &#39;[Lys]&#39;, &#39;[Leu]&#39;, &#39;[Met]&#39;, &#39;[Asn]&#39;, &#39;[Pro]&#39;,
+                &#39;[Gln]&#39;, &#39;[Arg]&#39;, &#39;[Ser]&#39;, &#39;[Thr]&#39;, &#39;[Val]&#39;, &#39;[Trp]&#39;, &#39;[Tyr]&#39;,
+                &#39;[UPBB]&#39;]
+
+    # Add [UPBB] to the sidechain groups to get residues
+    out = A.copy()
+    # Add [UPBB] (last row) to each sidechain group (rows 1-20)
+    out[1:21, :] = out[1:21, :] + A[21, :]
+
+    # Create DataFrame
+    df = pd.DataFrame(out[0:21, :],
+                     index=rownames[0:21],
+                     columns=[&#39;C&#39;, &#39;H&#39;, &#39;N&#39;, &#39;O&#39;, &#39;S&#39;])
+
+    return df</code></pre>
+</details>
+<div class="desc"><p>Return chemical formulas of amino acid residues.</p>
+<p>This function returns a DataFrame with the chemical formulas of
+H2O, the 20 amino acid sidechain groups, and the unfolded protein
+backbone group [UPBB].</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Chemical formulas with elements C, H, N, O, S as columns
+and residues as rows</dd>
+</dl></div>
+</dd>
 <dt id="pychnosz.hkf"><code class="name flex">
 <span>def <span class="ident">hkf</span></span>(<span>property=None,<br>parameters=None,<br>T=298.15,<br>P=1,<br>contrib=['n', 's', 'o'],<br>H2O_props=['rho'],<br>water_model='SUPCRT92')</span>
 </code></dt>
@@ -6823,6 +7304,233 @@ If None, returns summary information about the database.</dd>
 <pre><code class="language-python-repl">&gt;&gt;&gt; # Use output from retrieve()
 &gt;&gt;&gt; zn_species = retrieve(&quot;Zn&quot;, [&quot;O&quot;, &quot;H&quot;], state=&quot;aq&quot;)
 &gt;&gt;&gt; info(zn_species)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.ionize_aa"><code class="name flex">
+<span>def <span class="ident">ionize_aa</span></span>(<span>aa: pandas.core.frame.DataFrame,<br>property: str = 'Z',<br>T: float | numpy.ndarray = 25.0,<br>P: float | str | numpy.ndarray = 'Psat',<br>pH: float | numpy.ndarray = 7.0,<br>ret_val: str | None = None,<br>suppress_Cys: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def ionize_aa(aa: pd.DataFrame,
+              property: str = &#34;Z&#34;,
+              T: Union[float, np.ndarray] = 25.0,
+              P: Union[float, str, np.ndarray] = &#34;Psat&#34;,
+              pH: Union[float, np.ndarray] = 7.0,
+              ret_val: Optional[str] = None,
+              suppress_Cys: bool = False) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate additive ionization properties of proteins.
+
+    This function calculates the net charge or other ionization properties
+    of proteins based on amino acid composition at specified T, P, and pH.
+
+    Parameters
+    ----------
+    aa : DataFrame
+        Amino acid composition data
+    property : str, default &#34;Z&#34;
+        Property to calculate:
+        - &#34;Z&#34;: net charge
+        - &#34;A&#34;: chemical affinity
+        - Other subcrt properties (G, H, S, Cp, V)
+    T : float or array, default 25.0
+        Temperature in degrees Celsius
+    P : float, str, or array, default &#34;Psat&#34;
+        Pressure in bar, or &#34;Psat&#34; for saturation
+    pH : float or array, default 7.0
+        pH value(s)
+    ret_val : str, optional
+        Return value type:
+        - &#34;pK&#34;: return pK values
+        - &#34;alpha&#34;: return degree of formation
+        - &#34;aavals&#34;: return amino acid values
+        - None: return ionization property (default)
+    suppress_Cys : bool, default False
+        Suppress cysteine ionization
+
+    Returns
+    -------
+    DataFrame
+        Ionization properties
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; aa = pinfo(pinfo(&#34;LYSC_CHICK&#34;))
+    &gt;&gt;&gt; Z = ionize_aa(aa, pH=7.0)
+    &#34;&#34;&#34;
+    # Ensure inputs are arrays
+    T = np.atleast_1d(T)
+    if isinstance(P, str):
+        P = np.array([P] * len(T))
+    else:
+        P = np.atleast_1d(P)
+    pH_arr = np.atleast_1d(pH)
+
+    # Get maximum length and replicate arrays
+    lmax = max(len(T), len(P), len(pH_arr))
+    T = np.resize(T, lmax)
+    if isinstance(P[0], str):
+        P = np.array([P[0]] * lmax)
+    else:
+        P = np.resize(P, lmax)
+    pH_arr = np.resize(pH_arr, lmax)
+
+    # Turn pH into a matrix with as many columns as ionizable groups (9)
+    pH_matrix = np.tile(pH_arr[:, np.newaxis], (1, 9))
+
+    # Charges for ionizable groups
+    charges = np.array([-1, -1, -1, 1, 1, 1, -1, 1, -1])
+    charges_matrix = np.tile(charges, (lmax, 1))
+
+    # The ionizable groups
+    neutral = [&#34;[Cys]&#34;, &#34;[Asp]&#34;, &#34;[Glu]&#34;, &#34;[His]&#34;, &#34;[Lys]&#34;, &#34;[Arg]&#34;, &#34;[Tyr]&#34;, &#34;[AABB]&#34;, &#34;[AABB]&#34;]
+    charged = [&#34;[Cys-]&#34;, &#34;[Asp-]&#34;, &#34;[Glu-]&#34;, &#34;[His+]&#34;, &#34;[Lys+]&#34;, &#34;[Arg+]&#34;, &#34;[Tyr-]&#34;, &#34;[AABB+]&#34;, &#34;[AABB-]&#34;]
+
+    # Get row numbers in OBIGT
+    ineutral = [info(g, &#34;aq&#34;) for g in neutral]
+    icharged = [info(g, &#34;aq&#34;) for g in charged]
+
+    # Get unique T, P combinations
+    pTP = [f&#34;{t}_{p}&#34; for t, p in zip(T, P)]
+    unique_pTP = []
+    seen = set()
+    indices = []
+    for i, tp in enumerate(pTP):
+        if tp not in seen:
+            unique_pTP.append(i)
+            seen.add(tp)
+        indices.append(list(seen).index(tp))
+
+    # Determine which property to calculate
+    sprop = [&#34;G&#34;, property] if property not in [&#34;A&#34;, &#34;Z&#34;] else [&#34;G&#34;]
+
+    # Convert T to Kelvin for subcrt
+    TK = convert(T, &#34;K&#34;)
+
+    # Call subcrt for unique T, P combinations
+    unique_T = TK[unique_pTP]
+    unique_P = P[unique_pTP]
+
+    all_species = ineutral + icharged
+    sout = subcrt(all_species, T=unique_T, P=unique_P, property=sprop, convert=False)
+
+    # Extract G values
+    Gs = np.zeros((len(unique_pTP), len(all_species)))
+    for i, spec_idx in enumerate(all_species):
+        if isinstance(sout[&#39;out&#39;], dict):
+            # Single species result
+            Gs[:, i] = sout[&#39;out&#39;][&#39;G&#39;]
+        else:
+            # Multiple species result
+            Gs[:, i] = sout[&#39;out&#39;][i][&#39;G&#39;].values
+
+    # Gibbs energy difference for each group
+    DG = Gs[:, 9:18] - Gs[:, 0:9]
+
+    # Build matrix for all T, P values (including duplicates)
+    DG_full = DG[indices, :]
+
+    # Calculate pK values
+    DG_full = DG_full * charges
+    pK = np.zeros_like(DG_full)
+    for i in range(pK.shape[1]):
+        pK[:, i] = convert(DG_full[:, i], &#34;logK&#34;, T=TK)
+
+    # Return pK if requested
+    if ret_val == &#34;pK&#34;:
+        return pd.DataFrame(pK, columns=charged)
+
+    # Calculate alpha (degree of formation)
+    alpha = 1 / (1 + 10 ** (charges_matrix * (pH_matrix - pK)))
+
+    # Suppress cysteine ionization if requested
+    if suppress_Cys:
+        alpha[:, 0] = 0
+
+    # Return alpha if requested
+    if ret_val == &#34;alpha&#34;:
+        return pd.DataFrame(alpha, columns=charged)
+
+    # Calculate amino acid values
+    if property == &#34;Z&#34;:
+        aavals = charges_matrix.copy()
+    elif property == &#34;A&#34;:
+        aavals = -charges_matrix * (pH_matrix - pK)
+    else:
+        # Extract property values from subcrt output
+        prop_vals = np.zeros((len(unique_pTP), len(all_species)))
+        for i, spec_idx in enumerate(all_species):
+            if isinstance(sout[&#39;out&#39;], dict):
+                prop_vals[:, i] = sout[&#39;out&#39;][property]
+            else:
+                prop_vals[:, i] = sout[&#39;out&#39;][i][property].values
+
+        # Build matrix for all T, P values
+        prop_vals_full = prop_vals[indices, :]
+
+        # Property difference for each group
+        aavals = prop_vals_full[:, 9:18] - prop_vals_full[:, 0:9]
+
+    # Return aavals if requested
+    if ret_val == &#34;aavals&#34;:
+        return pd.DataFrame(aavals, columns=charged)
+
+    # Contribution from each group
+    aavals = aavals * alpha
+
+    # Get counts of ionizable groups from aa
+    # Columns: Cys, Asp, Glu, His, Lys, Arg, Tyr, chains, chains
+    ionize_cols = [&#34;Cys&#34;, &#34;Asp&#34;, &#34;Glu&#34;, &#34;His&#34;, &#34;Lys&#34;, &#34;Arg&#34;, &#34;Tyr&#34;, &#34;chains&#34;, &#34;chains&#34;]
+    aa_counts = aa[ionize_cols].values.astype(float)
+
+    # Calculate total ionization property
+    out = np.dot(aavals, aa_counts.T)
+
+    # Create DataFrame
+    result = pd.DataFrame(out)
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Calculate additive ionization properties of proteins.</p>
+<p>This function calculates the net charge or other ionization properties
+of proteins based on amino acid composition at specified T, P, and pH.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>aa</code></strong> :&ensp;<code>DataFrame</code></dt>
+<dd>Amino acid composition data</dd>
+<dt><strong><code>property</code></strong> :&ensp;<code>str</code>, default <code>"Z"</code></dt>
+<dd>Property to calculate:
+- "Z": net charge
+- "A": chemical affinity
+- Other subcrt properties (G, H, S, Cp, V)</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>25.0</code></dt>
+<dd>Temperature in degrees Celsius</dd>
+<dt><strong><code>P</code></strong> :&ensp;<code>float, str,</code> or <code>array</code>, default <code>"Psat"</code></dt>
+<dd>Pressure in bar, or "Psat" for saturation</dd>
+<dt><strong><code>pH</code></strong> :&ensp;<code>float</code> or <code>array</code>, default <code>7.0</code></dt>
+<dd>pH value(s)</dd>
+<dt><strong><code>ret_val</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Return value type:
+- "pK": return pK values
+- "alpha": return degree of formation
+- "aavals": return amino acid values
+- None: return ionization property (default)</dd>
+<dt><strong><code>suppress_Cys</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Suppress cysteine ionization</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Ionization properties</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; aa = pinfo(pinfo(&quot;LYSC_CHICK&quot;))
+&gt;&gt;&gt; Z = ionize_aa(aa, pH=7.0)
 </code></pre></div>
 </dd>
 <dt id="pychnosz.list_OBIGT_files"><code class="name flex">
@@ -7624,6 +8332,583 @@ Special properties: name, state, formula, model, E_units</dd>
 <h2 id="notes">Notes</h2>
 <p>This function modifies the thermo() object in place.
 The behavior exactly matches R CHNOSZ mod.OBIGT().</p></div>
+</dd>
+<dt id="pychnosz.pinfo"><code class="name flex">
+<span>def <span class="ident">pinfo</span></span>(<span>protein: str | int | pandas.core.frame.DataFrame | List,<br>organism: str | None = None,<br>residue: bool = False,<br>regexp: bool = False) ‑> pandas.core.frame.DataFrame | numpy.ndarray | int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def pinfo(protein: Union[str, int, pd.DataFrame, List],
+          organism: Optional[str] = None,
+          residue: bool = False,
+          regexp: bool = False) -&gt; Union[pd.DataFrame, np.ndarray, int]:
+    &#34;&#34;&#34;
+    Get protein information from thermo().protein.
+
+    This function retrieves protein data from the thermodynamic database.
+    The behavior depends on the input type:
+    - DataFrame: returns the DataFrame (possibly per residue)
+    - int or list of ints: returns rows from thermo().protein
+    - str: searches for protein by name, returns row number(s)
+
+    Parameters
+    ----------
+    protein : str, int, DataFrame, or list
+        Protein identifier(s) or data
+    organism : str, optional
+        Organism identifier (used with protein name)
+    residue : bool, default False
+        Return per-residue amino acid composition
+    regexp : bool, default False
+        Use regular expression matching for protein search
+
+    Returns
+    -------
+    DataFrame, array, or int
+        Protein information or row numbers
+
+    Examples
+    --------
+    &gt;&gt;&gt; # Get protein by name
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; # Get protein data by row number
+    &gt;&gt;&gt; protein_data = pinfo(iprotein)
+    &#34;&#34;&#34;
+    t_p = thermo().protein
+
+    if t_p is None:
+        raise RuntimeError(&#34;Protein database not loaded. Run reset() first.&#34;)
+
+    # If input is a DataFrame, return it (possibly per residue)
+    if isinstance(protein, pd.DataFrame):
+        out = protein.copy()
+        if residue:
+            # Normalize by total amino acid count (columns 5:25)
+            row_sums = out.iloc[:, 5:25].sum(axis=1)
+            out.iloc[:, 4:24] = out.iloc[:, 4:24].div(row_sums, axis=0)
+        return out
+
+    # If input is numeric, get rows from thermo().protein
+    if isinstance(protein, (int, np.integer)):
+        protein = [protein]
+
+    if isinstance(protein, (list, np.ndarray)) and all(isinstance(x, (int, np.integer)) for x in protein):
+        # Get amino acid counts
+        iproteins = list(range(len(t_p)))
+        # Replace invalid indices with NaN
+        protein_clean = [p if p in iproteins else np.nan for p in protein]
+        # Filter out NaN values for indexing
+        valid_indices = [p for p in protein_clean if not np.isnan(p)]
+
+        if not valid_indices:
+            return pd.DataFrame()
+
+        out = t_p.iloc[valid_indices].copy()
+
+        # Compute per-residue counts if requested
+        if residue:
+            row_sums = out.iloc[:, 5:25].sum(axis=1)
+            out.iloc[:, 4:24] = out.iloc[:, 4:24].div(row_sums, axis=0)
+
+        return out
+
+    # If input is string or list of strings, search for protein
+    if isinstance(protein, str):
+        protein = [protein]
+
+    if isinstance(protein, list) and all(isinstance(x, str) for x in protein):
+        # Search for protein or protein_organism in thermo().protein
+        t_p_names = t_p[&#39;protein&#39;] + &#39;_&#39; + t_p[&#39;organism&#39;]
+
+        if regexp:
+            # Use regular expression matching
+            matches = []
+            for prot in protein:
+                iprotein = t_p[&#39;protein&#39;].str.contains(prot, regex=True, na=False)
+                if organism is not None:
+                    iorganism = t_p[&#39;organism&#39;].str.contains(organism, regex=True, na=False)
+                    iprotein = iprotein &amp; iorganism
+                indices = np.where(iprotein)[0]
+                if len(indices) &gt; 0:
+                    matches.extend(indices.tolist())
+                else:
+                    matches.append(np.nan)
+
+            if len(matches) == 1:
+                if np.isnan(matches[0]):
+                    return np.nan
+                return int(matches[0])
+            return np.array(matches)
+        else:
+            # Exact matching
+            if organism is None:
+                my_names = protein
+            else:
+                my_names = [f&#34;{p}_{organism}&#34; for p in protein]
+
+            # Find matches
+            matches = []
+            for name in my_names:
+                idx = np.where(t_p_names == name)[0]
+                if len(idx) &gt; 0:
+                    matches.append(idx[0])
+                else:
+                    matches.append(np.nan)
+
+            if len(matches) == 1:
+                if np.isnan(matches[0]):
+                    return np.nan
+                return int(matches[0])
+            return np.array(matches)
+
+    raise TypeError(f&#34;Unsupported protein type: {type(protein)}&#34;)</code></pre>
+</details>
+<div class="desc"><p>Get protein information from thermo().protein.</p>
+<p>This function retrieves protein data from the thermodynamic database.
+The behavior depends on the input type:
+- DataFrame: returns the DataFrame (possibly per residue)
+- int or list of ints: returns rows from thermo().protein
+- str: searches for protein by name, returns row number(s)</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>str, int, DataFrame,</code> or <code>list</code></dt>
+<dd>Protein identifier(s) or data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein name)</dd>
+<dt><strong><code>residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Return per-residue amino acid composition</dd>
+<dt><strong><code>regexp</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Use regular expression matching for protein search</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame, array,</code> or <code>int</code></dt>
+<dd>Protein information or row numbers</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Get protein by name
+&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; # Get protein data by row number
+&gt;&gt;&gt; protein_data = pinfo(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.protein_OBIGT"><code class="name flex">
+<span>def <span class="ident">protein_OBIGT</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None,<br>state: str | None = None) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_OBIGT(protein: Union[int, List[int], pd.DataFrame],
+                 organism: Optional[str] = None,
+                 state: Optional[str] = None) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate protein properties using group additivity.
+
+    This function calculates thermodynamic properties of proteins
+    from amino acid composition using the group additivity approach.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier
+    state : str, optional
+        Physical state (&#39;aq&#39; or &#39;cr&#39;). If None, uses thermo().opt[&#39;state&#39;]
+
+    Returns
+    -------
+    DataFrame
+        Thermodynamic properties in OBIGT format
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; props = protein_OBIGT(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get state
+    if state is None:
+        state = thermo().opt.get(&#39;state&#39;, &#39;aq&#39;)
+
+    # The names of the protein backbone groups depend on the state
+    # [UPBB] for aq or [PBB] for cr
+    if state == &#39;aq&#39;:
+        bbgroup = &#39;UPBB&#39;
+    else:
+        bbgroup = &#39;PBB&#39;
+
+    # Names of the AABB, sidechain and protein backbone groups
+    aa_cols = aa.columns[5:25].tolist()  # Get amino acid column names
+    groups = [&#39;AABB&#39;] + aa_cols + [bbgroup]
+
+    # Put brackets around the group names
+    groups = [f&#34;[{g}]&#34; for g in groups]
+
+    # The row numbers of the groups in thermo().OBIGT
+    from ..core.info import info
+
+    groups_state = [f&#34;{g}&#34; for g in groups]
+    obigt = thermo().obigt
+
+    # Find groups in OBIGT
+    igroup = []
+    for group_name in groups_state:
+        # Search for the group with the specified state
+        matches = obigt[(obigt[&#39;name&#39;] == group_name) &amp; (obigt[&#39;state&#39;] == state)]
+        if len(matches) &gt; 0:
+            igroup.append(matches.index[0])
+        else:
+            # Try without brackets if not found
+            group_alt = group_name.strip(&#39;[]&#39;)
+            matches = obigt[(obigt[&#39;name&#39;] == group_alt) &amp; (obigt[&#39;state&#39;] == state)]
+            if len(matches) &gt; 0:
+                igroup.append(matches.index[0])
+            else:
+                raise ValueError(f&#34;Group {group_name} not found in OBIGT for state {state}&#34;)
+
+    # The properties are in columns 9:21 of thermo().OBIGT (G, H, S, Cp, V, etc.)
+    # Column indices: G=9, H=10, S=11, Cp=12, V=13, a1.a=14, a2.b=15, a3.c=16, a4.d=17, c1.e=18, c2.f=19, omega.lambda=20, z.T=21
+    groupprops = obigt.loc[igroup, obigt.columns[9:22]]
+
+    # The elements in each of the groups
+    groupelements = i2A(igroup)
+
+    results = []
+
+    # Process each protein
+    for idx in range(len(aa)):
+        aa_row = aa.iloc[idx]
+
+        # Numbers of groups: chains [=AABB], sidechains, protein backbone
+        nchains = float(aa_row.iloc[4])  # chains column
+        length = float(aa_row.iloc[5:25].sum())  # sum of amino acids
+        npbb = length - nchains
+
+        # Create ngroups array
+        ngroups = np.array([nchains] + aa_row.iloc[5:25].tolist() + [npbb], dtype=float)
+
+        # Calculate thermodynamic properties by group additivity
+        eos = (groupprops.values * ngroups[:, np.newaxis]).sum(axis=0)
+
+        # Calculate formula
+        f_in = (groupelements.values * ngroups[:, np.newaxis]).sum(axis=0).round(3)
+
+        # Remove elements that don&#39;t appear
+        element_names = groupelements.columns
+        f_dict = {elem: f_in[i] for i, elem in enumerate(element_names) if f_in[i] != 0}
+
+        # Turn it into a formula string
+        f = as_chemical_formula(f_dict)
+
+        # Species name
+        name = f&#34;{aa_row[&#39;protein&#39;]}_{aa_row[&#39;organism&#39;]}&#34;
+
+        # Print message
+        print(f&#34;protein_OBIGT: found {name} ({f}, {round(length, 3)} residues)&#34;)
+
+        ref = aa_row[&#39;ref&#39;]
+
+        # Include &#39;model&#39; column
+        model = &#39;HKF&#39; if state == &#39;aq&#39; else &#39;CGL&#39;
+
+        # Create header
+        header = {
+            &#39;name&#39;: name,
+            &#39;abbrv&#39;: None,
+            &#39;formula&#39;: f,
+            &#39;state&#39;: state,
+            &#39;ref1&#39;: ref,
+            &#39;ref2&#39;: None,
+            &#39;date&#39;: None,
+            &#39;model&#39;: model,
+            &#39;E_units&#39;: &#39;cal&#39;
+        }
+
+        # Combine header and eos
+        eosout = {**header, **dict(zip(groupprops.columns, eos))}
+        results.append(eosout)
+
+    # Convert to DataFrame
+    out = pd.DataFrame(results)
+    out.reset_index(drop=True, inplace=True)
+
+    return out</code></pre>
+</details>
+<div class="desc"><p>Calculate protein properties using group additivity.</p>
+<p>This function calculates thermodynamic properties of proteins
+from amino acid composition using the group additivity approach.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier</dd>
+<dt><strong><code>state</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Physical state ('aq' or 'cr'). If None, uses thermo().opt['state']</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Thermodynamic properties in OBIGT format</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; props = protein_OBIGT(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.protein_basis"><code class="name flex">
+<span>def <span class="ident">protein_basis</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>T: float = 25.0,<br>normalize: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_basis(protein: Union[int, List[int], pd.DataFrame],
+                 T: float = 25.0,
+                 normalize: bool = False) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate coefficients of basis species in protein formation reactions.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    T : float, default 25.0
+        Temperature in degrees Celsius
+    normalize : bool, default False
+        Normalize by protein length
+
+    Returns
+    -------
+    DataFrame
+        Coefficients of basis species
+
+    Examples
+    --------
+    &gt;&gt;&gt; from pychnosz import *
+    &gt;&gt;&gt; basis(&#34;CHNOSe&#34;)
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; coeffs = protein_basis(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get protein formulas
+    pf = protein_formula(aa)
+
+    # Calculate coefficients of basis species in formation reactions
+    sb = species_basis(pf)
+
+    # Calculate ionization states if H+ is a basis species
+    t = thermo()
+    if t.basis is not None:
+        basis_species = t.basis.index.tolist()
+        if &#39;H+&#39; in basis_species:
+            iHplus = basis_species.index(&#39;H+&#39;)
+            pH = -t.basis.loc[&#39;H+&#39;, &#39;logact&#39;]
+            Z = ionize_aa(aa, T=T, pH=pH).iloc[0, :]
+            sb.iloc[:, iHplus] = sb.iloc[:, iHplus] + Z.values
+
+    # Normalize by length if requested
+    if normalize:
+        plen = protein_length(aa)
+        sb = sb.div(plen, axis=0)
+
+    return sb</code></pre>
+</details>
+<div class="desc"><p>Calculate coefficients of basis species in protein formation reactions.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>T</code></strong> :&ensp;<code>float</code>, default <code>25.0</code></dt>
+<dd>Temperature in degrees Celsius</dd>
+<dt><strong><code>normalize</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Normalize by protein length</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Coefficients of basis species</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; from pychnosz import *
+&gt;&gt;&gt; basis(&quot;CHNOSe&quot;)
+&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; coeffs = protein_basis(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.protein_formula"><code class="name flex">
+<span>def <span class="ident">protein_formula</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None,<br>residue: bool = False) ‑> pandas.core.frame.DataFrame</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_formula(protein: Union[int, List[int], pd.DataFrame],
+                   organism: Optional[str] = None,
+                   residue: bool = False) -&gt; pd.DataFrame:
+    &#34;&#34;&#34;
+    Calculate chemical formulas of proteins.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier (used with protein number)
+    residue : bool, default False
+        Return per-residue formula
+
+    Returns
+    -------
+    DataFrame
+        Chemical formulas with elements C, H, N, O, S as columns
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; formula = protein_formula(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if not isinstance(aa, pd.DataFrame):
+        raise TypeError(&#34;Could not retrieve protein data&#34;)
+
+    # Get group formulas
+    rf = group_formulas()
+
+    # Matrix multiplication: amino acid counts * residue formulas
+    # Columns 5:25 contain amino acid counts (excluding chains column at 4)
+    # We need to add H2O (chains column) separately
+    aa_counts = aa.iloc[:, 5:25].values.astype(float)
+    chains = aa.iloc[:, 4].values.astype(float)
+    rf_values = rf.iloc[1:, :].values.astype(float)  # Skip H2O row, use amino acid residues
+    rf_H2O = rf.iloc[0, :].values.astype(float)  # H2O row
+
+    # Calculate protein formula: amino acids + H2O for chains
+    out = np.dot(aa_counts, rf_values) + np.outer(chains, rf_H2O)
+
+    # Normalize by residue if requested
+    if residue:
+        row_sums = aa.iloc[:, 5:25].sum(axis=1).values
+        out = out / row_sums[:, np.newaxis]
+
+    # Create DataFrame with protein names as index
+    protein_names = aa[&#39;protein&#39;] + &#39;_&#39; + aa[&#39;organism&#39;]
+    # Make names unique if there are duplicates
+    if protein_names.duplicated().any():
+        counts = {}
+        unique_names = []
+        for name in protein_names:
+            if name in counts:
+                counts[name] += 1
+                unique_names.append(f&#34;{name}.{counts[name]}&#34;)
+            else:
+                counts[name] = 0
+                unique_names.append(name)
+        protein_names = unique_names
+
+    result = pd.DataFrame(out,
+                         index=protein_names,
+                         columns=[&#39;C&#39;, &#39;H&#39;, &#39;N&#39;, &#39;O&#39;, &#39;S&#39;])
+
+    return result</code></pre>
+</details>
+<div class="desc"><p>Calculate chemical formulas of proteins.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein number)</dd>
+<dt><strong><code>residue</code></strong> :&ensp;<code>bool</code>, default <code>False</code></dt>
+<dd>Return per-residue formula</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>DataFrame</code></dt>
+<dd>Chemical formulas with elements C, H, N, O, S as columns</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; formula = protein_formula(iprotein)
+</code></pre></div>
+</dd>
+<dt id="pychnosz.protein_length"><code class="name flex">
+<span>def <span class="ident">protein_length</span></span>(<span>protein: int | List[int] | pandas.core.frame.DataFrame,<br>organism: str | None = None) ‑> int | numpy.ndarray</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def protein_length(protein: Union[int, List[int], pd.DataFrame],
+                   organism: Optional[str] = None) -&gt; Union[int, np.ndarray]:
+    &#34;&#34;&#34;
+    Calculate the length(s) of proteins.
+
+    Parameters
+    ----------
+    protein : int, list of int, or DataFrame
+        Protein identifier(s) or amino acid composition data
+    organism : str, optional
+        Organism identifier (used with protein number)
+
+    Returns
+    -------
+    int or array
+        Protein length(s) in amino acid residues
+
+    Examples
+    --------
+    &gt;&gt;&gt; iprotein = pinfo(&#34;LYSC_CHICK&#34;)
+    &gt;&gt;&gt; length = protein_length(iprotein)
+    &#34;&#34;&#34;
+    # Get amino acid composition
+    aa = pinfo(pinfo(protein, organism))
+
+    if isinstance(aa, pd.DataFrame):
+        # Use sum on the columns containing amino acid counts (columns 5:25)
+        pl = aa.iloc[:, 5:25].sum(axis=1).values
+        return pl
+    else:
+        return 0</code></pre>
+</details>
+<div class="desc"><p>Calculate the length(s) of proteins.</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>protein</code></strong> :&ensp;<code>int, list</code> of <code>int,</code> or <code>DataFrame</code></dt>
+<dd>Protein identifier(s) or amino acid composition data</dd>
+<dt><strong><code>organism</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Organism identifier (used with protein number)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code> or <code>array</code></dt>
+<dd>Protein length(s) in amino acid residues</dd>
+</dl>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-python-repl">&gt;&gt;&gt; iprotein = pinfo(&quot;LYSC_CHICK&quot;)
+&gt;&gt;&gt; length = protein_length(iprotein)
+</code></pre></div>
 </dd>
 <dt id="pychnosz.quartz_coesite"><code class="name flex">
 <span>def <span class="ident">quartz_coesite</span></span>(<span>PAR, T, P)</span>
@@ -9042,8 +10327,10 @@ Required when global_state=False and basis is not defined globally</dd>
                 return rebalanced_result
         
         # === Phase 6: Property Calculations ===
-        result.out = _calculate_properties(property, iphases, isaq, isH2O, iscgl, 
+        result.out, calc_warnings = _calculate_properties(property, iphases, isaq, isH2O, iscgl,
                                          T_array, P_array, exceed_rhomin, exceed_Ttr, IS, logact, do_reaction)
+        # Add calculation warnings to result
+        result.warnings.extend(calc_warnings)
         
         # === Phase 6.5: Polymorph Selection ===
         if use_polymorphs:
@@ -9099,6 +10386,11 @@ Required when global_state=False and basis is not defined globally</dd>
         # Display tables in Jupyter notebooks if show=True
         if show:
             _display_subcrt_result(result)
+
+        # Print warnings (matching R CHNOSZ behavior - lines 621-624)
+        if result.warnings and messages:
+            for warn in result.warnings:
+                warnings.warn(warn)
 
         return result
         
@@ -9348,14 +10640,14 @@ with Plotly instead of LaTeX.</p>
 <p>Requires: WORMutils (for chemlabel)</p></div>
 </dd>
 <dt id="pychnosz.thermo"><code class="name flex">
-<span>def <span class="ident">thermo</span></span>(<span>*args, **kwargs)</span>
+<span>def <span class="ident">thermo</span></span>(<span>*args, messages=True, **kwargs)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def thermo(*args, **kwargs):
+<pre><code class="python">def thermo(*args, messages=True, **kwargs):
     &#34;&#34;&#34;
     Access or modify the thermodynamic system data object.
 
@@ -9369,6 +10661,8 @@ with Plotly instead of LaTeX.</p>
         For nested access, use &#34;$&#34; notation (e.g., &#34;opt$E.units&#34;)
         Special values:
         - &#34;WORM&#34;: Load the WORM thermodynamic database (Python-exclusive feature)
+    messages : bool, default True
+        Whether to print informational messages during operations
     **kwargs : any
         Named arguments to set attributes (e.g., element=new_df, opt={&#39;E.units&#39;: &#39;cal&#39;})
         For nested attributes, use &#34;$&#34; in the name (e.g., **{&#34;opt$ideal.H&#34;: False})
@@ -9405,6 +10699,9 @@ with Plotly instead of LaTeX.</p>
     &gt;&gt;&gt; # Load WORM database (Python-exclusive feature)
     &gt;&gt;&gt; pychnosz.thermo(&#34;WORM&#34;)
 
+    &gt;&gt;&gt; # Suppress messages
+    &gt;&gt;&gt; pychnosz.thermo(&#34;WORM&#34;, messages=False)
+
     Notes
     -----
     This function mimics the behavior of R CHNOSZ thermo() function,
@@ -9434,6 +10731,11 @@ with Plotly instead of LaTeX.</p>
     # Prepare return values list
     return_values = []
 
+    # Ensure system is initialized if needed (before accessing any properties)
+    # This prevents auto-initialization from using hardcoded messages=True
+    if not thermo_sys.is_initialized() and len(args) &gt; 0:
+        thermo_sys.reset(messages=messages)
+
     # Process unnamed arguments (getters)
     for arg in args:
         if not isinstance(arg, str):
@@ -9442,7 +10744,7 @@ with Plotly instead of LaTeX.</p>
         # Special handling for &#34;WORM&#34; - load WORM database
         if arg.upper() == &#34;WORM&#34;:
             from ..data.worm import load_WORM
-            success = load_WORM(keep_default=False, messages=True)
+            success = load_WORM(keep_default=False, messages=messages)
             return_values.append(success)
             continue
 
@@ -9467,6 +10769,11 @@ with Plotly instead of LaTeX.</p>
 
     # Process named arguments (setters)
     setter_returns = {}
+
+    # Ensure system is initialized if needed (before setting any properties)
+    if not thermo_sys.is_initialized() and len(kwargs) &gt; 0:
+        thermo_sys.reset(messages=messages)
+
     for key, new_value in kwargs.items():
         # Parse the key to get slots
         slots = key.split(&#39;$&#39;)
@@ -9555,6 +10862,8 @@ thermodynamic system, similar to R's par() function for graphics parameters.</p>
 For nested access, use "$" notation (e.g., "opt$E.units")
 Special values:
 - "WORM": Load the WORM thermodynamic database (Python-exclusive feature)</dd>
+<dt><strong><code>messages</code></strong> :&ensp;<code>bool</code>, default <code>True</code></dt>
+<dd>Whether to print informational messages during operations</dd>
 <dt><strong><code>**kwargs</code></strong> :&ensp;<code>any</code></dt>
 <dd>Named arguments to set attributes (e.g., element=new_df, opt={'E.units': 'cal'})
 For nested attributes, use "$" in the name (e.g., **{"opt$ideal.H": False})</dd>
@@ -9593,6 +10902,9 @@ For nested attributes, use "$" in the name (e.g., **{"opt$ideal.H": False})</dd>
 </code></pre>
 <pre><code class="language-python-repl">&gt;&gt;&gt; # Load WORM database (Python-exclusive feature)
 &gt;&gt;&gt; pychnosz.thermo(&quot;WORM&quot;)
+</code></pre>
+<pre><code class="language-python-repl">&gt;&gt;&gt; # Suppress messages
+&gt;&gt;&gt; pychnosz.thermo(&quot;WORM&quot;, messages=False)
 </code></pre>
 <h2 id="notes">Notes</h2>
 <p>This function mimics the behavior of R CHNOSZ thermo() function,
@@ -11600,6 +12912,7 @@ the thermodynamic data and initializing the system.</p>
 <li><code><a title="pychnosz.ZC" href="#pychnosz.ZC">ZC</a></code></li>
 <li><code><a title="pychnosz.add_OBIGT" href="#pychnosz.add_OBIGT">add_OBIGT</a></code></li>
 <li><code><a title="pychnosz.add_legend" href="#pychnosz.add_legend">add_legend</a></code></li>
+<li><code><a title="pychnosz.add_protein" href="#pychnosz.add_protein">add_protein</a></code></li>
 <li><code><a title="pychnosz.affinity" href="#pychnosz.affinity">affinity</a></code></li>
 <li><code><a title="pychnosz.animation" href="#pychnosz.animation">animation</a></code></li>
 <li><code><a title="pychnosz.balance_reaction" href="#pychnosz.balance_reaction">balance_reaction</a></code></li>
@@ -11625,13 +12938,20 @@ the thermodynamic data and initializing the system.</p>
 <li><code><a title="pychnosz.get_formula_ox" href="#pychnosz.get_formula_ox">get_formula_ox</a></code></li>
 <li><code><a title="pychnosz.get_n_element_ox" href="#pychnosz.get_n_element_ox">get_n_element_ox</a></code></li>
 <li><code><a title="pychnosz.gfun" href="#pychnosz.gfun">gfun</a></code></li>
+<li><code><a title="pychnosz.group_formulas" href="#pychnosz.group_formulas">group_formulas</a></code></li>
 <li><code><a title="pychnosz.hkf" href="#pychnosz.hkf">hkf</a></code></li>
 <li><code><a title="pychnosz.info" href="#pychnosz.info">info</a></code></li>
+<li><code><a title="pychnosz.ionize_aa" href="#pychnosz.ionize_aa">ionize_aa</a></code></li>
 <li><code><a title="pychnosz.list_OBIGT_files" href="#pychnosz.list_OBIGT_files">list_OBIGT_files</a></code></li>
 <li><code><a title="pychnosz.load_WORM" href="#pychnosz.load_WORM">load_WORM</a></code></li>
 <li><code><a title="pychnosz.makeup" href="#pychnosz.makeup">makeup</a></code></li>
 <li><code><a title="pychnosz.mass" href="#pychnosz.mass">mass</a></code></li>
 <li><code><a title="pychnosz.mod_OBIGT" href="#pychnosz.mod_OBIGT">mod_OBIGT</a></code></li>
+<li><code><a title="pychnosz.pinfo" href="#pychnosz.pinfo">pinfo</a></code></li>
+<li><code><a title="pychnosz.protein_OBIGT" href="#pychnosz.protein_OBIGT">protein_OBIGT</a></code></li>
+<li><code><a title="pychnosz.protein_basis" href="#pychnosz.protein_basis">protein_basis</a></code></li>
+<li><code><a title="pychnosz.protein_formula" href="#pychnosz.protein_formula">protein_formula</a></code></li>
+<li><code><a title="pychnosz.protein_length" href="#pychnosz.protein_length">protein_length</a></code></li>
 <li><code><a title="pychnosz.quartz_coesite" href="#pychnosz.quartz_coesite">quartz_coesite</a></code></li>
 <li><code><a title="pychnosz.ratlab" href="#pychnosz.ratlab">ratlab</a></code></li>
 <li><code><a title="pychnosz.ratlab_html" href="#pychnosz.ratlab_html">ratlab_html</a></code></li>

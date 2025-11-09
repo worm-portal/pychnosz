@@ -41,10 +41,6 @@ el.replaceWith(d);
 <section>
 <h2 class="section-title" id="header-submodules">Sub-modules</h2>
 <dl>
-<dt><code class="name"><a title="pychnosz.models.activity" href="activity.html">pychnosz.models.activity</a></code></dt>
-<dd>
-<div class="desc"><p>Advanced activity models for CHNOSZ …</p></div>
-</dd>
 <dt><code class="name"><a title="pychnosz.models.archer_wang" href="archer_wang.html">pychnosz.models.archer_wang</a></code></dt>
 <dd>
 <div class="desc"><p>Archer &amp; Wang (1990) dielectric constant correlation for water …</p></div>
@@ -56,10 +52,6 @@ el.replaceWith(d);
 <dt><code class="name"><a title="pychnosz.models.dew" href="dew.html">pychnosz.models.dew</a></code></dt>
 <dd>
 <div class="desc"><p>DEW (Deep Earth Water) model implementation …</p></div>
-</dd>
-<dt><code class="name"><a title="pychnosz.models.high_pt" href="high_pt.html">pychnosz.models.high_pt</a></code></dt>
-<dd>
-<div class="desc"><p>High pressure-temperature models for CHNOSZ …</p></div>
 </dd>
 <dt><code class="name"><a title="pychnosz.models.hkf_helpers" href="hkf_helpers.html">pychnosz.models.hkf_helpers</a></code></dt>
 <dd>
@@ -1805,7 +1797,7 @@ or dictionary with calculated properties</dd>
 </code></pre></div>
 </dd>
 <dt id="pychnosz.models.water_SUPCRT92"><code class="name flex">
-<span>def <span class="ident">water_SUPCRT92</span></span>(<span>property: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+<span>def <span class="ident">water_SUPCRT92</span></span>(<span>property: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | str | numpy.ndarray = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2141,7 +2133,7 @@ def has_fortran(self) -&gt; bool:
 </dl></div>
 </dd>
 <dt id="pychnosz.models.SUPCRT92Water.calculate"><code class="name flex">
-<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | str | numpy.ndarray = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2241,11 +2233,9 @@ def has_fortran(self) -&gt; bool:
 </li>
 <li><h3><a href="#header-submodules">Sub-modules</a></h3>
 <ul>
-<li><code><a title="pychnosz.models.activity" href="activity.html">pychnosz.models.activity</a></code></li>
 <li><code><a title="pychnosz.models.archer_wang" href="archer_wang.html">pychnosz.models.archer_wang</a></code></li>
 <li><code><a title="pychnosz.models.berman" href="berman.html">pychnosz.models.berman</a></code></li>
 <li><code><a title="pychnosz.models.dew" href="dew.html">pychnosz.models.dew</a></code></li>
-<li><code><a title="pychnosz.models.high_pt" href="high_pt.html">pychnosz.models.high_pt</a></code></li>
 <li><code><a title="pychnosz.models.hkf_helpers" href="hkf_helpers.html">pychnosz.models.hkf_helpers</a></code></li>
 <li><code><a title="pychnosz.models.iapws95" href="iapws95.html">pychnosz.models.iapws95</a></code></li>
 <li><code><a title="pychnosz.models.supcrt92_fortran" href="supcrt92_fortran.html">pychnosz.models.supcrt92_fortran</a></code></li>

@@ -284,8 +284,8 @@ and solid-solution equilibria for geological applications.</p>
             
             # Calculate logK at T, P
             result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-            if result[&#39;reaction&#39;] is not None:
-                logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+            if result.out is not None and &#39;logK&#39; in result.out.columns:
+                logK = result.out[&#39;logK&#39;].iloc[0]
             else:
                 logK = 0.0
                 warnings.warn(f&#34;Could not calculate logK for {mineral} dissolution&#34;)
@@ -688,8 +688,8 @@ and solid-solution equilibria for geological applications.</p>
         
         # Calculate logK at T, P
         result = subcrt(species_names, coefficients, T=T, P=P, show=False)
-        if result[&#39;reaction&#39;] is not None:
-            logK = result[&#39;reaction&#39;][&#39;logK&#39;].iloc[0]
+        if result.out is not None and &#39;logK&#39; in result.out.columns:
+            logK = result.out[&#39;logK&#39;].iloc[0]
         else:
             logK = 0.0
             warnings.warn(f&#34;Could not calculate logK for {mineral} dissolution&#34;)

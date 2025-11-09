@@ -56,7 +56,7 @@ corresponding computational approaches. PNAS, 110(17), 6646-6650.</p>
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pychnosz.models.dew.water_DEW"><code class="name flex">
-<span>def <span class="ident">water_DEW</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+<span>def <span class="ident">water_DEW</span></span>(<span>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | str | numpy.ndarray = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -1092,7 +1092,7 @@ G, epsilon, QBorn, V, rho, beta, A_DH, B_DH</p>
 <p>Other properties requested will return NaN.</p></div>
 </dd>
 <dt id="pychnosz.models.dew.DEWWater.calculate"><code class="name flex">
-<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | numpy.ndarray | str = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
+<span>def <span class="ident">calculate</span></span>(<span>self,<br>properties: str | List[str],<br>T: float | numpy.ndarray = 298.15,<br>P: float | str | numpy.ndarray = 1.0,<br>**kwargs) ‑> float | numpy.ndarray | Dict[str, Any]</span>
 </code></dt>
 <dd>
 <details class="source">
