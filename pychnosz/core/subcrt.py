@@ -41,7 +41,7 @@ def subcrt(species: Union[str, List[str], int, List[int]],
            coeff: Union[int, float, List[Union[int, float]], None] = 1,
            state: Optional[Union[str, List[str]]] = None,
            property: List[str] = ["logK", "G", "H", "S", "V", "Cp"],
-           T: Union[float, List[float], np.ndarray] = np.arange(273.16, 623.16, 25),
+           T: Union[float, List[float], np.ndarray] = np.concatenate([[273.16], 273.15 + np.arange(25, 351, 25)]),
            P: Union[float, List[float], np.ndarray, str] = "Psat",
            grid: Optional[str] = None,
            convert: bool = True,
@@ -74,7 +74,7 @@ def subcrt(species: Union[str, List[str], int, List[int]],
     property : list of str
         Properties to calculate: "logK", "G", "H", "S", "V", "Cp", "rho", "kT", "E"
     T : float, list, or ndarray
-        Temperature(s) in K (default: 273.15 to 623.15 by 25 K)
+        Temperature(s) in K (default: 273.16, then 298.15 to 623.15 by 25 K)
     P : float, list, ndarray, or "Psat"
         Pressure(s) in bar or "Psat" for saturation pressure
     grid : str or None
@@ -213,8 +213,9 @@ def subcrt(species: Union[str, List[str], int, List[int]],
         T_array = np.atleast_1d(np.asarray(T, dtype=float))
         # Convert temperature to Kelvin if convert=True (matching R CHNOSZ behavior)
         # R: if(convert) T <- envert(T, "K") - converts Celsius input to Kelvin
-        # Default parameter np.arange(273.16, 623.16, 25) is already in K, so only convert user input
-        if convert and not np.array_equal(T_array, np.arange(273.16, 623.16, 25)[:len(T_array)]):
+        # Default parameter is [273.16, 298.15, 323.15, ..., 623.15] which is already in K, so only convert user input
+        default_T = np.concatenate([[273.16], 273.15 + np.arange(25, 351, 25)])
+        if convert and not np.array_equal(T_array, default_T[:len(T_array)]):
             # User provided temperature, assume Celsius and convert to Kelvin
             T_array = T_array + 273.15
 
