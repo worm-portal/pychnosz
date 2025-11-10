@@ -1171,14 +1171,20 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
     # For single species, return properties directly
     # For multiple species in reactions, return dict for summation
     # For multiple species without reactions, treat each as individual
-    
+
+    # Determine if we should automatically add rho to output (matching R CHNOSZ behavior)
+    # R adds rho when: "rho" in property OR (using default properties AND any aqueous/H2O species)
+    default_properties = ["logK", "G", "H", "S", "V", "Cp"]
+    is_default_property_list = (property == default_properties)
+    should_add_rho = ("rho" in property) or (is_default_property_list and (isaq.any() or isH2O.any()))
+
     if len(iphases) == 1:
         # Single species - return properties directly
         # species_idx should be 0 (the enumerate index into iphases/isaq arrays)
         # NOT iphases[0] (the actual OBIGT index)
         species_idx = 0
         output_data = {'T': T - 273.15}  # Convert to Celsius for output like R
-        
+
         if isinstance(P, str) and P == "Psat":
             # Calculate actual Psat values for output (vectorized)
             from ..models.water import water
@@ -1186,7 +1192,17 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
             output_data['P'] = np.atleast_1d(P_values)
         else:
             output_data['P'] = P
-        
+
+        # Add rho column if needed (matching R CHNOSZ - appears after P, before other properties)
+        if should_add_rho:
+            try:
+                from ..models.water import water
+                rho_result = water('rho', T=T, P=P_calculated)
+                # Convert from kg/m³ to g/cm³ (divide by 1000) to match R CHNOSZ
+                output_data['rho'] = np.atleast_1d(rho_result) / 1000
+            except:
+                output_data['rho'] = np.full(n_conditions, np.nan)
+
         # Add calculated properties
         for prop in property:
             if prop == "logK":
@@ -1210,26 +1226,29 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                 else:
                     output_data[prop] = np.full(n_conditions, np.nan)
             elif prop == "rho":
-                # Water density - get from water function
-                try:
-                    from ..models.water import water
-                    rho_result = water('rho', T=T, P=P)
-                    output_data[prop] = np.full(n_conditions, rho_result)
-                except:
-                    output_data[prop] = np.full(n_conditions, np.nan)
+                # Skip - already added above if should_add_rho is True
+                if not should_add_rho:
+                    # Only add here if it was explicitly requested but not in default case
+                    try:
+                        from ..models.water import water
+                        rho_result = water('rho', T=T, P=P_calculated)
+                        # Convert from kg/m³ to g/cm³ (divide by 1000) to match R CHNOSZ
+                        output_data[prop] = np.atleast_1d(rho_result) / 1000
+                    except:
+                        output_data[prop] = np.full(n_conditions, np.nan)
             else:
                 # Regular thermodynamic property
                 if species_idx in all_properties and prop in all_properties[species_idx]:
                     output_data[prop] = all_properties[species_idx][prop]
                 else:
                     output_data[prop] = np.full(n_conditions, np.nan)
-        
+
         result_df = pd.DataFrame(output_data)
         
     else:
         # Multiple species - return all properties for reaction summation
         all_species_data = []
-        
+
         for i, phase_idx in enumerate(iphases):
             # DEBUG
             if False:  # Set to True for debugging
@@ -1241,12 +1260,26 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                     print(f"  CORRECT: phase_idx={phase_idx} exists in all_properties")
 
             species_data = {'T': T - 273.15}  # Convert to Celsius for output like R
-            
+
             if isinstance(P, str):
                 species_data['P'] = P_calculated
             else:
                 species_data['P'] = P
-            
+
+            # Add rho column if needed (matching R CHNOSZ - appears after P, before other properties)
+            if should_add_rho:
+                try:
+                    from ..models.water import water
+                    rho_result = water('rho', T=T, P=P_calculated)
+                    # Convert from kg/m³ to g/cm³ (divide by 1000) to match R CHNOSZ
+                    # Handle both scalar and array returns from water()
+                    if np.isscalar(rho_result):
+                        species_data['rho'] = np.full(n_conditions, rho_result / 1000)
+                    else:
+                        species_data['rho'] = np.atleast_1d(rho_result) / 1000
+                except:
+                    species_data['rho'] = np.full(n_conditions, np.nan)
+
             # Add properties for this species
             # If logK is requested, we need to store G as well (for reaction calculations)
             props_to_store = list(property)
@@ -1270,17 +1303,20 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                     else:
                         species_data[prop] = np.full(n_conditions, np.nan)
                 elif prop == "rho":
-                    # Water density - get from water function
-                    try:
-                        from ..models.water import water
-                        rho_result = water('rho', T=T, P=P)
-                        # Handle both scalar and array returns from water()
-                        if np.isscalar(rho_result):
-                            species_data[prop] = np.full(n_conditions, rho_result)
-                        else:
-                            species_data[prop] = np.atleast_1d(rho_result)
-                    except:
-                        species_data[prop] = np.full(n_conditions, np.nan)
+                    # Skip - already added above if should_add_rho is True
+                    if not should_add_rho:
+                        # Only add here if it was explicitly requested but not in default case
+                        try:
+                            from ..models.water import water
+                            rho_result = water('rho', T=T, P=P_calculated)
+                            # Convert from kg/m³ to g/cm³ (divide by 1000) to match R CHNOSZ
+                            # Handle both scalar and array returns from water()
+                            if np.isscalar(rho_result):
+                                species_data[prop] = np.full(n_conditions, rho_result / 1000)
+                            else:
+                                species_data[prop] = np.atleast_1d(rho_result) / 1000
+                        except:
+                            species_data[prop] = np.full(n_conditions, np.nan)
                 elif prop in eosprop:
                     # Regular thermodynamic property from EOS calculations
                     if i in all_properties and prop in all_properties[i]:
@@ -1353,32 +1389,69 @@ def _sum_reaction_properties(properties_data, coefficients):
     else:
         P_values = P if not isinstance(P, str) else np.full(n_conditions, np.nan)
     
+    # Build reaction_data in the correct column order to match R CHNOSZ
+    # Order: T, P, rho (if present), then properties in property_list order
     reaction_data = {
         'T': T - 273.15,  # Convert to Celsius for output like R
         'P': P_values
     }
-    
-    # Sum properties weighted by stoichiometric coefficients
-    # Reaction property = Σ(coefficient_i × species_i_property)
-    # Need to ensure G is calculated if logK is requested
-    props_to_calculate = property_list.copy()
-    if 'logK' in property_list and 'G' not in property_list:
-        props_to_calculate.append('G')
+
+    # Check if rho should be added (matching R CHNOSZ behavior)
+    # Add rho if it's in species_data (it was added during property calculation)
+    has_rho = species_data_list and 'rho' in species_data_list[0].columns
+    if has_rho:
+        # Get rho from first species (rho is same for all species at given T-P)
+        reaction_data['rho'] = species_data_list[0]['rho'].values
 
     # Debug: check what properties are available
     if species_data_list:
         available_props = species_data_list[0].columns.tolist()
-        # If G is needed but not available, this is a problem
-        if 'G' in props_to_calculate and 'G' not in available_props:
-            import warnings
-            warnings.warn(f"G property needed for logK but not in species_data. Available: {available_props}")
 
-    for prop in props_to_calculate:
-        if prop not in ['T', 'P', 'logK', 'rho']:  # Skip T, P and derived properties
+    # Need to calculate G if logK is requested but G is not
+    need_G_for_logK = 'logK' in property_list and 'G' not in property_list
+
+    # Sum properties in the order specified by property_list to match R CHNOSZ column order
+    # This ensures the output columns appear in the same order as the property parameter
+    for prop in property_list:
+        if prop == 'logK':
+            # Calculate logK from ΔG
+            # First, make sure G is calculated if not already in property_list
+            if 'G' not in reaction_data:
+                # Calculate G
+                G_sum = np.zeros(n_conditions)
+                all_nan = True
+                for species_df, coeff in zip(species_data_list, coefficients):
+                    if 'G' in species_df.columns:
+                        species_values = species_df['G'].values
+                        if not np.isnan(species_values).all():
+                            G_sum += coeff * species_values
+                            all_nan = False
+                if need_G_for_logK:
+                    # Store G temporarily but we'll remove it later
+                    reaction_data['G'] = G_sum if not all_nan else np.full(n_conditions, np.nan)
+                else:
+                    # G was already added, use it
+                    pass
+
+            # Now calculate logK from G
+            G_values = reaction_data.get('G', np.full(n_conditions, np.nan))
+            if not np.isnan(G_values).all():
+                # logK = -ΔG°/(ln(10)*R*T)
+                T_array = np.atleast_1d(T)
+                R = 8.314462618  # J/(mol·K) - CODATA 2018 value
+                reaction_data['logK'] = -G_values / (np.log(10) * R * T_array)
+            else:
+                reaction_data['logK'] = np.full(n_conditions, np.nan)
+
+        elif prop == 'rho':
+            # Already added above, skip
+            pass
+        else:
+            # Regular thermodynamic property - sum weighted by coefficients
             prop_sum = np.zeros(n_conditions)
             all_nan = True
 
-            for i, (species_df, coeff) in enumerate(zip(species_data_list, coefficients)):
+            for species_df, coeff in zip(species_data_list, coefficients):
                 if prop in species_df.columns:
                     species_values = species_df[prop].values
                     if not np.isnan(species_values).all():
@@ -1386,30 +1459,6 @@ def _sum_reaction_properties(properties_data, coefficients):
                         all_nan = False
 
             reaction_data[prop] = prop_sum if not all_nan else np.full(n_conditions, np.nan)
-
-    # Calculate logK if requested (from ΔG)
-    if 'logK' in property_list:
-        if not np.isnan(reaction_data['G']).all():
-            # logK = -ΔG°/(ln(10)*R*T)
-            # Need to determine units of G to use correct R constant
-            G_values = reaction_data['G']
-            T_array = np.atleast_1d(T)
-
-            # CHNOSZ uses J/mol for G (energy units: J), so use J-based calculation
-            # logK = -ΔG/(ln(10)*R*T) where G is in J/mol, R = 8.314462618 J/(mol·K)
-            R = 8.314462618  # J/(mol·K) - CODATA 2018 value
-            reaction_data['logK'] = -G_values / (np.log(10) * R * T_array)
-        else:
-            reaction_data['logK'] = np.full(n_conditions, np.nan)
-    
-    # Add water density if requested
-    if 'rho' in property_list:
-        try:
-            from ..models.water import water
-            rho_result = water('rho', T=T, P=P)
-            reaction_data['rho'] = np.full(n_conditions, rho_result)
-        except:
-            reaction_data['rho'] = np.full(n_conditions, np.nan)
 
     # Remove G if it wasn't originally requested (we only added it to calculate logK)
     if 'logK' in property_list and 'G' not in property_list and 'G' in reaction_data:
