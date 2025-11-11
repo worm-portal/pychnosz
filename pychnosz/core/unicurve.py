@@ -115,14 +115,53 @@ def _solve_T_for_pressure(logK: float, species: List, state: List, coeff: List,
         f_min = objective(minT)
         f_max = objective(maxT)
 
-        if np.isnan(f_min) or np.isnan(f_max):
-            if messages:
-                print(f"Could not evaluate logK at boundaries for P={pressure} bar")
-            return {
-                'T': None, 'P': pressure, 'logK': None, 'G': None,
-                'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
-                'Warning': f"Could not converge on T for this P within {minT} and {maxT} degC"
-            }
+        # If boundaries return NaN, search inward to find valid endpoints
+        current_minT = minT
+        current_maxT = maxT
+
+        if np.isnan(f_min):
+            # Search from minT upward to find a valid lower bound
+            step = (maxT - minT) / 20  # Use 20 steps to search
+            for i in range(1, 20):
+                test_T = minT + i * step
+                f_test = objective(test_T)
+                if not np.isnan(f_test):
+                    current_minT = test_T
+                    f_min = f_test
+                    if messages:
+                        print(f"  Adjusted minT from {minT:.1f} to {current_minT:.1f}°C (valid boundary)")
+                    break
+            else:
+                # Could not find valid lower bound
+                if messages:
+                    print(f"Could not find valid lower temperature bound for P={pressure} bar")
+                return {
+                    'T': None, 'P': pressure, 'logK': None, 'G': None,
+                    'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
+                    'Warning': f"Could not converge on T for this P within {minT} and {maxT} degC"
+                }
+
+        if np.isnan(f_max):
+            # Search from maxT downward to find a valid upper bound
+            step = (maxT - minT) / 20  # Use 20 steps to search
+            for i in range(1, 20):
+                test_T = maxT - i * step
+                f_test = objective(test_T)
+                if not np.isnan(f_test):
+                    current_maxT = test_T
+                    f_max = f_test
+                    if messages:
+                        print(f"  Adjusted maxT from {maxT:.1f} to {current_maxT:.1f}°C (valid boundary)")
+                    break
+            else:
+                # Could not find valid upper bound
+                if messages:
+                    print(f"Could not find valid upper temperature bound for P={pressure} bar")
+                return {
+                    'T': None, 'P': pressure, 'logK': None, 'G': None,
+                    'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
+                    'Warning': f"Could not converge on T for this P within {minT} and {maxT} degC"
+                }
 
         # Check if root is bracketed (signs must be opposite)
         if f_min * f_max > 0:
@@ -135,7 +174,7 @@ def _solve_T_for_pressure(logK: float, species: List, state: List, coeff: List,
             }
 
         # Use Brent's method to find the root
-        T_solution = brentq(objective, minT, maxT, xtol=tol, rtol=tol)
+        T_solution = brentq(objective, current_minT, current_maxT, xtol=tol, rtol=tol)
 
         # Get full thermodynamic properties at the solution
         final_result = subcrt(species, coeff=coeff, state=state,
@@ -413,14 +452,53 @@ def _solve_P_for_temperature(logK: float, species: List, state: List, coeff: Lis
         f_min = objective(minP)
         f_max = objective(maxP)
 
-        if np.isnan(f_min) or np.isnan(f_max):
-            if messages:
-                print(f"Could not evaluate logK at boundaries for T={temperature}°C")
-            return {
-                'T': temperature, 'P': None, 'logK': None, 'G': None,
-                'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
-                'Warning': f"Could not converge on P for this T within {minP} and {maxP} bar(s)"
-            }
+        # If boundaries return NaN, search inward to find valid endpoints
+        current_minP = minP
+        current_maxP = maxP
+
+        if np.isnan(f_min):
+            # Search from minP upward to find a valid lower bound
+            step = (maxP - minP) / 20  # Use 20 steps to search
+            for i in range(1, 20):
+                test_P = minP + i * step
+                f_test = objective(test_P)
+                if not np.isnan(f_test):
+                    current_minP = test_P
+                    f_min = f_test
+                    if messages:
+                        print(f"  Adjusted minP from {minP:.1f} to {current_minP:.1f} bar (valid boundary)")
+                    break
+            else:
+                # Could not find valid lower bound
+                if messages:
+                    print(f"Could not find valid lower pressure bound for T={temperature}°C")
+                return {
+                    'T': temperature, 'P': None, 'logK': None, 'G': None,
+                    'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
+                    'Warning': f"Could not converge on P for this T within {minP} and {maxP} bar(s)"
+                }
+
+        if np.isnan(f_max):
+            # Search from maxP downward to find a valid upper bound
+            step = (maxP - minP) / 20  # Use 20 steps to search
+            for i in range(1, 20):
+                test_P = maxP - i * step
+                f_test = objective(test_P)
+                if not np.isnan(f_test):
+                    current_maxP = test_P
+                    f_max = f_test
+                    if messages:
+                        print(f"  Adjusted maxP from {maxP:.1f} to {current_maxP:.1f} bar (valid boundary)")
+                    break
+            else:
+                # Could not find valid upper bound
+                if messages:
+                    print(f"Could not find valid upper pressure bound for T={temperature}°C")
+                return {
+                    'T': temperature, 'P': None, 'logK': None, 'G': None,
+                    'H': None, 'S': None, 'V': None, 'Cp': None, 'rho': None,
+                    'Warning': f"Could not converge on P for this T within {minP} and {maxP} bar(s)"
+                }
 
         # Check if root is bracketed (signs must be opposite)
         if f_min * f_max > 0:
@@ -433,7 +511,7 @@ def _solve_P_for_temperature(logK: float, species: List, state: List, coeff: Lis
             }
 
         # Use Brent's method to find the root
-        P_solution = brentq(objective, minP, maxP, xtol=tol, rtol=tol)
+        P_solution = brentq(objective, current_minP, current_maxP, xtol=tol, rtol=tol)
 
         # Get full thermodynamic properties at the solution
         final_result = subcrt(species, coeff=coeff, state=state,
