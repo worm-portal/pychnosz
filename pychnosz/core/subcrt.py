@@ -414,40 +414,43 @@ def _process_species(species, state, coeff, do_reaction, use_polymorphs, message
     iphases = []
     polymorph_species = []
     coeff_new = []
-    
+
     for i, isp in enumerate(ispecies):
         sp_state = newstate[i]
         sp_coeff = coeff[i] if do_reaction else 1
-        
+
         if sp_state == "cr" and use_polymorphs:
             # Look for polymorphs (cr, cr2, cr3, etc.)
             sp_name = thermo_sys.obigt.loc[isp]['name']
             polymorph_states = ["cr", "cr2", "cr3", "cr4", "cr5", "cr6", "cr7", "cr8", "cr9"]
-            
+
             # Find all polymorphs
             polymorphs = []
             for poly_state in polymorph_states:
                 matches = thermo_sys.obigt[
-                    (thermo_sys.obigt['name'] == sp_name) & 
+                    (thermo_sys.obigt['name'] == sp_name) &
                     (thermo_sys.obigt['state'] == poly_state)
                 ]
                 if not matches.empty:
                     polymorphs.extend(matches.index.tolist())
-            
+
             if len(polymorphs) > 1:
                 # Multiple polymorphs found
                 iphases.extend(polymorphs)
-                polymorph_species.extend([isp] * len(polymorphs))
+                # CRITICAL FIX: Use position i (not isp) to track which original species
+                # this corresponds to. This allows the same species to appear multiple times
+                # in a reaction (e.g., SO4-2 appearing twice with different coefficients)
+                polymorph_species.extend([i] * len(polymorphs))
                 coeff_new.extend([sp_coeff] * len(polymorphs))
             else:
                 # Single phase
                 iphases.append(isp)
-                polymorph_species.append(isp)
+                polymorph_species.append(i)
                 coeff_new.append(sp_coeff)
         else:
             # Non-mineral or non-polymorph
             iphases.append(isp)
-            polymorph_species.append(isp)
+            polymorph_species.append(i)
             coeff_new.append(sp_coeff)
     
     # Create reaction DataFrame
@@ -941,7 +944,13 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
     if isaq.any():
         aq_indices = np.where(isaq)[0]
         aq_params = thermo_sys.obigt.loc[[iphases[i] for i in aq_indices]]
-        
+
+        # CRITICAL FIX: Reset index to avoid duplicate index issues when same species
+        # appears multiple times (e.g., two SO4-2 in a balanced reaction)
+        # Store original OBIGT indices for later reference
+        original_obigt_indices = aq_params.index.tolist()
+        aq_params = aq_params.reset_index(drop=True)
+
         try:
             # Get water properties needed for HKF
             H2O_props = ["rho"]
@@ -975,11 +984,13 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
 
             # Extract results for each species and property
             for i, aq_idx in enumerate(aq_indices):
-                df_index = aq_params.index[i]
+                # Use sequential index (0, 1, 2, ...) since we reset the index above
+                df_index = i
                 species_props = aq_results[df_index]
 
                 # Check E_units to determine if values are already in J
-                species_row = thermo_sys.obigt.loc[iphases[aq_idx]]
+                # Use original OBIGT index for this lookup
+                species_row = thermo_sys.obigt.loc[original_obigt_indices[i]]
                 e_units = species_row.get('E_units', 'cal')
                 already_in_joules = (e_units == 'J')
 
@@ -1108,7 +1119,11 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
     if iscgl.any():
         cgl_indices = np.where(iscgl)[0]
         cgl_params = thermo_sys.obigt.loc[[iphases[i] for i in cgl_indices]]
-        
+
+        # Reset index to avoid duplicate index issues (same fix as for HKF)
+        original_cgl_obigt_indices = cgl_params.index.tolist()
+        cgl_params = cgl_params.reset_index(drop=True)
+
         try:
             # CGL model now handles array T/P (vectorized)
             # Initialize storage for results across all T/P conditions
@@ -1124,13 +1139,15 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
 
             # Extract results for each species
             for i, cgl_idx in enumerate(cgl_indices):
-                df_index = cgl_params.index[i]
+                # Use sequential index since we reset the index above
+                df_index = i
                 species_props = cgl_result[df_index]
 
                 # Check if this species uses Berman model
                 # NOTE: A mineral is only Berman if it LACKS standard thermodynamic data (G,H,S)
                 # If G,H,S are present, use regular CGL even if heat capacity coefficients are all zero
-                species_row = thermo_sys.obigt.loc[iphases[cgl_idx]]
+                # Use original OBIGT index for this lookup
+                species_row = thermo_sys.obigt.loc[original_cgl_obigt_indices[i]]
                 berman_cols = ['a1.a', 'a2.b', 'a3.c', 'a4.d', 'c1.e', 'c2.f', 'omega.lambda', 'z.T']
                 has_standard_thermo = pd.notna(species_row.get('G', np.nan)) and pd.notna(species_row.get('H', np.nan)) and pd.notna(species_row.get('S', np.nan))
                 all_coeffs_zero_or_na = all(pd.isna(species_row.get(col, np.nan)) or species_row.get(col, 0) == 0 for col in berman_cols)
