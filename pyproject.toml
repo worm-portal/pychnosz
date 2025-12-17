@@ -114,18 +114,23 @@ before-build = "python compile_fortran.py"
 
 # Test the wheel after building
 test-requires = "pytest numpy pandas scipy matplotlib"
-test-command = "python -c 'import pychnosz; from pychnosz.fortran import get_h2o92_interface; h2o = get_h2o92_interface(); props = h2o.calculate_properties(298.15, 1.0); print(f\"Test passed: rho={props[\"rho\"]:.1f}\")'"
+test-command = "python -c \"import pychnosz; from pychnosz.fortran import get_h2o92_interface; h2o = get_h2o92_interface(); props = h2o.calculate_properties(298.15, 1.0); print('Test passed: rho=' + str(props['rho']))\""
 
 # Platform-specific settings
 [tool.cibuildwheel.linux]
-# Install gfortran before building
-before-all = "yum install -y gcc-gfortran || apk add gfortran || apt-get update && apt-get install -y gfortran"
-
 # Use manylinux2014 (supports older Linux systems)
 manylinux-x86_64-image = "manylinux2014"
 manylinux-aarch64-image = "manylinux2014"
 musllinux-x86_64-image = "musllinux_1_1"
 musllinux-aarch64-image = "musllinux_1_1"
+
+[[tool.cibuildwheel.overrides]]
+select = "*-manylinux*"
+before-all = "yum install -y gcc-gfortran"
+
+[[tool.cibuildwheel.overrides]]
+select = "*-musllinux*"
+before-all = "apk add --no-cache gfortran gcc g++"
 
 [tool.cibuildwheel.macos]
 # Install gfortran via Homebrew (already available on GitHub Actions macOS runners)
