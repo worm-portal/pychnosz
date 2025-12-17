@@ -43,22 +43,64 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
 
+      - name: Install ARM64 gfortran on macOS ARM runner
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install gcc
+
       - name: Install x86_64 gfortran on macOS Intel runner
         if: matrix.os == 'macos-15-intel'
         run: |
-          # Install x86_64 Homebrew under Rosetta 2
-          arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || true
-          # Install x86_64 gcc
-          arch -x86_64 /usr/local/bin/brew install gcc
-          # Add to PATH
-          echo "/usr/local/bin" >> $GITHUB_PATH
+          # Check current architecture
+          echo "Current architecture: $(uname -m)"
 
-      - name: Build wheels
+          # Install x86_64 Homebrew if not present
+          if [ ! -f /usr/local/bin/brew ]; then
+            echo "Installing x86_64 Homebrew..."
+            arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || true
+          fi
+
+          # Install x86_64 gcc using Rosetta 2
+          if [ -f /usr/local/bin/brew ]; then
+            echo "Installing x86_64 gcc..."
+            arch -x86_64 /usr/local/bin/brew install gcc
+
+            # Find x86_64 gfortran and export its location
+            X86_GFORTRAN=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/bin/gfortran
+            echo "Found x86_64 gfortran at: $X86_GFORTRAN"
+            echo "GFORTRAN_X86=$X86_GFORTRAN" >> $GITHUB_ENV
+
+            # Verify architecture
+            arch -x86_64 file "$X86_GFORTRAN"
+          else
+            echo "ERROR: Failed to install x86_64 Homebrew"
+            exit 1
+          fi
+
+      - name: Build wheels (macOS Intel)
+        if: matrix.os == 'macos-15-intel'
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          # Increase build verbosity for debugging
           CIBW_BUILD_VERBOSITY: 1
-          # Install gfortran on Linux before building (check which package manager exists)
+          CIBW_ENVIRONMENT_MACOS: >
+            MACOSX_DEPLOYMENT_TARGET=10.13
+            ARCHFLAGS="-arch x86_64"
+            GFORTRAN_PATH=${{ env.GFORTRAN_X86 }}
+
+      - name: Build wheels (macOS ARM)
+        if: matrix.os == 'macos-latest'
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_BUILD_VERBOSITY: 1
+          CIBW_ENVIRONMENT_MACOS: >
+            MACOSX_DEPLOYMENT_TARGET=10.13
+            ARCHFLAGS="-arch arm64"
+
+      - name: Build wheels (Linux/Windows)
+        if: runner.os != 'macOS'
+        run: python -m cibuildwheel --output-dir wheelhouse
+        env:
+          CIBW_BUILD_VERBOSITY: 1
           CIBW_BEFORE_ALL_LINUX: >
             bash -c "
             if command -v dnf &> /dev/null; then
@@ -71,9 +113,6 @@ jobs:
               echo 'No supported package manager found' && exit 1
             fi
             "
-          # Install gcc on macOS (includes gfortran)
-          CIBW_BEFORE_ALL_MACOS: "brew install gcc || true"
-          # On Windows, add MinGW to PATH
           CIBW_BEFORE_ALL_WINDOWS: "echo 'MinGW installed via setup-msys2 action'"
 
       - name: Upload wheels

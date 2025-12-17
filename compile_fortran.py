@@ -15,12 +15,19 @@ from pathlib import Path
 
 def find_gfortran():
     """Find gfortran compiler on the system."""
+    # Check if explicit gfortran path is provided via environment variable
+    explicit_path = os.environ.get('GFORTRAN_PATH')
+    if explicit_path and os.path.isfile(explicit_path):
+        print(f"Using explicit gfortran path from GFORTRAN_PATH: {explicit_path}")
+        return explicit_path
+
     # Try common gfortran locations
-    candidates = ['gfortran', 'gfortran-11', 'gfortran-12', 'gfortran-13']
+    candidates = ['gfortran', 'gfortran-11', 'gfortran-12', 'gfortran-13', 'gfortran-14']
 
     for compiler in candidates:
-        if shutil.which(compiler):
-            return compiler
+        compiler_path = shutil.which(compiler)
+        if compiler_path:
+            return compiler_path
 
     raise RuntimeError(
         "gfortran compiler not found. Please install gfortran:\n"
