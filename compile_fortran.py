@@ -10,6 +10,8 @@ import os
 import sys
 import subprocess
 import shutil
+import platform
+import tempfile
 from pathlib import Path
 
 
@@ -79,14 +81,12 @@ def compile_fortran():
             macos_arch = 'arm64'
         else:
             # Fallback to machine architecture
-            import platform
             machine = platform.machine()
             macos_arch = 'arm64' if machine == 'arm64' else 'x86_64'
         print(f"macOS target architecture: {macos_arch}")
         print(f"Current machine architecture: {platform.machine()}")
 
     # gfortran doesn't recognize .f.orig extension, so copy to temp file with .f extension
-    import tempfile
     with tempfile.NamedTemporaryFile(suffix='.f', delete=False) as tmp_f:
         temp_source = Path(tmp_f.name)
 
