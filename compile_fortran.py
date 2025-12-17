@@ -108,14 +108,14 @@ def compile_fortran():
             if result.stderr:
                 print(result.stderr, file=sys.stderr)
 
-            print(f"✓ Successfully compiled {lib_name}")
+            print(f"[OK] Successfully compiled {lib_name}")
             print(f"  Output: {output_file}")
             print(f"  Size: {output_file.stat().st_size / 1024:.1f} KB")
 
             return True
 
         except subprocess.CalledProcessError as e:
-            print(f"✗ Compilation failed!", file=sys.stderr)
+            print(f"[ERROR] Compilation failed!", file=sys.stderr)
             print(f"Exit code: {e.returncode}", file=sys.stderr)
             if e.stdout:
                 print(f"stdout: {e.stdout}", file=sys.stderr)
