@@ -124,11 +124,10 @@ manylinux-aarch64-image = "manylinux_2_28"
 # gfortran installation is handled via CIBW_BEFORE_ALL_LINUX in GitHub Actions
 
 [tool.cibuildwheel.macos]
-# Build for both Intel and Apple Silicon
-archs = "x86_64 arm64"
+# Architecture selection is handled in GitHub Actions workflow
+# (x86_64 on macos-15-intel, arm64 on macos-latest)
 # Set deployment target for compatibility
 environment = { MACOSX_DEPLOYMENT_TARGET = "10.13" }
-# gfortran installation is handled via CIBW_BEFORE_ALL_MACOS in GitHub Actions
 
 [tool.cibuildwheel.windows]
 # Only build for 64-bit Windows

@@ -118,6 +118,8 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BUILD_VERBOSITY: 1
+          # CRITICAL: Only build x86_64 on this runner
+          CIBW_ARCHS_MACOS: x86_64
           # Use x86_64 gfortran explicitly
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=10.13
@@ -142,6 +144,8 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BUILD_VERBOSITY: 1
+          # CRITICAL: Only build arm64 on this runner
+          CIBW_ARCHS_MACOS: arm64
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=10.13
             ARCHFLAGS="-arch arm64"
