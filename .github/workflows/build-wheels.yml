@@ -19,8 +19,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # Use ubuntu and macOS latest, windows-2019 for better MinGW support
-        os: [ubuntu-latest, windows-2019, macos-13]
+        # Use ubuntu-latest for Linux, windows-2019 for Windows
+        # For macOS: macos-15-intel (Intel x86_64) and macos-latest (Apple Silicon ARM64)
+        os: [ubuntu-latest, windows-2019, macos-15-intel, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
