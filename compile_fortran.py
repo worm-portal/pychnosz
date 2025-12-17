@@ -59,6 +59,22 @@ def compile_fortran():
     print(f"Using compiler: {gfortran}")
     print(f"Compiling {source_file.name} -> {lib_name}")
 
+    # Detect macOS architecture for cross-compilation
+    macos_arch = None
+    if sys.platform == "darwin":
+        # Check environment variable set by cibuildwheel
+        archflags = os.environ.get('ARCHFLAGS', '')
+        if 'x86_64' in archflags:
+            macos_arch = 'x86_64'
+        elif 'arm64' in archflags:
+            macos_arch = 'arm64'
+        else:
+            # Fallback to machine architecture
+            import platform
+            machine = platform.machine()
+            macos_arch = 'arm64' if machine == 'arm64' else 'x86_64'
+        print(f"macOS target architecture: {macos_arch}")
+
     # gfortran doesn't recognize .f.orig extension, so copy to temp file with .f extension
     import tempfile
     with tempfile.NamedTemporaryFile(suffix='.f', delete=False) as tmp_f:
@@ -87,6 +103,10 @@ def compile_fortran():
         if sys.platform == "darwin":
             # macOS requires -dynamiclib for shared libraries
             cmd[1] = "-dynamiclib"
+            # Add architecture flag for cross-compilation
+            if macos_arch:
+                cmd.insert(2, f"-arch")
+                cmd.insert(3, macos_arch)
         elif sys.platform == "win32":
             # Windows: statically link all MinGW runtime libraries
             # This ensures the DLL has no external dependencies
