@@ -44,8 +44,18 @@ from .utils.units import convert, envert
 from .core.affinity import affinity
 from .core.diagram import diagram, diagram_interactive, water_lines, find_tp, copy_plot
 from .core.equilibrate import equilibrate
-from .core.animation import animation
 from .core.unicurve import unicurve, univariant_TP
+
+# Optional: animation requires plotly (install with: pip install pychnosz[interactive])
+try:
+    from .core.animation import animation
+except ImportError:
+    # plotly not installed, create stub function with helpful error message
+    def animation(*args, **kwargs):
+        raise ImportError(
+            "The 'animation' function requires plotly, which is not installed. "
+            "Install it with: pip install pychnosz[interactive]"
+        )
 
 # Protein functions
 from .biomolecules.proteins import pinfo, add_protein, protein_length, protein_formula, protein_OBIGT, protein_basis, group_formulas
