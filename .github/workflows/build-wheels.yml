@@ -125,13 +125,11 @@ jobs:
             MACOSX_DEPLOYMENT_TARGET=10.13
             ARCHFLAGS="-arch x86_64"
             GFORTRAN_PATH=${{ env.X86_GFORTRAN }}
-            PATH=/usr/local/bin:$PATH
           CIBW_BEFORE_BUILD_MACOS: >
             echo "===== Build Environment =====" &&
-            echo "GFORTRAN_PATH=$GFORTRAN_PATH" &&
-            echo "ARCHFLAGS=$ARCHFLAGS" &&
-            which gfortran &&
-            file $(which gfortran) &&
+            echo "GFORTRAN_PATH: $GFORTRAN_PATH" &&
+            echo "ARCHFLAGS: $ARCHFLAGS" &&
+            file "$GFORTRAN_PATH" &&
             python compile_fortran.py &&
             echo "===== Compiled Library Architecture =====" &&
             file pychnosz/fortran/h2o92.dylib &&
