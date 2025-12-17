@@ -88,9 +88,12 @@ def compile_fortran():
             # macOS requires -dynamiclib for shared libraries
             cmd[1] = "-dynamiclib"
         elif sys.platform == "win32":
-            # Windows may need additional flags
+            # Windows: statically link all MinGW runtime libraries
+            # This ensures the DLL has no external dependencies
             cmd.insert(2, "-static-libgfortran")
             cmd.insert(3, "-static-libgcc")
+            cmd.insert(4, "-static")
+            cmd.insert(5, "-lquadmath")
 
         print(f"Running: {' '.join(cmd)}")
 
