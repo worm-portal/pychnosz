@@ -43,15 +43,74 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
 
-      - name: Install gfortran on macOS
+      - name: Debug macOS runner architecture
         if: runner.os == 'macOS'
         run: |
+          echo "===== System Information ====="
+          uname -a
+          echo "Machine hardware: $(uname -m)"
+          echo "Architecture: $(arch)"
+
+          echo ""
+          echo "===== Homebrew Locations ====="
+          which brew || echo "No brew in PATH"
+          ls -la /opt/homebrew/bin/brew 2>/dev/null && echo "ARM64 Homebrew exists" || echo "No ARM64 Homebrew"
+          ls -la /usr/local/bin/brew 2>/dev/null && echo "x86_64 Homebrew exists" || echo "No x86_64 Homebrew"
+
+      - name: Install x86_64 gfortran on macOS Intel runner
+        if: matrix.os == 'macos-15-intel'
+        run: |
+          echo "===== Installing x86_64 Homebrew and gfortran ====="
+
+          # Remove ARM64 brew from PATH to avoid confusion
+          export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+          # Install x86_64 Homebrew if needed
+          if [ ! -f /usr/local/bin/brew ]; then
+            echo "Installing x86_64 Homebrew..."
+            arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          fi
+
+          # Verify x86_64 Homebrew
+          if [ -f /usr/local/bin/brew ]; then
+            echo "x86_64 Homebrew installed"
+            arch -x86_64 /usr/local/bin/brew --version
+
+            # Install gcc
+            echo "Installing x86_64 gcc..."
+            arch -x86_64 /usr/local/bin/brew install gcc
+
+            # Find and verify gfortran
+            GFORTRAN_PATH=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/bin/gfortran
+            echo "Found gfortran at: $GFORTRAN_PATH"
+
+            echo "Checking gfortran architecture:"
+            file "$GFORTRAN_PATH"
+            lipo -info "$GFORTRAN_PATH" 2>/dev/null || echo "Not a fat binary"
+
+            echo "Checking libgfortran architecture:"
+            LIBGFORTRAN=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/lib/gcc/current/libgfortran.5.dylib
+            if [ -f "$LIBGFORTRAN" ]; then
+              lipo -info "$LIBGFORTRAN"
+            else
+              echo "Searching for libgfortran..."
+              find $(arch -x86_64 /usr/local/bin/brew --prefix gcc)/lib -name "libgfortran*.dylib" -exec sh -c 'echo "Found: {}"; lipo -info "{}"' \;
+            fi
+
+            # Export for later steps
+            echo "X86_GFORTRAN=$GFORTRAN_PATH" >> $GITHUB_ENV
+            echo "X86_GCC_PREFIX=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)" >> $GITHUB_ENV
+          else
+            echo "ERROR: Failed to install x86_64 Homebrew"
+            exit 1
+          fi
+
+      - name: Install ARM64 gfortran on macOS ARM runner
+        if: matrix.os == 'macos-latest'
+        run: |
           brew install gcc
-          # Find gfortran location
           GFORTRAN_PATH=$(brew --prefix gcc)/bin/gfortran
           echo "Installed gfortran at: $GFORTRAN_PATH"
-
-          # Check what architecture(s) it supports
           lipo -info "$GFORTRAN_PATH" || file "$GFORTRAN_PATH"
 
       - name: Build wheels (macOS Intel)
@@ -59,15 +118,24 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BUILD_VERBOSITY: 1
-          # Explicitly tell gfortran to build for x86_64, even on ARM64 hardware
+          # Use x86_64 gfortran explicitly
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=10.13
             ARCHFLAGS="-arch x86_64"
+            GFORTRAN_PATH=${{ env.X86_GFORTRAN }}
+            PATH=/usr/local/bin:$PATH
           CIBW_BEFORE_BUILD_MACOS: >
+            echo "===== Build Environment =====" &&
+            echo "GFORTRAN_PATH=$GFORTRAN_PATH" &&
+            echo "ARCHFLAGS=$ARCHFLAGS" &&
+            which gfortran &&
+            file $(which gfortran) &&
             python compile_fortran.py &&
-            echo "Checking h2o92.dylib architecture:" &&
+            echo "===== Compiled Library Architecture =====" &&
             file pychnosz/fortran/h2o92.dylib &&
-            lipo -info pychnosz/fortran/h2o92.dylib
+            lipo -info pychnosz/fortran/h2o92.dylib &&
+            echo "===== Linked Libraries =====" &&
+            otool -L pychnosz/fortran/h2o92.dylib
 
       - name: Build wheels (macOS ARM)
         if: matrix.os == 'macos-latest'
