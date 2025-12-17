@@ -71,6 +71,8 @@ def compile_fortran():
     if sys.platform == "darwin":
         # Check environment variable set by cibuildwheel
         archflags = os.environ.get('ARCHFLAGS', '')
+        print(f"ARCHFLAGS environment variable: '{archflags}'")
+
         if 'x86_64' in archflags:
             macos_arch = 'x86_64'
         elif 'arm64' in archflags:
@@ -81,6 +83,7 @@ def compile_fortran():
             machine = platform.machine()
             macos_arch = 'arm64' if machine == 'arm64' else 'x86_64'
         print(f"macOS target architecture: {macos_arch}")
+        print(f"Current machine architecture: {platform.machine()}")
 
     # gfortran doesn't recognize .f.orig extension, so copy to temp file with .f extension
     import tempfile
@@ -141,6 +144,19 @@ def compile_fortran():
             print(f"[OK] Successfully compiled {lib_name}")
             print(f"  Output: {output_file}")
             print(f"  Size: {output_file.stat().st_size / 1024:.1f} KB")
+
+            # Verify architecture on macOS
+            if sys.platform == "darwin":
+                print(f"Verifying architecture of compiled library...")
+                try:
+                    arch_check = subprocess.run(
+                        ["lipo", "-info", str(output_file)],
+                        capture_output=True,
+                        text=True
+                    )
+                    print(f"  lipo output: {arch_check.stdout.strip()}")
+                except FileNotFoundError:
+                    print(f"  Warning: lipo not found, skipping architecture check")
 
             return True
 

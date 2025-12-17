@@ -43,49 +43,31 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
 
-      - name: Install ARM64 gfortran on macOS ARM runner
-        if: matrix.os == 'macos-latest'
+      - name: Install gfortran on macOS
+        if: runner.os == 'macOS'
         run: |
           brew install gcc
+          # Find gfortran location
+          GFORTRAN_PATH=$(brew --prefix gcc)/bin/gfortran
+          echo "Installed gfortran at: $GFORTRAN_PATH"
 
-      - name: Install x86_64 gfortran on macOS Intel runner
-        if: matrix.os == 'macos-15-intel'
-        run: |
-          # Check current architecture
-          echo "Current architecture: $(uname -m)"
-
-          # Install x86_64 Homebrew if not present
-          if [ ! -f /usr/local/bin/brew ]; then
-            echo "Installing x86_64 Homebrew..."
-            arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || true
-          fi
-
-          # Install x86_64 gcc using Rosetta 2
-          if [ -f /usr/local/bin/brew ]; then
-            echo "Installing x86_64 gcc..."
-            arch -x86_64 /usr/local/bin/brew install gcc
-
-            # Find x86_64 gfortran and export its location
-            X86_GFORTRAN=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/bin/gfortran
-            echo "Found x86_64 gfortran at: $X86_GFORTRAN"
-            echo "GFORTRAN_X86=$X86_GFORTRAN" >> $GITHUB_ENV
-
-            # Verify architecture
-            arch -x86_64 file "$X86_GFORTRAN"
-          else
-            echo "ERROR: Failed to install x86_64 Homebrew"
-            exit 1
-          fi
+          # Check what architecture(s) it supports
+          lipo -info "$GFORTRAN_PATH" || file "$GFORTRAN_PATH"
 
       - name: Build wheels (macOS Intel)
         if: matrix.os == 'macos-15-intel'
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BUILD_VERBOSITY: 1
+          # Explicitly tell gfortran to build for x86_64, even on ARM64 hardware
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=10.13
             ARCHFLAGS="-arch x86_64"
-            GFORTRAN_PATH=${{ env.GFORTRAN_X86 }}
+          CIBW_BEFORE_BUILD_MACOS: >
+            python compile_fortran.py &&
+            echo "Checking h2o92.dylib architecture:" &&
+            file pychnosz/fortran/h2o92.dylib &&
+            lipo -info pychnosz/fortran/h2o92.dylib
 
       - name: Build wheels (macOS ARM)
         if: matrix.os == 'macos-latest'
@@ -95,6 +77,7 @@ jobs:
           CIBW_ENVIRONMENT_MACOS: >
             MACOSX_DEPLOYMENT_TARGET=10.13
             ARCHFLAGS="-arch arm64"
+          CIBW_BEFORE_BUILD_MACOS: python compile_fortran.py
 
       - name: Build wheels (Linux/Windows)
         if: runner.os != 'macOS'
