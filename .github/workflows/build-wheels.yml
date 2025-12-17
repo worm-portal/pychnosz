@@ -43,6 +43,16 @@ jobs:
           install: >-
             mingw-w64-x86_64-gcc-fortran
 
+      - name: Install x86_64 gfortran on macOS Intel runner
+        if: matrix.os == 'macos-15-intel'
+        run: |
+          # Install x86_64 Homebrew under Rosetta 2
+          arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || true
+          # Install x86_64 gcc
+          arch -x86_64 /usr/local/bin/brew install gcc
+          # Add to PATH
+          echo "/usr/local/bin" >> $GITHUB_PATH
+
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
