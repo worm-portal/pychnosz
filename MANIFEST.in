@@ -4,6 +4,9 @@ include LICENSE.txt
 include CITATION.cff
 include pyproject.toml
 
+# Include compilation script (needed for building wheels)
+include compile_fortran.py
+
 # Include HTML documentation
 recursive-include html *.html *.css *.js
 
@@ -11,8 +14,11 @@ recursive-include html *.html *.css *.js
 recursive-include pychnosz/data/extdata *.csv *.csv.gz *.csv.xz *.json
 recursive-include pychnosz/data *.csv *.csv.gz *.json
 
-# Include fortran binaries
-recursive-include pychnosz/fortran *.so *.dll *.dylib
+# Include Fortran source files (will be compiled during wheel build)
+recursive-include pychnosz/data/extdata/src *.f *.f90 *.for *.f.orig
+
+# NOTE: Fortran binaries (*.so, *.dll, *.dylib) are NOT included in the source distribution
+# They are compiled during the wheel build process via compile_fortran.py
 
 # Exclude test files and development artifacts
 prune test

@@ -1,0 +1,6 @@
+# Ignore compiled Fortran binaries (they are built during wheel creation)
+*.so
+*.dll
+*.dylib
+*.o
+*.mod

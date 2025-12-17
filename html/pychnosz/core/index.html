@@ -2881,8 +2881,8 @@ Required when global_state=False and basis is not defined globally</dd>
 </code></pre></div>
 </dd>
 <dt id="pychnosz.core.subcrt"><code class="name flex">
-<span>def <span class="ident">subcrt</span></span>(<span>species: str | List[str] | int | List[int],<br>coeff: int | float | List[int | float] | None = 1,<br>state: str | List[str] | None = None,<br>property: List[str] = ['logK', 'G', 'H', 'S', 'V', 'Cp'],<br>T: float | numpy.ndarray | List[float] = array([273.16, 298.16, 323.16, 348.16, 373.16, 398.16, 423.16, 448.16,
-473.16, 498.16, 523.16, 548.16, 573.16, 598.16]),<br>P: float | List[float] | numpy.ndarray | str = 'Psat',<br>grid: str | None = None,<br>convert: bool = True,<br>exceed_Ttr: bool = True,<br>exceed_rhomin: bool = False,<br>logact: List[float] | None = None,<br>autobalance: bool = True,<br>use_polymorphs: bool = True,<br>IS: float | List[float] = 0,<br>messages: bool = True,<br>show: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None) ‑> pychnosz.core.subcrt.SubcrtResult</span>
+<span>def <span class="ident">subcrt</span></span>(<span>species: str | List[str] | int | List[int],<br>coeff: int | float | List[int | float] | None = 1,<br>state: str | List[str] | None = None,<br>property: List[str] = ['logK', 'G', 'H', 'S', 'V', 'Cp'],<br>T: float | numpy.ndarray | List[float] = array([273.16, 298.15, 323.15, 348.15, 373.15, 398.15, 423.15, 448.15,
+473.15, 498.15, 523.15, 548.15, 573.15, 598.15, 623.15]),<br>P: float | List[float] | numpy.ndarray | str = 'Psat',<br>grid: str | None = None,<br>convert: bool = True,<br>exceed_Ttr: bool = True,<br>exceed_rhomin: bool = False,<br>logact: List[float] | None = None,<br>autobalance: bool = True,<br>use_polymorphs: bool = True,<br>IS: float | List[float] = 0,<br>messages: bool = True,<br>show: bool = True,<br>basis: pandas.core.frame.DataFrame | None = None) ‑> pychnosz.core.subcrt.SubcrtResult</span>
 </code></dt>
 <dd>
 <details class="source">
@@ -2893,7 +2893,7 @@ Required when global_state=False and basis is not defined globally</dd>
            coeff: Union[int, float, List[Union[int, float]], None] = 1,
            state: Optional[Union[str, List[str]]] = None,
            property: List[str] = [&#34;logK&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;V&#34;, &#34;Cp&#34;],
-           T: Union[float, List[float], np.ndarray] = np.arange(273.16, 623.16, 25),
+           T: Union[float, List[float], np.ndarray] = np.concatenate([[273.16], 273.15 + np.arange(25, 351, 25)]),
            P: Union[float, List[float], np.ndarray, str] = &#34;Psat&#34;,
            grid: Optional[str] = None,
            convert: bool = True,
@@ -2926,7 +2926,7 @@ Required when global_state=False and basis is not defined globally</dd>
     property : list of str
         Properties to calculate: &#34;logK&#34;, &#34;G&#34;, &#34;H&#34;, &#34;S&#34;, &#34;V&#34;, &#34;Cp&#34;, &#34;rho&#34;, &#34;kT&#34;, &#34;E&#34;
     T : float, list, or ndarray
-        Temperature(s) in K (default: 273.15 to 623.15 by 25 K)
+        Temperature(s) in K (default: 273.16, then 298.15 to 623.15 by 25 K)
     P : float, list, ndarray, or &#34;Psat&#34;
         Pressure(s) in bar or &#34;Psat&#34; for saturation pressure
     grid : str or None
@@ -3065,8 +3065,9 @@ Required when global_state=False and basis is not defined globally</dd>
         T_array = np.atleast_1d(np.asarray(T, dtype=float))
         # Convert temperature to Kelvin if convert=True (matching R CHNOSZ behavior)
         # R: if(convert) T &lt;- envert(T, &#34;K&#34;) - converts Celsius input to Kelvin
-        # Default parameter np.arange(273.16, 623.16, 25) is already in K, so only convert user input
-        if convert and not np.array_equal(T_array, np.arange(273.16, 623.16, 25)[:len(T_array)]):
+        # Default parameter is [273.16, 298.15, 323.15, ..., 623.15] which is already in K, so only convert user input
+        default_T = np.concatenate([[273.16], 273.15 + np.arange(25, 351, 25)])
+        if convert and not np.array_equal(T_array, default_T[:len(T_array)]):
             # User provided temperature, assume Celsius and convert to Kelvin
             T_array = T_array + 273.15
 
@@ -3244,7 +3245,7 @@ If list, calculate reaction with given coefficients</dd>
 <dt><strong><code>property</code></strong> :&ensp;<code>list</code> of <code>str</code></dt>
 <dd>Properties to calculate: "logK", "G", "H", "S", "V", "Cp", "rho", "kT", "E"</dd>
 <dt><strong><code>T</code></strong> :&ensp;<code>float, list,</code> or <code>ndarray</code></dt>
-<dd>Temperature(s) in K (default: 273.15 to 623.15 by 25 K)</dd>
+<dd>Temperature(s) in K (default: 273.16, then 298.15 to 623.15 by 25 K)</dd>
 <dt><strong><code>P</code></strong> :&ensp;<code>float, list, ndarray,</code> or <code>"Psat"</code></dt>
 <dd>Pressure(s) in bar or "Psat" for saturation pressure</dd>
 <dt><strong><code>grid</code></strong> :&ensp;<code>str</code> or <code>None</code></dt>

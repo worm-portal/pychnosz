@@ -75,6 +75,7 @@ packages = ["pychnosz", "pychnosz.core", "pychnosz.models", "pychnosz.utils", "p
 
 [tool.setuptools.package-data]
 "pychnosz.data" = ["*.csv", "*.csv.gz", "*.json", "extdata/**/*"]
+# Fortran binaries are compiled during build, so we need to include them in the wheel
 "pychnosz.fortran" = ["*.so", "*.dll", "*.dylib"]
 
 [tool.black]
@@ -93,3 +94,53 @@ python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "--cov=pychnosz --cov-report=term-missing"
+
+[tool.cibuildwheel]
+# Build for Python 3.10, 3.11, and 3.12
+build = "cp310-* cp311-* cp312-*"
+
+# Skip 32-bit builds and PyPy
+skip = "*-win32 *-manylinux_i686 pp*"
+
+# Build for these platforms
+# manylinux: Linux with glibc (x86_64, aarch64)
+# musllinux: Linux with musl (x86_64, aarch64)
+# macosx: macOS (x86_64, arm64 for Apple Silicon)
+# win: Windows (amd64)
+build-verbosity = 1
+
+# Before building the wheel, compile the Fortran library
+before-build = "python compile_fortran.py"
+
+# Test the wheel after building
+test-requires = "pytest numpy pandas scipy matplotlib"
+test-command = "python -c 'import pychnosz; from pychnosz.fortran import get_h2o92_interface; h2o = get_h2o92_interface(); props = h2o.calculate_properties(298.15, 1.0); print(f\"Test passed: rho={props[\"rho\"]:.1f}\")'"
+
+# Platform-specific settings
+[tool.cibuildwheel.linux]
+# Install gfortran before building
+before-all = "yum install -y gcc-gfortran || apk add gfortran || apt-get update && apt-get install -y gfortran"
+
+# Use manylinux2014 (supports older Linux systems)
+manylinux-x86_64-image = "manylinux2014"
+manylinux-aarch64-image = "manylinux2014"
+musllinux-x86_64-image = "musllinux_1_1"
+musllinux-aarch64-image = "musllinux_1_1"
+
+[tool.cibuildwheel.macos]
+# Install gfortran via Homebrew (already available on GitHub Actions macOS runners)
+before-all = "brew install gcc || true"
+
+# Build for both Intel and Apple Silicon
+archs = "x86_64 arm64"
+
+# Set deployment target for compatibility
+environment = { MACOSX_DEPLOYMENT_TARGET = "10.13" }
+
+[tool.cibuildwheel.windows]
+# Install MinGW with gfortran for Windows builds
+# This assumes the GitHub Actions Windows runner has it available
+before-all = "choco install mingw -y || echo MinGW already installed"
+
+# Only build for 64-bit Windows
+archs = "AMD64"
