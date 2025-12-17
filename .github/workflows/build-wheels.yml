@@ -19,8 +19,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # macos-13 and macos-14 build both Intel and ARM wheels
-        os: [ubuntu-latest, windows-latest, macos-13]
+        # Use ubuntu and macOS latest, windows-2019 for better MinGW support
+        os: [ubuntu-latest, windows-2019, macos-13]
 
     steps:
       - uses: actions/checkout@v4
@@ -38,6 +38,12 @@ jobs:
         env:
           # Increase build verbosity for debugging
           CIBW_BUILD_VERBOSITY: 1
+          # Install gfortran on Linux before building
+          CIBW_BEFORE_ALL_LINUX: "dnf install -y gcc-gfortran || yum install -y gcc-gfortran || apt-get update && apt-get install -y gfortran"
+          # Install gcc on macOS (includes gfortran)
+          CIBW_BEFORE_ALL_MACOS: "brew install gcc || true"
+          # Install MinGW on Windows
+          CIBW_BEFORE_ALL_WINDOWS: "choco install mingw -y --force || echo MinGW may already be installed"
 
       - name: Upload wheels
         uses: actions/upload-artifact@v4

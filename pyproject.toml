@@ -121,24 +121,16 @@ test-command = "python -c \"import pychnosz; from pychnosz.fortran import get_h2
 # Use manylinux_2_28 (AlmaLinux 8, has dnf and better package support)
 manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
-
-# Install gfortran before building (manylinux_2_28 uses dnf)
-before-all = "dnf install -y gcc-gfortran"
+# gfortran installation is handled via CIBW_BEFORE_ALL_LINUX in GitHub Actions
 
 [tool.cibuildwheel.macos]
-# Install gfortran via Homebrew (already available on GitHub Actions macOS runners)
-before-all = "brew install gcc || true"
-
 # Build for both Intel and Apple Silicon
 archs = "x86_64 arm64"
-
 # Set deployment target for compatibility
 environment = { MACOSX_DEPLOYMENT_TARGET = "10.13" }
+# gfortran installation is handled via CIBW_BEFORE_ALL_MACOS in GitHub Actions
 
 [tool.cibuildwheel.windows]
-# Install MinGW with gfortran for Windows builds
-# This assumes the GitHub Actions Windows runner has it available
-before-all = "choco install mingw -y || echo MinGW already installed"
-
 # Only build for 64-bit Windows
 archs = "AMD64"
+# MinGW installation is handled via CIBW_BEFORE_ALL_WINDOWS in GitHub Actions
