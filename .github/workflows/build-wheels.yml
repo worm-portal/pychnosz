@@ -122,7 +122,7 @@ jobs:
           CIBW_ARCHS_MACOS: x86_64
           # Use x86_64 gfortran explicitly
           CIBW_ENVIRONMENT_MACOS: >
-            MACOSX_DEPLOYMENT_TARGET=10.13
+            MACOSX_DEPLOYMENT_TARGET=11.0
             ARCHFLAGS="-arch x86_64"
             GFORTRAN_PATH=${{ env.X86_GFORTRAN }}
           CIBW_BEFORE_BUILD_MACOS: >
@@ -145,7 +145,7 @@ jobs:
           # CRITICAL: Only build arm64 on this runner
           CIBW_ARCHS_MACOS: arm64
           CIBW_ENVIRONMENT_MACOS: >
-            MACOSX_DEPLOYMENT_TARGET=10.13
+            MACOSX_DEPLOYMENT_TARGET=15.0
             ARCHFLAGS="-arch arm64"
           CIBW_BEFORE_BUILD_MACOS: python compile_fortran.py
 
