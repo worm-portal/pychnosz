@@ -1444,12 +1444,8 @@ def _sum_reaction_properties(properties_data, coefficients):
                         if not np.isnan(species_values).all():
                             G_sum += coeff * species_values
                             all_nan = False
-                if need_G_for_logK:
-                    # Store G temporarily but we'll remove it later
-                    reaction_data['G'] = G_sum if not all_nan else np.full(n_conditions, np.nan)
-                else:
-                    # G was already added, use it
-                    pass
+                # Always store G in reaction_data so logK can use it
+                reaction_data['G'] = G_sum if not all_nan else np.full(n_conditions, np.nan)
 
             # Now calculate logK from G
             G_values = reaction_data.get('G', np.full(n_conditions, np.nan))
