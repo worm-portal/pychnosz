@@ -98,13 +98,14 @@ def dissrxn2logK(OBIGT, i, Tc):
     coeff = [float(n) for n in split_dissrxn[::2]]
     species = split_dissrxn[1::2]
     try:
-        G = sum([c * float(OBIGT.loc[OBIGT["name"]==sp, "G_TP"].iloc[0]) for c,sp in zip(coeff, species)])
+        # Use .values[0] to ensure we get a numpy scalar, then convert to Python float
+        G = sum([c * float(OBIGT.loc[OBIGT["name"]==sp, "G_TP"].values[0]) for c,sp in zip(coeff, species)])
     except:
         G_list = []
         for ii, sp in enumerate(species):
             G_TP = OBIGT.loc[OBIGT["name"]==sp, "G_TP"]
             if len(G_TP) == 1:
-                G_list.append(coeff[ii] * float(OBIGT.loc[OBIGT["name"]==sp, "G_TP"].iloc[0]))
+                G_list.append(coeff[ii] * float(OBIGT.loc[OBIGT["name"]==sp, "G_TP"].values[0]))
             else:
                 ### check valid polymorph T
 
@@ -120,10 +121,10 @@ def dissrxn2logK(OBIGT, i, Tc):
                 for iii,t in enumerate(z_Ts):
 
                     if Tc+273.15 > last_t and Tc+273.15 < t:
-                        G_list.append(coeff[ii] * float(list(poly_df.loc[poly_df["name"]==sp, "G_TP"])[iii]))
+                        G_list.append(coeff[ii] * float(poly_df.loc[poly_df["name"]==sp, "G_TP"].values[iii]))
                         appended=True
                     if not appended and z_Ts[-1] == t:
-                        G_list.append(coeff[ii] * float(list(poly_df.loc[poly_df["name"]==sp, "G_TP"])[iii]))
+                        G_list.append(coeff[ii] * float(poly_df.loc[poly_df["name"]==sp, "G_TP"].values[iii]))
                     last_t = t
 
         G = sum(G_list)
