@@ -7,6 +7,9 @@ include pyproject.toml
 # Include compilation script (needed for building wheels)
 include compile_fortran.py
 
+# Include integration test script (needed for wheel testing)
+include test_integration.py
+
 # Include HTML documentation
 recursive-include html *.html *.css *.js
 

@@ -115,7 +115,7 @@ before-build = "python compile_fortran.py"
 
 # Test the wheel after building
 test-requires = "pytest numpy pandas scipy matplotlib"
-test-command = "python -c \"import pychnosz; from pychnosz.fortran import get_h2o92_interface; h2o = get_h2o92_interface(); props = h2o.calculate_properties(298.15, 1.0); print('Test passed: rho=' + str(props['rho']))\""
+test-command = "python {project}/test_integration.py"
 
 # Platform-specific settings
 [tool.cibuildwheel.linux]
