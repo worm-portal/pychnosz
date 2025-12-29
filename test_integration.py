@@ -49,45 +49,28 @@ def test_fortran_interface():
 def test_hkf_helpers():
     """Test HKF helper functions (used by aqequil)."""
     print("\n" + "=" * 60)
-    print("Test 3: HKF helpers (calc_logK, dissrxn2logK)")
+    print("Test 3: HKF helpers (subcrt function)")
     print("=" * 60)
 
     try:
-        import pandas as pd
-        from pychnosz.models.hkf_helpers import calc_logK, dissrxn2logK
-        from pychnosz.core import thermo
-
-        print("Loading OBIGT database...")
-        # Get the ThermoSystem and access its OBIGT dataframe
-        ts = thermo()
-        obigt = ts.OBIGT
-
-        # Create a simple test case with a mineral dissociation reaction
-        # Use quartz (SiO2) which has a well-defined dissrxn
-        print("Testing dissrxn2logK with a known mineral...")
-
-        # Get quartz entry from OBIGT
-        quartz_idx = obigt[obigt["name"] == "quartz"].index[0]
-
-        # Calculate at standard conditions (25°C)
-        Tc = 25.0
-
-        # This should work without throwing TypeError
-        logK = dissrxn2logK(obigt, quartz_idx, Tc)
-
-        if pd.isna(logK):
-            print(f"[OK] dissrxn2logK returned NaN (expected for quartz with no dissrxn)")
-        else:
-            print(f"[OK] dissrxn2logK calculated logK = {logK}")
-
-        # Test calc_logK with OBIGT at temperature/pressure
-        print("Testing calc_logK with temperature and pressure...")
+        # Test the subcrt function which internally uses calc_logK and dissrxn2logK
+        # This is the main function that aqequil actually uses
         from pychnosz.models import subcrt
 
+        print("Testing subcrt with quartz at elevated temperature...")
+
         # Calculate properties at T=100°C, P=1 bar
+        # This internally calls calc_logK which calls dissrxn2logK
+        # If there's a pandas/numpy compatibility issue, it will fail here
         result = subcrt.subcrt(["quartz"], T=100, P=1, exceed_Ttr=True)
 
-        print(f"[OK] subcrt calculation completed")
+        print(f"[OK] subcrt calculation completed successfully")
+
+        # Test with a simple aqueous species
+        print("Testing subcrt with aqueous species...")
+        result2 = subcrt.subcrt(["H2O", "H+", "OH-"], T=[25, 100], P=1)
+
+        print(f"[OK] Aqueous species calculation completed successfully")
 
         return True
 
