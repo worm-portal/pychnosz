@@ -51,44 +51,46 @@ def test_hkf_helpers():
     print("\n" + "=" * 60)
     print("Test 3: HKF helpers (calc_logK, dissrxn2logK)")
     print("=" * 60)
-    
+
     try:
         import pandas as pd
         from pychnosz.models.hkf_helpers import calc_logK, dissrxn2logK
         from pychnosz.core import thermo
-        
+
         print("Loading OBIGT database...")
-        obigt = thermo()
-        
+        # Get the ThermoSystem and access its OBIGT dataframe
+        ts = thermo()
+        obigt = ts.OBIGT
+
         # Create a simple test case with a mineral dissociation reaction
         # Use quartz (SiO2) which has a well-defined dissrxn
         print("Testing dissrxn2logK with a known mineral...")
-        
+
         # Get quartz entry from OBIGT
         quartz_idx = obigt[obigt["name"] == "quartz"].index[0]
-        
+
         # Calculate at standard conditions (25°C)
         Tc = 25.0
-        
+
         # This should work without throwing TypeError
         logK = dissrxn2logK(obigt, quartz_idx, Tc)
-        
+
         if pd.isna(logK):
             print(f"[OK] dissrxn2logK returned NaN (expected for quartz with no dissrxn)")
         else:
             print(f"[OK] dissrxn2logK calculated logK = {logK}")
-        
+
         # Test calc_logK with OBIGT at temperature/pressure
         print("Testing calc_logK with temperature and pressure...")
         from pychnosz.models import subcrt
-        
+
         # Calculate properties at T=100°C, P=1 bar
         result = subcrt.subcrt(["quartz"], T=100, P=1, exceed_Ttr=True)
-        
+
         print(f"[OK] subcrt calculation completed")
-        
+
         return True
-        
+
     except TypeError as e:
         if "only 0-dimensional arrays" in str(e):
             print(f"[FAIL] Pandas/numpy compatibility error: {e}")
