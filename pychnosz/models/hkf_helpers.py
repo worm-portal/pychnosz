@@ -104,7 +104,7 @@ def dissrxn2logK(OBIGT, i, Tc):
         for ii, sp in enumerate(species):
             G_TP = OBIGT.loc[OBIGT["name"]==sp, "G_TP"]
             if len(G_TP) == 1:
-                G_list.append(float(coeff[ii]*OBIGT.loc[OBIGT["name"]==sp, "G_TP"]))
+                G_list.append(float(coeff[ii]*OBIGT.loc[OBIGT["name"]==sp, "G_TP"].iloc[0]))
             else:
                 ### check valid polymorph T
 
