@@ -1,0 +1,46 @@
+﻿2025-12-29T00:58:01.4783735Z Current runner version: '2.330.0'
+2025-12-29T00:58:01.4832534Z ##[group]Runner Image Provisioner
+2025-12-29T00:58:01.4833262Z Hosted Compute Agent
+2025-12-29T00:58:01.4833752Z Version: 20251202.455
+2025-12-29T00:58:01.4834266Z Commit: 6c10caca4910e198df60de23adf20ad317c474e3
+2025-12-29T00:58:01.4834844Z Build Date: 2025-12-02T15:56:59Z
+2025-12-29T00:58:01.4835413Z Worker ID: {67141fb4-93af-4ce4-8779-7b0d8c5db5b6}
+2025-12-29T00:58:01.4835969Z ##[endgroup]
+2025-12-29T00:58:01.4836404Z ##[group]Operating System
+2025-12-29T00:58:01.4836914Z Microsoft Windows Server 2019
+2025-12-29T00:58:01.4837372Z 10.0.17763
+2025-12-29T00:58:01.4837758Z Datacenter
+2025-12-29T00:58:01.4838125Z ##[endgroup]
+2025-12-29T00:58:01.4838531Z ##[group]Runner Image
+2025-12-29T00:58:01.4838956Z Image: windows-2019
+2025-12-29T00:58:01.4839383Z Version: 20250623.2.0
+2025-12-29T00:58:01.4840263Z Included Software: https://github.com/actions/runner-images/blob/win19/20250623.2/images/windows/Windows2019-Readme.md
+2025-12-29T00:58:01.4841931Z Image Release: https://github.com/actions/runner-images/releases/tag/win19%2F20250623.2
+2025-12-29T00:58:01.4842700Z ##[endgroup]
+2025-12-29T00:58:01.4845652Z ##[group]GITHUB_TOKEN Permissions
+2025-12-29T00:58:01.4847668Z Actions: write
+2025-12-29T00:58:01.4848163Z ArtifactMetadata: write
+2025-12-29T00:58:01.4848613Z Attestations: write
+2025-12-29T00:58:01.4849077Z Checks: write
+2025-12-29T00:58:01.4849457Z Contents: write
+2025-12-29T00:58:01.4849861Z Deployments: write
+2025-12-29T00:58:01.4850302Z Discussions: write
+2025-12-29T00:58:01.4850689Z Issues: write
+2025-12-29T00:58:01.4851078Z Metadata: read
+2025-12-29T00:58:01.4851477Z Models: read
+2025-12-29T00:58:01.4851882Z Packages: write
+2025-12-29T00:58:01.4852274Z Pages: write
+2025-12-29T00:58:01.4852686Z PullRequests: write
+2025-12-29T00:58:01.4853191Z RepositoryProjects: write
+2025-12-29T00:58:01.4853656Z SecurityEvents: write
+2025-12-29T00:58:01.4854107Z Statuses: write
+2025-12-29T00:58:01.4854513Z ##[endgroup]
+2025-12-29T00:58:01.4856664Z Secret source: Actions
+2025-12-29T00:58:01.4857305Z Prepare workflow directory
+2025-12-29T00:58:01.5180403Z Prepare all required actions
+2025-12-29T00:58:01.5216418Z Getting action download info
+2025-12-29T00:58:01.8512087Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2025-12-29T00:58:02.4544656Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2025-12-29T00:58:03.1378999Z Download action repository 'msys2/setup-msys2@v2' (SHA:4f806de0a5a7294ffabaff804b38a9b435a73bda)
+2025-12-29T00:58:03.6741977Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-12-29T00:58:03.9994673Z Complete job name: Build wheels on windows-2019

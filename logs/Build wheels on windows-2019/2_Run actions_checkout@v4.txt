@@ -1,0 +1,59 @@
+﻿2025-12-29T00:58:04.1432984Z ##[group]Run actions/checkout@v4
+2025-12-29T00:58:04.1434131Z with:
+2025-12-29T00:58:04.1434581Z   repository: worm-portal/pychnosz
+2025-12-29T00:58:04.1435305Z   token: ***
+2025-12-29T00:58:04.1435698Z   ssh-strict: true
+2025-12-29T00:58:04.1436153Z   ssh-user: git
+2025-12-29T00:58:04.1436546Z   persist-credentials: true
+2025-12-29T00:58:04.1436976Z   clean: true
+2025-12-29T00:58:04.1437427Z   sparse-checkout-cone-mode: true
+2025-12-29T00:58:04.1437872Z   fetch-depth: 1
+2025-12-29T00:58:04.1438218Z   fetch-tags: false
+2025-12-29T00:58:04.1438548Z   show-progress: true
+2025-12-29T00:58:04.1438889Z   lfs: false
+2025-12-29T00:58:04.1439162Z   submodules: false
+2025-12-29T00:58:04.1439526Z   set-safe-directory: true
+2025-12-29T00:58:04.1440088Z ##[endgroup]
+2025-12-29T00:58:04.3038631Z Syncing repository: worm-portal/pychnosz
+2025-12-29T00:58:04.3040713Z ##[group]Getting Git version info
+2025-12-29T00:58:04.3041300Z Working directory is 'D:\a\pychnosz\pychnosz'
+2025-12-29T00:58:04.3943439Z [command]"C:\Program Files\Git\bin\git.exe" version
+2025-12-29T00:58:04.7921894Z git version 2.50.0.windows.1
+2025-12-29T00:58:04.8035350Z ##[endgroup]
+2025-12-29T00:58:04.8057436Z Temporarily overriding HOME='D:\a\_temp\64612c55-ef36-43e5-97a5-69df5b423b7c' before making global git config changes
+2025-12-29T00:58:04.8059376Z Adding repository directory to the temporary git global config as a safe directory
+2025-12-29T00:58:04.8074983Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\pychnosz\pychnosz
+2025-12-29T00:58:04.8648406Z Deleting the contents of 'D:\a\pychnosz\pychnosz'
+2025-12-29T00:58:04.8654571Z ##[group]Initializing the repository
+2025-12-29T00:58:04.8667885Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\pychnosz\pychnosz
+2025-12-29T00:58:04.9543336Z Initialized empty Git repository in D:/a/pychnosz/pychnosz/.git/
+2025-12-29T00:58:04.9603332Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/worm-portal/pychnosz
+2025-12-29T00:58:05.0189362Z ##[endgroup]
+2025-12-29T00:58:05.0190061Z ##[group]Disabling automatic garbage collection
+2025-12-29T00:58:05.0210190Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2025-12-29T00:58:05.0469294Z ##[endgroup]
+2025-12-29T00:58:05.0470214Z ##[group]Setting up auth
+2025-12-29T00:58:05.0487604Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-12-29T00:58:05.0762556Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-12-29T00:58:06.5208967Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-12-29T00:58:06.5480441Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-12-29T00:58:06.9710696Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-12-29T00:58:06.9962753Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2025-12-29T00:58:07.3958345Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-12-29T00:58:07.4215310Z ##[endgroup]
+2025-12-29T00:58:07.4216336Z ##[group]Fetching the repository
+2025-12-29T00:58:07.4233546Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e4cddf586dd1ac67f57348a0fbd1a8a9c293c930:refs/remotes/origin/master
+2025-12-29T00:58:08.5994065Z From https://github.com/worm-portal/pychnosz
+2025-12-29T00:58:08.5994977Z  * [new ref]         e4cddf586dd1ac67f57348a0fbd1a8a9c293c930 -> origin/master
+2025-12-29T00:58:08.6262543Z ##[endgroup]
+2025-12-29T00:58:08.6263039Z ##[group]Determining the checkout info
+2025-12-29T00:58:08.6264869Z ##[endgroup]
+2025-12-29T00:58:08.6278406Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2025-12-29T00:58:08.6662175Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-12-29T00:58:08.6913023Z ##[group]Checking out the ref
+2025-12-29T00:58:08.6926295Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B master refs/remotes/origin/master
+2025-12-29T00:58:08.8039615Z branch 'master' set up to track 'origin/master'.
+2025-12-29T00:58:08.8043436Z Reset branch 'master'
+2025-12-29T00:58:08.8086763Z ##[endgroup]
+2025-12-29T00:58:08.8452047Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2025-12-29T00:58:08.8662724Z e4cddf586dd1ac67f57348a0fbd1a8a9c293c930

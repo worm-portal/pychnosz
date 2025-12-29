@@ -1,0 +1,71 @@
+﻿2025-12-29T00:58:10.8678820Z ##[group]Run echo "===== Installing x86_64 Homebrew and gfortran ====="
+2025-12-29T00:58:10.8679900Z [36;1mecho "===== Installing x86_64 Homebrew and gfortran ====="[0m
+2025-12-29T00:58:10.8680530Z [36;1m[0m
+2025-12-29T00:58:10.8681000Z [36;1m# Remove ARM64 brew from PATH to avoid confusion[0m
+2025-12-29T00:58:10.8681760Z [36;1mexport PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"[0m
+2025-12-29T00:58:10.8682380Z [36;1m[0m
+2025-12-29T00:58:10.8682760Z [36;1m# Install x86_64 Homebrew if needed[0m
+2025-12-29T00:58:10.8683300Z [36;1mif [ ! -f /usr/local/bin/brew ]; then[0m
+2025-12-29T00:58:10.8683880Z [36;1m  echo "Installing x86_64 Homebrew..."[0m
+2025-12-29T00:58:10.8684980Z [36;1m  arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"[0m
+2025-12-29T00:58:10.8685970Z [36;1mfi[0m
+2025-12-29T00:58:10.8686310Z [36;1m[0m
+2025-12-29T00:58:10.8686630Z [36;1m# Verify x86_64 Homebrew[0m
+2025-12-29T00:58:10.8687130Z [36;1mif [ -f /usr/local/bin/brew ]; then[0m
+2025-12-29T00:58:10.8687750Z [36;1m  echo "x86_64 Homebrew installed"[0m
+2025-12-29T00:58:10.8688290Z [36;1m  arch -x86_64 /usr/local/bin/brew --version[0m
+2025-12-29T00:58:10.8688810Z [36;1m[0m
+2025-12-29T00:58:10.8689140Z [36;1m  # Install gcc[0m
+2025-12-29T00:58:10.8689550Z [36;1m  echo "Installing x86_64 gcc..."[0m
+2025-12-29T00:58:10.8690120Z [36;1m  arch -x86_64 /usr/local/bin/brew install gcc[0m
+2025-12-29T00:58:10.8690630Z [36;1m[0m
+2025-12-29T00:58:10.8690970Z [36;1m  # Find and verify gfortran[0m
+2025-12-29T00:58:10.8691690Z [36;1m  GFORTRAN_PATH=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/bin/gfortran[0m
+2025-12-29T00:58:10.8693460Z [36;1m  echo "Found gfortran at: $GFORTRAN_PATH"[0m
+2025-12-29T00:58:10.8694070Z [36;1m[0m
+2025-12-29T00:58:10.8694460Z [36;1m  echo "Checking gfortran architecture:"[0m
+2025-12-29T00:58:10.8695030Z [36;1m  file "$GFORTRAN_PATH"[0m
+2025-12-29T00:58:10.8695650Z [36;1m  lipo -info "$GFORTRAN_PATH" 2>/dev/null || echo "Not a fat binary"[0m
+2025-12-29T00:58:10.8696510Z [36;1m[0m
+2025-12-29T00:58:10.8696930Z [36;1m  echo "Checking libgfortran architecture:"[0m
+2025-12-29T00:58:10.8698190Z [36;1m  LIBGFORTRAN=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)/lib/gcc/current/libgfortran.5.dylib[0m
+2025-12-29T00:58:10.8699200Z [36;1m  if [ -f "$LIBGFORTRAN" ]; then[0m
+2025-12-29T00:58:10.8699740Z [36;1m    lipo -info "$LIBGFORTRAN"[0m
+2025-12-29T00:58:10.8700230Z [36;1m  else[0m
+2025-12-29T00:58:10.8700630Z [36;1m    echo "Searching for libgfortran..."[0m
+2025-12-29T00:58:10.8701800Z [36;1m    find $(arch -x86_64 /usr/local/bin/brew --prefix gcc)/lib -name "libgfortran*.dylib" -exec sh -c 'echo "Found: {}"; lipo -info "{}"' \;[0m
+2025-12-29T00:58:10.8703250Z [36;1m  fi[0m
+2025-12-29T00:58:10.8703770Z [36;1m[0m
+2025-12-29T00:58:10.8704460Z [36;1m  # Export for later steps[0m
+2025-12-29T00:58:10.8705030Z [36;1m  echo "X86_GFORTRAN=$GFORTRAN_PATH" >> $GITHUB_ENV[0m
+2025-12-29T00:58:10.8705930Z [36;1m  echo "X86_GCC_PREFIX=$(arch -x86_64 /usr/local/bin/brew --prefix gcc)" >> $GITHUB_ENV[0m
+2025-12-29T00:58:10.8706750Z [36;1melse[0m
+2025-12-29T00:58:10.8707170Z [36;1m  echo "ERROR: Failed to install x86_64 Homebrew"[0m
+2025-12-29T00:58:10.8708390Z [36;1m  exit 1[0m
+2025-12-29T00:58:10.8708750Z [36;1mfi[0m
+2025-12-29T00:58:10.8772680Z shell: /bin/bash -e {0}
+2025-12-29T00:58:10.8773260Z env:
+2025-12-29T00:58:10.8773800Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:10.8774680Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/x64/lib/pkgconfig
+2025-12-29T00:58:10.8775600Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:10.8776420Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:10.8777240Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:10.8777970Z ##[endgroup]
+2025-12-29T00:58:10.8958070Z ===== Installing x86_64 Homebrew and gfortran =====
+2025-12-29T00:58:10.8959880Z x86_64 Homebrew installed
+2025-12-29T00:58:11.1313410Z Homebrew 5.0.5
+2025-12-29T00:58:11.2848810Z Homebrew/homebrew-core (git revision 12f3c49a843; last commit 2025-12-16)
+2025-12-29T00:58:11.4298290Z Homebrew/homebrew-cask (git revision 2316eebdafd; last commit 2025-12-16)
+2025-12-29T00:58:11.4300270Z Installing x86_64 gcc...
+2025-12-29T00:58:16.2298900Z ✔︎ JSON API formula_tap_migrations.jws.json
+2025-12-29T00:58:16.2299840Z ✔︎ JSON API cask_tap_migrations.jws.json
+2025-12-29T00:58:17.7049270Z ##[warning]gcc 15.2.0 is already installed and up-to-date.
+To reinstall 15.2.0, run:
+  brew reinstall gcc
+
+2025-12-29T00:58:17.8320970Z Found gfortran at: /usr/local/opt/gcc/bin/gfortran
+2025-12-29T00:58:17.8321820Z Checking gfortran architecture:
+2025-12-29T00:58:17.8427970Z /usr/local/opt/gcc/bin/gfortran: Mach-O 64-bit executable x86_64
+2025-12-29T00:58:18.6658360Z Non-fat file: /usr/local/opt/gcc/bin/gfortran is architecture: x86_64
+2025-12-29T00:58:18.6659600Z Checking libgfortran architecture:
+2025-12-29T00:58:18.7743150Z Non-fat file: /usr/local/opt/gcc/lib/gcc/current/libgfortran.5.dylib is architecture: x86_64

@@ -1,0 +1,1470 @@
+﻿2025-12-29T00:58:18.8446650Z ##[group]Run python -m cibuildwheel --output-dir wheelhouse
+2025-12-29T00:58:18.8447540Z [36;1mpython -m cibuildwheel --output-dir wheelhouse[0m
+2025-12-29T00:58:18.8506040Z shell: /bin/bash -e {0}
+2025-12-29T00:58:18.8506500Z env:
+2025-12-29T00:58:18.8507000Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:18.8507930Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/x64/lib/pkgconfig
+2025-12-29T00:58:18.8508830Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:18.8510120Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:18.8510920Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/x64
+2025-12-29T00:58:18.8511660Z   X86_GFORTRAN: /usr/local/opt/gcc/bin/gfortran
+2025-12-29T00:58:18.8512210Z   X86_GCC_PREFIX: /usr/local/opt/gcc
+2025-12-29T00:58:18.8512670Z   CIBW_BUILD_VERBOSITY: 1
+2025-12-29T00:58:18.8513150Z   CIBW_ARCHS_MACOS: x86_64
+2025-12-29T00:58:18.8514110Z   CIBW_ENVIRONMENT_MACOS: MACOSX_DEPLOYMENT_TARGET=15.0 ARCHFLAGS="-arch x86_64" GFORTRAN_PATH=/usr/local/opt/gcc/bin/gfortran
+
+2025-12-29T00:58:18.8517840Z   CIBW_BEFORE_BUILD_MACOS: echo "===== Build Environment =====" && echo "GFORTRAN_PATH: $GFORTRAN_PATH" && echo "ARCHFLAGS: $ARCHFLAGS" && file "$GFORTRAN_PATH" && python compile_fortran.py && echo "===== Compiled Library Architecture =====" && file pychnosz/fortran/h2o92.dylib && lipo -info pychnosz/fortran/h2o92.dylib && echo "===== Linked Libraries =====" && otool -L pychnosz/fortran/h2o92.dylib
+
+2025-12-29T00:58:18.8520600Z ##[endgroup]
+2025-12-29T00:58:19.2410800Z 
+2025-12-29T00:58:19.2743430Z      _ _       _ _   _       _           _
+2025-12-29T00:58:19.2770790Z  ___|_| |_ _ _|_| |_| |_ _ _| |_ ___ ___| |
+2025-12-29T00:58:19.3560960Z |  _| | . | | | | | . | | | |   | -_| -_| |
+2025-12-29T00:58:19.3567230Z |___|_|___|___|_|_|___|_____|_|_|___|___|_|
+2025-12-29T00:58:19.3647200Z 
+2025-12-29T00:58:19.3671240Z cibuildwheel version 2.22.0
+2025-12-29T00:58:19.3674740Z 
+2025-12-29T00:58:19.3675710Z Build options:
+2025-12-29T00:58:19.3700660Z   platform: macos
+2025-12-29T00:58:19.3701490Z   [38;5;244mallow_empty: False[0m
+2025-12-29T00:58:19.3702040Z   [38;5;244marchitectures: x86_64[0m
+2025-12-29T00:58:19.3702520Z   build_selector: 
+2025-12-29T00:58:19.3702940Z     build_config: cp310-* cp311-* cp312-* cp313-*
+2025-12-29T00:58:19.3703610Z     skip_config: *-win32 *-manylinux_i686 *-musllinux* pp*
+2025-12-29T00:58:19.3704200Z     requires_python: >=3.10
+2025-12-29T00:58:19.3704670Z     enable: ['pypy'][0m
+2025-12-29T00:58:19.3705420Z   output_dir: /Users/runner/work/pychnosz/pychnosz/wheelhouse[0m
+2025-12-29T00:58:19.3706200Z   package_dir: /Users/runner/work/pychnosz/pychnosz[0m
+2025-12-29T00:58:19.3706850Z   [38;5;244mtest_selector: 
+2025-12-29T00:58:19.3707300Z [38;5;244m    skip_config:[0m
+2025-12-29T00:58:19.3707790Z   [38;5;244mbefore_all: [0m
+2025-12-29T00:58:19.3708200Z   before_build: 
+2025-12-29T00:58:19.3710940Z     echo "===== Build Environment =====" && echo "GFORTRAN_PATH: $GFORTRAN_PATH" && echo "ARCHFLAGS: $ARCHFLAGS" && file "$GFORTRAN_PATH" && python compile_fortran.py && echo "===== Compiled Library Architecture =====" && file pychnosz/fortran/h2o92.dylib && lipo -info pychnosz/fortran/h2o92.dylib && echo "===== Linked Libraries =====" && otool -L pychnosz/fortran/h2o92.dylib[0m
+2025-12-29T00:58:19.3713910Z   [38;5;244mbefore_test: [0m
+2025-12-29T00:58:19.3714410Z   [38;5;244mbuild_frontend: None[0m
+2025-12-29T00:58:19.3714940Z   build_verbosity: 1[0m
+2025-12-29T00:58:19.3715410Z   [38;5;244mconfig_settings: [0m
+2025-12-29T00:58:19.3715960Z   [38;5;244mcontainer_engine: docker[0m
+2025-12-29T00:58:19.3716600Z   [38;5;244mdependency_constraints: pinned[0m
+2025-12-29T00:58:19.3717100Z   environment: 
+2025-12-29T00:58:19.3717500Z     MACOSX_DEPLOYMENT_TARGET=15.0
+2025-12-29T00:58:19.3717940Z     ARCHFLAGS="-arch x86_64"
+2025-12-29T00:58:19.3718520Z     GFORTRAN_PATH=/usr/local/opt/gcc/bin/gfortran[0m
+2025-12-29T00:58:19.3719130Z   [38;5;244mmanylinux_images: None[0m
+2025-12-29T00:58:19.3720490Z   [38;5;244mmusllinux_images: None[0m
+2025-12-29T00:58:19.3721520Z   [38;5;244mrepair_command: delocate-wheel --require-archs {delocate_archs} -w {dest_dir} -v {wheel}[0m
+2025-12-29T00:58:19.3722870Z   test_command: python {project}/test_integration.py[0m
+2025-12-29T00:58:19.3723840Z   [38;5;244mtest_extras: [0m
+2025-12-29T00:58:19.3724410Z   [38;5;244mtest_groups: [0m
+2025-12-29T00:58:19.3724840Z   test_requires: 
+2025-12-29T00:58:19.3725220Z     pytest
+2025-12-29T00:58:19.3725990Z     numpy
+2025-12-29T00:58:19.3726300Z     pandas
+2025-12-29T00:58:19.3726950Z     scipy
+2025-12-29T00:58:19.3727500Z     matplotlib[0m
+2025-12-29T00:58:19.3727740Z 
+2025-12-29T00:58:19.3727990Z Cache folder: /Users/runner/Library/Caches/cibuildwheel
+2025-12-29T00:58:19.3728410Z 
+2025-12-29T00:58:19.3728600Z Here we go!
+2025-12-29T00:58:19.3728780Z 
+2025-12-29T00:58:19.3728790Z 
+2025-12-29T00:58:19.3729030Z [1m[34mBuilding cp310-macosx_x86_64 wheel[0m
+2025-12-29T00:58:19.3729560Z CPython 3.10 macOS x86_64
+2025-12-29T00:58:19.3729810Z 
+2025-12-29T00:58:19.3731370Z ##[group]Installing Python cp310...
+2025-12-29T00:58:19.3731720Z 
+2025-12-29T00:58:19.3731870Z + pkgutil --pkgs
+2025-12-29T00:58:19.3733270Z + Download https://www.python.org/ftp/python/3.10.11/python-3.10.11-macos11.pkg to /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/Python.pkg
+2025-12-29T00:58:19.5503670Z + sudo installer -pkg /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/Python.pkg -target /
+2025-12-29T00:58:41.7668450Z installer: Package name is Python
+2025-12-29T00:58:41.8030530Z installer: Upgrading at base path /
+2025-12-29T00:58:41.8143550Z installer: The upgrade was successful.
+2025-12-29T00:58:41.8519170Z + /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/cibuildwheel/resources/install_certifi.py
+2025-12-29T00:58:42.6062740Z Collecting certifi
+2025-12-29T00:58:42.6298260Z   Downloading certifi-2025.11.12-py3-none-any.whl (159 kB)
+2025-12-29T00:58:42.6488900Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 159.4/159.4 kB 10.0 MB/s eta 0:00:00
+2025-12-29T00:58:42.6991120Z Installing collected packages: certifi
+2025-12-29T00:58:42.7408210Z Successfully installed certifi-2025.11.12
+2025-12-29T00:58:42.8286850Z  -- pip install --upgrade certifi
+2025-12-29T00:58:42.8304450Z  -- removing any existing file or link
+2025-12-29T00:58:42.8313460Z  -- creating symlink to certifi certificate bundle
+2025-12-29T00:58:42.8315520Z  -- setting permissions
+2025-12-29T00:58:42.8317340Z  -- update complete
+2025-12-29T00:58:42.8392570Z ##[endgroup]
+2025-12-29T00:58:42.8455980Z                                                              [32m✓ [0m23.56s
+2025-12-29T00:58:42.8467140Z ##[group]Setting up build environment...
+2025-12-29T00:58:42.8499880Z 
+2025-12-29T00:58:42.8516860Z + Download https://github.com/pypa/get-virtualenv/blob/20.27.1/public/virtualenv.pyz?raw=true to /Users/runner/Library/Caches/cibuildwheel/virtualenv-20.27.1.pyz
+2025-12-29T00:58:44.7972180Z + /Library/Frameworks/Python.framework/Versions/3.11/bin/python -sS /Users/runner/Library/Caches/cibuildwheel/virtualenv-20.27.1.pyz --activators= --no-periodic-update --pip=24.3.1 --no-setuptools --no-wheel --symlink-app-data --python /Library/Frameworks/Python.framework/Versions/3.10/bin/python3 /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/venv
+2025-12-29T00:58:47.0397680Z created virtual environment CPython3.10.11.final.0-64 in 1701ms
+2025-12-29T00:58:47.0403820Z   creator CPython3Posix(dest=/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/venv, clear=False, no_vcs_ignore=False, global=False)
+2025-12-29T00:58:47.0406060Z   seeder FromAppData(download=False, pip=24.3.1, via=symlink, app_data_dir=/Users/runner/Library/Application Support/virtualenv)
+2025-12-29T00:58:47.0408290Z     added seed packages: pip==24.3.1
+2025-12-29T00:58:47.0874030Z + python -m pip install --upgrade pip -c /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/cibuildwheel/resources/constraints-python310.txt
+2025-12-29T00:58:47.8204940Z Requirement already satisfied: pip in ./lib/python3.10/site-packages (24.3.1)
+2025-12-29T00:58:48.0696100Z + which python
+2025-12-29T00:58:48.0792230Z /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/venv/bin/python
+2025-12-29T00:58:48.0816500Z + python --version
+2025-12-29T00:58:48.1005540Z Python 3.10.11
+2025-12-29T00:58:48.1032470Z + which pip
+2025-12-29T00:58:48.1106960Z /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/venv/bin/pip
+2025-12-29T00:58:48.1114400Z + pip --version
+2025-12-29T00:58:48.4012660Z pip 24.3.1 from /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/build/venv/lib/python3.10/site-packages/pip (python 3.10)
+2025-12-29T00:58:48.4351430Z ##[endgroup]
+2025-12-29T00:58:48.4398650Z                                                               [32m✓ [0m5.60s
+2025-12-29T00:58:48.4456870Z ##[group]Installing build tools...
+2025-12-29T00:58:48.4470190Z 
+2025-12-29T00:58:48.4490240Z + pip install --upgrade delocate -c /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/cibuildwheel/resources/constraints-python310.txt
+2025-12-29T00:58:49.1286990Z Collecting delocate
+2025-12-29T00:58:49.1445390Z   Downloading delocate-0.12.0-py3-none-any.whl.metadata (15 kB)
+2025-12-29T00:58:49.1916270Z Collecting packaging>=20.9 (from delocate)
+2025-12-29T00:58:49.1987340Z   Downloading packaging-24.2-py3-none-any.whl.metadata (3.2 kB)
+2025-12-29T00:58:49.2628060Z Collecting typing-extensions (from delocate)
+2025-12-29T00:58:49.2734000Z   Downloading typing_extensions-4.12.2-py3-none-any.whl.metadata (3.0 kB)
+2025-12-29T00:58:49.3030460Z Collecting macholib (from delocate)
+2025-12-29T00:58:49.3139600Z   Downloading macholib-1.16.3-py2.py3-none-any.whl.metadata (11 kB)
+2025-12-29T00:58:49.3505740Z Collecting altgraph>=0.17 (from macholib->delocate)
+2025-12-29T00:58:49.3620420Z   Downloading altgraph-0.17.4-py2.py3-none-any.whl.metadata (7.3 kB)
+2025-12-29T00:58:49.3869440Z Downloading delocate-0.12.0-py3-none-any.whl (236 kB)
+2025-12-29T00:58:49.4103200Z Downloading packaging-24.2-py3-none-any.whl (65 kB)
+2025-12-29T00:58:49.4296190Z Downloading macholib-1.16.3-py2.py3-none-any.whl (38 kB)
+2025-12-29T00:58:49.4471260Z Downloading typing_extensions-4.12.2-py3-none-any.whl (37 kB)
+2025-12-29T00:58:49.4625970Z Downloading altgraph-0.17.4-py2.py3-none-any.whl (21 kB)
+2025-12-29T00:58:49.4904070Z Installing collected packages: altgraph, typing-extensions, packaging, macholib, delocate
+2025-12-29T00:58:49.7559900Z Successfully installed altgraph-0.17.4 delocate-0.12.0 macholib-1.16.3 packaging-24.2 typing-extensions-4.12.2
+2025-12-29T00:58:49.8273950Z + python -m pip freeze --all
+2025-12-29T00:58:50.2085810Z ##[endgroup]
+2025-12-29T00:58:50.2116310Z                                                               [32m✓ [0m1.77s
+2025-12-29T00:58:50.2136000Z ##[group]Running before_build...
+2025-12-29T00:58:50.2139730Z 
+2025-12-29T00:58:50.2148860Z + echo "===== Build Environment =====" && echo "GFORTRAN_PATH: $GFORTRAN_PATH" && echo "ARCHFLAGS: $ARCHFLAGS" && file "$GFORTRAN_PATH" && python compile_fortran.py && echo "===== Compiled Library Architecture =====" && file pychnosz/fortran/h2o92.dylib && lipo -info pychnosz/fortran/h2o92.dylib && echo "===== Linked Libraries =====" && otool -L pychnosz/fortran/h2o92.dylib
+2025-12-29T00:58:50.2151550Z 
+2025-12-29T00:58:50.2178750Z ===== Build Environment =====
+2025-12-29T00:58:50.2179420Z GFORTRAN_PATH: /usr/local/opt/gcc/bin/gfortran
+2025-12-29T00:58:50.2184160Z ARCHFLAGS: -arch x86_64
+2025-12-29T00:58:50.2238630Z /usr/local/opt/gcc/bin/gfortran: Mach-O 64-bit executable x86_64
+2025-12-29T00:58:53.8070420Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:695:72:
+2025-12-29T00:58:53.8071830Z 
+2025-12-29T00:58:53.8072000Z   695 |  10             wpliq(i) = wprops(i)
+2025-12-29T00:58:53.8072560Z       |                                                                        1
+2025-12-29T00:58:53.8073840Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+2025-12-29T00:58:53.8075170Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:867:72:
+2025-12-29T00:58:53.8076130Z 
+2025-12-29T00:58:53.8076300Z   867 |  2         v(i) = v(i-1) * tz / t
+2025-12-29T00:58:53.8076800Z       |                                                                        1
+2025-12-29T00:58:53.8077840Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
+2025-12-29T00:58:53.8079010Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:882:72:
+2025-12-29T00:58:53.8079530Z 
+2025-12-29T00:58:53.8079770Z   882 |  4         b2tt = b2tt + bq(i) * (i-2)*(i-2) * v(i-1) / t / t
+2025-12-29T00:58:53.8080430Z       |                                                                        1
+2025-12-29T00:58:53.8081430Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
+2025-12-29T00:58:53.8082570Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:988:72:
+2025-12-29T00:58:53.8083090Z 
+2025-12-29T00:58:53.8083260Z   988 |  4         qt(i)   = qt(i-1) * v
+2025-12-29T00:58:53.8083750Z       |                                                                        1
+2025-12-29T00:58:53.8084790Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
+2025-12-29T00:58:53.8085930Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:1007:72:
+2025-12-29T00:58:53.8086470Z 
+2025-12-29T00:58:53.8086640Z  1007 |  10        cvr   = cvr   + g(i)*d2f/gascon
+2025-12-29T00:58:53.8087200Z       |                                                                        1
+2025-12-29T00:58:53.8088290Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+2025-12-29T00:58:53.8089480Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:1091:72:
+2025-12-29T00:58:53.8090000Z 
+2025-12-29T00:58:53.8090220Z  1091 |  8         cpi = cpi + c(i) * (i-6) * (i-5) * emult
+2025-12-29T00:58:53.8090830Z       |                                                                        1
+2025-12-29T00:58:53.8091870Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 8 at (1)
+2025-12-29T00:58:53.8093110Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:1451:72:
+2025-12-29T00:58:53.8093650Z 
+2025-12-29T00:58:53.8093830Z  1451 |  4         b = b + y
+2025-12-29T00:58:53.8094260Z       |                                                                        1
+2025-12-29T00:58:53.8095300Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
+2025-12-29T00:58:53.8096450Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:2707:72:
+2025-12-29T00:58:53.8096960Z 
+2025-12-29T00:58:53.8097150Z  2707 |  10        props(key(i,phase)) = ptemp(i)
+2025-12-29T00:58:53.8097700Z       |                                                                        1
+2025-12-29T00:58:53.8098700Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+2025-12-29T00:58:53.8099850Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3122:72:
+2025-12-29T00:58:53.8100350Z 
+2025-12-29T00:58:53.8100510Z  3122 |  10        sum = sum + a(i+1)/T**i
+2025-12-29T00:58:53.8101050Z       |                                                                        1
+2025-12-29T00:58:53.8102080Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+2025-12-29T00:58:53.8103650Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3127:72:
+2025-12-29T00:58:53.8104200Z 
+2025-12-29T00:58:53.8104340Z  3127 |            DO 20  j=0,6
+2025-12-29T00:58:53.8104790Z       |                                                                        1
+2025-12-29T00:58:53.8105550Z Warning: Fortran 2018 deleted feature: Shared DO termination label 20 at (1)
+2025-12-29T00:58:53.8106450Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3128:72:
+2025-12-29T00:58:53.8107300Z 
+2025-12-29T00:58:53.8107570Z  3128 |  20             sum = sum + b(i+1,j+1) * (1.0d0/T-1)**i * (D-1)**j
+2025-12-29T00:58:53.8108330Z       |                                                                        1
+2025-12-29T00:58:53.8109550Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
+2025-12-29T00:58:53.8110740Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3210:72:
+2025-12-29T00:58:53.8111260Z 
+2025-12-29T00:58:53.8111450Z  3210 |  10        sum = sum + aL(i+1)/T**i
+2025-12-29T00:58:53.8111970Z       |                                                                        1
+2025-12-29T00:58:53.8113010Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
+2025-12-29T00:58:53.8114140Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3215:72:
+2025-12-29T00:58:53.8114690Z 
+2025-12-29T00:58:53.8114820Z  3215 |            DO 20  j=0,5
+2025-12-29T00:58:53.8115300Z       |                                                                        1
+2025-12-29T00:58:53.8116020Z Warning: Fortran 2018 deleted feature: Shared DO termination label 20 at (1)
+2025-12-29T00:58:53.8116920Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3216:72:
+2025-12-29T00:58:53.8117420Z 
+2025-12-29T00:58:53.8117650Z  3216 |  20             sum = sum + bL(j+1,i+1) * (1.0d0/T-1)**i * (D-1)**j
+2025-12-29T00:58:53.8118280Z       |                                                                        1
+2025-12-29T00:58:53.8119290Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
+2025-12-29T00:58:53.8120490Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3221:72:
+2025-12-29T00:58:53.8121010Z 
+2025-12-29T00:58:53.8121200Z  3221 |  40        sum = sum + au(i+1)/T**i
+2025-12-29T00:58:53.8121720Z       |                                                                        1
+2025-12-29T00:58:53.8122790Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
+2025-12-29T00:58:53.8123940Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3226:72:
+2025-12-29T00:58:53.8124480Z 
+2025-12-29T00:58:53.8124630Z  3226 |            DO 50  j=0,4
+2025-12-29T00:58:53.8125110Z       |                                                                        1
+2025-12-29T00:58:53.8125850Z Warning: Fortran 2018 deleted feature: Shared DO termination label 50 at (1)
+2025-12-29T00:58:53.8126760Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3227:72:
+2025-12-29T00:58:53.8127280Z 
+2025-12-29T00:58:53.8127510Z  3227 |  50             sum = sum + bu(j+1,i+1) * (1.0d0/T-1)**i * (D-1)**j
+2025-12-29T00:58:53.8128170Z       |                                                                        1
+2025-12-29T00:58:53.8129220Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
+2025-12-29T00:58:53.8130360Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3423:72:
+2025-12-29T00:58:53.8130900Z 
+2025-12-29T00:58:53.8131060Z  3423 |    50      eps = eps + c(k)*D**(k-1)
+2025-12-29T00:58:53.8131560Z       |                                                                        1
+2025-12-29T00:58:53.8132620Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
+2025-12-29T00:58:53.8134480Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3427:72:
+2025-12-29T00:58:53.8135000Z 
+2025-12-29T00:58:53.8135160Z  3427 |   100      dedP = dedP + j*c(j+1)*D**j
+2025-12-29T00:58:53.8135720Z       |                                                                        1
+2025-12-29T00:58:53.8136740Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 100 at (1)
+2025-12-29T00:58:53.8137880Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3432:72:
+2025-12-29T00:58:53.8139100Z 
+2025-12-29T00:58:53.8139400Z  3432 |   200      dedT = dedT + D**j*(dcdT(j+1) - j*alpha*c(j+1))
+2025-12-29T00:58:53.8140010Z       |                                                                        1
+2025-12-29T00:58:53.8141050Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 200 at (1)
+2025-12-29T00:58:53.8142220Z /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f:3437:72:
+2025-12-29T00:58:53.8142770Z 
+2025-12-29T00:58:53.8143030Z  3437 |      1         c(j+1)*daldT) - j*alpha*(dcdT(j+1) - j*alpha*c(j+1)))
+2025-12-29T00:58:53.8143710Z       |                                                                        1
+2025-12-29T00:58:53.8144740Z Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
+2025-12-29T00:58:53.8145590Z 
+2025-12-29T00:58:53.8273060Z ============================================================
+2025-12-29T00:58:53.8273790Z Compiling Fortran library for pychnosz
+2025-12-29T00:58:53.8274290Z ============================================================
+2025-12-29T00:58:53.8274770Z Platform: darwin
+2025-12-29T00:58:53.8275110Z Python: 3.10.11
+2025-12-29T00:58:53.8275730Z Using explicit gfortran path from GFORTRAN_PATH: /usr/local/opt/gcc/bin/gfortran
+2025-12-29T00:58:53.8276490Z Using compiler: /usr/local/opt/gcc/bin/gfortran
+2025-12-29T00:58:53.8277050Z Compiling H2O92D.f.orig -> h2o92.dylib
+2025-12-29T00:58:53.8277580Z ARCHFLAGS environment variable: '-arch x86_64'
+2025-12-29T00:58:53.8278130Z macOS target architecture: x86_64
+2025-12-29T00:58:53.8278620Z Current machine architecture: x86_64
+2025-12-29T00:58:53.8279400Z Using temporary source file: /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f
+2025-12-29T00:58:53.8281350Z Running: /usr/local/opt/gcc/bin/gfortran -dynamiclib -arch x86_64 -fPIC -O2 /var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmpw2thri0f.f -o /Users/runner/work/pychnosz/pychnosz/pychnosz/fortran/h2o92.dylib
+2025-12-29T00:58:53.8282950Z [OK] Successfully compiled h2o92.dylib
+2025-12-29T00:58:53.8283670Z   Output: /Users/runner/work/pychnosz/pychnosz/pychnosz/fortran/h2o92.dylib
+2025-12-29T00:58:53.8284380Z   Size: 70.1 KB
+2025-12-29T00:58:53.8284760Z Verifying architecture of compiled library...
+2025-12-29T00:58:53.8285810Z   lipo output: Non-fat file: /Users/runner/work/pychnosz/pychnosz/pychnosz/fortran/h2o92.dylib is architecture: x86_64
+2025-12-29T00:58:53.8286790Z ============================================================
+2025-12-29T00:58:53.8287290Z Compilation successful!
+2025-12-29T00:58:53.8287700Z ============================================================
+2025-12-29T00:58:53.8325820Z ===== Compiled Library Architecture =====
+2025-12-29T00:58:53.8373430Z pychnosz/fortran/h2o92.dylib: Mach-O 64-bit dynamically linked shared library x86_64
+2025-12-29T00:58:53.8556660Z Non-fat file: pychnosz/fortran/h2o92.dylib is architecture: x86_64
+2025-12-29T00:58:53.8558020Z ===== Linked Libraries =====
+2025-12-29T00:58:54.7019430Z pychnosz/fortran/h2o92.dylib:
+2025-12-29T00:58:54.7020590Z 	/Users/runner/work/pychnosz/pychnosz/pychnosz/fortran/h2o92.dylib (compatibility version 0.0.0, current version 0.0.0)
+2025-12-29T00:58:54.7023930Z 	/usr/local/opt/gcc/lib/gcc/current/libgfortran.5.dylib (compatibility version 6.0.0, current version 6.0.0)
+2025-12-29T00:58:54.7026320Z 	/usr/local/opt/gcc/lib/gcc/current/libgcc_s.1.1.dylib (compatibility version 1.0.0, current version 1.1.0)
+2025-12-29T00:58:54.7029400Z 	/usr/local/opt/gcc/lib/gcc/current/libquadmath.0.dylib (compatibility version 1.0.0, current version 1.0.0)
+2025-12-29T00:58:54.7031540Z 	/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
+2025-12-29T00:58:54.7033730Z ##[endgroup]
+2025-12-29T00:58:54.7035310Z                                                               [32m✓ [0m4.50s
+2025-12-29T00:58:54.7045080Z ##[group]Building wheel...
+2025-12-29T00:58:54.7047220Z 
+2025-12-29T00:58:54.7061040Z + python -m pip wheel /Users/runner/work/pychnosz/pychnosz --wheel-dir=/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/built_wheel --no-deps -v
+2025-12-29T00:58:55.2583810Z Processing /Users/runner/work/pychnosz/pychnosz
+2025-12-29T00:58:55.2771010Z   Running command pip subprocess to install build dependencies
+2025-12-29T00:58:55.2771700Z   Installing build dependencies: started
+2025-12-29T00:58:55.6264440Z   Using pip 24.3.1 from /Users/runner/Library/Application Support/virtualenv/wheel/3.10/image/1/SymlinkPipInstall/pip-24.3.1-py3-none-any/pip (python 3.10)
+2025-12-29T00:58:56.2245810Z   Collecting setuptools>=61.0
+2025-12-29T00:58:56.2247710Z     Obtaining dependency information for setuptools>=61.0 from https://files.pythonhosted.org/packages/a3/dc/17031897dae0efacfea57dfd3a82fdd2a2aeb58e0ff71b77b87e44edc772/setuptools-80.9.0-py3-none-any.whl.metadata
+2025-12-29T00:58:56.2456910Z     Downloading setuptools-80.9.0-py3-none-any.whl.metadata (6.6 kB)
+2025-12-29T00:58:56.3345190Z   Collecting wheel
+2025-12-29T00:58:56.3348250Z     Obtaining dependency information for wheel from https://files.pythonhosted.org/packages/0b/2c/87f3254fd8ffd29e4c02732eee68a83a1d3c346ae39bc6822dcbcb697f2b/wheel-0.45.1-py3-none-any.whl.metadata
+2025-12-29T00:58:56.3417680Z     Downloading wheel-0.45.1-py3-none-any.whl.metadata (2.3 kB)
+2025-12-29T00:58:56.3598650Z   Downloading setuptools-80.9.0-py3-none-any.whl (1.2 MB)
+2025-12-29T00:58:56.3849960Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 50.7 MB/s eta 0:00:00
+2025-12-29T00:58:56.3915740Z   Downloading wheel-0.45.1-py3-none-any.whl (72 kB)
+2025-12-29T00:58:56.4440850Z   Installing collected packages: wheel, setuptools
+2025-12-29T00:58:56.5053210Z     Creating /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/bin
+2025-12-29T00:58:56.5057460Z     changing mode of /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/bin/wheel to 755
+2025-12-29T00:58:57.6385160Z   Successfully installed setuptools-80.9.0 wheel-0.45.1
+2025-12-29T00:58:57.8330340Z   Installing build dependencies: finished with status 'done'
+2025-12-29T00:58:57.8357340Z   Running command Getting requirements to build wheel
+2025-12-29T00:58:57.8358040Z   Getting requirements to build wheel: started
+2025-12-29T00:58:58.1294640Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+2025-12-29T00:58:58.2299860Z   !!
+2025-12-29T00:58:58.3302110Z 
+2025-12-29T00:58:58.3302850Z   Getting requirements to build wheel: finished with status 'done'
+2025-12-29T00:58:58.3466260Z           ********************************************************************************
+2025-12-29T00:58:58.3466960Z   Preparing metadata (pyproject.toml): started
+2025-12-29T00:58:58.3532290Z           Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+2025-12-29T00:58:58.4535110Z 
+2025-12-29T00:58:58.5537270Z           By 2026-Feb-18, you need to update your project and remove deprecated calls
+2025-12-29T00:58:58.6152780Z           or your builds will no longer be supported.
+2025-12-29T00:58:58.6587120Z 
+2025-12-29T00:58:58.6710940Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7124680Z           ********************************************************************************
+2025-12-29T00:58:58.7175800Z 
+2025-12-29T00:58:58.7261470Z   !!
+2025-12-29T00:58:58.7434340Z     corresp(dist, value, root_dir)
+2025-12-29T00:58:58.7438450Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:58.7599250Z   !!
+2025-12-29T00:58:58.7615100Z 
+2025-12-29T00:58:58.7619970Z           ********************************************************************************
+2025-12-29T00:58:58.7626580Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:58.7758380Z 
+2025-12-29T00:58:58.7764480Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:58.7768780Z 
+2025-12-29T00:58:58.7782350Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7784570Z           ********************************************************************************
+2025-12-29T00:58:58.7785910Z 
+2025-12-29T00:58:58.7786140Z   !!
+2025-12-29T00:58:58.7787160Z     dist._finalize_license_expression()
+2025-12-29T00:58:58.7789720Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:58.7791990Z   !!
+2025-12-29T00:58:58.7792250Z 
+2025-12-29T00:58:58.7792660Z           ********************************************************************************
+2025-12-29T00:58:58.7793890Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:58.7794590Z 
+2025-12-29T00:58:58.7794820Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:58.7795210Z 
+2025-12-29T00:58:58.7795760Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7796870Z           ********************************************************************************
+2025-12-29T00:58:58.7797830Z 
+2025-12-29T00:58:58.7798010Z   !!
+2025-12-29T00:58:58.7798440Z     self._finalize_license_expression()
+2025-12-29T00:58:58.7798900Z   running egg_info
+2025-12-29T00:58:58.7799250Z   creating pychnosz.egg-info
+2025-12-29T00:58:58.7799720Z   writing pychnosz.egg-info/PKG-INFO
+2025-12-29T00:58:58.7800360Z   writing dependency_links to pychnosz.egg-info/dependency_links.txt
+2025-12-29T00:58:58.7801190Z   writing requirements to pychnosz.egg-info/requires.txt
+2025-12-29T00:58:58.7802230Z   writing top-level names to pychnosz.egg-info/top_level.txt
+2025-12-29T00:58:58.7803350Z   writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.7804390Z   reading manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.7805350Z   reading manifest template 'MANIFEST.in'
+2025-12-29T00:58:58.7806280Z   warning: no files found matching '*.css' under directory 'html'
+2025-12-29T00:58:58.7807370Z   warning: no files found matching '*.js' under directory 'html'
+2025-12-29T00:58:58.7808410Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:58.7809770Z   warning: no files found matching '*.json' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:58.7811300Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data'
+2025-12-29T00:58:58.7898700Z   warning: no files found matching '*.json' under directory 'pychnosz/data'
+2025-12-29T00:58:58.7901060Z   warning: no files found matching '*.f' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7902670Z   warning: no files found matching '*.f90' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7904190Z   warning: no files found matching '*.for' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7906140Z   no previously-included directories found matching 'test'
+2025-12-29T00:58:58.7907370Z   warning: no previously-included files matching '*.pyc' found anywhere in distribution
+2025-12-29T00:58:58.7908840Z   warning: no previously-included files matching '*.pyo' found anywhere in distribution
+2025-12-29T00:58:58.7910510Z   warning: no previously-included files matching '*.pyd' found anywhere in distribution
+2025-12-29T00:58:58.7911960Z   warning: no previously-included files matching '__pycache__' found anywhere in distribution
+2025-12-29T00:58:58.7914390Z   warning: no previously-included files matching '.pytest_cache' found anywhere in distribution
+2025-12-29T00:58:58.7916160Z   warning: no previously-included files matching '.ipynb_checkpoints' found anywhere in distribution
+2025-12-29T00:58:58.7917740Z   warning: no previously-included files matching '*~' found anywhere in distribution
+2025-12-29T00:58:58.7919280Z   warning: no previously-included files matching '*.swp' found anywhere in distribution
+2025-12-29T00:58:58.7920850Z   warning: no previously-included files matching '.DS_Store' found anywhere in distribution
+2025-12-29T00:58:58.7922000Z   adding license file 'LICENSE.txt'
+2025-12-29T00:58:58.7922630Z   writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.7923410Z   Running command Preparing metadata (pyproject.toml)
+2025-12-29T00:58:58.7926080Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+2025-12-29T00:58:58.7928120Z   !!
+2025-12-29T00:58:58.7928280Z 
+2025-12-29T00:58:58.7928480Z           ********************************************************************************
+2025-12-29T00:58:58.7929920Z           Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+2025-12-29T00:58:58.7931280Z 
+2025-12-29T00:58:58.7931670Z           By 2026-Feb-18, you need to update your project and remove deprecated calls
+2025-12-29T00:58:58.7932510Z           or your builds will no longer be supported.
+2025-12-29T00:58:58.7933030Z 
+2025-12-29T00:58:58.7933810Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7935170Z           ********************************************************************************
+2025-12-29T00:58:58.7935790Z 
+2025-12-29T00:58:58.7935950Z   !!
+2025-12-29T00:58:58.7936350Z     corresp(dist, value, root_dir)
+2025-12-29T00:58:58.7938890Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:58.7941310Z   !!
+2025-12-29T00:58:58.7941540Z 
+2025-12-29T00:58:58.7941850Z           ********************************************************************************
+2025-12-29T00:58:58.7943010Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:58.7943740Z 
+2025-12-29T00:58:58.7944120Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:58.7944620Z 
+2025-12-29T00:58:58.7945350Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7946480Z           ********************************************************************************
+2025-12-29T00:58:58.7947040Z 
+2025-12-29T00:58:58.7947200Z   !!
+2025-12-29T00:58:58.7947670Z     dist._finalize_license_expression()
+2025-12-29T00:58:58.7949370Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:58.7952190Z   !!
+2025-12-29T00:58:58.7952390Z 
+2025-12-29T00:58:58.7952630Z           ********************************************************************************
+2025-12-29T00:58:58.7953740Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:58.7954440Z 
+2025-12-29T00:58:58.7954650Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:58.7954990Z 
+2025-12-29T00:58:58.7955580Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:58.7957220Z           ********************************************************************************
+2025-12-29T00:58:58.7957650Z 
+2025-12-29T00:58:58.7957920Z   !!
+2025-12-29T00:58:58.7958300Z     self._finalize_license_expression()
+2025-12-29T00:58:58.7958740Z   running dist_info
+2025-12-29T00:58:58.7959760Z   creating /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info
+2025-12-29T00:58:58.7961670Z   writing /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/PKG-INFO
+2025-12-29T00:58:58.7963640Z   writing dependency_links to /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/dependency_links.txt
+2025-12-29T00:58:58.7965930Z   writing requirements to /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/requires.txt
+2025-12-29T00:58:58.7967900Z   writing top-level names to /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/top_level.txt
+2025-12-29T00:58:58.7969930Z   writing manifest file '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.7972180Z   reading manifest file '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.7973790Z   reading manifest template 'MANIFEST.in'
+2025-12-29T00:58:58.7974680Z   warning: no files found matching '*.css' under directory 'html'
+2025-12-29T00:58:58.7975930Z   warning: no files found matching '*.js' under directory 'html'
+2025-12-29T00:58:58.7977070Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:58.7978280Z   warning: no files found matching '*.json' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:58.7979650Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data'
+2025-12-29T00:58:58.7980980Z   warning: no files found matching '*.json' under directory 'pychnosz/data'
+2025-12-29T00:58:58.7982120Z   warning: no files found matching '*.f' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7983180Z   warning: no files found matching '*.f90' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7984540Z   warning: no files found matching '*.for' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:58.7985650Z   no previously-included directories found matching 'test'
+2025-12-29T00:58:58.7986680Z   warning: no previously-included files matching '*.pyc' found anywhere in distribution
+2025-12-29T00:58:58.7987980Z   warning: no previously-included files matching '*.pyo' found anywhere in distribution
+2025-12-29T00:58:58.7989160Z   warning: no previously-included files matching '*.pyd' found anywhere in distribution
+2025-12-29T00:58:58.7990270Z   warning: no previously-included files matching '__pycache__' found anywhere in distribution
+2025-12-29T00:58:58.7991470Z   warning: no previously-included files matching '.pytest_cache' found anywhere in distribution
+2025-12-29T00:58:58.7992780Z   warning: no previously-included files matching '.ipynb_checkpoints' found anywhere in distribution
+2025-12-29T00:58:58.7994090Z   warning: no previously-included files matching '*~' found anywhere in distribution
+2025-12-29T00:58:58.7995210Z   warning: no previously-included files matching '*.swp' found anywhere in distribution
+2025-12-29T00:58:58.7997750Z   warning: no previously-included files matching '.DS_Store' found anywhere in distribution
+2025-12-29T00:58:58.7998650Z   adding license file 'LICENSE.txt'
+2025-12-29T00:58:58.7999860Z   writing manifest file '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:58.8002060Z   creating '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-modern-metadata-himlbyfc/pychnosz-1.1.8.dist-info'
+2025-12-29T00:58:58.8250330Z   Preparing metadata (pyproject.toml): finished with status 'done'
+2025-12-29T00:58:58.8341870Z Building wheels for collected packages: pychnosz
+2025-12-29T00:58:58.8363780Z   Building wheel for pychnosz (pyproject.toml): started
+2025-12-29T00:58:58.8393100Z   Running command Building wheel for pychnosz (pyproject.toml)
+2025-12-29T00:58:59.0821830Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+2025-12-29T00:58:59.0984540Z   !!
+2025-12-29T00:58:59.0992850Z 
+2025-12-29T00:58:59.1010140Z           ********************************************************************************
+2025-12-29T00:58:59.1026630Z           Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+2025-12-29T00:58:59.1031510Z 
+2025-12-29T00:58:59.1040190Z           By 2026-Feb-18, you need to update your project and remove deprecated calls
+2025-12-29T00:58:59.1104410Z           or your builds will no longer be supported.
+2025-12-29T00:58:59.1110610Z 
+2025-12-29T00:58:59.2072700Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:59.2238640Z           ********************************************************************************
+2025-12-29T00:58:59.2243170Z 
+2025-12-29T00:58:59.2244950Z   !!
+2025-12-29T00:58:59.2245940Z     corresp(dist, value, root_dir)
+2025-12-29T00:58:59.2247810Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:59.2250250Z   !!
+2025-12-29T00:58:59.2250420Z 
+2025-12-29T00:58:59.2250630Z           ********************************************************************************
+2025-12-29T00:58:59.2251570Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:59.2252270Z 
+2025-12-29T00:58:59.2252500Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:59.2252850Z 
+2025-12-29T00:58:59.2253410Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:59.2254340Z           ********************************************************************************
+2025-12-29T00:58:59.2254780Z 
+2025-12-29T00:58:59.2254880Z   !!
+2025-12-29T00:58:59.2255190Z     dist._finalize_license_expression()
+2025-12-29T00:58:59.2256870Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:59.2258570Z   !!
+2025-12-29T00:58:59.2258720Z 
+2025-12-29T00:58:59.2258930Z           ********************************************************************************
+2025-12-29T00:58:59.2259840Z           Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:59.2260540Z 
+2025-12-29T00:58:59.2260720Z           License :: OSI Approved :: MIT License
+2025-12-29T00:58:59.2261060Z 
+2025-12-29T00:58:59.2261600Z           See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:59.2263310Z           ********************************************************************************
+2025-12-29T00:58:59.2263720Z 
+2025-12-29T00:58:59.2263830Z   !!
+2025-12-29T00:58:59.2264140Z     self._finalize_license_expression()
+2025-12-29T00:58:59.2264580Z   running bdist_wheel
+2025-12-29T00:58:59.2264900Z   running build
+2025-12-29T00:58:59.2265210Z   running build_py
+2025-12-29T00:58:59.2265650Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz
+2025-12-29T00:58:59.2266850Z   copying pychnosz/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz
+2025-12-29T00:58:59.2267710Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2268620Z   copying pychnosz/core/basis.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2269760Z   copying pychnosz/core/equilibrium.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2270950Z   copying pychnosz/core/species.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2272090Z   copying pychnosz/core/diagram.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2273250Z   copying pychnosz/core/equilibrate.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2274430Z   copying pychnosz/core/subcrt.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2275570Z   copying pychnosz/core/affinity.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2276730Z   copying pychnosz/core/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2277880Z   copying pychnosz/core/animation.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2279010Z   copying pychnosz/core/thermo.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2280150Z   copying pychnosz/core/retrieve.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2281320Z   copying pychnosz/core/unicurve.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2282440Z   copying pychnosz/core/info.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2283580Z   copying pychnosz/core/speciation.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2284750Z   copying pychnosz/core/balance.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core
+2025-12-29T00:58:59.2285850Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2286860Z   copying pychnosz/models/archer_wang.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2288070Z   copying pychnosz/models/berman.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2289230Z   copying pychnosz/models/water.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2290400Z   copying pychnosz/models/cgl.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2291600Z   copying pychnosz/models/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2292840Z   copying pychnosz/models/hkf_helpers.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2294050Z   copying pychnosz/models/hkf.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2295410Z   copying pychnosz/models/iapws95.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2296690Z   copying pychnosz/models/supcrt92_fortran.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2297910Z   copying pychnosz/models/dew.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models
+2025-12-29T00:58:59.2298860Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2299800Z   copying pychnosz/utils/units.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2301540Z   copying pychnosz/utils/formula.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2302690Z   copying pychnosz/utils/formula_ox.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2304110Z   copying pychnosz/utils/reset.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2305650Z   copying pychnosz/utils/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2308450Z   copying pychnosz/utils/expression.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils
+2025-12-29T00:58:59.2309840Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2311110Z   copying pychnosz/data/obigt.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2312610Z   copying pychnosz/data/worm.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2314110Z   copying pychnosz/data/add_obigt.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2315620Z   copying pychnosz/data/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2316740Z   copying pychnosz/data/loader.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2317870Z   copying pychnosz/data/mod_obigt.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data
+2025-12-29T00:58:59.2318890Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry
+2025-12-29T00:58:59.2320030Z   copying pychnosz/geochemistry/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry
+2025-12-29T00:58:59.2321440Z   copying pychnosz/geochemistry/minerals.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry
+2025-12-29T00:58:59.2323230Z   copying pychnosz/geochemistry/redox.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry
+2025-12-29T00:58:59.2324400Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules
+2025-12-29T00:58:59.2325570Z   copying pychnosz/biomolecules/proteins.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules
+2025-12-29T00:58:59.2326970Z   copying pychnosz/biomolecules/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules
+2025-12-29T00:58:59.2328370Z   copying pychnosz/biomolecules/ionize_aa.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules
+2025-12-29T00:58:59.2329490Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran
+2025-12-29T00:58:59.2330590Z   copying pychnosz/fortran/h2o92_interface.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran
+2025-12-29T00:58:59.2331890Z   copying pychnosz/fortran/__init__.py -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran
+2025-12-29T00:58:59.2332730Z   running egg_info
+2025-12-29T00:58:59.2333120Z   writing pychnosz.egg-info/PKG-INFO
+2025-12-29T00:58:59.2333920Z   writing dependency_links to pychnosz.egg-info/dependency_links.txt
+2025-12-29T00:58:59.2334740Z   writing requirements to pychnosz.egg-info/requires.txt
+2025-12-29T00:58:59.2335430Z   writing top-level names to pychnosz.egg-info/top_level.txt
+2025-12-29T00:58:59.2336100Z   reading manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:59.2336680Z   reading manifest template 'MANIFEST.in'
+2025-12-29T00:58:59.2337270Z   warning: no files found matching '*.css' under directory 'html'
+2025-12-29T00:58:59.2338000Z   warning: no files found matching '*.js' under directory 'html'
+2025-12-29T00:58:59.2338850Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:59.2339820Z   warning: no files found matching '*.json' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:59.2340800Z   warning: no files found matching '*.csv.gz' under directory 'pychnosz/data'
+2025-12-29T00:58:59.2341670Z   warning: no files found matching '*.json' under directory 'pychnosz/data'
+2025-12-29T00:58:59.2342590Z   warning: no files found matching '*.f' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:59.2344310Z   warning: no files found matching '*.f90' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:59.2345290Z   warning: no files found matching '*.for' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:59.2346130Z   no previously-included directories found matching 'test'
+2025-12-29T00:58:59.2347010Z   warning: no previously-included files matching '*.pyc' found anywhere in distribution
+2025-12-29T00:58:59.2351640Z   warning: no previously-included files matching '*.pyo' found anywhere in distribution
+2025-12-29T00:58:59.2358750Z   warning: no previously-included files matching '*.pyd' found anywhere in distribution
+2025-12-29T00:58:59.2370020Z   warning: no previously-included files matching '__pycache__' found anywhere in distribution
+2025-12-29T00:58:59.2373860Z   warning: no previously-included files matching '.pytest_cache' found anywhere in distribution
+2025-12-29T00:58:59.2385680Z   warning: no previously-included files matching '.ipynb_checkpoints' found anywhere in distribution
+2025-12-29T00:58:59.2387880Z   warning: no previously-included files matching '*~' found anywhere in distribution
+2025-12-29T00:58:59.2400580Z   warning: no previously-included files matching '*.swp' found anywhere in distribution
+2025-12-29T00:58:59.2401930Z   warning: no previously-included files matching '.DS_Store' found anywhere in distribution
+2025-12-29T00:58:59.2402770Z   adding license file 'LICENSE.txt'
+2025-12-29T00:58:59.2454930Z   writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:59.2472400Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.Berman' is absent from the `packages` configuration.
+2025-12-29T00:58:59.2514770Z   !!
+2025-12-29T00:58:59.2535960Z 
+2025-12-29T00:58:59.2537070Z           ********************************************************************************
+2025-12-29T00:58:59.2553440Z           ############################
+2025-12-29T00:58:59.2555000Z           # Package would be ignored #
+2025-12-29T00:58:59.2559180Z           ############################
+2025-12-29T00:58:59.2561340Z           Python recognizes 'pychnosz.data.extdata.Berman' as an importable package[^1],
+2025-12-29T00:58:59.2565410Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.2582260Z 
+2025-12-29T00:58:59.2592040Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.2596190Z           package, please make sure that 'pychnosz.data.extdata.Berman' is explicitly added
+2025-12-29T00:58:59.2601250Z           to the `packages` configuration field.
+2025-12-29T00:58:59.2604030Z 
+2025-12-29T00:58:59.2606400Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.2622270Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.2655800Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.2657430Z 
+2025-12-29T00:58:59.2671270Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.2704270Z 
+2025-12-29T00:58:59.2705810Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.2707340Z 
+2025-12-29T00:58:59.2711420Z           If you don't want 'pychnosz.data.extdata.Berman' to be distributed and are
+2025-12-29T00:58:59.2714130Z           already explicitly excluding 'pychnosz.data.extdata.Berman' via
+2025-12-29T00:58:59.2724230Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.2728550Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.2733240Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.2737920Z 
+2025-12-29T00:58:59.2739830Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.2749940Z 
+2025-12-29T00:58:59.2751800Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.2756360Z 
+2025-12-29T00:58:59.2757190Z 
+2025-12-29T00:58:59.2766820Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.2770350Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.2862620Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.2872600Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.2880800Z           ********************************************************************************
+2025-12-29T00:58:59.2881860Z 
+2025-12-29T00:58:59.2882580Z   !!
+2025-12-29T00:58:59.2887680Z     check.warn(importable)
+2025-12-29T00:58:59.2892940Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.Berman.testing' is absent from the `packages` configuration.
+2025-12-29T00:58:59.2898070Z   !!
+2025-12-29T00:58:59.2901070Z 
+2025-12-29T00:58:59.2907860Z           ********************************************************************************
+2025-12-29T00:58:59.2910120Z           ############################
+2025-12-29T00:58:59.2911180Z           # Package would be ignored #
+2025-12-29T00:58:59.2980530Z           ############################
+2025-12-29T00:58:59.2985720Z           Python recognizes 'pychnosz.data.extdata.Berman.testing' as an importable package[^1],
+2025-12-29T00:58:59.2987360Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.2988410Z 
+2025-12-29T00:58:59.2989430Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.2996980Z           package, please make sure that 'pychnosz.data.extdata.Berman.testing' is explicitly added
+2025-12-29T00:58:59.3018800Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3029010Z 
+2025-12-29T00:58:59.3036990Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3038750Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3082130Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3093750Z 
+2025-12-29T00:58:59.3096670Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3100120Z 
+2025-12-29T00:58:59.3101650Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3107110Z 
+2025-12-29T00:58:59.3109990Z           If you don't want 'pychnosz.data.extdata.Berman.testing' to be distributed and are
+2025-12-29T00:58:59.3114640Z           already explicitly excluding 'pychnosz.data.extdata.Berman.testing' via
+2025-12-29T00:58:59.3116830Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3124310Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3127520Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3130720Z 
+2025-12-29T00:58:59.3133280Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3136650Z 
+2025-12-29T00:58:59.3138120Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3145910Z 
+2025-12-29T00:58:59.3146860Z 
+2025-12-29T00:58:59.3148520Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3152650Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3154270Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3159480Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3160960Z           ********************************************************************************
+2025-12-29T00:58:59.3168620Z 
+2025-12-29T00:58:59.3170750Z   !!
+2025-12-29T00:58:59.3171980Z     check.warn(importable)
+2025-12-29T00:58:59.3174820Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.OBIGT' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3184350Z   !!
+2025-12-29T00:58:59.3187890Z 
+2025-12-29T00:58:59.3190120Z           ********************************************************************************
+2025-12-29T00:58:59.3191450Z           ############################
+2025-12-29T00:58:59.3194510Z           # Package would be ignored #
+2025-12-29T00:58:59.3200390Z           ############################
+2025-12-29T00:58:59.3204010Z           Python recognizes 'pychnosz.data.extdata.OBIGT' as an importable package[^1],
+2025-12-29T00:58:59.3206270Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.3208310Z 
+2025-12-29T00:58:59.3212060Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.3214470Z           package, please make sure that 'pychnosz.data.extdata.OBIGT' is explicitly added
+2025-12-29T00:58:59.3218520Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3220250Z 
+2025-12-29T00:58:59.3221830Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3264810Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3269960Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3273450Z 
+2025-12-29T00:58:59.3275170Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3381640Z 
+2025-12-29T00:58:59.3385770Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3390340Z 
+2025-12-29T00:58:59.3394140Z           If you don't want 'pychnosz.data.extdata.OBIGT' to be distributed and are
+2025-12-29T00:58:59.3397550Z           already explicitly excluding 'pychnosz.data.extdata.OBIGT' via
+2025-12-29T00:58:59.3427260Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3432780Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3515360Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3607750Z 
+2025-12-29T00:58:59.3612550Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3613810Z 
+2025-12-29T00:58:59.3615090Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3617690Z 
+2025-12-29T00:58:59.3619140Z 
+2025-12-29T00:58:59.3621740Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3624690Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3649620Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3651930Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3652670Z           ********************************************************************************
+2025-12-29T00:58:59.3653580Z 
+2025-12-29T00:58:59.3654720Z   !!
+2025-12-29T00:58:59.3674860Z     check.warn(importable)
+2025-12-29T00:58:59.3689760Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.OBIGT.testing' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3694020Z   !!
+2025-12-29T00:58:59.3698930Z 
+2025-12-29T00:58:59.3699860Z           ********************************************************************************
+2025-12-29T00:58:59.3700940Z           ############################
+2025-12-29T00:58:59.3702030Z           # Package would be ignored #
+2025-12-29T00:58:59.3709380Z           ############################
+2025-12-29T00:58:59.3714610Z           Python recognizes 'pychnosz.data.extdata.OBIGT.testing' as an importable package[^1],
+2025-12-29T00:58:59.3718180Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.3750820Z 
+2025-12-29T00:58:59.3754660Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.3759330Z           package, please make sure that 'pychnosz.data.extdata.OBIGT.testing' is explicitly added
+2025-12-29T00:58:59.3760450Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3764520Z 
+2025-12-29T00:58:59.3765890Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3767940Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3769150Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3770450Z 
+2025-12-29T00:58:59.3772060Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3777500Z 
+2025-12-29T00:58:59.3778920Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3782710Z 
+2025-12-29T00:58:59.3783910Z           If you don't want 'pychnosz.data.extdata.OBIGT.testing' to be distributed and are
+2025-12-29T00:58:59.3784990Z           already explicitly excluding 'pychnosz.data.extdata.OBIGT.testing' via
+2025-12-29T00:58:59.3785950Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3789640Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3792560Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3793910Z 
+2025-12-29T00:58:59.3795310Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3799550Z 
+2025-12-29T00:58:59.3811130Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3817260Z 
+2025-12-29T00:58:59.3825870Z 
+2025-12-29T00:58:59.3828590Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3831460Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3833100Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3835240Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3852760Z           ********************************************************************************
+2025-12-29T00:58:59.3885280Z 
+2025-12-29T00:58:59.3888900Z   !!
+2025-12-29T00:58:59.3891580Z     check.warn(importable)
+2025-12-29T00:58:59.3894570Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.misc' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3896780Z   !!
+2025-12-29T00:58:59.3897240Z 
+2025-12-29T00:58:59.3897800Z           ********************************************************************************
+2025-12-29T00:58:59.3898420Z           ############################
+2025-12-29T00:58:59.3898950Z           # Package would be ignored #
+2025-12-29T00:58:59.3899530Z           ############################
+2025-12-29T00:58:59.3900470Z           Python recognizes 'pychnosz.data.extdata.misc' as an importable package[^1],
+2025-12-29T00:58:59.3901710Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.3902340Z 
+2025-12-29T00:58:59.3902920Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.3905870Z           package, please make sure that 'pychnosz.data.extdata.misc' is explicitly added
+2025-12-29T00:58:59.3906960Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3907480Z 
+2025-12-29T00:58:59.3907970Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3909160Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3910020Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3910930Z 
+2025-12-29T00:58:59.3911420Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3912190Z 
+2025-12-29T00:58:59.3912760Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3913780Z 
+2025-12-29T00:58:59.3914450Z           If you don't want 'pychnosz.data.extdata.misc' to be distributed and are
+2025-12-29T00:58:59.3916030Z           already explicitly excluding 'pychnosz.data.extdata.misc' via
+2025-12-29T00:58:59.3917680Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3919370Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3921030Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3922070Z 
+2025-12-29T00:58:59.3922810Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3923910Z 
+2025-12-29T00:58:59.3924540Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3925340Z 
+2025-12-29T00:58:59.3925350Z 
+2025-12-29T00:58:59.3925870Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3926830Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3927750Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3928760Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3929600Z           ********************************************************************************
+2025-12-29T00:58:59.3930140Z 
+2025-12-29T00:58:59.3930300Z   !!
+2025-12-29T00:58:59.3930660Z     check.warn(importable)
+2025-12-29T00:58:59.3932900Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.protein' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3935030Z   !!
+2025-12-29T00:58:59.3935190Z 
+2025-12-29T00:58:59.3935400Z           ********************************************************************************
+2025-12-29T00:58:59.3935940Z           ############################
+2025-12-29T00:58:59.3936360Z           # Package would be ignored #
+2025-12-29T00:58:59.3936780Z           ############################
+2025-12-29T00:58:59.3937510Z           Python recognizes 'pychnosz.data.extdata.protein' as an importable package[^1],
+2025-12-29T00:58:59.3938480Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.3939000Z 
+2025-12-29T00:58:59.3939410Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.3940470Z           package, please make sure that 'pychnosz.data.extdata.protein' is explicitly added
+2025-12-29T00:58:59.3941580Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3942130Z 
+2025-12-29T00:58:59.3942530Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3943730Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3944760Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3945310Z 
+2025-12-29T00:58:59.3945740Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3946860Z 
+2025-12-29T00:58:59.3947410Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3948100Z 
+2025-12-29T00:58:59.3948490Z           If you don't want 'pychnosz.data.extdata.protein' to be distributed and are
+2025-12-29T00:58:59.3949510Z           already explicitly excluding 'pychnosz.data.extdata.protein' via
+2025-12-29T00:58:59.3950500Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3951780Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3952800Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3953480Z 
+2025-12-29T00:58:59.3954030Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3954670Z 
+2025-12-29T00:58:59.3955010Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3955550Z 
+2025-12-29T00:58:59.3955560Z 
+2025-12-29T00:58:59.3955930Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3956910Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3957890Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3958970Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3959890Z           ********************************************************************************
+2025-12-29T00:58:59.3960500Z 
+2025-12-29T00:58:59.3960670Z   !!
+2025-12-29T00:58:59.3961230Z     check.warn(importable)
+2025-12-29T00:58:59.3963690Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.protein.Cas' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3965980Z   !!
+2025-12-29T00:58:59.3966220Z 
+2025-12-29T00:58:59.3966500Z           ********************************************************************************
+2025-12-29T00:58:59.3967280Z           ############################
+2025-12-29T00:58:59.3967890Z           # Package would be ignored #
+2025-12-29T00:58:59.3968490Z           ############################
+2025-12-29T00:58:59.3969400Z           Python recognizes 'pychnosz.data.extdata.protein.Cas' as an importable package[^1],
+2025-12-29T00:58:59.3970380Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.3971010Z 
+2025-12-29T00:58:59.3971430Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.3972530Z           package, please make sure that 'pychnosz.data.extdata.protein.Cas' is explicitly added
+2025-12-29T00:58:59.3973430Z           to the `packages` configuration field.
+2025-12-29T00:58:59.3973860Z 
+2025-12-29T00:58:59.3974200Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.3975370Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.3976480Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.3976950Z 
+2025-12-29T00:58:59.3977420Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.3978150Z 
+2025-12-29T00:58:59.3978650Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.3979440Z 
+2025-12-29T00:58:59.3979990Z           If you don't want 'pychnosz.data.extdata.protein.Cas' to be distributed and are
+2025-12-29T00:58:59.3981000Z           already explicitly excluding 'pychnosz.data.extdata.protein.Cas' via
+2025-12-29T00:58:59.3982210Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.3983580Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.3985380Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.3986120Z 
+2025-12-29T00:58:59.3986650Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.3987470Z 
+2025-12-29T00:58:59.3987910Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.3988460Z 
+2025-12-29T00:58:59.3988460Z 
+2025-12-29T00:58:59.3988780Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.3990150Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.3991010Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.3991930Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.3992620Z           ********************************************************************************
+2025-12-29T00:58:59.3993050Z 
+2025-12-29T00:58:59.3993170Z   !!
+2025-12-29T00:58:59.3993460Z     check.warn(importable)
+2025-12-29T00:58:59.3995340Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.src' is absent from the `packages` configuration.
+2025-12-29T00:58:59.3997470Z   !!
+2025-12-29T00:58:59.3997650Z 
+2025-12-29T00:58:59.3997870Z           ********************************************************************************
+2025-12-29T00:58:59.3998420Z           ############################
+2025-12-29T00:58:59.3999010Z           # Package would be ignored #
+2025-12-29T00:58:59.3999520Z           ############################
+2025-12-29T00:58:59.4000320Z           Python recognizes 'pychnosz.data.extdata.src' as an importable package[^1],
+2025-12-29T00:58:59.4001430Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.4001920Z 
+2025-12-29T00:58:59.4002320Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.4003400Z           package, please make sure that 'pychnosz.data.extdata.src' is explicitly added
+2025-12-29T00:58:59.4004520Z           to the `packages` configuration field.
+2025-12-29T00:58:59.4005020Z 
+2025-12-29T00:58:59.4005360Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.4006900Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.4008100Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.4009000Z 
+2025-12-29T00:58:59.4009750Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.4010490Z 
+2025-12-29T00:58:59.4010930Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.4011520Z 
+2025-12-29T00:58:59.4011860Z           If you don't want 'pychnosz.data.extdata.src' to be distributed and are
+2025-12-29T00:58:59.4012730Z           already explicitly excluding 'pychnosz.data.extdata.src' via
+2025-12-29T00:58:59.4013610Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.4014570Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.4015500Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.4016070Z 
+2025-12-29T00:58:59.4016570Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.4017290Z 
+2025-12-29T00:58:59.4017760Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.4018300Z 
+2025-12-29T00:58:59.4018310Z 
+2025-12-29T00:58:59.4018730Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.4020020Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.4021010Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.4022490Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.4023600Z           ********************************************************************************
+2025-12-29T00:58:59.4024030Z 
+2025-12-29T00:58:59.4024140Z   !!
+2025-12-29T00:58:59.4024430Z     check.warn(importable)
+2025-12-29T00:58:59.4026350Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.taxonomy' is absent from the `packages` configuration.
+2025-12-29T00:58:59.4028690Z   !!
+2025-12-29T00:58:59.4028850Z 
+2025-12-29T00:58:59.4029060Z           ********************************************************************************
+2025-12-29T00:58:59.4029620Z           ############################
+2025-12-29T00:58:59.4030060Z           # Package would be ignored #
+2025-12-29T00:58:59.4030500Z           ############################
+2025-12-29T00:58:59.4031250Z           Python recognizes 'pychnosz.data.extdata.taxonomy' as an importable package[^1],
+2025-12-29T00:58:59.4032190Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.4032670Z 
+2025-12-29T00:58:59.4033070Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.4034150Z           package, please make sure that 'pychnosz.data.extdata.taxonomy' is explicitly added
+2025-12-29T00:58:59.4035020Z           to the `packages` configuration field.
+2025-12-29T00:58:59.4035390Z 
+2025-12-29T00:58:59.4035730Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.4036620Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.4037480Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.4037860Z 
+2025-12-29T00:58:59.4038250Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.4038870Z 
+2025-12-29T00:58:59.4039270Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.4039870Z 
+2025-12-29T00:58:59.4040250Z           If you don't want 'pychnosz.data.extdata.taxonomy' to be distributed and are
+2025-12-29T00:58:59.4041870Z           already explicitly excluding 'pychnosz.data.extdata.taxonomy' via
+2025-12-29T00:58:59.4043020Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.4044230Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.4045200Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.4045750Z 
+2025-12-29T00:58:59.4046130Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.4046720Z 
+2025-12-29T00:58:59.4047060Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.4047630Z 
+2025-12-29T00:58:59.4047640Z 
+2025-12-29T00:58:59.4047960Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.4048700Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.4049400Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.4050200Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.4050860Z           ********************************************************************************
+2025-12-29T00:58:59.4051290Z 
+2025-12-29T00:58:59.4051390Z   !!
+2025-12-29T00:58:59.4051700Z     check.warn(importable)
+2025-12-29T00:58:59.4054010Z   /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-build-env-rjq7oimz/overlay/lib/python3.10/site-packages/setuptools/command/build_py.py:212: _Warning: Package 'pychnosz.data.extdata.thermo' is absent from the `packages` configuration.
+2025-12-29T00:58:59.4057030Z   !!
+2025-12-29T00:58:59.4057270Z 
+2025-12-29T00:58:59.4057580Z           ********************************************************************************
+2025-12-29T00:58:59.4058330Z           ############################
+2025-12-29T00:58:59.4058930Z           # Package would be ignored #
+2025-12-29T00:58:59.4059500Z           ############################
+2025-12-29T00:58:59.4060470Z           Python recognizes 'pychnosz.data.extdata.thermo' as an importable package[^1],
+2025-12-29T00:58:59.4062140Z           but it is absent from setuptools' `packages` configuration.
+2025-12-29T00:58:59.4062780Z 
+2025-12-29T00:58:59.4063340Z           This leads to an ambiguous overall configuration. If you want to distribute this
+2025-12-29T00:58:59.4064730Z           package, please make sure that 'pychnosz.data.extdata.thermo' is explicitly added
+2025-12-29T00:58:59.4065840Z           to the `packages` configuration field.
+2025-12-29T00:58:59.4066340Z 
+2025-12-29T00:58:59.4066770Z           Alternatively, you can also rely on setuptools' discovery methods
+2025-12-29T00:58:59.4067870Z           (for example by using `find_namespace_packages(...)`/`find_namespace:`
+2025-12-29T00:58:59.4068840Z           instead of `find_packages(...)`/`find:`).
+2025-12-29T00:58:59.4069300Z 
+2025-12-29T00:58:59.4069690Z           You can read more about "package discovery" on setuptools documentation page:
+2025-12-29T00:58:59.4070290Z 
+2025-12-29T00:58:59.4070690Z           - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html
+2025-12-29T00:58:59.4071290Z 
+2025-12-29T00:58:59.4071710Z           If you don't want 'pychnosz.data.extdata.thermo' to be distributed and are
+2025-12-29T00:58:59.4072940Z           already explicitly excluding 'pychnosz.data.extdata.thermo' via
+2025-12-29T00:58:59.4074150Z           `find_namespace_packages(...)/find_namespace` or `find_packages(...)/find`,
+2025-12-29T00:58:59.4075360Z           you can try to use `exclude_package_data`, or `include-package-data=False` in
+2025-12-29T00:58:59.4076620Z           combination with a more fine grained `package-data` configuration.
+2025-12-29T00:58:59.4077360Z 
+2025-12-29T00:58:59.4077910Z           You can read more about "package data files" on setuptools documentation page:
+2025-12-29T00:58:59.4078560Z 
+2025-12-29T00:58:59.4078940Z           - https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+2025-12-29T00:58:59.4079550Z 
+2025-12-29T00:58:59.4079570Z 
+2025-12-29T00:58:59.4079900Z           [^1]: For Python, any directory (with suitable naming) can be imported,
+2025-12-29T00:58:59.4080780Z                 even if it does not contain any `.py` files.
+2025-12-29T00:58:59.4081570Z                 On the other hand, currently there is no concept of package data
+2025-12-29T00:58:59.4082390Z                 directory, all directories are treated like packages.
+2025-12-29T00:58:59.4083310Z           ********************************************************************************
+2025-12-29T00:58:59.4083890Z 
+2025-12-29T00:58:59.4084010Z   !!
+2025-12-29T00:58:59.4084340Z     check.warn(importable)
+2025-12-29T00:58:59.4085170Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4086570Z   copying pychnosz/data/extdata/Berman/BDat17_2017.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4088210Z   copying pychnosz/data/extdata/Berman/Ber88_1988.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4089850Z   copying pychnosz/data/extdata/Berman/Ber90_1990.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4091530Z   copying pychnosz/data/extdata/Berman/DS10_2010.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4093250Z   copying pychnosz/data/extdata/Berman/FDM+14_2014.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4095240Z   copying pychnosz/data/extdata/Berman/Got04_2004.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4097650Z   copying pychnosz/data/extdata/Berman/JUN92_1992.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4099830Z   copying pychnosz/data/extdata/Berman/SHD91_1991.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4101890Z   copying pychnosz/data/extdata/Berman/VGT92_1992.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4104410Z   copying pychnosz/data/extdata/Berman/VPT01_2001.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4106890Z   copying pychnosz/data/extdata/Berman/VPV05_2005.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4108950Z   copying pychnosz/data/extdata/Berman/ZS92_1992.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4110710Z   copying pychnosz/data/extdata/Berman/sympy.R -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4112350Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4113910Z   copying pychnosz/data/extdata/Berman/testing/BA96.bib -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4115970Z   copying pychnosz/data/extdata/Berman/testing/BA96_Berman.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4118540Z   copying pychnosz/data/extdata/Berman/testing/BA96_OBIGT.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4121070Z   copying pychnosz/data/extdata/Berman/testing/BA96_refs.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4122920Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4124240Z   copying pychnosz/data/extdata/OBIGT/AD.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4125870Z   copying pychnosz/data/extdata/OBIGT/Berman_cr.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4127780Z   copying pychnosz/data/extdata/OBIGT/DEW.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4129630Z   copying pychnosz/data/extdata/OBIGT/H2O_aq.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4131360Z   copying pychnosz/data/extdata/OBIGT/SLOP98.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4133290Z   copying pychnosz/data/extdata/OBIGT/SUPCRT92.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4135370Z   copying pychnosz/data/extdata/OBIGT/inorganic_aq.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4137320Z   copying pychnosz/data/extdata/OBIGT/inorganic_cr.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4139990Z   copying pychnosz/data/extdata/OBIGT/inorganic_gas.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4142770Z   copying pychnosz/data/extdata/OBIGT/organic_aq.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4144870Z   copying pychnosz/data/extdata/OBIGT/organic_cr.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4146650Z   copying pychnosz/data/extdata/OBIGT/organic_gas.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4148470Z   copying pychnosz/data/extdata/OBIGT/organic_liq.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4150770Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4152670Z   copying pychnosz/data/extdata/OBIGT/testing/GEMSFIT.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4155150Z   copying pychnosz/data/extdata/OBIGT/testing/IGEM.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4157590Z   copying pychnosz/data/extdata/OBIGT/testing/Sandia.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4160510Z   copying pychnosz/data/extdata/OBIGT/testing/SiO2.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4162150Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4164400Z   copying pychnosz/data/extdata/misc/AD03_Fig1a.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4167070Z   copying pychnosz/data/extdata/misc/AD03_Fig1b.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4168660Z   copying pychnosz/data/extdata/misc/AD03_Fig1c.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4170350Z   copying pychnosz/data/extdata/misc/AD03_Fig1d.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4172160Z   copying pychnosz/data/extdata/misc/BZA10.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4174240Z   copying pychnosz/data/extdata/misc/HW97_Cp.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4176090Z   copying pychnosz/data/extdata/misc/HWM96_V.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4177680Z   copying pychnosz/data/extdata/misc/LA19_test.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4179430Z   copying pychnosz/data/extdata/misc/Mer75_Table4.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4181590Z   copying pychnosz/data/extdata/misc/OBIGT_check.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4183830Z   copying pychnosz/data/extdata/misc/PM90.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4185780Z   copying pychnosz/data/extdata/misc/RH95.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4188290Z   copying pychnosz/data/extdata/misc/RH98_Table15.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4190340Z   copying pychnosz/data/extdata/misc/SC10_Rainbow.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4192160Z   copying pychnosz/data/extdata/misc/SK95.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4194060Z   copying pychnosz/data/extdata/misc/SOJSH.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4195820Z   copying pychnosz/data/extdata/misc/SS98_Fig5a.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4197370Z   copying pychnosz/data/extdata/misc/SS98_Fig5b.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4199320Z   copying pychnosz/data/extdata/misc/TKSS14_Fig2.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4201370Z   copying pychnosz/data/extdata/misc/bluered.txt -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4202760Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4204400Z   copying pychnosz/data/extdata/protein/POLG.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4206920Z   copying pychnosz/data/extdata/protein/TBD+05.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4208710Z   copying pychnosz/data/extdata/protein/TBD+05_aa.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4210480Z   copying pychnosz/data/extdata/protein/rubisco.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4223040Z   copying pychnosz/data/extdata/protein/rubisco.fasta -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4225260Z   copying pychnosz/data/extdata/protein/rubisco_aa.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4226880Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4228410Z   copying pychnosz/data/extdata/protein/Cas/Cas_aa.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4230640Z   copying pychnosz/data/extdata/protein/Cas/Cas_uniprot.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4232780Z   copying pychnosz/data/extdata/protein/Cas/download.R -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4234690Z   copying pychnosz/data/extdata/protein/Cas/mkaa.R -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4236230Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/src
+2025-12-29T00:58:59.4237930Z   copying pychnosz/data/extdata/src/H2O92D.f.orig -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/src
+2025-12-29T00:58:59.4239750Z   copying pychnosz/data/extdata/src/README.txt -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/src
+2025-12-29T00:58:59.4241240Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4242970Z   copying pychnosz/data/extdata/taxonomy/names.dmp -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4245120Z   copying pychnosz/data/extdata/taxonomy/nodes.dmp -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4246830Z   creating build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4248520Z   copying pychnosz/data/extdata/thermo/Bdot_acirc.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4250730Z   copying pychnosz/data/extdata/thermo/buffer.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4252700Z   copying pychnosz/data/extdata/thermo/element.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4254910Z   copying pychnosz/data/extdata/thermo/groups.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4257050Z   copying pychnosz/data/extdata/thermo/opt.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4258820Z   copying pychnosz/data/extdata/thermo/protein.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4260790Z   copying pychnosz/data/extdata/thermo/refs.csv -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4263040Z   copying pychnosz/data/extdata/thermo/stoich.csv.xz -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4265140Z   copying pychnosz/fortran/h2o92.dylib -> build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran
+2025-12-29T00:58:59.4266320Z   running build_ext
+2025-12-29T00:58:59.4266780Z   installing to build/bdist.macosx-10.9-x86_64/wheel
+2025-12-29T00:58:59.4267430Z   running install
+2025-12-29T00:58:59.4268270Z   running install_lib
+2025-12-29T00:58:59.4268770Z   creating build/bdist.macosx-10.9-x86_64/wheel
+2025-12-29T00:58:59.4269570Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz
+2025-12-29T00:58:59.4270490Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/core
+2025-12-29T00:58:59.4272150Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/basis.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4274220Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/equilibrium.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4276770Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/species.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4278560Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/diagram.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4281280Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/equilibrate.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4283250Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/subcrt.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4285030Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/affinity.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4286900Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4288990Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/animation.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4291190Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/thermo.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4293710Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/retrieve.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4295980Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/unicurve.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4298000Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/info.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4300110Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/speciation.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4302460Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/core/balance.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/core
+2025-12-29T00:58:59.4304750Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz
+2025-12-29T00:58:59.4306320Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/utils
+2025-12-29T00:58:59.4307950Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/units.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4310300Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/formula.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4312620Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/formula_ox.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4315040Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/reset.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4316960Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4318800Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/utils/expression.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/utils
+2025-12-29T00:58:59.4320080Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/models
+2025-12-29T00:58:59.4321660Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/archer_wang.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4324480Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/berman.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4326700Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/water.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4328590Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/cgl.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4331180Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4333410Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/hkf_helpers.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4335440Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/hkf.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4337240Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/iapws95.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4339220Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/supcrt92_fortran.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4342060Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/models/dew.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/models
+2025-12-29T00:58:59.4344290Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/fortran
+2025-12-29T00:58:59.4345620Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran/h2o92_interface.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/fortran
+2025-12-29T00:58:59.4347410Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/fortran
+2025-12-29T00:58:59.4349160Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/fortran/h2o92.dylib -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/fortran
+2025-12-29T00:58:59.4350480Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/biomolecules
+2025-12-29T00:58:59.4351930Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules/proteins.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/biomolecules
+2025-12-29T00:58:59.4354190Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/biomolecules
+2025-12-29T00:58:59.4356130Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/biomolecules/ionize_aa.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/biomolecules
+2025-12-29T00:58:59.4357480Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data
+2025-12-29T00:58:59.4358640Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/obigt.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.4359890Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata
+2025-12-29T00:58:59.4360750Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4362220Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/bluered.txt -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4364370Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/Mer75_Table4.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4366620Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/RH95.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4368690Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/SS98_Fig5a.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4371360Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/TKSS14_Fig2.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4373890Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/PM90.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4375990Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/SS98_Fig5b.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4378610Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/AD03_Fig1d.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4381860Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/OBIGT_check.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4384010Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/AD03_Fig1a.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4386100Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/AD03_Fig1b.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4388250Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/AD03_Fig1c.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4390390Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/SC10_Rainbow.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4392530Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/BZA10.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4395020Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/HWM96_V.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4397550Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/LA19_test.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4399790Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/SK95.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4401830Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/SOJSH.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4403940Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/RH98_Table15.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4406040Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/misc/HW97_Cp.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/misc
+2025-12-29T00:58:59.4407530Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4409100Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/organic_aq.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4411300Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/inorganic_cr.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4413530Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/H2O_aq.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4415700Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/SLOP98.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4417310Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4419130Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing/IGEM.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4421970Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing/GEMSFIT.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4424290Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing/Sandia.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4426610Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/testing/SiO2.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:59.4429330Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/inorganic_aq.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4431550Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/organic_liq.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4434250Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/Berman_cr.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4436490Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/DEW.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4438710Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/organic_gas.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4440880Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/AD.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4442970Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/organic_cr.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4445160Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/inorganic_gas.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4447420Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/OBIGT/SUPCRT92.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:59.4540550Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4559150Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4566580Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas/Cas_aa.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4577340Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas/mkaa.R -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4580560Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas/download.R -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4599330Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/Cas/Cas_uniprot.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:59.4611270Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/rubisco.fasta -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4619870Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/rubisco_aa.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4630770Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/TBD+05_aa.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4638710Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/rubisco.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4646220Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/POLG.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4653530Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/protein/TBD+05.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/protein
+2025-12-29T00:58:59.4663450Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4671540Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/groups.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4683520Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/Bdot_acirc.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4688240Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/opt.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4695190Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/refs.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4705230Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/stoich.csv.xz -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4717150Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/buffer.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4771460Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/protein.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4783790Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/thermo/element.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/thermo
+2025-12-29T00:58:59.4786120Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4819520Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/taxonomy/names.dmp -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4821850Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/taxonomy/nodes.dmp -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:59.4872860Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4878630Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/VGT92_1992.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4919070Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/VPT01_2001.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4925590Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/sympy.R -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4936410Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/Got04_2004.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4943580Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/VPV05_2005.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.4958280Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4963840Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing/BA96_OBIGT.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.4971090Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing/BA96_Berman.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.5003190Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing/BA96_refs.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.5011770Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/testing/BA96.bib -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:59.5024290Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/DS10_2010.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5038090Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/JUN92_1992.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5059870Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/BDat17_2017.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5066480Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/ZS92_1992.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5094920Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/Ber90_1990.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5116780Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/FDM+14_2014.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5122300Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/Ber88_1988.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5141120Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/Berman/SHD91_1991.csv -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/Berman
+2025-12-29T00:58:59.5147970Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/data/extdata/src
+2025-12-29T00:58:59.5154900Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/src/H2O92D.f.orig -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/src
+2025-12-29T00:58:59.5165720Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/extdata/src/README.txt -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data/extdata/src
+2025-12-29T00:58:59.5183370Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/worm.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.5203170Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/add_obigt.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.5226100Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.5241090Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/loader.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.5263050Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/data/mod_obigt.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/data
+2025-12-29T00:58:59.5273190Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz/geochemistry
+2025-12-29T00:58:59.5281030Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry/__init__.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/geochemistry
+2025-12-29T00:58:59.5292470Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry/minerals.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/geochemistry
+2025-12-29T00:58:59.5304520Z   copying build/lib.macosx-10.9-x86_64-cpython-310/pychnosz/geochemistry/redox.py -> build/bdist.macosx-10.9-x86_64/wheel/./pychnosz/geochemistry
+2025-12-29T00:58:59.5311150Z   running install_egg_info
+2025-12-29T00:58:59.5376760Z   Copying pychnosz.egg-info to build/bdist.macosx-10.9-x86_64/wheel/./pychnosz-1.1.8-py3.10.egg-info
+2025-12-29T00:58:59.5437310Z   running install_scripts
+2025-12-29T00:58:59.5735680Z   creating build/bdist.macosx-10.9-x86_64/wheel/pychnosz-1.1.8.dist-info/WHEEL
+2025-12-29T00:58:59.5746200Z   creating '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-wheel-15ack8xn/.tmp-c67_nppu/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl' and adding 'build/bdist.macosx-10.9-x86_64/wheel' to it
+2025-12-29T00:58:59.5755060Z   adding 'pychnosz/__init__.py'
+2025-12-29T00:58:59.5759200Z   adding 'pychnosz/biomolecules/__init__.py'
+2025-12-29T00:58:59.5764420Z   adding 'pychnosz/biomolecules/ionize_aa.py'
+2025-12-29T00:58:59.5783170Z   adding 'pychnosz/biomolecules/proteins.py'
+2025-12-29T00:58:59.5788520Z   adding 'pychnosz/core/__init__.py'
+2025-12-29T00:58:59.5819370Z   adding 'pychnosz/core/affinity.py'
+2025-12-29T00:58:59.5833150Z   adding 'pychnosz/core/animation.py'
+2025-12-29T00:58:59.5842080Z   adding 'pychnosz/core/balance.py'
+2025-12-29T00:58:59.5852450Z   adding 'pychnosz/core/basis.py'
+2025-12-29T00:58:59.5907600Z   adding 'pychnosz/core/diagram.py'
+2025-12-29T00:58:59.5936170Z   adding 'pychnosz/core/equilibrate.py'
+2025-12-29T00:58:59.5948070Z   adding 'pychnosz/core/equilibrium.py'
+2025-12-29T00:58:59.5962740Z   adding 'pychnosz/core/info.py'
+2025-12-29T00:58:59.5979730Z   adding 'pychnosz/core/retrieve.py'
+2025-12-29T00:58:59.5996600Z   adding 'pychnosz/core/speciation.py'
+2025-12-29T00:58:59.5998240Z   adding 'pychnosz/core/species.py'
+2025-12-29T00:58:59.6027120Z   adding 'pychnosz/core/subcrt.py'
+2025-12-29T00:58:59.6043650Z   adding 'pychnosz/core/thermo.py'
+2025-12-29T00:58:59.6060860Z   adding 'pychnosz/core/unicurve.py'
+2025-12-29T00:58:59.6066070Z   adding 'pychnosz/data/__init__.py'
+2025-12-29T00:58:59.6073540Z   adding 'pychnosz/data/add_obigt.py'
+2025-12-29T00:58:59.6080510Z   adding 'pychnosz/data/loader.py'
+2025-12-29T00:58:59.6100700Z   adding 'pychnosz/data/mod_obigt.py'
+2025-12-29T00:58:59.6107140Z   adding 'pychnosz/data/obigt.py'
+2025-12-29T00:58:59.6114670Z   adding 'pychnosz/data/worm.py'
+2025-12-29T00:58:59.6121800Z   adding 'pychnosz/data/extdata/Berman/BDat17_2017.csv'
+2025-12-29T00:58:59.6129720Z   adding 'pychnosz/data/extdata/Berman/Ber88_1988.csv'
+2025-12-29T00:58:59.6134870Z   adding 'pychnosz/data/extdata/Berman/Ber90_1990.csv'
+2025-12-29T00:58:59.6138180Z   adding 'pychnosz/data/extdata/Berman/DS10_2010.csv'
+2025-12-29T00:58:59.6139700Z   adding 'pychnosz/data/extdata/Berman/FDM+14_2014.csv'
+2025-12-29T00:58:59.6140800Z   adding 'pychnosz/data/extdata/Berman/Got04_2004.csv'
+2025-12-29T00:58:59.6155440Z   adding 'pychnosz/data/extdata/Berman/JUN92_1992.csv'
+2025-12-29T00:58:59.6161000Z   adding 'pychnosz/data/extdata/Berman/SHD91_1991.csv'
+2025-12-29T00:58:59.6164560Z   adding 'pychnosz/data/extdata/Berman/VGT92_1992.csv'
+2025-12-29T00:58:59.6166230Z   adding 'pychnosz/data/extdata/Berman/VPT01_2001.csv'
+2025-12-29T00:58:59.6167750Z   adding 'pychnosz/data/extdata/Berman/VPV05_2005.csv'
+2025-12-29T00:58:59.6168460Z   adding 'pychnosz/data/extdata/Berman/ZS92_1992.csv'
+2025-12-29T00:58:59.6169130Z   adding 'pychnosz/data/extdata/Berman/sympy.R'
+2025-12-29T00:58:59.6172320Z   adding 'pychnosz/data/extdata/Berman/testing/BA96.bib'
+2025-12-29T00:58:59.6178590Z   adding 'pychnosz/data/extdata/Berman/testing/BA96_Berman.csv'
+2025-12-29T00:58:59.6185830Z   adding 'pychnosz/data/extdata/Berman/testing/BA96_OBIGT.csv'
+2025-12-29T00:58:59.6190750Z   adding 'pychnosz/data/extdata/Berman/testing/BA96_refs.csv'
+2025-12-29T00:58:59.6196340Z   adding 'pychnosz/data/extdata/OBIGT/AD.csv'
+2025-12-29T00:58:59.6199970Z   adding 'pychnosz/data/extdata/OBIGT/Berman_cr.csv'
+2025-12-29T00:58:59.6216540Z   adding 'pychnosz/data/extdata/OBIGT/DEW.csv'
+2025-12-29T00:58:59.6219950Z   adding 'pychnosz/data/extdata/OBIGT/H2O_aq.csv'
+2025-12-29T00:58:59.6255210Z   adding 'pychnosz/data/extdata/OBIGT/SLOP98.csv'
+2025-12-29T00:58:59.6269000Z   adding 'pychnosz/data/extdata/OBIGT/SUPCRT92.csv'
+2025-12-29T00:58:59.6326140Z   adding 'pychnosz/data/extdata/OBIGT/inorganic_aq.csv'
+2025-12-29T00:58:59.6346960Z   adding 'pychnosz/data/extdata/OBIGT/inorganic_cr.csv'
+2025-12-29T00:58:59.6348960Z   adding 'pychnosz/data/extdata/OBIGT/inorganic_gas.csv'
+2025-12-29T00:58:59.6433200Z   adding 'pychnosz/data/extdata/OBIGT/organic_aq.csv'
+2025-12-29T00:58:59.6461230Z   adding 'pychnosz/data/extdata/OBIGT/organic_cr.csv'
+2025-12-29T00:58:59.6475990Z   adding 'pychnosz/data/extdata/OBIGT/organic_gas.csv'
+2025-12-29T00:58:59.6503360Z   adding 'pychnosz/data/extdata/OBIGT/organic_liq.csv'
+2025-12-29T00:58:59.6516400Z   adding 'pychnosz/data/extdata/OBIGT/testing/GEMSFIT.csv'
+2025-12-29T00:58:59.6517380Z   adding 'pychnosz/data/extdata/OBIGT/testing/IGEM.csv'
+2025-12-29T00:58:59.6526610Z   adding 'pychnosz/data/extdata/OBIGT/testing/Sandia.csv'
+2025-12-29T00:58:59.6531460Z   adding 'pychnosz/data/extdata/OBIGT/testing/SiO2.csv'
+2025-12-29T00:58:59.6532170Z   adding 'pychnosz/data/extdata/misc/AD03_Fig1a.csv'
+2025-12-29T00:58:59.6539550Z   adding 'pychnosz/data/extdata/misc/AD03_Fig1b.csv'
+2025-12-29T00:58:59.6540250Z   adding 'pychnosz/data/extdata/misc/AD03_Fig1c.csv'
+2025-12-29T00:58:59.6544150Z   adding 'pychnosz/data/extdata/misc/AD03_Fig1d.csv'
+2025-12-29T00:58:59.6553400Z   adding 'pychnosz/data/extdata/misc/BZA10.csv'
+2025-12-29T00:58:59.6558030Z   adding 'pychnosz/data/extdata/misc/HW97_Cp.csv'
+2025-12-29T00:58:59.6563800Z   adding 'pychnosz/data/extdata/misc/HWM96_V.csv'
+2025-12-29T00:58:59.6566320Z   adding 'pychnosz/data/extdata/misc/LA19_test.csv'
+2025-12-29T00:58:59.6567820Z   adding 'pychnosz/data/extdata/misc/Mer75_Table4.csv'
+2025-12-29T00:58:59.6573540Z   adding 'pychnosz/data/extdata/misc/OBIGT_check.csv'
+2025-12-29T00:58:59.6578740Z   adding 'pychnosz/data/extdata/misc/PM90.csv'
+2025-12-29T00:58:59.6583390Z   adding 'pychnosz/data/extdata/misc/RH95.csv'
+2025-12-29T00:58:59.6590730Z   adding 'pychnosz/data/extdata/misc/RH98_Table15.csv'
+2025-12-29T00:58:59.6592410Z   adding 'pychnosz/data/extdata/misc/SC10_Rainbow.csv'
+2025-12-29T00:58:59.6599250Z   adding 'pychnosz/data/extdata/misc/SK95.csv'
+2025-12-29T00:58:59.6605530Z   adding 'pychnosz/data/extdata/misc/SOJSH.csv'
+2025-12-29T00:58:59.6610470Z   adding 'pychnosz/data/extdata/misc/SS98_Fig5a.csv'
+2025-12-29T00:58:59.6615210Z   adding 'pychnosz/data/extdata/misc/SS98_Fig5b.csv'
+2025-12-29T00:58:59.6618680Z   adding 'pychnosz/data/extdata/misc/TKSS14_Fig2.csv'
+2025-12-29T00:58:59.6625710Z   adding 'pychnosz/data/extdata/misc/bluered.txt'
+2025-12-29T00:58:59.6630750Z   adding 'pychnosz/data/extdata/protein/POLG.csv'
+2025-12-29T00:58:59.6635980Z   adding 'pychnosz/data/extdata/protein/TBD+05.csv'
+2025-12-29T00:58:59.6677350Z   adding 'pychnosz/data/extdata/protein/TBD+05_aa.csv'
+2025-12-29T00:58:59.6681310Z   adding 'pychnosz/data/extdata/protein/rubisco.csv'
+2025-12-29T00:58:59.6689940Z   adding 'pychnosz/data/extdata/protein/rubisco.fasta'
+2025-12-29T00:58:59.6696260Z   adding 'pychnosz/data/extdata/protein/rubisco_aa.csv'
+2025-12-29T00:58:59.6711030Z   adding 'pychnosz/data/extdata/protein/Cas/Cas_aa.csv'
+2025-12-29T00:58:59.6718970Z   adding 'pychnosz/data/extdata/protein/Cas/Cas_uniprot.csv'
+2025-12-29T00:58:59.6726170Z   adding 'pychnosz/data/extdata/protein/Cas/download.R'
+2025-12-29T00:58:59.6729120Z   adding 'pychnosz/data/extdata/protein/Cas/mkaa.R'
+2025-12-29T00:58:59.6763970Z   adding 'pychnosz/data/extdata/src/H2O92D.f.orig'
+2025-12-29T00:58:59.6816720Z   adding 'pychnosz/data/extdata/src/README.txt'
+2025-12-29T00:58:59.6829180Z   adding 'pychnosz/data/extdata/taxonomy/names.dmp'
+2025-12-29T00:58:59.6830320Z   adding 'pychnosz/data/extdata/taxonomy/nodes.dmp'
+2025-12-29T00:58:59.6831290Z   adding 'pychnosz/data/extdata/thermo/Bdot_acirc.csv'
+2025-12-29T00:58:59.6831930Z   adding 'pychnosz/data/extdata/thermo/buffer.csv'
+2025-12-29T00:58:59.6832620Z   adding 'pychnosz/data/extdata/thermo/element.csv'
+2025-12-29T00:58:59.6833240Z   adding 'pychnosz/data/extdata/thermo/groups.csv'
+2025-12-29T00:58:59.6833810Z   adding 'pychnosz/data/extdata/thermo/opt.csv'
+2025-12-29T00:58:59.6843040Z   adding 'pychnosz/data/extdata/thermo/protein.csv'
+2025-12-29T00:58:59.6866160Z   adding 'pychnosz/data/extdata/thermo/refs.csv'
+2025-12-29T00:58:59.6874610Z   adding 'pychnosz/data/extdata/thermo/stoich.csv.xz'
+2025-12-29T00:58:59.6878790Z   adding 'pychnosz/fortran/__init__.py'
+2025-12-29T00:58:59.6923000Z   adding 'pychnosz/fortran/h2o92.dylib'
+2025-12-29T00:58:59.6931990Z   adding 'pychnosz/fortran/h2o92_interface.py'
+2025-12-29T00:58:59.6935710Z   adding 'pychnosz/geochemistry/__init__.py'
+2025-12-29T00:58:59.6942800Z   adding 'pychnosz/geochemistry/minerals.py'
+2025-12-29T00:58:59.6949950Z   adding 'pychnosz/geochemistry/redox.py'
+2025-12-29T00:58:59.6954060Z   adding 'pychnosz/models/__init__.py'
+2025-12-29T00:58:59.6958450Z   adding 'pychnosz/models/archer_wang.py'
+2025-12-29T00:58:59.6966460Z   adding 'pychnosz/models/berman.py'
+2025-12-29T00:58:59.6973430Z   adding 'pychnosz/models/cgl.py'
+2025-12-29T00:58:59.6985740Z   adding 'pychnosz/models/dew.py'
+2025-12-29T00:58:59.6997250Z   adding 'pychnosz/models/hkf.py'
+2025-12-29T00:58:59.7011730Z   adding 'pychnosz/models/hkf_helpers.py'
+2025-12-29T00:58:59.7018210Z   adding 'pychnosz/models/iapws95.py'
+2025-12-29T00:58:59.7024320Z   adding 'pychnosz/models/supcrt92_fortran.py'
+2025-12-29T00:58:59.7031900Z   adding 'pychnosz/models/water.py'
+2025-12-29T00:58:59.7035540Z   adding 'pychnosz/utils/__init__.py'
+2025-12-29T00:58:59.7046670Z   adding 'pychnosz/utils/expression.py'
+2025-12-29T00:58:59.7065420Z   adding 'pychnosz/utils/formula.py'
+2025-12-29T00:58:59.7072620Z   adding 'pychnosz/utils/formula_ox.py'
+2025-12-29T00:58:59.7078250Z   adding 'pychnosz/utils/reset.py'
+2025-12-29T00:58:59.7083800Z   adding 'pychnosz/utils/units.py'
+2025-12-29T00:58:59.7092970Z   adding 'pychnosz-1.1.8.dist-info/licenses/LICENSE.txt'
+2025-12-29T00:58:59.7096970Z   adding 'pychnosz-1.1.8.dist-info/METADATA'
+2025-12-29T00:58:59.7098920Z   adding 'pychnosz-1.1.8.dist-info/WHEEL'
+2025-12-29T00:58:59.7100190Z   adding 'pychnosz-1.1.8.dist-info/top_level.txt'
+2025-12-29T00:58:59.7109970Z   adding 'pychnosz-1.1.8.dist-info/RECORD'
+2025-12-29T00:58:59.7126910Z   removing build/bdist.macosx-10.9-x86_64/wheel
+2025-12-29T00:58:59.7598300Z   Building wheel for pychnosz (pyproject.toml): finished with status 'done'
+2025-12-29T00:58:59.7631490Z   Created wheel for pychnosz: filename=pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl size=628403 sha256=42b4bf63d99b99da42d294da2967fcfe803cbd5ae6d7669326991f55d3fe01a9
+2025-12-29T00:58:59.7633920Z   Stored in directory: /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/pip-ephem-wheel-cache-pz24y92g/wheels/67/18/f0/ddbf3a471dc273fd64fd9cc74383d6172a757d20a7f9d96c37
+2025-12-29T00:58:59.7683860Z Successfully built pychnosz
+2025-12-29T00:59:00.0054640Z ##[endgroup]
+2025-12-29T00:59:00.0689410Z                                                               [32m✓ [0m5.30s
+2025-12-29T00:59:00.0774450Z ##[group]Repairing wheel...
+2025-12-29T00:59:00.0906120Z 
+2025-12-29T00:59:00.0948220Z + delocate-wheel --require-archs x86_64 -w /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/repaired_wheel -v /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/built_wheel/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl
+2025-12-29T00:59:01.1918320Z INFO:delocate.delocating:Copying library /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libgfortran.5.dylib to pychnosz/.dylibs/libgfortran.5.dylib
+2025-12-29T00:59:01.2085510Z INFO:delocate.delocating:Copying library /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libgcc_s.1.1.dylib to pychnosz/.dylibs/libgcc_s.1.1.dylib
+2025-12-29T00:59:01.2123560Z INFO:delocate.delocating:Copying library /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libquadmath.0.dylib to pychnosz/.dylibs/libquadmath.0.dylib
+2025-12-29T00:59:01.2143330Z INFO:delocate.delocating:Modifying install name in pychnosz/fortran/h2o92.dylib from /usr/local/opt/gcc/lib/gcc/current/libgcc_s.1.1.dylib to @loader_path/../.dylibs/libgcc_s.1.1.dylib
+2025-12-29T00:59:02.3177960Z INFO:delocate.delocating:Modifying install name in pychnosz/.dylibs/libgfortran.5.dylib from @rpath/libgcc_s.1.1.dylib to @loader_path/libgcc_s.1.1.dylib
+2025-12-29T00:59:02.4490860Z INFO:delocate.delocating:Modifying install name in pychnosz/fortran/h2o92.dylib from /usr/local/opt/gcc/lib/gcc/current/libgfortran.5.dylib to @loader_path/../.dylibs/libgfortran.5.dylib
+2025-12-29T00:59:02.5491880Z INFO:delocate.delocating:Modifying install name in pychnosz/fortran/h2o92.dylib from /usr/local/opt/gcc/lib/gcc/current/libquadmath.0.dylib to @loader_path/../.dylibs/libquadmath.0.dylib
+2025-12-29T00:59:02.6383650Z INFO:delocate.delocating:Modifying install name in pychnosz/.dylibs/libgfortran.5.dylib from @rpath/libquadmath.0.dylib to @loader_path/libquadmath.0.dylib
+2025-12-29T00:59:02.7832400Z INFO:delocate.tools:Sanitize: Deleting rpath '@loader_path' from '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmp0_0z46l3/wheel/pychnosz/fortran/h2o92.dylib'
+2025-12-29T00:59:02.8032230Z INFO:delocate.tools:Sanitize: Deleting rpath '/usr/local/Cellar/gcc/15.2.0/lib/gcc/current/gcc/x86_64-apple-darwin24/15' from '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmp0_0z46l3/wheel/pychnosz/fortran/h2o92.dylib'
+2025-12-29T00:59:02.8244830Z INFO:delocate.tools:Sanitize: Deleting rpath '/usr/local/Cellar/gcc/15.2.0/lib/gcc/current/gcc' from '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmp0_0z46l3/wheel/pychnosz/fortran/h2o92.dylib'
+2025-12-29T00:59:02.8478560Z INFO:delocate.tools:Sanitize: Deleting rpath '/usr/local/Cellar/gcc/15.2.0/lib/gcc/current' from '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmp0_0z46l3/wheel/pychnosz/fortran/h2o92.dylib'
+2025-12-29T00:59:02.9215410Z INFO:delocate.tools:Sanitize: Deleting rpath '@loader_path' from '/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/tmp0_0z46l3/wheel/pychnosz/.dylibs/libgfortran.5.dylib'
+2025-12-29T00:59:04.0142170Z INFO:delocate.delocating:Output:/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/repaired_wheel/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl
+2025-12-29T00:59:04.0144690Z Fixing: /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/built_wheel/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl
+2025-12-29T00:59:04.0157650Z Copied to package .dylibs directory:
+2025-12-29T00:59:04.0158950Z   /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libgcc_s.1.1.dylib
+2025-12-29T00:59:04.0160260Z   /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libgfortran.5.dylib
+2025-12-29T00:59:04.0161580Z   /usr/local/Cellar/gcc/15.2.0/lib/gcc/current/libquadmath.0.dylib
+2025-12-29T00:59:04.0259710Z ##[endgroup]
+2025-12-29T00:59:04.0260410Z                                                               [32m✓ [0m4.03s
+2025-12-29T00:59:04.0261060Z + python -sSc 'import platform; print(platform.machine())'
+2025-12-29T00:59:04.0717040Z ##[group]Testing wheel...
+2025-12-29T00:59:04.0717490Z 
+2025-12-29T00:59:04.0718780Z + pip install virtualenv -c /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/cibuildwheel/resources/constraints-python310.txt
+2025-12-29T00:59:04.8721640Z Collecting virtualenv
+2025-12-29T00:59:04.9127750Z   Downloading virtualenv-20.27.1-py3-none-any.whl.metadata (4.5 kB)
+2025-12-29T00:59:04.9343880Z Collecting distlib<1,>=0.3.7 (from virtualenv)
+2025-12-29T00:59:04.9409440Z   Downloading distlib-0.3.9-py2.py3-none-any.whl.metadata (5.2 kB)
+2025-12-29T00:59:04.9863440Z Collecting filelock<4,>=3.12.2 (from virtualenv)
+2025-12-29T00:59:04.9923930Z   Downloading filelock-3.16.1-py3-none-any.whl.metadata (2.9 kB)
+2025-12-29T00:59:05.0382130Z Collecting platformdirs<5,>=3.9.1 (from virtualenv)
+2025-12-29T00:59:05.0453340Z   Downloading platformdirs-4.3.6-py3-none-any.whl.metadata (11 kB)
+2025-12-29T00:59:05.0662200Z Downloading virtualenv-20.27.1-py3-none-any.whl (3.1 MB)
+2025-12-29T00:59:05.1080000Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 81.6 MB/s eta 0:00:00
+2025-12-29T00:59:05.1168210Z Downloading distlib-0.3.9-py2.py3-none-any.whl (468 kB)
+2025-12-29T00:59:05.1454270Z Downloading filelock-3.16.1-py3-none-any.whl (16 kB)
+2025-12-29T00:59:05.1657400Z Downloading platformdirs-4.3.6-py3-none-any.whl (18 kB)
+2025-12-29T00:59:05.2094860Z Installing collected packages: distlib, platformdirs, filelock, virtualenv
+2025-12-29T00:59:05.4632670Z Successfully installed distlib-0.3.9 filelock-3.16.1 platformdirs-4.3.6 virtualenv-20.27.1
+2025-12-29T00:59:05.5466220Z + python -m virtualenv --no-periodic-update --pip=24.3.1 --setuptools=embed --wheel=embed /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/venv-test-x86_64
+2025-12-29T00:59:06.8855800Z created virtual environment CPython3.10.11.final.0-64 in 1173ms
+2025-12-29T00:59:06.8857510Z   creator CPython3Posix(dest=/private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/venv-test-x86_64, clear=False, no_vcs_ignore=False, global=False)
+2025-12-29T00:59:06.8859740Z   seeder FromAppData(download=False, pip=24.3.1, setuptools=embed, wheel=embed, via=copy, app_data_dir=/Users/runner/Library/Application Support/virtualenv)
+2025-12-29T00:59:06.8861080Z     added seed packages: pip==24.3.1, setuptools==75.2.0, wheel==0.44.0
+2025-12-29T00:59:06.8862270Z   activators BashActivator,CShellActivator,FishActivator,NushellActivator,PowerShellActivator,PythonActivator
+2025-12-29T00:59:06.9174500Z + which python
+2025-12-29T00:59:06.9230860Z /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/venv-test-x86_64/bin/python
+2025-12-29T00:59:06.9234250Z + pip install /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/repaired_wheel/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl
+2025-12-29T00:59:08.0085700Z Processing /private/var/folders/6k/3_2ylbdd4rl8w3kbs55s3kk80000gn/T/cibw-run-1oxoukq_/cp310-macosx_x86_64/repaired_wheel/pychnosz-1.1.8-cp310-cp310-macosx_15_0_x86_64.whl
+2025-12-29T00:59:08.5034480Z Collecting numpy>=1.20.0 (from pychnosz==1.1.8)
+2025-12-29T00:59:08.5912050Z   Downloading numpy-2.2.6-cp310-cp310-macosx_14_0_x86_64.whl.metadata (62 kB)
+2025-12-29T00:59:08.7694330Z Collecting pandas>=1.3.0 (from pychnosz==1.1.8)
+2025-12-29T00:59:08.7812590Z   Downloading pandas-2.3.3-cp310-cp310-macosx_10_9_x86_64.whl.metadata (91 kB)
+2025-12-29T00:59:09.2366680Z Collecting scipy>=1.7.0 (from pychnosz==1.1.8)
+2025-12-29T00:59:09.3224480Z   Downloading scipy-1.15.3-cp310-cp310-macosx_14_0_x86_64.whl.metadata (61 kB)
+2025-12-29T00:59:09.8135100Z Collecting matplotlib>=3.3.0 (from pychnosz==1.1.8)
+2025-12-29T00:59:09.8609030Z   Downloading matplotlib-3.10.8-cp310-cp310-macosx_10_12_x86_64.whl.metadata (52 kB)
+2025-12-29T00:59:10.1829150Z Collecting contourpy>=1.0.1 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:10.2148950Z   Downloading contourpy-1.3.2-cp310-cp310-macosx_10_9_x86_64.whl.metadata (5.5 kB)
+2025-12-29T00:59:10.3066160Z Collecting cycler>=0.10 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:10.3406480Z   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2025-12-29T00:59:11.2339410Z Collecting fonttools>=4.22.0 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:11.2742950Z   Downloading fonttools-4.61.1-cp310-cp310-macosx_10_9_x86_64.whl.metadata (114 kB)
+2025-12-29T00:59:11.5255820Z Collecting kiwisolver>=1.3.1 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:11.5663000Z   Downloading kiwisolver-1.4.9-cp310-cp310-macosx_10_9_x86_64.whl.metadata (6.3 kB)
+2025-12-29T00:59:11.6364180Z Collecting packaging>=20.0 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:11.6408270Z   Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+2025-12-29T00:59:12.0432600Z Collecting pillow>=8 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.0538520Z   Downloading pillow-12.0.0-cp310-cp310-macosx_10_10_x86_64.whl.metadata (8.8 kB)
+2025-12-29T00:59:12.2102110Z Collecting pyparsing>=3 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.2865000Z   Downloading pyparsing-3.3.1-py3-none-any.whl.metadata (5.6 kB)
+2025-12-29T00:59:12.3922050Z Collecting python-dateutil>=2.7 (from matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.4662010Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2025-12-29T00:59:12.4966310Z Collecting pytz>=2020.1 (from pandas>=1.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.5081980Z   Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+2025-12-29T00:59:12.5480960Z Collecting tzdata>=2022.7 (from pandas>=1.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.5551630Z   Downloading tzdata-2025.3-py2.py3-none-any.whl.metadata (1.4 kB)
+2025-12-29T00:59:12.6182710Z Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib>=3.3.0->pychnosz==1.1.8)
+2025-12-29T00:59:12.6249440Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2025-12-29T00:59:12.6678850Z Downloading matplotlib-3.10.8-cp310-cp310-macosx_10_12_x86_64.whl (8.2 MB)
+2025-12-29T00:59:12.7872820Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.2/8.2 MB 82.9 MB/s eta 0:00:00
+2025-12-29T00:59:12.7970800Z Downloading numpy-2.2.6-cp310-cp310-macosx_14_0_x86_64.whl (6.9 MB)
+2025-12-29T00:59:12.8832290Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 80.0 MB/s eta 0:00:00
+2025-12-29T00:59:12.8934510Z Downloading pandas-2.3.3-cp310-cp310-macosx_10_9_x86_64.whl (11.6 MB)
+2025-12-29T00:59:13.0229570Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.6/11.6 MB 89.7 MB/s eta 0:00:00
+2025-12-29T00:59:13.0335530Z Downloading scipy-1.15.3-cp310-cp310-macosx_14_0_x86_64.whl (25.1 MB)
+2025-12-29T00:59:13.5146750Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25.1/25.1 MB 52.0 MB/s eta 0:00:00
+2025-12-29T00:59:13.5263680Z Downloading contourpy-1.3.2-cp310-cp310-macosx_10_9_x86_64.whl (268 kB)
+2025-12-29T00:59:13.7089440Z Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2025-12-29T00:59:13.7271130Z Downloading fonttools-4.61.1-cp310-cp310-macosx_10_9_x86_64.whl (2.4 MB)
+2025-12-29T00:59:13.7751420Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.4/2.4 MB 49.0 MB/s eta 0:00:00
+2025-12-29T00:59:13.7930710Z Downloading kiwisolver-1.4.9-cp310-cp310-macosx_10_9_x86_64.whl (66 kB)
+2025-12-29T00:59:13.8135180Z Using cached packaging-25.0-py3-none-any.whl (66 kB)
+2025-12-29T00:59:13.8228570Z Downloading pillow-12.0.0-cp310-cp310-macosx_10_10_x86_64.whl (5.3 MB)
+2025-12-29T00:59:13.9561360Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.3/5.3 MB 39.1 MB/s eta 0:00:00
+2025-12-29T00:59:13.9644160Z Downloading pyparsing-3.3.1-py3-none-any.whl (121 kB)
+2025-12-29T00:59:14.0001230Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2025-12-29T00:59:14.0176820Z Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+2025-12-29T00:59:14.0354740Z Downloading tzdata-2025.3-py2.py3-none-any.whl (348 kB)
+2025-12-29T00:59:14.0550770Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2025-12-29T00:59:14.4400060Z Installing collected packages: pytz, tzdata, six, pyparsing, pillow, packaging, numpy, kiwisolver, fonttools, cycler, scipy, python-dateutil, contourpy, pandas, matplotlib, pychnosz
+2025-12-29T00:59:18.2679640Z ##[error]The operation was canceled.

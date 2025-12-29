@@ -1,0 +1,21 @@
+﻿2025-12-29T00:58:06.5390590Z ##[group]Run brew install gcc
+2025-12-29T00:58:06.5390820Z [36;1mbrew install gcc[0m
+2025-12-29T00:58:06.5391030Z [36;1mGFORTRAN_PATH=$(brew --prefix gcc)/bin/gfortran[0m
+2025-12-29T00:58:06.5391290Z [36;1mecho "Installed gfortran at: $GFORTRAN_PATH"[0m
+2025-12-29T00:58:06.5391560Z [36;1mlipo -info "$GFORTRAN_PATH" || file "$GFORTRAN_PATH"[0m
+2025-12-29T00:58:06.5421480Z shell: /bin/bash -e {0}
+2025-12-29T00:58:06.5421640Z env:
+2025-12-29T00:58:06.5421850Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.5422250Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2025-12-29T00:58:06.5422630Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.5422960Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.5423380Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.5423640Z ##[endgroup]
+2025-12-29T00:58:09.3749500Z ✔︎ JSON API formula_tap_migrations.jws.json
+2025-12-29T00:58:09.3750110Z ✔︎ JSON API cask_tap_migrations.jws.json
+2025-12-29T00:58:10.3995910Z ##[warning]gcc 15.2.0 is already installed and up-to-date.
+To reinstall 15.2.0, run:
+  brew reinstall gcc
+
+2025-12-29T00:58:10.4534200Z Installed gfortran at: /opt/homebrew/opt/gcc/bin/gfortran
+2025-12-29T00:58:10.8454130Z Non-fat file: /opt/homebrew/opt/gcc/bin/gfortran is architecture: arm64

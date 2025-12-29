@@ -1,0 +1,72 @@
+﻿2025-12-29T00:58:04.1319030Z ##[group]Run actions/checkout@v4
+2025-12-29T00:58:04.1321600Z with:
+2025-12-29T00:58:04.1323010Z   repository: worm-portal/pychnosz
+2025-12-29T00:58:04.1325320Z   token: ***
+2025-12-29T00:58:04.1326650Z   ssh-strict: true
+2025-12-29T00:58:04.1328190Z   ssh-user: git
+2025-12-29T00:58:04.1329620Z   persist-credentials: true
+2025-12-29T00:58:04.1331240Z   clean: true
+2025-12-29T00:58:04.1333530Z   sparse-checkout-cone-mode: true
+2025-12-29T00:58:04.1335400Z   fetch-depth: 1
+2025-12-29T00:58:04.1336810Z   fetch-tags: false
+2025-12-29T00:58:04.1338250Z   show-progress: true
+2025-12-29T00:58:04.1339720Z   lfs: false
+2025-12-29T00:58:04.1341070Z   submodules: false
+2025-12-29T00:58:04.1342620Z   set-safe-directory: true
+2025-12-29T00:58:04.1345100Z ##[endgroup]
+2025-12-29T00:58:04.4133930Z Syncing repository: worm-portal/pychnosz
+2025-12-29T00:58:04.4138600Z ##[group]Getting Git version info
+2025-12-29T00:58:04.4141120Z Working directory is '/Users/runner/work/pychnosz/pychnosz'
+2025-12-29T00:58:04.4144720Z [command]/usr/local/bin/git version
+2025-12-29T00:58:04.4443630Z git version 2.50.1
+2025-12-29T00:58:04.4479640Z ##[endgroup]
+2025-12-29T00:58:04.4503170Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/119e68b0-1431-45f2-8a74-33cb36789261/.gitconfig'
+2025-12-29T00:58:04.4520630Z Temporarily overriding HOME='/Users/runner/work/_temp/119e68b0-1431-45f2-8a74-33cb36789261' before making global git config changes
+2025-12-29T00:58:04.4526780Z Adding repository directory to the temporary git global config as a safe directory
+2025-12-29T00:58:04.4531770Z [command]/usr/local/bin/git config --global --add safe.directory /Users/runner/work/pychnosz/pychnosz
+2025-12-29T00:58:04.4663200Z Deleting the contents of '/Users/runner/work/pychnosz/pychnosz'
+2025-12-29T00:58:04.4669750Z ##[group]Initializing the repository
+2025-12-29T00:58:04.4676080Z [command]/usr/local/bin/git init /Users/runner/work/pychnosz/pychnosz
+2025-12-29T00:58:04.5004570Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-12-29T00:58:04.5009370Z hint: is subject to change. To configure the initial branch name to use in all
+2025-12-29T00:58:04.5013100Z hint: of your new repositories, which will suppress this warning, call:
+2025-12-29T00:58:04.5016280Z hint:
+2025-12-29T00:58:04.5018240Z hint: 	git config --global init.defaultBranch <name>
+2025-12-29T00:58:04.5020510Z hint:
+2025-12-29T00:58:04.5023080Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-12-29T00:58:04.5026920Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-12-29T00:58:04.5030630Z hint:
+2025-12-29T00:58:04.5032080Z hint: 	git branch -m <name>
+2025-12-29T00:58:04.5033690Z hint:
+2025-12-29T00:58:04.5036210Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-12-29T00:58:04.5040380Z Initialized empty Git repository in /Users/runner/work/pychnosz/pychnosz/.git/
+2025-12-29T00:58:04.5046970Z [command]/usr/local/bin/git remote add origin https://github.com/worm-portal/pychnosz
+2025-12-29T00:58:04.5153520Z ##[endgroup]
+2025-12-29T00:58:04.5156600Z ##[group]Disabling automatic garbage collection
+2025-12-29T00:58:04.5159350Z [command]/usr/local/bin/git config --local gc.auto 0
+2025-12-29T00:58:04.5266810Z ##[endgroup]
+2025-12-29T00:58:04.5269470Z ##[group]Setting up auth
+2025-12-29T00:58:04.5273640Z [command]/usr/local/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-12-29T00:58:04.5382520Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-12-29T00:58:04.6821790Z [command]/usr/local/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-12-29T00:58:04.6922360Z [command]/usr/local/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-12-29T00:58:04.9896210Z [command]/usr/local/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2025-12-29T00:58:05.0868220Z [command]/usr/local/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2025-12-29T00:58:05.0986040Z [command]/usr/local/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-12-29T00:58:05.0997820Z ##[endgroup]
+2025-12-29T00:58:05.1001700Z ##[group]Fetching the repository
+2025-12-29T00:58:05.1010950Z [command]/usr/local/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e4cddf586dd1ac67f57348a0fbd1a8a9c293c930:refs/remotes/origin/master
+2025-12-29T00:58:06.4616220Z From https://github.com/worm-portal/pychnosz
+2025-12-29T00:58:06.4637930Z  * [new ref]         e4cddf586dd1ac67f57348a0fbd1a8a9c293c930 -> origin/master
+2025-12-29T00:58:06.5301800Z ##[endgroup]
+2025-12-29T00:58:06.5303460Z ##[group]Determining the checkout info
+2025-12-29T00:58:06.5306780Z ##[endgroup]
+2025-12-29T00:58:06.5310070Z [command]/usr/local/bin/git sparse-checkout disable
+2025-12-29T00:58:06.5521950Z [command]/usr/local/bin/git config --local --unset-all extensions.worktreeConfig
+2025-12-29T00:58:06.5629870Z ##[group]Checking out the ref
+2025-12-29T00:58:06.5633460Z [command]/usr/local/bin/git checkout --progress --force -B master refs/remotes/origin/master
+2025-12-29T00:58:06.6796230Z Reset branch 'master'
+2025-12-29T00:58:06.6806850Z branch 'master' set up to track 'origin/master'.
+2025-12-29T00:58:06.6822540Z ##[endgroup]
+2025-12-29T00:58:06.6993780Z [command]/usr/local/bin/git log -1 --format=%H
+2025-12-29T00:58:06.7173190Z e4cddf586dd1ac67f57348a0fbd1a8a9c293c930

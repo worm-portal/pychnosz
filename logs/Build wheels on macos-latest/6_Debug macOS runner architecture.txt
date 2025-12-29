@@ -1,0 +1,29 @@
+﻿2025-12-29T00:58:06.4577830Z ##[group]Run echo "===== System Information ====="
+2025-12-29T00:58:06.4578170Z [36;1mecho "===== System Information ====="[0m
+2025-12-29T00:58:06.4578410Z [36;1muname -a[0m
+2025-12-29T00:58:06.4578600Z [36;1mecho "Machine hardware: $(uname -m)"[0m
+2025-12-29T00:58:06.4578850Z [36;1mecho "Architecture: $(arch)"[0m
+2025-12-29T00:58:06.4579040Z [36;1m[0m
+2025-12-29T00:58:06.4579180Z [36;1mecho ""[0m
+2025-12-29T00:58:06.4579380Z [36;1mecho "===== Homebrew Locations ====="[0m
+2025-12-29T00:58:06.4579610Z [36;1mwhich brew || echo "No brew in PATH"[0m
+2025-12-29T00:58:06.4580020Z [36;1mls -la /opt/homebrew/bin/brew 2>/dev/null && echo "ARM64 Homebrew exists" || echo "No ARM64 Homebrew"[0m
+2025-12-29T00:58:06.4580570Z [36;1mls -la /usr/local/bin/brew 2>/dev/null && echo "x86_64 Homebrew exists" || echo "No x86_64 Homebrew"[0m
+2025-12-29T00:58:06.4613810Z shell: /bin/bash -e {0}
+2025-12-29T00:58:06.4614000Z env:
+2025-12-29T00:58:06.4614240Z   pythonLocation: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.4614690Z   PKG_CONFIG_PATH: /Users/runner/hostedtoolcache/Python/3.11.9/arm64/lib/pkgconfig
+2025-12-29T00:58:06.4615080Z   Python_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.4615430Z   Python2_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.4615790Z   Python3_ROOT_DIR: /Users/runner/hostedtoolcache/Python/3.11.9/arm64
+2025-12-29T00:58:06.4616040Z ##[endgroup]
+2025-12-29T00:58:06.5076600Z ===== System Information =====
+2025-12-29T00:58:06.5110460Z Darwin sjc20-bb660-0ab56e36-f222-47a9-a41d-3c78e9662d86-02A7E7172998.local 24.6.0 Darwin Kernel Version 24.6.0: Wed Oct 15 21:12:37 PDT 2025; root:xnu-11417.140.69.703.14~1/RELEASE_ARM64_VMAPPLE arm64
+2025-12-29T00:58:06.5137900Z Machine hardware: arm64
+2025-12-29T00:58:06.5202690Z Architecture: arm64
+2025-12-29T00:58:06.5203460Z 
+2025-12-29T00:58:06.5203780Z ===== Homebrew Locations =====
+2025-12-29T00:58:06.5239620Z /opt/homebrew/bin/brew
+2025-12-29T00:58:06.5312550Z -rwxr-xr-x  1 runner  admin  8166 Dec 15 15:23 /opt/homebrew/bin/brew
+2025-12-29T00:58:06.5314330Z ARM64 Homebrew exists
+2025-12-29T00:58:06.5340740Z No x86_64 Homebrew

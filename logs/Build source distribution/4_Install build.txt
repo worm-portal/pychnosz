@@ -1,0 +1,23 @@
+﻿2025-12-29T00:58:03.9524627Z ##[group]Run python -m pip install build
+2025-12-29T00:58:03.9525872Z [36;1mpython -m pip install build[0m
+2025-12-29T00:58:03.9712606Z shell: /usr/bin/bash -e {0}
+2025-12-29T00:58:03.9713576Z env:
+2025-12-29T00:58:03.9714555Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:03.9716123Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+2025-12-29T00:58:03.9717855Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:03.9719280Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:03.9720690Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:03.9722129Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+2025-12-29T00:58:03.9723330Z ##[endgroup]
+2025-12-29T00:58:06.4907034Z Collecting build
+2025-12-29T00:58:06.5786130Z   Downloading build-1.3.0-py3-none-any.whl.metadata (5.6 kB)
+2025-12-29T00:58:06.6170006Z Collecting packaging>=19.1 (from build)
+2025-12-29T00:58:06.6336868Z   Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+2025-12-29T00:58:06.6598638Z Collecting pyproject_hooks (from build)
+2025-12-29T00:58:06.6738558Z   Downloading pyproject_hooks-1.2.0-py3-none-any.whl.metadata (1.3 kB)
+2025-12-29T00:58:06.6938221Z Downloading build-1.3.0-py3-none-any.whl (23 kB)
+2025-12-29T00:58:06.7172550Z Downloading packaging-25.0-py3-none-any.whl (66 kB)
+2025-12-29T00:58:06.7565789Z Downloading pyproject_hooks-1.2.0-py3-none-any.whl (10 kB)
+2025-12-29T00:58:06.7899543Z Installing collected packages: pyproject_hooks, packaging, build
+2025-12-29T00:58:06.8598440Z 
+2025-12-29T00:58:06.8608152Z Successfully installed build-1.3.0 packaging-25.0 pyproject_hooks-1.2.0

@@ -1,0 +1,358 @@
+﻿2025-12-29T00:58:07.0545684Z ##[group]Run python -m build --sdist
+2025-12-29T00:58:07.0546074Z [36;1mpython -m build --sdist[0m
+2025-12-29T00:58:07.0580245Z shell: /usr/bin/bash -e {0}
+2025-12-29T00:58:07.0580561Z env:
+2025-12-29T00:58:07.0580818Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:07.0581234Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib/pkgconfig
+2025-12-29T00:58:07.0581645Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:07.0581997Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:07.0582376Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.14/x64
+2025-12-29T00:58:07.0582732Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.14/x64/lib
+2025-12-29T00:58:07.0583039Z ##[endgroup]
+2025-12-29T00:58:07.1565756Z * Creating isolated environment: venv+pip...
+2025-12-29T00:58:07.2240434Z * Installing packages in isolated environment:
+2025-12-29T00:58:09.6156018Z   - setuptools>=61.0
+2025-12-29T00:58:09.6156865Z   - wheel
+2025-12-29T00:58:09.6157737Z * Getting build dependencies for sdist...
+2025-12-29T00:58:10.0163134Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+2025-12-29T00:58:10.0164568Z !!
+2025-12-29T00:58:10.0164750Z 
+2025-12-29T00:58:10.0164991Z         ********************************************************************************
+2025-12-29T00:58:10.0166319Z         Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+2025-12-29T00:58:10.0167733Z 
+2025-12-29T00:58:10.0167947Z         By 2026-Feb-18, you need to update your project and remove deprecated calls
+2025-12-29T00:58:10.0168380Z         or your builds will no longer be supported.
+2025-12-29T00:58:10.0168586Z 
+2025-12-29T00:58:10.0168913Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.0169479Z         ********************************************************************************
+2025-12-29T00:58:10.0169710Z 
+2025-12-29T00:58:10.0169816Z !!
+2025-12-29T00:58:10.0169995Z   corresp(dist, value, root_dir)
+2025-12-29T00:58:10.1206565Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:10.1207723Z !!
+2025-12-29T00:58:10.1207894Z 
+2025-12-29T00:58:10.1208059Z         ********************************************************************************
+2025-12-29T00:58:10.1208715Z         Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:10.1209166Z 
+2025-12-29T00:58:10.1209408Z         License :: OSI Approved :: MIT License
+2025-12-29T00:58:10.1209641Z 
+2025-12-29T00:58:10.1210023Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.1211021Z         ********************************************************************************
+2025-12-29T00:58:10.1211521Z 
+2025-12-29T00:58:10.1211627Z !!
+2025-12-29T00:58:10.1211872Z   dist._finalize_license_expression()
+2025-12-29T00:58:10.1212715Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:10.1213464Z !!
+2025-12-29T00:58:10.1213630Z 
+2025-12-29T00:58:10.1213798Z         ********************************************************************************
+2025-12-29T00:58:10.1214387Z         Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:10.1214836Z 
+2025-12-29T00:58:10.1214985Z         License :: OSI Approved :: MIT License
+2025-12-29T00:58:10.1215216Z 
+2025-12-29T00:58:10.1215581Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.1216602Z         ********************************************************************************
+2025-12-29T00:58:10.1216891Z 
+2025-12-29T00:58:10.1216974Z !!
+2025-12-29T00:58:10.1217387Z   self._finalize_license_expression()
+2025-12-29T00:58:10.1226279Z running egg_info
+2025-12-29T00:58:10.1240240Z creating pychnosz.egg-info
+2025-12-29T00:58:10.1241990Z writing pychnosz.egg-info/PKG-INFO
+2025-12-29T00:58:10.1258744Z writing dependency_links to pychnosz.egg-info/dependency_links.txt
+2025-12-29T00:58:10.1267448Z writing requirements to pychnosz.egg-info/requires.txt
+2025-12-29T00:58:10.1268649Z writing top-level names to pychnosz.egg-info/top_level.txt
+2025-12-29T00:58:10.1270781Z writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:10.1421471Z reading manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:10.1423674Z reading manifest template 'MANIFEST.in'
+2025-12-29T00:58:10.1442943Z warning: no files found matching '*.css' under directory 'html'
+2025-12-29T00:58:10.1450059Z warning: no files found matching '*.js' under directory 'html'
+2025-12-29T00:58:10.1475908Z warning: no files found matching '*.csv.gz' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:10.1497483Z warning: no files found matching '*.json' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:10.1525396Z warning: no files found matching '*.csv.gz' under directory 'pychnosz/data'
+2025-12-29T00:58:10.1537443Z warning: no files found matching '*.json' under directory 'pychnosz/data'
+2025-12-29T00:58:10.1540445Z warning: no files found matching '*.f' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.1542371Z warning: no files found matching '*.f90' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.1544826Z warning: no files found matching '*.for' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.1548960Z no previously-included directories found matching 'test'
+2025-12-29T00:58:10.1552508Z warning: no previously-included files matching '*.pyc' found anywhere in distribution
+2025-12-29T00:58:10.1556028Z warning: no previously-included files matching '*.pyo' found anywhere in distribution
+2025-12-29T00:58:10.1559677Z warning: no previously-included files matching '*.pyd' found anywhere in distribution
+2025-12-29T00:58:10.1562935Z warning: no previously-included files matching '__pycache__' found anywhere in distribution
+2025-12-29T00:58:10.1566170Z warning: no previously-included files matching '.pytest_cache' found anywhere in distribution
+2025-12-29T00:58:10.1569707Z warning: no previously-included files matching '.ipynb_checkpoints' found anywhere in distribution
+2025-12-29T00:58:10.1573037Z warning: no previously-included files matching '*~' found anywhere in distribution
+2025-12-29T00:58:10.1576436Z warning: no previously-included files matching '*.swp' found anywhere in distribution
+2025-12-29T00:58:10.1579785Z warning: no previously-included files matching '.DS_Store' found anywhere in distribution
+2025-12-29T00:58:10.1580565Z adding license file 'LICENSE.txt'
+2025-12-29T00:58:10.1601716Z writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:10.1909031Z * Building sdist...
+2025-12-29T00:58:10.3192878Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/config/_apply_pyprojecttoml.py:82: SetuptoolsDeprecationWarning: `project.license` as a TOML table is deprecated
+2025-12-29T00:58:10.3194397Z !!
+2025-12-29T00:58:10.3194573Z 
+2025-12-29T00:58:10.3194796Z         ********************************************************************************
+2025-12-29T00:58:10.3196183Z         Please use a simple string containing a SPDX expression for `project.license`. You can also use `project.license-files`. (Both options available on setuptools>=77.0.0).
+2025-12-29T00:58:10.3197570Z 
+2025-12-29T00:58:10.3197942Z         By 2026-Feb-18, you need to update your project and remove deprecated calls
+2025-12-29T00:58:10.3198655Z         or your builds will no longer be supported.
+2025-12-29T00:58:10.3199019Z 
+2025-12-29T00:58:10.3199539Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.3200902Z         ********************************************************************************
+2025-12-29T00:58:10.3201319Z 
+2025-12-29T00:58:10.3201455Z !!
+2025-12-29T00:58:10.3201815Z   corresp(dist, value, root_dir)
+2025-12-29T00:58:10.3387052Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/config/_apply_pyprojecttoml.py:61: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:10.3388839Z !!
+2025-12-29T00:58:10.3389019Z 
+2025-12-29T00:58:10.3389251Z         ********************************************************************************
+2025-12-29T00:58:10.3390113Z         Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:10.3390783Z 
+2025-12-29T00:58:10.3391040Z         License :: OSI Approved :: MIT License
+2025-12-29T00:58:10.3391374Z 
+2025-12-29T00:58:10.3391905Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.3392842Z         ********************************************************************************
+2025-12-29T00:58:10.3393247Z 
+2025-12-29T00:58:10.3393379Z !!
+2025-12-29T00:58:10.3393701Z   dist._finalize_license_expression()
+2025-12-29T00:58:10.3399104Z /tmp/build-env-8ai0fe3g/lib/python3.11/site-packages/setuptools/dist.py:759: SetuptoolsDeprecationWarning: License classifiers are deprecated.
+2025-12-29T00:58:10.3400543Z !!
+2025-12-29T00:58:10.3400721Z 
+2025-12-29T00:58:10.3400933Z         ********************************************************************************
+2025-12-29T00:58:10.3401780Z         Please consider removing the following classifiers in favor of a SPDX license expression:
+2025-12-29T00:58:10.3402415Z 
+2025-12-29T00:58:10.3402639Z         License :: OSI Approved :: MIT License
+2025-12-29T00:58:10.3402989Z 
+2025-12-29T00:58:10.3403505Z         See https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license for details.
+2025-12-29T00:58:10.3404413Z         ********************************************************************************
+2025-12-29T00:58:10.3404803Z 
+2025-12-29T00:58:10.3404921Z !!
+2025-12-29T00:58:10.3405251Z   self._finalize_license_expression()
+2025-12-29T00:58:10.3414659Z running sdist
+2025-12-29T00:58:10.3416334Z running egg_info
+2025-12-29T00:58:10.3439081Z writing pychnosz.egg-info/PKG-INFO
+2025-12-29T00:58:10.3456073Z writing dependency_links to pychnosz.egg-info/dependency_links.txt
+2025-12-29T00:58:10.3465101Z writing requirements to pychnosz.egg-info/requires.txt
+2025-12-29T00:58:10.3466601Z writing top-level names to pychnosz.egg-info/top_level.txt
+2025-12-29T00:58:10.3554718Z reading manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:10.3571865Z reading manifest template 'MANIFEST.in'
+2025-12-29T00:58:10.3589928Z warning: no files found matching '*.css' under directory 'html'
+2025-12-29T00:58:10.3596493Z warning: no files found matching '*.js' under directory 'html'
+2025-12-29T00:58:10.3621702Z warning: no files found matching '*.csv.gz' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:10.3642188Z warning: no files found matching '*.json' under directory 'pychnosz/data/extdata'
+2025-12-29T00:58:10.3669249Z warning: no files found matching '*.csv.gz' under directory 'pychnosz/data'
+2025-12-29T00:58:10.3680875Z warning: no files found matching '*.json' under directory 'pychnosz/data'
+2025-12-29T00:58:10.3683136Z warning: no files found matching '*.f' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.3684973Z warning: no files found matching '*.f90' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.3686813Z warning: no files found matching '*.for' under directory 'pychnosz/data/extdata/src'
+2025-12-29T00:58:10.3690787Z no previously-included directories found matching 'test'
+2025-12-29T00:58:10.3694539Z warning: no previously-included files matching '*.pyc' found anywhere in distribution
+2025-12-29T00:58:10.3698225Z warning: no previously-included files matching '*.pyo' found anywhere in distribution
+2025-12-29T00:58:10.3701765Z warning: no previously-included files matching '*.pyd' found anywhere in distribution
+2025-12-29T00:58:10.3704855Z warning: no previously-included files matching '__pycache__' found anywhere in distribution
+2025-12-29T00:58:10.3708124Z warning: no previously-included files matching '.pytest_cache' found anywhere in distribution
+2025-12-29T00:58:10.3711256Z warning: no previously-included files matching '.ipynb_checkpoints' found anywhere in distribution
+2025-12-29T00:58:10.3714594Z warning: no previously-included files matching '*~' found anywhere in distribution
+2025-12-29T00:58:10.3718180Z warning: no previously-included files matching '*.swp' found anywhere in distribution
+2025-12-29T00:58:10.3721273Z warning: no previously-included files matching '.DS_Store' found anywhere in distribution
+2025-12-29T00:58:10.3721886Z adding license file 'LICENSE.txt'
+2025-12-29T00:58:10.3747456Z writing manifest file 'pychnosz.egg-info/SOURCES.txt'
+2025-12-29T00:58:10.3749757Z running check
+2025-12-29T00:58:10.3777489Z creating pychnosz-1.1.8
+2025-12-29T00:58:10.3782092Z creating pychnosz-1.1.8/html/pychnosz
+2025-12-29T00:58:10.3784442Z creating pychnosz-1.1.8/html/pychnosz/biomolecules
+2025-12-29T00:58:10.3786021Z creating pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3788049Z creating pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3789497Z creating pychnosz-1.1.8/html/pychnosz/fortran
+2025-12-29T00:58:10.3790823Z creating pychnosz-1.1.8/html/pychnosz/geochemistry
+2025-12-29T00:58:10.3792581Z creating pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3794486Z creating pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3796227Z creating pychnosz-1.1.8/pychnosz
+2025-12-29T00:58:10.3798239Z creating pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3800179Z creating pychnosz-1.1.8/pychnosz/biomolecules
+2025-12-29T00:58:10.3801494Z creating pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3803053Z creating pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3805063Z creating pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3807629Z creating pychnosz-1.1.8/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:10.3809059Z creating pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.3810986Z creating pychnosz-1.1.8/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:10.3812280Z creating pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.3813843Z creating pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.3815616Z creating pychnosz-1.1.8/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:10.3817036Z creating pychnosz-1.1.8/pychnosz/data/extdata/src
+2025-12-29T00:58:10.3819228Z creating pychnosz-1.1.8/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:10.3820645Z creating pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.3822151Z creating pychnosz-1.1.8/pychnosz/fortran
+2025-12-29T00:58:10.3823928Z creating pychnosz-1.1.8/pychnosz/geochemistry
+2025-12-29T00:58:10.3825404Z creating pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.3826990Z creating pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.3828346Z copying files to pychnosz-1.1.8...
+2025-12-29T00:58:10.3829408Z copying CITATION.cff -> pychnosz-1.1.8
+2025-12-29T00:58:10.3831661Z copying LICENSE.txt -> pychnosz-1.1.8
+2025-12-29T00:58:10.3833530Z copying MANIFEST.in -> pychnosz-1.1.8
+2025-12-29T00:58:10.3835287Z copying README.md -> pychnosz-1.1.8
+2025-12-29T00:58:10.3837597Z copying compile_fortran.py -> pychnosz-1.1.8
+2025-12-29T00:58:10.3839531Z copying pyproject.toml -> pychnosz-1.1.8
+2025-12-29T00:58:10.3841243Z copying setup.py -> pychnosz-1.1.8
+2025-12-29T00:58:10.3843245Z copying test_integration.py -> pychnosz-1.1.8
+2025-12-29T00:58:10.3845251Z copying html/pychnosz/index.html -> pychnosz-1.1.8/html/pychnosz
+2025-12-29T00:58:10.3852934Z copying html/pychnosz/biomolecules/index.html -> pychnosz-1.1.8/html/pychnosz/biomolecules
+2025-12-29T00:58:10.3854902Z copying html/pychnosz/biomolecules/proteins.html -> pychnosz-1.1.8/html/pychnosz/biomolecules
+2025-12-29T00:58:10.3856954Z copying html/pychnosz/core/animation.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3859876Z copying html/pychnosz/core/balance.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3861549Z copying html/pychnosz/core/equilibrium.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3864143Z copying html/pychnosz/core/index.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3867777Z copying html/pychnosz/core/speciation.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3870336Z copying html/pychnosz/core/unicurve.html -> pychnosz-1.1.8/html/pychnosz/core
+2025-12-29T00:58:10.3872693Z copying html/pychnosz/data/add_obigt.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3874516Z copying html/pychnosz/data/index.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3877690Z copying html/pychnosz/data/loader.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3879820Z copying html/pychnosz/data/mod_obigt.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3882048Z copying html/pychnosz/data/obigt.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3884474Z copying html/pychnosz/data/worm.html -> pychnosz-1.1.8/html/pychnosz/data
+2025-12-29T00:58:10.3886262Z copying html/pychnosz/fortran/h2o92_interface.html -> pychnosz-1.1.8/html/pychnosz/fortran
+2025-12-29T00:58:10.3889125Z copying html/pychnosz/fortran/index.html -> pychnosz-1.1.8/html/pychnosz/fortran
+2025-12-29T00:58:10.3891267Z copying html/pychnosz/geochemistry/index.html -> pychnosz-1.1.8/html/pychnosz/geochemistry
+2025-12-29T00:58:10.3894196Z copying html/pychnosz/geochemistry/minerals.html -> pychnosz-1.1.8/html/pychnosz/geochemistry
+2025-12-29T00:58:10.3896157Z copying html/pychnosz/geochemistry/redox.html -> pychnosz-1.1.8/html/pychnosz/geochemistry
+2025-12-29T00:58:10.3898795Z copying html/pychnosz/models/archer_wang.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3900675Z copying html/pychnosz/models/berman.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3902862Z copying html/pychnosz/models/dew.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3905989Z copying html/pychnosz/models/hkf_helpers.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3907893Z copying html/pychnosz/models/iapws95.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3910832Z copying html/pychnosz/models/index.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3913822Z copying html/pychnosz/models/supcrt92_fortran.html -> pychnosz-1.1.8/html/pychnosz/models
+2025-12-29T00:58:10.3915481Z copying html/pychnosz/utils/expression.html -> pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3918502Z copying html/pychnosz/utils/formula.html -> pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3920410Z copying html/pychnosz/utils/formula_ox.html -> pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3922290Z copying html/pychnosz/utils/index.html -> pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3924957Z copying html/pychnosz/utils/units.html -> pychnosz-1.1.8/html/pychnosz/utils
+2025-12-29T00:58:10.3926683Z copying pychnosz/__init__.py -> pychnosz-1.1.8/pychnosz
+2025-12-29T00:58:10.3928939Z copying pychnosz.egg-info/PKG-INFO -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3930597Z copying pychnosz.egg-info/SOURCES.txt -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3932432Z copying pychnosz.egg-info/dependency_links.txt -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3934043Z copying pychnosz.egg-info/requires.txt -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3935743Z copying pychnosz.egg-info/top_level.txt -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.3937695Z copying pychnosz/biomolecules/__init__.py -> pychnosz-1.1.8/pychnosz/biomolecules
+2025-12-29T00:58:10.3939443Z copying pychnosz/biomolecules/ionize_aa.py -> pychnosz-1.1.8/pychnosz/biomolecules
+2025-12-29T00:58:10.3941173Z copying pychnosz/biomolecules/proteins.py -> pychnosz-1.1.8/pychnosz/biomolecules
+2025-12-29T00:58:10.3942977Z copying pychnosz/core/__init__.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3944675Z copying pychnosz/core/affinity.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3947416Z copying pychnosz/core/animation.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3949477Z copying pychnosz/core/balance.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3951094Z copying pychnosz/core/basis.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3953257Z copying pychnosz/core/diagram.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3956376Z copying pychnosz/core/equilibrate.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3958382Z copying pychnosz/core/equilibrium.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3960351Z copying pychnosz/core/info.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3962476Z copying pychnosz/core/retrieve.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3964199Z copying pychnosz/core/speciation.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3966485Z copying pychnosz/core/species.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3968370Z copying pychnosz/core/subcrt.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3971106Z copying pychnosz/core/thermo.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3973720Z copying pychnosz/core/unicurve.py -> pychnosz-1.1.8/pychnosz/core
+2025-12-29T00:58:10.3975655Z copying pychnosz/data/__init__.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3977501Z copying pychnosz/data/add_obigt.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3979512Z copying pychnosz/data/loader.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3981241Z copying pychnosz/data/mod_obigt.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3983016Z copying pychnosz/data/obigt.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3984927Z copying pychnosz/data/worm.py -> pychnosz-1.1.8/pychnosz/data
+2025-12-29T00:58:10.3986842Z copying pychnosz/data/extdata/Berman/BDat17_2017.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3988754Z copying pychnosz/data/extdata/Berman/Ber88_1988.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3990481Z copying pychnosz/data/extdata/Berman/Ber90_1990.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3992197Z copying pychnosz/data/extdata/Berman/DS10_2010.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3993893Z copying pychnosz/data/extdata/Berman/FDM+14_2014.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3995592Z copying pychnosz/data/extdata/Berman/Got04_2004.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3997615Z copying pychnosz/data/extdata/Berman/JUN92_1992.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.3999359Z copying pychnosz/data/extdata/Berman/SHD91_1991.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4001107Z copying pychnosz/data/extdata/Berman/VGT92_1992.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4002775Z copying pychnosz/data/extdata/Berman/VPT01_2001.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4004454Z copying pychnosz/data/extdata/Berman/VPV05_2005.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4006149Z copying pychnosz/data/extdata/Berman/ZS92_1992.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4008108Z copying pychnosz/data/extdata/Berman/sympy.R -> pychnosz-1.1.8/pychnosz/data/extdata/Berman
+2025-12-29T00:58:10.4009933Z copying pychnosz/data/extdata/Berman/testing/BA96.bib -> pychnosz-1.1.8/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:10.4011683Z copying pychnosz/data/extdata/Berman/testing/BA96_Berman.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:10.4013440Z copying pychnosz/data/extdata/Berman/testing/BA96_OBIGT.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:10.4015081Z copying pychnosz/data/extdata/Berman/testing/BA96_refs.csv -> pychnosz-1.1.8/pychnosz/data/extdata/Berman/testing
+2025-12-29T00:58:10.4016638Z copying pychnosz/data/extdata/OBIGT/AD.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4018714Z copying pychnosz/data/extdata/OBIGT/Berman_cr.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4020786Z copying pychnosz/data/extdata/OBIGT/DEW.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4023101Z copying pychnosz/data/extdata/OBIGT/H2O_aq.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4024651Z copying pychnosz/data/extdata/OBIGT/SLOP98.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4027529Z copying pychnosz/data/extdata/OBIGT/SUPCRT92.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4029294Z copying pychnosz/data/extdata/OBIGT/inorganic_aq.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4032385Z copying pychnosz/data/extdata/OBIGT/inorganic_cr.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4034242Z copying pychnosz/data/extdata/OBIGT/inorganic_gas.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4035915Z copying pychnosz/data/extdata/OBIGT/organic_aq.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4039737Z copying pychnosz/data/extdata/OBIGT/organic_cr.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4041944Z copying pychnosz/data/extdata/OBIGT/organic_gas.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4044455Z copying pychnosz/data/extdata/OBIGT/organic_liq.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT
+2025-12-29T00:58:10.4047361Z copying pychnosz/data/extdata/OBIGT/testing/GEMSFIT.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:10.4048954Z copying pychnosz/data/extdata/OBIGT/testing/IGEM.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:10.4050648Z copying pychnosz/data/extdata/OBIGT/testing/Sandia.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:10.4052324Z copying pychnosz/data/extdata/OBIGT/testing/SiO2.csv -> pychnosz-1.1.8/pychnosz/data/extdata/OBIGT/testing
+2025-12-29T00:58:10.4053927Z copying pychnosz/data/extdata/misc/AD03_Fig1a.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4055593Z copying pychnosz/data/extdata/misc/AD03_Fig1b.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4057513Z copying pychnosz/data/extdata/misc/AD03_Fig1c.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4059284Z copying pychnosz/data/extdata/misc/AD03_Fig1d.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4060946Z copying pychnosz/data/extdata/misc/BZA10.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4062621Z copying pychnosz/data/extdata/misc/HW97_Cp.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4064335Z copying pychnosz/data/extdata/misc/HWM96_V.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4066081Z copying pychnosz/data/extdata/misc/LA19_test.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4067869Z copying pychnosz/data/extdata/misc/Mer75_Table4.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4069664Z copying pychnosz/data/extdata/misc/OBIGT_check.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4071431Z copying pychnosz/data/extdata/misc/PM90.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4073082Z copying pychnosz/data/extdata/misc/RH95.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4074804Z copying pychnosz/data/extdata/misc/RH98_Table15.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4076630Z copying pychnosz/data/extdata/misc/SC10_Rainbow.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4078466Z copying pychnosz/data/extdata/misc/SK95.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4080244Z copying pychnosz/data/extdata/misc/SOJSH.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4081940Z copying pychnosz/data/extdata/misc/SS98_Fig5a.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4083642Z copying pychnosz/data/extdata/misc/SS98_Fig5b.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4085374Z copying pychnosz/data/extdata/misc/TKSS14_Fig2.csv -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4087045Z copying pychnosz/data/extdata/misc/bluered.txt -> pychnosz-1.1.8/pychnosz/data/extdata/misc
+2025-12-29T00:58:10.4089194Z copying pychnosz/data/extdata/protein/POLG.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4090894Z copying pychnosz/data/extdata/protein/TBD+05.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4092782Z copying pychnosz/data/extdata/protein/TBD+05_aa.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4095262Z copying pychnosz/data/extdata/protein/rubisco.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4096711Z copying pychnosz/data/extdata/protein/rubisco.fasta -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4098779Z copying pychnosz/data/extdata/protein/rubisco_aa.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein
+2025-12-29T00:58:10.4100507Z copying pychnosz/data/extdata/protein/Cas/Cas_aa.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:10.4102452Z copying pychnosz/data/extdata/protein/Cas/Cas_uniprot.csv -> pychnosz-1.1.8/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:10.4104304Z copying pychnosz/data/extdata/protein/Cas/download.R -> pychnosz-1.1.8/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:10.4106013Z copying pychnosz/data/extdata/protein/Cas/mkaa.R -> pychnosz-1.1.8/pychnosz/data/extdata/protein/Cas
+2025-12-29T00:58:10.4108237Z copying pychnosz/data/extdata/src/H2O92D.f.orig -> pychnosz-1.1.8/pychnosz/data/extdata/src
+2025-12-29T00:58:10.4111488Z copying pychnosz/data/extdata/src/README.txt -> pychnosz-1.1.8/pychnosz/data/extdata/src
+2025-12-29T00:58:10.4113029Z copying pychnosz/data/extdata/taxonomy/names.dmp -> pychnosz-1.1.8/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:10.4114834Z copying pychnosz/data/extdata/taxonomy/nodes.dmp -> pychnosz-1.1.8/pychnosz/data/extdata/taxonomy
+2025-12-29T00:58:10.4116604Z copying pychnosz/data/extdata/thermo/Bdot_acirc.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4118504Z copying pychnosz/data/extdata/thermo/buffer.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4120141Z copying pychnosz/data/extdata/thermo/element.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4121898Z copying pychnosz/data/extdata/thermo/groups.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4123608Z copying pychnosz/data/extdata/thermo/opt.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4125314Z copying pychnosz/data/extdata/thermo/protein.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4127935Z copying pychnosz/data/extdata/thermo/refs.csv -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4130479Z copying pychnosz/data/extdata/thermo/stoich.csv.xz -> pychnosz-1.1.8/pychnosz/data/extdata/thermo
+2025-12-29T00:58:10.4132225Z copying pychnosz/fortran/__init__.py -> pychnosz-1.1.8/pychnosz/fortran
+2025-12-29T00:58:10.4133968Z copying pychnosz/fortran/h2o92_interface.py -> pychnosz-1.1.8/pychnosz/fortran
+2025-12-29T00:58:10.4135925Z copying pychnosz/geochemistry/__init__.py -> pychnosz-1.1.8/pychnosz/geochemistry
+2025-12-29T00:58:10.4137747Z copying pychnosz/geochemistry/minerals.py -> pychnosz-1.1.8/pychnosz/geochemistry
+2025-12-29T00:58:10.4139621Z copying pychnosz/geochemistry/redox.py -> pychnosz-1.1.8/pychnosz/geochemistry
+2025-12-29T00:58:10.4141455Z copying pychnosz/models/__init__.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4143114Z copying pychnosz/models/archer_wang.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4144781Z copying pychnosz/models/berman.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4146496Z copying pychnosz/models/cgl.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4148773Z copying pychnosz/models/dew.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4151033Z copying pychnosz/models/hkf.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4153017Z copying pychnosz/models/hkf_helpers.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4154822Z copying pychnosz/models/iapws95.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4157474Z copying pychnosz/models/supcrt92_fortran.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4158960Z copying pychnosz/models/water.py -> pychnosz-1.1.8/pychnosz/models
+2025-12-29T00:58:10.4160948Z copying pychnosz/utils/__init__.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4162591Z copying pychnosz/utils/expression.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4164945Z copying pychnosz/utils/formula.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4166942Z copying pychnosz/utils/formula_ox.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4168690Z copying pychnosz/utils/reset.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4170339Z copying pychnosz/utils/units.py -> pychnosz-1.1.8/pychnosz/utils
+2025-12-29T00:58:10.4172257Z copying pychnosz.egg-info/SOURCES.txt -> pychnosz-1.1.8/pychnosz.egg-info
+2025-12-29T00:58:10.4190863Z Writing pychnosz-1.1.8/setup.cfg
+2025-12-29T00:58:10.4192981Z Creating tar archive
+2025-12-29T00:58:10.8097994Z removing 'pychnosz-1.1.8' (and everything under it)
+2025-12-29T00:58:10.8608733Z Successfully built pychnosz-1.1.8.tar.gz
