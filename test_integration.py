@@ -55,20 +55,20 @@ def test_hkf_helpers():
     try:
         # Test the subcrt function which internally uses calc_logK and dissrxn2logK
         # This is the main function that aqequil actually uses
-        from pychnosz.models import subcrt
+        from pychnosz import subcrt
 
         print("Testing subcrt with quartz at elevated temperature...")
 
         # Calculate properties at T=100°C, P=1 bar
         # This internally calls calc_logK which calls dissrxn2logK
         # If there's a pandas/numpy compatibility issue, it will fail here
-        result = subcrt.subcrt(["quartz"], T=100, P=1, exceed_Ttr=True)
+        result = subcrt(["quartz"], T=100, P=1, exceed_Ttr=True)
 
         print(f"[OK] subcrt calculation completed successfully")
 
         # Test with a simple aqueous species
         print("Testing subcrt with aqueous species...")
-        result2 = subcrt.subcrt(["H2O", "H+", "OH-"], T=[25, 100], P=1)
+        result2 = subcrt(["H2O", "H+", "OH-"], T=[25, 100], P=1)
 
         print(f"[OK] Aqueous species calculation completed successfully")
 
