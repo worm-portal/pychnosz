@@ -98,7 +98,7 @@ def dissrxn2logK(OBIGT, i, Tc):
     coeff = [float(n) for n in split_dissrxn[::2]]
     species = split_dissrxn[1::2]
     try:
-        G = sum([float(c*OBIGT.loc[OBIGT["name"]==sp, "G_TP"].iloc[0]) for c,sp in zip(coeff, species)])
+        G = sum([c * float(OBIGT.loc[OBIGT["name"]==sp, "G_TP"].iloc[0]) for c,sp in zip(coeff, species)])
     except:
         G_list = []
         for ii, sp in enumerate(species):
