@@ -10,7 +10,7 @@ equilibrium constant.
 Python port of the CHNOSZ package for R. The original CHNOSZ package belongs to Dr. Jeffrey Dick.
 """
 
-__version__ = "1.1.11"
+from ._version import __version__
 __author__ = "Grayson Boyer"
 __email__ = "gmboyer@asu.edu"
 

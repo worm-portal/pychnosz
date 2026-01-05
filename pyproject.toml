@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pychnosz"
-version = "1.1.11"
+dynamic = ["version"]
 description = "Python port of the package CHNOSZ"
 readme = "README.md"
 license = {text = "MIT License"}
@@ -134,3 +134,6 @@ environment = { MACOSX_DEPLOYMENT_TARGET = "15.0" }
 # Only build for 64-bit Windows
 archs = "AMD64"
 # MinGW installation is handled via CIBW_BEFORE_ALL_WINDOWS in GitHub Actions
+
+[tool.setuptools_scm]
+version_file = "pychnosz/_version.py"
