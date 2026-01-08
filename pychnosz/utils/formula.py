@@ -366,7 +366,7 @@ def get_formula(formula: Union[str, int, List[Union[str, int]]]) -> Union[str, L
         if isinstance(f, str):
             # Already a formula
             results.append(f)
-        elif isinstance(f, int):
+        elif isinstance(f, (int, np.integer)):
             # Species index - look up formula
             if thermo_obj.obigt is not None:
                 # Use .loc for label-based indexing (species indices are 1-based labels)
@@ -779,28 +779,32 @@ def ZC(formula: Union[str, int, List[Union[str, int]]]) -> Union[float, List[flo
 
 
 # Convenience functions for stoichiometric operations
-def i2A(formula: Union[str, List[str], Dict[str, float]]) -> np.ndarray:
+def i2A(formula: Union[str, int, List[Union[str, int]], Dict[str, float]]) -> pd.DataFrame:
     """
-    Convert formula(s) to stoichiometric matrix.
-    
+    Convert formula(s) or species index(es) to stoichiometric matrix.
+
     Parameters
     ----------
-    formula : str, list, or dict
-        Chemical formula(s) or composition
-        
+    formula : str, int, list, or dict
+        Chemical formula(s), species index(es), or composition
+
     Returns
     -------
-    np.ndarray
-        Stoichiometric matrix with elements as columns
+    pd.DataFrame
+        Stoichiometric matrix with elements as columns and species as rows
     """
     if isinstance(formula, np.ndarray):
-        return formula
+        return pd.DataFrame(formula)
     elif isinstance(formula, dict) and all(isinstance(k, str) for k in formula.keys()):
         # Single composition dictionary
-        return np.array([[formula.get(k, 0) for k in sorted(formula.keys())]])
-    
+        elements = sorted(formula.keys())
+        return pd.DataFrame([[formula.get(k, 0) for k in elements]], columns=elements)
+
+    # Convert indices to formulas first if needed
+    formula_list = get_formula(formula) if not isinstance(formula, list) else get_formula(formula)
+
     # Get compositions with zero padding
-    compositions = makeup(formula, count_zero=True)
+    compositions = makeup(formula_list, count_zero=True)
     if not isinstance(compositions, list):
         compositions = [compositions]
     
@@ -818,8 +822,9 @@ def i2A(formula: Union[str, List[str], Dict[str, float]]) -> np.ndarray:
         if comp is not None:
             for j, element in enumerate(all_elements):
                 matrix[i, j] = comp.get(element, 0)
-    
-    return matrix
+
+    # Return as DataFrame with element columns
+    return pd.DataFrame(matrix, columns=all_elements)
 
 
 # Export main functions
