@@ -999,7 +999,8 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
 
                     if 'logK' in sp_data.columns:
                         # Get all logK values (may be array if T/P variable)
-                        logK_vals = sp_data['logK'].values
+                        # Use .copy() to ensure array is writable (numpy 2.x returns read-only views)
+                        logK_vals = sp_data['logK'].values.copy()
                         # Handle NaN values by keeping them as nan (they will propagate to affinity)
                         # DO NOT replace nan with 0.0 as this causes incorrect affinity calculations
                         # logK_vals = np.where(np.isnan(logK_vals), 0.0, logK_vals)
@@ -1023,7 +1024,8 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
                 sp_data = batch_result.out
                 sp_name = all_species_names[0]
                 if 'logK' in sp_data.columns:
-                    logK_vals = sp_data['logK'].values
+                    # Use .copy() to ensure array is writable (numpy 2.x returns read-only views)
+                    logK_vals = sp_data['logK'].values.copy()
                     # Handle NaN values by keeping them as nan (they will propagate to affinity)
                     # DO NOT replace nan with 0.0 as this causes incorrect affinity calculations
                     # logK_vals = np.where(np.isnan(logK_vals), 0.0, logK_vals)
