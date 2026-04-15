@@ -19,9 +19,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # Use ubuntu-latest for Linux, windows-2019 for Windows
+        # Use ubuntu-latest for Linux, windows-latest for Windows
         # For macOS: macos-15-intel (Intel x86_64) and macos-latest (Apple Silicon ARM64)
-        os: [ubuntu-latest, windows-2019, macos-15-intel, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-15-intel, macos-latest]
 
     steps:
       - uses: actions/checkout@v4
