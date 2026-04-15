@@ -176,8 +176,6 @@ test/
 gitignore
 .gitignore_complicated
 
-# Old package directory (uppercase version)
-pyCHNOSZ/
 
 # Auto-generated version file (setuptools_scm)
 pychnosz/_version.py
