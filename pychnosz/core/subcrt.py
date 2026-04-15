@@ -954,7 +954,7 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
         try:
             # Get water properties needed for HKF
             H2O_props = ["rho"]
-            if IS != 0:  # Need additional properties for activity corrections
+            if np.any(np.atleast_1d(np.asarray(IS)) != 0):  # Need additional properties for activity corrections
                 H2O_props += ["A_DH", "B_DH"]
             if isH2O.any():  # Water is in the reaction
                 H2O_props += eosprop
@@ -1067,6 +1067,47 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                         n_lowrho = np.sum(ilowrho)
                         ptext = "pair" if n_lowrho == 1 else "pairs"
                         calc_warnings.append(f"below minimum density for applicability of revised HKF equations ({n_lowrho} T,P {ptext})")
+
+            # Calculate activity coefficients if ionic strength is not zero
+            # Matching R CHNOSZ subcrt.R lines 325-328
+            IS_arr = np.atleast_1d(np.asarray(IS))
+            if np.any(IS_arr != 0):
+                nonideal_method = thermo_sys.opt.get('nonideal', 'Bdot')
+                if nonideal_method in ('Bdot', 'Bdot0', 'bgamma', 'bgamma0'):
+                    from .nonideal import nonideal as nonideal_fn
+                    # Build speciesprops dict mapping 0-based index to property dicts
+                    aq_species_obigt = [iphases[i] for i in aq_indices]
+                    speciesprops = {}
+                    for idx_pos, aq_idx in enumerate(aq_indices):
+                        speciesprops[idx_pos] = {}
+                        if aq_idx in all_properties:
+                            for prop_name in ('G', 'H', 'S', 'Cp'):
+                                if prop_name in all_properties[aq_idx]:
+                                    speciesprops[idx_pos][prop_name] = all_properties[aq_idx][prop_name]
+                    # Get A_DH and B_DH from water data
+                    A_DH_vals = None
+                    B_DH_vals = None
+                    if isinstance(H2O_data, dict):
+                        A_DH_vals = H2O_data.get('A_DH')
+                        B_DH_vals = H2O_data.get('B_DH')
+                    elif hasattr(H2O_data, 'A_DH'):
+                        A_DH_vals = H2O_data.A_DH
+                        B_DH_vals = H2O_data.B_DH
+                    if A_DH_vals is not None:
+                        A_DH_vals = np.atleast_1d(A_DH_vals)
+                    if B_DH_vals is not None:
+                        B_DH_vals = np.atleast_1d(B_DH_vals)
+                    # Call nonideal
+                    speciesprops = nonideal_fn(
+                        aq_species_obigt, speciesprops, IS_arr, T, P_calculated,
+                        A_DH=A_DH_vals, B_DH=B_DH_vals, method=nonideal_method)
+                    # Write back corrected properties and loggam
+                    for idx_pos, aq_idx in enumerate(aq_indices):
+                        for prop_name in ('G', 'H', 'S', 'Cp'):
+                            if prop_name in speciesprops[idx_pos]:
+                                all_properties[aq_idx][prop_name] = speciesprops[idx_pos][prop_name]
+                        if 'loggam' in speciesprops[idx_pos]:
+                            all_properties[aq_idx]['loggam'] = speciesprops[idx_pos]['loggam']
 
         except Exception as e:
             print(f"Warning: HKF calculation failed: {e}")
@@ -1261,8 +1302,16 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                 else:
                     output_data[prop] = np.full(n_conditions, np.nan)
 
+        # Add loggam and IS columns if nonideal corrections were applied
+        if species_idx in all_properties and 'loggam' in all_properties[species_idx]:
+            output_data['loggam'] = all_properties[species_idx]['loggam']
+            IS_arr = np.atleast_1d(np.asarray(IS, dtype=float))
+            if len(IS_arr) == 1:
+                IS_arr = np.full(n_conditions, IS_arr[0])
+            output_data['IS'] = IS_arr
+
         result_df = pd.DataFrame(output_data)
-        
+
     else:
         # Multiple species - return all properties for reaction summation
         all_species_data = []
@@ -1341,6 +1390,14 @@ def _calculate_properties(property, iphases, isaq, isH2O, iscgl, T, P, exceed_rh
                         species_data[prop] = all_properties[i][prop]
                     else:
                         species_data[prop] = np.full(n_conditions, np.nan)
+
+            # Add loggam and IS columns if nonideal corrections were applied
+            if i in all_properties and 'loggam' in all_properties[i]:
+                species_data['loggam'] = all_properties[i]['loggam']
+                IS_arr = np.atleast_1d(np.asarray(IS, dtype=float))
+                if len(IS_arr) == 1:
+                    IS_arr = np.full(n_conditions, IS_arr[0])
+                species_data['IS'] = IS_arr
 
             all_species_data.append(pd.DataFrame(species_data))
         
@@ -1477,6 +1534,23 @@ def _sum_reaction_properties(properties_data, coefficients):
     # Remove G if it wasn't originally requested (we only added it to calculate logK)
     if 'logK' in property_list and 'G' not in property_list and 'G' in reaction_data:
         del reaction_data['G']
+
+    # Add loggam column for reactions if any species has it (matching R CHNOSZ behavior)
+    # R: include a zero loggam column for ideal species, then sum weighted by coefficients
+    has_any_loggam = any('loggam' in df.columns for df in species_data_list)
+    if has_any_loggam:
+        loggam_sum = np.zeros(n_conditions)
+        for species_df, coeff in zip(species_data_list, coefficients):
+            if 'loggam' in species_df.columns:
+                loggam_values = species_df['loggam'].values
+                loggam_sum += coeff * loggam_values
+            # else: loggam = 0 for this species (ideal), adds nothing
+        reaction_data['loggam'] = loggam_sum
+        # Add IS column next to loggam (matching R CHNOSZ subcrt.R line 600)
+        for species_df in species_data_list:
+            if 'IS' in species_df.columns:
+                reaction_data['IS'] = species_df['IS'].values
+                break
 
     return pd.DataFrame(reaction_data)
 

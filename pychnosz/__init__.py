@@ -40,6 +40,9 @@ from .utils.formula_ox import get_formula_ox, get_n_element_ox
 from .utils.expression import ratlab, ratlab_html, expr_species, syslab, syslab_html, describe_property, describe_property_html, describe_basis, describe_basis_html, add_legend, set_title
 from .utils.units import convert, envert
 
+# Nonideal activity coefficient functions
+from .core.nonideal import bgamma, nonideal, Bdot_fn
+
 # Implemented functions
 from .core.affinity import affinity
 from .core.diagram import diagram, diagram_interactive, water_lines, find_tp, copy_plot
@@ -116,6 +119,9 @@ __all__ = [
     'G2logK',
     'dissrxn2logK',
     'OBIGT2eos',
+    'bgamma',
+    'nonideal',
+    'Bdot_fn',
     'convert',
     'envert',
     'pinfo',
