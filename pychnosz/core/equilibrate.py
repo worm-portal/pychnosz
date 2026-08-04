@@ -21,6 +21,21 @@ from .thermo import thermo
 from .info import info
 
 
+def _values_as_list(values: Union[Dict[Any, Any], List[Any]],
+                    species: Optional[pd.DataFrame] = None) -> List[np.ndarray]:
+    """
+    Get affinity or activity values as a plain list.
+
+    affinity() returns 'values' as a dict keyed by ispecies, while equilibrate()
+    returns lists; this normalizes either form to a list ordered like 'species'.
+    """
+    if isinstance(values, dict):
+        if species is None:
+            raise ValueError("'species' is needed to order a dict of values")
+        return [np.asarray(values[key]) for key in species['ispecies']]
+    return [np.asarray(v) for v in values]
+
+
 def equilibrate(aout: Dict[str, Any],
                 balance: Optional[Union[str, int, List[float]]] = None,
                 loga_balance: Optional[Union[float, List[float]]] = None,
@@ -40,7 +55,12 @@ def equilibrate(aout: Dict[str, Any],
     Parameters
     ----------
     aout : dict
-        Output from affinity() containing chemical affinities
+        Output from affinity() containing chemical affinities.  May also be the
+        output from mosaic(), in which case the equilibrium activities of the
+        formed species are combined with those of the candidate basis species
+        (from the first group) into a single object that can be plotted with
+        diagram().  Note that mosaic() must have been run with blend=True for
+        the equilibrium activities of the basis species to be available.
     balance : str, int, or list of float, optional
         Balancing method:
         - None: Autoselect using which_balance()
@@ -98,9 +118,36 @@ def equilibrate(aout: Dict[str, Any],
     - Implements identical balancing logic to R version
     """
 
-    # Handle mosaic output (not implemented yet, but keep structure)
+    # If aout is the output from mosaic(), combine the equilibrium activities of
+    # basis species and formed species into an object that can be plotted with diagram()
     if aout.get('fun') == 'mosaic':
-        raise NotImplementedError("mosaic equilibration not yet implemented")
+        A_species = aout.get('A_species', aout.get('A.species'))
+        E_bases = aout.get('E_bases', aout.get('E.bases'))
+        if not E_bases:
+            raise ValueError("cannot equilibrate a mosaic() calculation made with "
+                             "blend = False (there are no equilibrium activities "
+                             "of the basis species)")
+        # Calculate equilibrium activities of species.
+        # Unlike the usual default, cr species are *not* excluded here
+        if ispecies is None:
+            ispecies = list(range(len(A_species['values'])))
+        eqc = equilibrate(dict(A_species), balance=balance, loga_balance=loga_balance,
+                          ispecies=ispecies, normalize=normalize,
+                          as_residue=as_residue, method=method, tol=tol,
+                          messages=messages)
+        # Make combined object for basis species and species: put together the
+        # species matrix and logarithms of equilibrium activity
+        E_base = E_bases[0]
+        eqc['species'] = pd.concat([E_base['species'], eqc['species']],
+                                   ignore_index=True)
+        eqc['loga_equil'] = (_values_as_list(E_base['loga_equil'])
+                             + _values_as_list(eqc['loga_equil']))
+        eqc['loga.equil'] = eqc['loga_equil']
+        # We also need to combine 'values' (values of affinity) because
+        # diagram() uses this to get the number of species
+        eqc['values'] = (_values_as_list(E_base['values'], E_base['species'])
+                         + _values_as_list(eqc['values'], eqc['species']))
+        return eqc
 
     # Number of possible species
     # affinity() returns values as a dict with ispecies as keys
@@ -313,11 +360,12 @@ def equilibrate(aout: Dict[str, Any],
             if imatch[i] is not None:
                 loga_equil_orig[i] = loga_equil[imatch[i]]
 
-        # Replace None loga_equil with -999 for cr-only species (will be set to 0 where predominant)
+        # Replace None loga_equil with input values (cr only)
         # Use np.full with shape, not full_like, to avoid inheriting NaN values
         ina = [i for i in range(norig) if imatch[i] is None]
         for i in ina:
-            loga_equil_orig[i] = np.full(loga_equil1.shape, -999.0)
+            loga_equil_orig[i] = np.full(loga_equil1.shape,
+                                         float(dout['species']['logact'].iloc[i]))
         loga_equil = loga_equil_orig
         aout['species'] = dout['species']
         aout['values'] = dout['values']
@@ -339,13 +387,12 @@ def equilibrate(aout: Dict[str, Any],
                 loga_equil[i] = np.array(loga_equil[i], copy=True)
                 loga_equil[i][iscr_mask] = -999
 
-        # At the grid points where cr species predominate, set their loga_equil to 0 (standard state)
+        # At the other grid points, make the cr species' activities practically zero
         for i in icr:
             # Compare with i + 1 because predominant is 1-based
             ispredom = (predominant == i + 1)
             loga_equil[i] = np.array(loga_equil[i], copy=True)
-            # Set to standard state activity (logact, typically 0) where predominant
-            loga_equil[i][ispredom] = dout['species']['logact'].iloc[i]
+            loga_equil[i][~ispredom] = -999
 
     # Put together the output
     out = aout.copy()
@@ -401,7 +448,10 @@ def equil_boltzmann(Astar: List[np.ndarray],
     A = [np.array(a, copy=True) for a in Astar]
 
     # Remember the dimensions of elements of Astar
-    Astardim = Astar[0].shape if Astar[0].ndim > 0 else (len(Astar[0]),)
+    # A 0-d element (a single grid point) has no dimensions to restore, so it
+    # becomes a length-1 vector. This matches R, where dim() is NULL for a scalar
+    # and `dim(x) <- NULL` leaves a length-1 vector.
+    Astardim = Astar[0].shape if Astar[0].ndim > 0 else (1,)
 
     # First loop: make vectors
     A = [a.flatten() for a in A]

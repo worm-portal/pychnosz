@@ -263,17 +263,16 @@ def subcrt(species: Union[str, List[str], int, List[int]],
                     T_array = np.array(new_T)
                     P_array = np.array(new_P)
             elif grid == "IS":
-                # Grid over ionic strength
+                # Grid over ionic strength: each IS value is paired with the whole
+                # T-P sequence, so T and P are recycled to the length of the grid
                 IS_array = np.atleast_1d(np.asarray(IS))
                 original_len = max(len(T_array), len(P_array) if not isinstance(P_array, str) else 1)
                 new_IS = []
                 for ionic_str in IS_array:
                     new_IS.extend([ionic_str] * original_len)
-                T_array = np.tile(T_array, len(IS_array))
-                if isinstance(P_array, str):
-                    P_array = P_array
-                else:
-                    P_array = np.tile(P_array, len(IS_array))
+                T_array = np.resize(T_array, len(new_IS))
+                if not isinstance(P_array, str):
+                    P_array = np.resize(P_array, len(new_IS))
                 IS = new_IS
         else:
             # Ensure T and P are same length
@@ -286,6 +285,13 @@ def subcrt(species: Union[str, List[str], int, List[int]],
                     T_array = np.resize(T_array, max_len)
                 if len(P_array) < max_len:
                     P_array = np.resize(P_array, max_len)
+
+            # A longer IS makes T and P recycle up to its length, as in R
+            IS_len = 1 if np.isscalar(IS) else len(np.atleast_1d(np.asarray(IS)))
+            if IS_len > len(T_array):
+                T_array = np.resize(T_array, IS_len)
+                if not isinstance(P_array, str):
+                    P_array = np.resize(P_array, IS_len)
         
         # === Phase 3: Species Lookup and Validation ===
         result.species, result.reaction, iphases, isaq, isH2O, iscgl, polymorph_species, ispecies = _process_species(

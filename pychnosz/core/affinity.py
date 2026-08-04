@@ -25,9 +25,29 @@ class AffinityError(Exception):
     pass
 
 
+# F / (ln(10) * R), so that pe = Eh * _PE_PER_VOLT_TIMES_T / T(K).
+# R and F are the values used by R CHNOSZ convert(): R in kJ/(mol K), F in kJ/(V mol).
+_PE_PER_VOLT_TIMES_T = 96.4935 / (np.log(10) * 0.00831470)
+
+# Arguments of affinity() that don't define a dimension of the calculation
+_NON_DIM_ARGS = ('what', 'property', 'exceed_Ttr', 'exceed_rhomin',
+                 'return_buffer', 'balance')
+
+
+def _n_values(value) -> int:
+    """Number of values in an argument, as R's length() sees it.
+
+    A string ("Psat") is one value in R, not one per character.
+    """
+    if isinstance(value, str) or not hasattr(value, '__len__'):
+        return 1
+    return len(value)
+
+
 def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
              species: Optional[pd.DataFrame] = None, iprotein: Optional[Union[int, List[int], np.ndarray]] = None,
-             loga_protein: Union[float, List[float]] = 0.0, **kwargs) -> Dict[str, Any]:
+             loga_protein: Union[float, List[float]] = 0.0,
+             transect: Optional[bool] = None, **kwargs) -> Dict[str, Any]:
     """
     Calculate affinities of formation reactions.
 
@@ -47,6 +67,10 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
         Build proteins from residues (row numbers in thermo().protein)
     loga_protein : float or list of float, default 0.0
         Activity of proteins (log scale)
+    transect : bool, optional
+        Whether the variables define a transect (a sequence of points) rather
+        than a grid. If None (default), a transect is inferred when any
+        variable has more than 3 values, as in R CHNOSZ.
     **kwargs : dict
         Variable arguments defining calculation conditions:
         - Basis species names (e.g., CO2=[-60, 20, 5]): Variable basis species activities
@@ -131,8 +155,9 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
         from .species import species as species_func
         original_species = get_species() if is_species_defined() else None
 
-        # Add residue species with activity 0 (all in "aq" state)
-        species_func(resnames_residue, state="aq", add=True, messages=messages)
+        # Residue activities set to zero; account for protein activities later
+        # (R: species(resprot, 0), where the numeric second argument is logact)
+        species_func(resnames_residue, 0, add=True, messages=messages)
 
         # Get indices of residues in species list
         species_df_temp = get_species()
@@ -175,7 +200,7 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
             return affinity(**aargs)
 
     # Process energy arguments
-    args = energy_args(args_orig, messages, basis_df=basis_df)
+    args = energy_args(args_orig, messages, basis_df=basis_df, transect=transect)
 
     # Get property to calculate
     property_name = args.get('what', 'A')
@@ -199,7 +224,8 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
             exceed_rhomin=kwargs.get('exceed_rhomin', False),
             basis_df=basis_df,
             species_df=species_df,
-            messages=messages
+            messages=messages,
+            transect=args['transect']
         )
         affinity_values = energy_result['a']
         energy_sout = energy_result['sout']
@@ -217,10 +243,19 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
             exceed_rhomin=kwargs.get('exceed_rhomin', False),
             basis_df=basis_df,
             species_df=species_df,
-            messages=messages
+            messages=messages,
+            transect=args['transect']
         )
         affinity_values = energy_result['a']
         energy_sout = energy_result['sout']
+
+        # Deal with affinities of protein ionization here, as R does inside
+        # energy()'s A(). Any species whose name is protein_organism (including
+        # the residues added for iprotein) gets the affinity of its ionization
+        # added to that of its formation reaction.
+        affinity_values = _ionize_protein_species(
+            affinity_values, species_df, basis_df, args, messages
+        )
 
     # Handle protein affinity calculations if iprotein was provided
     if iprotein is not None and ires is not None:
@@ -238,9 +273,10 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
 
         for ip, iprot in enumerate(iprotein):
             # Get protein amino acid composition from thermo().protein
-            # Columns 4:24 contain chains and amino acid counts (0-indexed: columns 4-23)
+            # Columns 4:25 are chains + the 20 amino acids (R's tpext, columns 5:25),
+            # matching the 21 residue species (H2O_RESIDUE + one per amino acid)
             protein_row = thermo_obj.protein.iloc[iprot]
-            aa_counts = protein_row.iloc[4:24].values.astype(float)
+            aa_counts = protein_row.iloc[4:25].values.astype(float)
 
             # Calculate protein affinity by summing residue affinities weighted by composition
             # affinity_values keys are ispecies indices
@@ -267,99 +303,6 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
                 protein_key = -(iprot + 1)  # Negative of (row number + 1)
                 protein_affinities[protein_key] = protein_affinity
 
-        # Add ionization affinity if H+ is in basis (matching R CHNOSZ behavior)
-        if 'H+' in basis_df.index:
-            if messages:
-                print("affinity: ionizing proteins ...")
-
-            # Get protein amino acid compositions
-            from ..biomolecules.proteins import pinfo
-            from ..biomolecules.ionize_aa import ionize_aa
-
-            # Get aa compositions for these proteins
-            aa = pinfo(iprotein)
-
-            # Determine pH values from vars/vals or basis
-            # Check if H+ is a variable
-            if 'H+' in args['vars']:
-                # H+ is a variable - get pH from vals
-                iHplus = args['vars'].index('H+')
-                pH_vals = -np.array(args['vals'][iHplus])  # pH = -log(a_H+)
-            else:
-                # H+ is constant - get from basis
-                pH_val = -basis_df.loc['H+', 'logact']  # pH = -log(a_H+)
-                pH_vals = np.array([pH_val])
-
-            # Get T values (already processed earlier)
-            T_vals = args['T']
-            if isinstance(T_vals, (int, float)):
-                T_celsius = T_vals - 273.15
-            else:
-                T_celsius = T_vals - 273.15
-
-            # Get P values
-            P_vals = args['P']
-
-            # Calculate ionization affinity
-            # ionize_aa expects arrays, so ensure T, P, pH are properly shaped
-            # For grid calculations, we need to expand T, P, pH into a grid matching the affinity grid
-            if len(args['vars']) >= 2:
-                # Multi-dimensional case - create grid
-                # Figure out which vars are T, P, H+
-                var_names = args['vars']
-                has_T_var = 'T' in var_names
-                has_P_var = 'P' in var_names
-                has_Hplus_var = 'H+' in var_names
-
-                # Build T, P, pH grids matching the affinity calculation grid
-                if has_T_var and has_Hplus_var:
-                    # Both T and pH vary - create meshgrid
-                    T_grid, pH_grid = np.meshgrid(T_celsius, pH_vals, indexing='ij')
-                    T_flat = T_grid.flatten()
-                    pH_flat = pH_grid.flatten()
-                    if isinstance(P_vals, str):
-                        P_flat = np.array([P_vals] * len(T_flat))
-                    else:
-                        P_flat = np.full(len(T_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
-                elif has_T_var:
-                    # Only T varies
-                    T_flat = T_celsius if isinstance(T_celsius, np.ndarray) else np.array([T_celsius])
-                    pH_flat = np.full(len(T_flat), pH_vals[0])
-                    P_flat = np.array([P_vals] * len(T_flat)) if isinstance(P_vals, str) else np.full(len(T_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
-                elif has_Hplus_var:
-                    # Only pH varies
-                    pH_flat = pH_vals
-                    T_flat = np.full(len(pH_flat), T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0])
-                    P_flat = np.array([P_vals] * len(pH_flat)) if isinstance(P_vals, str) else np.full(len(pH_flat), P_vals if isinstance(P_vals, (int, float)) else P_vals[0])
-                else:
-                    # No T or pH variables
-                    T_flat = np.array([T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0]])
-                    pH_flat = pH_vals
-                    P_flat = np.array([P_vals] if isinstance(P_vals, str) else [P_vals if isinstance(P_vals, (int, float)) else P_vals[0]])
-            else:
-                # Single or no variable case
-                T_flat = np.array([T_celsius if isinstance(T_celsius, (int, float)) else T_celsius[0]])
-                pH_flat = pH_vals if isinstance(pH_vals, np.ndarray) else np.array([pH_vals[0] if hasattr(pH_vals, '__getitem__') else pH_vals])
-                P_flat = np.array([P_vals] if isinstance(P_vals, str) else [P_vals if isinstance(P_vals, (int, float)) else P_vals[0]])
-
-            # Call ionize_aa to get ionization affinity
-            ionization_result = ionize_aa(aa, property="A", T=T_flat, P=P_flat, pH=pH_flat)
-
-            # Add ionization affinity to formation affinity for each protein
-            for ip, iprot in enumerate(iprotein):
-                protein_key = -(iprot + 1)
-                ionization_affinity = ionization_result.iloc[:, ip].values
-
-                # Reshape to match formation affinity dimensions if needed
-                formation_affinity = protein_affinities[protein_key]
-                if isinstance(formation_affinity, np.ndarray):
-                    if formation_affinity.shape != ionization_affinity.shape:
-                        # Reshape ionization affinity to match formation affinity
-                        ionization_affinity = ionization_affinity.reshape(formation_affinity.shape)
-
-                # Add ionization to formation affinity
-                protein_affinities[protein_key] = formation_affinity + ionization_affinity
-
         # Replace affinity_values with protein affinities
         affinity_values = protein_affinities
 
@@ -379,13 +322,13 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
 
         # Get amino acid composition matrix (n_proteins x n_residues)
         # thermo$protein[iprotein, 5:25] in R (columns 5-25 contain chains and 20 amino acids)
-        # In Python (0-indexed): columns 4:24 contain chains and 20 amino acids
+        # In Python (0-indexed): columns 4:25 contain chains and 20 amino acids
         aa_composition = []
         for iprot in iprotein:
             protein_row = thermo_obj.protein.iloc[iprot]
-            # Columns 4:24 contain: chains, Ala, Cys, Asp, Glu, Phe, Gly, His, Ile, Lys, Leu,
+            # Columns 4:25 contain: chains, Ala, Cys, Asp, Glu, Phe, Gly, His, Ile, Lys, Leu,
             #                       Met, Asn, Pro, Gln, Arg, Ser, Thr, Val, Trp, Tyr
-            aa_counts = protein_row.iloc[4:24].values.astype(float)
+            aa_counts = protein_row.iloc[4:25].values.astype(float)
             aa_composition.append(aa_counts)
         aa_composition = np.array(aa_composition)  # Shape: (n_proteins, 21)
 
@@ -398,7 +341,9 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
 
         # Delete residue species from species list now that we have the coefficients
         from .species import species as species_func
-        species_func(ires.tolist(), delete=True, messages=False)
+        # ires is 0-based (it indexes species_df with .iloc), but species(delete=)
+        # takes 1-based row numbers, as in R
+        species_func((ires + 1).tolist(), delete=True, messages=False)
 
         if original_species is not None:
             # Restore original species (but we've already calculated, so just update species_df)
@@ -417,11 +362,9 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
 
         for iprot in iprotein:
             prot_row = thermo_obj.protein.iloc[iprot]
-            # Escape underscores for LaTeX compatibility in diagram labels
-            protein_name = f"{prot_row['protein']}_{prot_row['organism']}"
-            # Replace underscores with escaped version for matplotlib/LaTeX
-            protein_name_escaped = protein_name.replace('_', r'\_')
-            protein_names.append(protein_name_escaped)
+            # Names are stored unescaped, as in R; _format_chemname() escapes
+            # underscores when rendering labels in math mode
+            protein_names.append(f"{prot_row['protein']}_{prot_row['organism']}")
             protein_ispecies.append(-(iprot + 1))  # Negative index
 
         species_data['ispecies'] = protein_ispecies
@@ -451,12 +394,22 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
             vals_dict['pe'] = [-val for val in args['vals'][i]]
         elif var == 'e-' and 'Eh' in args_orig:
             vars_list_display[i] = 'Eh'
-            # Convert from log(a_e-) back to Eh using temperature-dependent formula
-            # log(a_e-) = -pe, so pe = -log(a_e-)
-            # Eh = pe * (ln(10) * R * T) / F = -log(a_e-) * T / 5039.76
-            T_kelvin = args['T'] if isinstance(args['T'], (int, float)) else args['T'][0] if hasattr(args['T'], '__len__') else 298.15
-            conversion_factor = T_kelvin / 5039.76  # volts per pe unit
-            vals_dict['Eh'] = [-val * conversion_factor for val in args['vals'][i]]
+            # Rebuild the Eh values in volts from the original argument, as R does:
+            # args['vals'] holds log(a_e-) over all the dimensions (the conversion
+            # is temperature-dependent), which is not the 1-D axis wanted here
+            Eharg = args_orig['Eh']
+            if not hasattr(Eharg, '__len__'):
+                Eh_vals = np.array([float(Eharg)])
+            elif args['transect'] or len(Eharg) > 3:
+                # On a transect the values are the points, not a range
+                Eh_vals = np.asarray(Eharg, dtype=float)
+            elif len(Eharg) == 3:
+                Eh_vals = np.linspace(Eharg[0], Eharg[1], int(Eharg[2]))
+            elif len(Eharg) == 2:
+                Eh_vals = np.linspace(Eharg[0], Eharg[1], 256)
+            else:
+                Eh_vals = np.asarray(Eharg, dtype=float)
+            vals_dict['Eh'] = Eh_vals
         else:
             vals_dict[var] = args['vals'][i]
 
@@ -503,7 +456,183 @@ def affinity(messages: bool = True, basis: Optional[pd.DataFrame] = None,
     return result
 
 
-def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[pd.DataFrame] = None) -> Dict[str, Any]:
+def _ionize_protein_species(affinity_values: Dict[Any, Any], species_df: pd.DataFrame,
+                            basis_df: pd.DataFrame, args: Dict[str, Any],
+                            messages: bool = True) -> Dict[Any, Any]:
+    """
+    Add the affinity of ionization to protein species in the species list.
+
+    Port of the protein ionization block of R CHNOSZ energy()'s A() function.
+    Applies to any species named protein_organism, which includes both proteins
+    added with species() and the residues added by affinity(iprotein = ...).
+    """
+    from ..biomolecules.proteins import pinfo
+
+    # Ionization needs H+ in the basis to be meaningful
+    if 'H+' not in basis_df.index:
+        return affinity_values
+
+    # Which species are proteins
+    names = list(species_df['name'])
+    ip_all = [pinfo(n) for n in names]
+    isprotein = [not (v is None or (np.ndim(v) == 0 and pd.isna(v))) for v in ip_all]
+    if not any(isprotein):
+        return affinity_values
+
+    if not thermo().opt.get('ionize.aa', True):
+        if messages:
+            print("affinity: NOT ionizing proteins because thermo().opt['ionize.aa'] is False")
+        return affinity_values
+
+    if messages:
+        print("affinity: ionizing proteins ...")
+
+    # The rownumbers in thermo().protein of the proteins in the species list
+    ip = [int(v) for v, isp in zip(ip_all, isprotein) if isp]
+    # as float in case the logact column is character mode due to a buffer definition
+    pH = -float(basis_df.loc['H+', 'logact'])
+
+    A_ionization = _ionization_affinity(
+        pinfo(ip), args['vars'], args['vals'],
+        T=args['T'], P=args['P'], pH=pH,
+        transect=args.get('transect', False)
+    )
+
+    # Add it to the affinities of formation reactions of the non-ionized proteins
+    keys = list(affinity_values.keys())
+    j = 0
+    for i, isp in enumerate(isprotein):
+        if not isp:
+            continue
+        if i < len(keys):
+            affinity_values[keys[i]] = affinity_values[keys[i]] + A_ionization[j]
+        j += 1
+
+    return affinity_values
+
+
+def _ionization_affinity(aa: pd.DataFrame, vars: List[str], vals: List[Any],
+                         T: Any = 298.15, P: Any = "Psat", pH: float = 7.0,
+                         transect: bool = False) -> List[np.ndarray]:
+    """
+    Build a list of values of A/2.303RT of protein ionization, one per protein.
+
+    Port of R CHNOSZ A.ionization() in util.affinity.R. Ionization affinity
+    depends only on T, P and pH, so the values are calculated on the T-P-pH
+    grid and then grown and permuted into the dimensions of all the variables
+    (e.g. the values are constant along an Eh or logfO2 axis).
+
+    Returns
+    -------
+    list of ndarray
+        Ionization affinity for each protein, shaped like the affinity grid
+    """
+    from ..biomolecules.ionize_aa import ionize_aa
+
+    # Start from the constant values, overridden by any that are variables.
+    # T arrives in Kelvin; ionize_aa() wants degrees C
+    T_vals = np.atleast_1d(np.asarray(T, dtype=float)) - 273.15
+    P_vals = P if isinstance(P, str) else np.atleast_1d(np.asarray(P, dtype=float))
+    pH_vals = np.atleast_1d(np.asarray(pH, dtype=float))
+
+    iT = vars.index("T") if "T" in vars else None
+    iP = vars.index("P") if "P" in vars else None
+    iHplus = vars.index("H+") if "H+" in vars else None
+
+    if iT is not None:
+        T_vals = np.atleast_1d(np.asarray(vals[iT], dtype=float)) - 273.15
+    if iP is not None:
+        P_vals = np.atleast_1d(np.asarray(vals[iP], dtype=float))
+    if iHplus is not None:
+        pH_vals = -np.atleast_1d(np.asarray(vals[iHplus], dtype=float))
+
+    # "Psat" is carried through as a scalar string; it has length 1
+    P_len = 1 if isinstance(P_vals, str) else len(P_vals)
+
+    if transect:
+        # Single points, not a grid
+        TPpH_T, TPpH_P, TPpH_pH = T_vals, P_vals, pH_vals
+    else:
+        # Make a grid of all combinations, with T, P, pH in the order they
+        # show up in vars (variables first, then the constants)
+        order = sorted(
+            range(3),
+            key=lambda k: ({0: iT, 1: iP, 2: iHplus}[k]
+                           if {0: iT, 1: iP, 2: iHplus}[k] is not None else np.inf)
+        )
+        if iT is None and iP is None and iHplus is None:
+            order = [0, 1, 2]
+
+        axes = {0: T_vals, 1: (np.array([0.0]) if isinstance(P_vals, str) else P_vals), 2: pH_vals}
+        # expand.grid varies the first argument fastest
+        grids = np.meshgrid(*[axes[k] for k in order], indexing="ij")
+        flat = [g.flatten(order="F") for g in grids]
+        by_axis = {k: flat[i] for i, k in enumerate(order)}
+        TPpH_T = by_axis[0]
+        TPpH_P = P_vals if isinstance(P_vals, str) else by_axis[1]
+        TPpH_pH = by_axis[2]
+
+        # The dimensions of T-P-pH, dropping any that aren't in vars
+        TPpH_dim_by_var = {}
+        if iT is not None:
+            TPpH_dim_by_var[iT] = len(T_vals)
+        if iP is not None:
+            TPpH_dim_by_var[iP] = P_len
+        if iHplus is not None:
+            TPpH_dim_by_var[iHplus] = len(pH_vals)
+        TPpH_dim = [TPpH_dim_by_var[k] for k in sorted(TPpH_dim_by_var)]
+
+        # The dimensions of the other vars, in the order they appear in vars
+        iother = [i for i, v in enumerate(vars) if v not in ("T", "P", "H+")]
+        other_dim = []
+        for i in iother:
+            v = np.asarray(vals[i])
+            if vars[i] == "e-" and v.ndim > 1:
+                # Values of pe were calculated in all dimensions; recover the
+                # original length of the Eh variable by removing the other dims
+                edim = list(v.shape)
+                for d in TPpH_dim + other_dim:
+                    if d in edim:
+                        edim.remove(d)
+                other_dim.append(edim[0] if edim else v.size)
+            else:
+                other_dim.append(v.size if v.ndim <= 1 else max(v.shape))
+
+        # The permutation vector: T-P-pH dimensions come first, then the others
+        allvars = [v for i, v in enumerate(vars) if i not in iother] + [vars[i] for i in iother]
+        perm = [allvars.index(v) for v in vars]
+
+    # Calculate the values of A/2.303RT as a function of T-P-pH
+    A = ionize_aa(aa, property="A", T=TPpH_T, P=TPpH_P, pH=TPpH_pH)
+    A = np.asarray(A)
+
+    out = []
+    for i in range(A.shape[1]):
+        thisA = A[:, i]
+        if transect:
+            out.append(thisA)
+            continue
+
+        # Apply the dimensions of T-P-pH
+        tpph_dim = TPpH_dim if len(TPpH_dim) > 0 else [1]
+        thisA = thisA.reshape(tpph_dim, order="F")
+
+        # Grow into the dimensions of all vars
+        alldim = list(tpph_dim) + list(other_dim) if len(TPpH_dim) > 0 else list(other_dim)
+        if len(alldim) == 0:
+            alldim = [1]
+        # R's array() recycles the values to fill the larger shape
+        thisA = np.resize(thisA.flatten(order="F"), int(np.prod(alldim))).reshape(alldim, order="F")
+
+        # Permute to put the dimensions in the same order as the variables
+        thisA = np.transpose(thisA, axes=perm)
+        out.append(thisA)
+
+    return out
+
+
+def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[pd.DataFrame] = None,
+                transect: Optional[bool] = None) -> Dict[str, Any]:
     """
     Process arguments for energy calculations.
 
@@ -514,6 +643,9 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
     ----------
     args : dict
         Raw arguments from affinity() call
+    transect : bool, optional
+        Whether the variables define a transect rather than a grid. If None,
+        a transect is inferred when any variable has more than 3 values.
 
     Returns
     -------
@@ -524,6 +656,13 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
     thermo_obj = thermo()
     if basis_df is None:
         basis_df = get_basis()
+
+    # Do the variables specify a transect? Inputs are like [x1, x2, res], which
+    # expand to a grid axis, but more than 3 values are taken as the points of a
+    # transect instead (R: transect <- any(transect, any(sapply(args, length) > 3)))
+    transect = bool(transect) or any(
+        _n_values(v) > 3 for k, v in args.items() if k not in _NON_DIM_ARGS
+    )
 
     # Default values
     T = 298.15
@@ -538,7 +677,10 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
             T_is_var = True
         # Convert to Kelvin if needed (assuming Celsius input)
         if T_is_var:
-            if isinstance(T, (list, tuple)):
+            if transect:
+                # Every value is a point of the transect, not a range
+                T = np.asarray(T, dtype=float) + 273.15
+            elif isinstance(T, (list, tuple)):
                 # Handle [T1, T2, npoints] format or [T1, T2] (default to 256 points)
                 if len(T) == 3:
                     T = np.linspace(T[0] + 273.15, T[1] + 273.15, int(T[2]))
@@ -554,10 +696,12 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
 
     if 'P' in args:
         P = args['P']
-        if hasattr(P, '__len__') and len(P) > 1:
+        if hasattr(P, '__len__') and not isinstance(P, str) and len(P) > 1:
             P_is_var = True
-        if P_is_var and P != "Psat":
-            if isinstance(P, (list, tuple)):
+        if P_is_var:
+            if transect:
+                P = np.asarray(P, dtype=float)
+            elif isinstance(P, (list, tuple)):
                 if len(P) == 3:
                     P = np.linspace(P[0], P[1], int(P[2]))
                 elif len(P) == 2:
@@ -568,7 +712,9 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
         IS = args['IS']
         if hasattr(IS, '__len__') and len(IS) > 1:
             IS_is_var = True
-            if isinstance(IS, (list, tuple)):
+            if transect:
+                IS = np.asarray(IS, dtype=float)
+            elif isinstance(IS, (list, tuple)):
                 if len(IS) == 3:
                     IS = np.linspace(IS[0], IS[1], int(IS[2]))
                 elif len(IS) == 2:
@@ -604,149 +750,197 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
     # Track which T/P/IS are variables and process them in the order they appear in args
     tps_vars = {'T': (T_is_var, T), 'P': (P_is_var, P), 'IS': (IS_is_var, IS)}
 
-    # Add T, P, IS in the order they appear in args (preserves user's specification order)
-    for arg_name in args.keys():
-        if arg_name in ['T', 'P', 'IS'] and tps_vars[arg_name][0]:
-            var_name = arg_name
-            var_value = tps_vars[arg_name][1]
+    def _message_var(arg_name, n, lo, hi):
+        """Report the identity, range and units of a variable, as R does.
 
-            vars_list.append(var_name)
-            vals_list.append(var_value)
-
-            if isinstance(args[arg_name], (list, tuple)):
-                if len(args[arg_name]) == 3:
-                    # User specified [min, max, npoints]
-                    if arg_name == 'T':
-                        lims_list.append([args[arg_name][0] + 273.15, args[arg_name][1] + 273.15, args[arg_name][2]])
-                    else:
-                        lims_list.append([args[arg_name][0], args[arg_name][1], args[arg_name][2]])
-                elif len(args[arg_name]) == 2:
-                    # User specified [min, max], default to 256 points
-                    if arg_name == 'T':
-                        lims_list.append([args[arg_name][0] + 273.15, args[arg_name][1] + 273.15, 256])
-                    else:
-                        lims_list.append([args[arg_name][0], args[arg_name][1], 256])
-                else:
-                    # User provided explicit array of values
-                    lims_list.append([var_value.min(), var_value.max(), len(var_value)])
+        The name shown is the one the user gave, so pH/pe/Eh are reported as
+        such; only a name that is itself a basis species gets wrapped in
+        log10(a_) (or log10(f_) for a gas).
+        """
+        nametxt = arg_name
+        if arg_name in basis_names:
+            if basis_df.loc[arg_name, 'state'] == 'gas':
+                nametxt = f'log10(f_{arg_name})'
             else:
-                lims_list.append([var_value.min(), var_value.max(), len(var_value)])
+                nametxt = f'log10(a_{arg_name})'
+        unittxt = ''
+        if arg_name == 'T':
+            unittxt = ' K'
+        elif arg_name == 'P':
+            unittxt = ' bar'
+        elif arg_name == 'Eh':
+            unittxt = ' V'
+        print(f'affinity: variable {len(vars_list)} is {nametxt} at {n} values '
+              f'from {lo} to {hi}{unittxt}')
 
-    # Process basis species variables
+    def _append_TPIS(arg_name):
+        """Append a variable T, P or IS to vars/vals/lims."""
+        var_value = tps_vars[arg_name][1]
+
+        vars_list.append(arg_name)
+        vals_list.append(var_value)
+
+        if transect:
+            # The values are the points of the transect; the limits are their range
+            lims_list.append([var_value.min(), var_value.max(), len(var_value)])
+        elif isinstance(args[arg_name], (list, tuple)):
+            if len(args[arg_name]) == 3:
+                # User specified [min, max, npoints]
+                if arg_name == 'T':
+                    lims_list.append([args[arg_name][0] + 273.15, args[arg_name][1] + 273.15, args[arg_name][2]])
+                else:
+                    lims_list.append([args[arg_name][0], args[arg_name][1], args[arg_name][2]])
+            elif len(args[arg_name]) == 2:
+                # User specified [min, max], default to 256 points
+                if arg_name == 'T':
+                    lims_list.append([args[arg_name][0] + 273.15, args[arg_name][1] + 273.15, 256])
+                else:
+                    lims_list.append([args[arg_name][0], args[arg_name][1], 256])
+            else:
+                # User provided explicit array of values
+                lims_list.append([var_value.min(), var_value.max(), len(var_value)])
+        else:
+            lims_list.append([var_value.min(), var_value.max(), len(var_value)])
+
+        if messages:
+            lim = lims_list[-1]
+            _message_var(arg_name, int(lim[2]), lim[0], lim[1])
+
+    # Process T, P, IS and basis species variables in a single pass, so the
+    # dimensions follow the order the user gave the arguments in, as in R
     basis_names = basis_df.index.tolist()
 
+    # Positions in vars_list of any Eh variables, converted to log(a_e-) below
+    Eh_var_indices = []
+
     for arg_name, arg_value in args.items():
-        # Skip T, P, IS, and non-basis arguments
-        if arg_name in ['T', 'P', 'IS', 'what', 'property', 'exceed_Ttr', 'exceed_rhomin', 'return_buffer', 'balance']:
+        # Skip non-variables and non-dimension arguments
+        if arg_name in _NON_DIM_ARGS:
+            continue
+        if arg_name in ['T', 'P', 'IS']:
+            # Constant T/P/IS don't define a dimension (R cleans these out)
+            if tps_vars[arg_name][0]:
+                _append_TPIS(arg_name)
             continue
 
         # Handle pH -> H+, pe -> e-, Eh -> e-
         var_name = arg_name
         var_values = arg_value
 
-        if arg_name == 'pH':
-            var_name = 'H+'
-            if hasattr(var_values, '__len__'):
-                if len(var_values) >= 3:
-                    # [pH1, pH2, npoints] -> [-pH1, -pH2, npoints] for H+ (logact)
-                    # pH and log(a_H+) are related by: pH = -log(a_H+), so log(a_H+) = -pH
+        if arg_name in ('pH', 'pe'):
+            # pH = -log(a_H+) and pe = -log(a_e-), so negate to get the logact.
+            # For a transect every value is a point; otherwise only the first two
+            # are limits (the third is the resolution and must not be negated)
+            var_name = 'H+' if arg_name == 'pH' else 'e-'
+            if transect:
+                var_values = -np.asarray(var_values, dtype=float)
+            elif hasattr(var_values, '__len__'):
+                if len(var_values) == 3:
                     var_values = np.linspace(-var_values[0], -var_values[1], int(var_values[2]))
-                elif len(var_values) >= 2:
+                elif len(var_values) == 2:
                     var_values = [-v for v in var_values]
                 else:
-                    # Single value in a list [pH]
-                    var_values = np.array([-var_values[0]])
-            else:
-                # Scalar value
-                var_values = np.array([-var_values])
-        elif arg_name == 'pe':
-            var_name = 'e-'
-            if hasattr(var_values, '__len__'):
-                if len(var_values) >= 3:
-                    # pe = -log(a_e-), so log(a_e-) = -pe
-                    # For pe range [pe1, pe2], log(a_e-) range is [-pe1, -pe2]
-                    var_values = np.linspace(-var_values[0], -var_values[1], int(var_values[2]))
-                elif len(var_values) >= 2:
-                    var_values = [-v for v in var_values]
-                else:
-                    # Single value in a list [pe]
+                    # Single value in a list
                     var_values = np.array([-var_values[0]])
             else:
                 # Scalar value
                 var_values = np.array([-var_values])
         elif arg_name == 'Eh':
             var_name = 'e-'
-            # Convert Eh (volts) to log(a_e-) using temperature-dependent formula
-            # pe = Eh * F / (ln(10) * R * T) where pe = -log(a_e-)
-            # Therefore: log(a_e-) = -pe = -Eh * F / (ln(10) * R * T)
-            # where R = 0.00831470 kJ/(mol·K), F = 96.4935 kJ/(V·mol), T in Kelvin
-            # This gives: log(a_e-) = -Eh * 96.4935 / (2.303 * 0.00831470 * T)
-            #           = -Eh * 96.4935 / (0.019145 * T)
-            #           = -Eh * 5039.76 / T
-
-            # Get temperature for conversion (default to 25°C if not specified)
-            T_kelvin = T if isinstance(T, (int, float)) else T[0] if hasattr(T, '__len__') else 298.15
-            conversion_factor = 5039.76 / T_kelvin  # pe per volt (need to negate for log(a_e-))
-
-            if hasattr(var_values, '__len__') and len(var_values) >= 2:
+            # Keep the Eh values in volts for now. The conversion to log(a_e-)
+            # depends on temperature, so it's done below once all the variables
+            # are known and Eh and T can both be expanded to the full grid
+            # (as R does after energy.args() assembles the variables)
+            i_Eh_var = len(vars_list)
+            Eh_var_indices.append(i_Eh_var)
+            if transect:
+                var_values = np.asarray(var_values, dtype=float)
+            elif hasattr(var_values, '__len__') and len(var_values) >= 2:
                 if len(var_values) == 3:
                     # [Eh1, Eh2, npoints] format
-                    # Convert to log(a_e-) = -pe = -Eh * conversion_factor
-                    logact_start = -var_values[0] * conversion_factor
-                    logact_end = -var_values[1] * conversion_factor
-                    var_values = np.linspace(logact_start, logact_end, int(var_values[2]))
-                elif len(var_values) == 2:
+                    var_values = np.linspace(var_values[0], var_values[1], int(var_values[2]))
+                else:
                     # [Eh1, Eh2] format - default to 256 points like R
-                    logact_start = -var_values[0] * conversion_factor
-                    logact_end = -var_values[1] * conversion_factor
-                    var_values = np.linspace(logact_start, logact_end, 256)
-                else:
-                    # List of explicit Eh values
-                    var_values = [-v * conversion_factor for v in var_values]
+                    var_values = np.linspace(var_values[0], var_values[1], 256)
             else:
                 # Single value
-                var_values = -var_values * conversion_factor
+                var_values = np.atleast_1d(np.asarray(var_values, dtype=float))
 
-        # Check if this is a basis species
-        if var_name in basis_names:
-            vars_list.append(var_name)
-
-            # Process values
-            if isinstance(var_values, (list, tuple)):
-                if len(var_values) == 3:
-                    # [min, max, npoints] format
-                    vals_array = np.linspace(var_values[0], var_values[1], int(var_values[2]))
-                    vals_list.append(vals_array)
-                    lims_list.append(var_values)
-
-                    # Print variable info
-                    if messages:
-                        n_vals = int(var_values[2])
-                        print(f'affinity: variable {len(vars_list)} is log10(a_{var_name}) at {n_vals} values from {var_values[0]} to {var_values[1]}')
-
-                elif len(var_values) == 2:
-                    # [min, max] format - default to 256 points (R CHNOSZ behavior)
-                    vals_array = np.linspace(var_values[0], var_values[1], 256)
-                    vals_list.append(vals_array)
-                    lims_list.append([var_values[0], var_values[1], 256])
-
-                    # Print variable info
-                    if messages:
-                        print(f'affinity: variable {len(vars_list)} is log10(a_{var_name}) at 256 values from {var_values[0]} to {var_values[1]}')
-
-                else:
-                    # Explicit array of values
-                    vals_list.append(np.array(var_values))
-                    lims_list.append([min(var_values), max(var_values), len(var_values)])
-            else:
-                # Single value
-                if not hasattr(var_values, '__len__'):
-                    var_values = [var_values]
-                vals_list.append(np.array(var_values))
-                lims_list.append([var_values[0], var_values[-1], len(var_values)])
-        else:
-            # Not a recognized basis species or variable
+        # Stop if the argument doesn't correspond to a basis species, T, P or IS
+        if var_name not in basis_names:
             raise AffinityError(f"{arg_name} is not one of T, P, or IS, and does not match any basis species")
+
+        vars_list.append(var_name)
+
+        if transect:
+            # Every value is a point of the transect, not a range
+            vals_array = np.atleast_1d(np.asarray(var_values, dtype=float))
+            lims_list.append([vals_array.min(), vals_array.max(), len(vals_array)])
+        elif isinstance(var_values, (list, tuple)):
+            if len(var_values) == 3:
+                # [min, max, npoints] format
+                vals_array = np.linspace(var_values[0], var_values[1], int(var_values[2]))
+                lims_list.append(list(var_values))
+            elif len(var_values) == 2:
+                # [min, max] format - default to 256 points (R CHNOSZ behavior)
+                vals_array = np.linspace(var_values[0], var_values[1], 256)
+                lims_list.append([var_values[0], var_values[1], 256])
+            else:
+                # Explicit array of values
+                vals_array = np.atleast_1d(np.asarray(var_values, dtype=float))
+                lims_list.append([vals_array.min(), vals_array.max(), len(vals_array)])
+        else:
+            # Single value, or values already expanded above (pH, pe, Eh)
+            vals_array = np.atleast_1d(np.asarray(var_values, dtype=float))
+            lims_list.append([vals_array[0], vals_array[-1], len(vals_array)])
+
+        vals_list.append(vals_array)
+
+        if messages:
+            # The range is reported in the units the user gave, so pH values are
+            # shown as pH rather than as the log(a_H+) stored in vals (R's lims.orig)
+            orig = np.atleast_1d(np.asarray(arg_value, dtype=float))
+            if transect or len(orig) == 1:
+                lo, hi = orig.min(), orig.max()
+            else:
+                lo, hi = orig[0], orig[1]
+            _message_var(arg_name, len(vals_array), lo, hi)
+
+    if transect:
+        # Every variable has to supply a point for each position along the transect
+        n_points = {len(np.atleast_1d(v)) for v in vals_list}
+        if len(n_points) > 1:
+            raise AffinityError("variables define a transect but their lengths are not all equal")
+
+    # Convert Eh (volts) to log(a_e-), which depends on temperature:
+    #   pe = Eh * F / (ln(10) * R * T) and log(a_e-) = -pe
+    # R expands both Eh and T over all the dimensions and converts elementwise,
+    # so with variable T the result is an array, not one value per Eh
+    if Eh_var_indices:
+        # A transect has a single dimension: every variable supplies one value
+        # per point, so Eh and T pair up directly (R: dim.fun() uses idim <- 1)
+        if transect:
+            grid_shape = (int(lims_list[0][2]),)
+        else:
+            grid_shape = tuple(int(lim[2]) for lim in lims_list)
+
+        def _on_grid(values, axis):
+            if transect:
+                return np.broadcast_to(np.asarray(values, dtype=float), grid_shape)
+            shape = [1] * len(grid_shape)
+            shape[axis] = len(np.atleast_1d(values))
+            return np.broadcast_to(np.asarray(values, dtype=float).reshape(shape), grid_shape)
+
+        # Temperature over all the dimensions (a constant if T is not a variable)
+        if 'T' in vars_list:
+            iT = vars_list.index('T')
+            T_grid = _on_grid(vals_list[iT], iT)
+        else:
+            T_grid = np.full(grid_shape, float(T) if isinstance(T, (int, float)) else float(np.atleast_1d(T)[0]))
+
+        for i_Eh in Eh_var_indices:
+            Eh_grid = _on_grid(vals_list[i_Eh], i_Eh)
+            vals_list[i_Eh] = -Eh_grid * (_PE_PER_VOLT_TIMES_T / T_grid)
 
     return {
         'what': what,
@@ -755,7 +949,8 @@ def energy_args(args: Dict[str, Any], messages: bool = True, basis_df: Optional[
         'lims': lims_list,
         'T': T,
         'P': P,
-        'IS': IS
+        'IS': IS,
+        'transect': transect
     }
 
 
@@ -768,7 +963,8 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
            exceed_rhomin: bool = False,
            basis_df: Optional[pd.DataFrame] = None,
            species_df: Optional[pd.DataFrame] = None,
-           messages: bool = True) -> Dict[str, Any]:
+           messages: bool = True,
+           transect: bool = False) -> Dict[str, Any]:
     """
     Calculate energy properties over multiple dimensions.
 
@@ -797,6 +993,9 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
         Allow extrapolation beyond transitions
     exceed_rhomin : bool
         Allow below minimum density
+    transect : bool, default False
+        If True the variables define a sequence of points rather than a grid,
+        so the result has one dimension no matter how many variables there are
 
     Returns
     -------
@@ -817,8 +1016,74 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
     # Determine array dimensions
     if len(vars) == 0:
         mydim = [1]
+    elif transect:
+        # All the variables step together along a single dimension
+        n_points = [lim[2] for lim in lims]
+        if min(n_points) != max(n_points):
+            raise AffinityError("variables define a transect but their lengths are not all equal")
+        mydim = [n_points[0]]
     else:
         mydim = [lim[2] for lim in lims]
+
+    # The dimensions follow the order the variables were given in, which is not
+    # necessarily T-first, so values are placed on their own axis explicitly
+    # rather than relying on numpy's trailing-axis broadcasting
+    def _var_on_grid(values, axis):
+        """Broadcast one variable's values along its own axis of the full grid."""
+        values = np.asarray(values)
+        # On a transect every variable already has one value per point
+        if transect:
+            return np.asarray(values, dtype=float).reshape(mydim).copy()
+        # Eh was already converted to log(a_e-) over all the dimensions
+        if values.shape == tuple(mydim):
+            return values.copy()
+        shape = [1] * len(mydim)
+        shape[axis] = len(np.atleast_1d(values))
+        # np.broadcast_to returns a read-only view, so copy: callers accumulate in place
+        return np.broadcast_to(values.reshape(shape), tuple(mydim)).copy()
+
+    # Which of T, P, IS are variables, and which one subcrt() makes a grid over.
+    # As in R, a grid is only needed when two of them vary, and IS is always the
+    # grid variable when it is one of them (the only one subcrt() can grid over)
+    subcrt_vars = [v for v in vars if v in ('T', 'P', 'IS')]
+    if len(subcrt_vars) > 2:
+        raise AffinityError("only up to 2 of P,T,IS are supported")
+    if len(subcrt_vars) > 1 and not transect:
+        grid_var = 'IS' if 'IS' in subcrt_vars else subcrt_vars[0]
+    else:
+        grid_var = None
+
+    def _TPIS_on_grid(flat_vals):
+        """Place values that vary only with T/P/IS onto the full variable grid.
+
+        subcrt() returns them for a grid of the T/P/IS variables alone, with the
+        grid variable varying slowest. That is both a subset of the dimensions
+        and in a different order than the user's arguments.
+        """
+        arr = np.asarray(flat_vals)
+        if transect:
+            # subcrt() was called with the transect's T, P and IS paired up, so
+            # it already returned one value per point
+            return arr
+        if len(mydim) <= 1 or arr.ndim != 1:
+            return arr
+        if not subcrt_vars:
+            return arr
+        # The grid variable varies slowest in subcrt()'s output
+        sub_vars = ([grid_var] + [v for v in subcrt_vars if v != grid_var]
+                    if grid_var is not None else list(subcrt_vars))
+        sub_shape = [len(np.atleast_1d(vals[vars.index(v)])) for v in sub_vars]
+        if arr.size != int(np.prod(sub_shape)):
+            return arr
+        arr = arr.reshape(sub_shape)
+        # Reorder the subcrt axes into the order the user gave the variables in
+        arr = np.transpose(arr, axes=np.argsort([vars.index(v) for v in sub_vars]))
+        # Insert length-1 axes for the variables these values don't depend on
+        shape = [1] * len(mydim)
+        for v in sub_vars:
+            shape[vars.index(v)] = len(np.atleast_1d(vals[vars.index(v)]))
+        # Copy because np.broadcast_to returns a read-only view
+        return np.broadcast_to(arr.reshape(shape), tuple(mydim)).copy()
 
     # Prepare subcrt call
     if what in ['G', 'H', 'S', 'Cp', 'V', 'E', 'kT', 'logK'] or what == 'A':
@@ -847,21 +1112,13 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
         # has its own optimized batch subcrt call
         if sout is None and what != 'A':
             try:
-                # Determine grid parameter for subcrt
-                grid_param = None
-                if len(vars) > 1:
-                    # Multi-variable case - use appropriate grid
-                    subcrt_vars = [v for v in vars if v in ['T', 'P', 'IS']]
-                    if len(subcrt_vars) >= 2:
-                        grid_param = subcrt_vars[0]  # Use first subcrt variable
-
                 sout_result = subcrt(
                     species=all_species,
                     T=subcrt_T,
                     P=subcrt_P,
                     IS=subcrt_IS,
                     property='logK',
-                    grid=grid_param,
+                    grid=grid_var,
                     exceed_Ttr=exceed_Ttr,
                     exceed_rhomin=exceed_rhomin,
                     messages=messages,
@@ -895,26 +1152,11 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
         logact_basis_arrays = {}
 
         if len(vars) > 1:
-            # Multi-dimensional case: create meshgrid for all variables
-            var_arrays = []
-            var_names_ordered = []
-
-            # Collect variable arrays in order
-            for var_name in vars:
+            # Multi-dimensional case: each basis variable varies along its own
+            # axis of the grid, at the position where the user gave it
+            for var_idx, var_name in enumerate(vars):
                 if var_name in basis_names:
-                    var_idx = vars.index(var_name)
-                    var_arrays.append(np.array(vals[var_idx]))
-                    var_names_ordered.append(var_name)
-
-            # Create meshgrid for basis species variables
-            if var_arrays:
-                # meshgrid creates N-D arrays where each variable varies along its own axis
-                # indexing='ij' gives matrix indexing (first index varies down rows)
-                meshgrids = np.meshgrid(*var_arrays, indexing='ij')
-
-                # Map meshgrid results back to basis species
-                for i, var_name in enumerate(var_names_ordered):
-                    logact_basis_arrays[var_name] = meshgrids[i]
+                    logact_basis_arrays[var_name] = _var_on_grid(np.array(vals[var_idx]), var_idx)
 
         # Handle all basis species (variables and fixed)
         for j, basis_name in enumerate(basis_names):
@@ -972,19 +1214,12 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
         # Single batch subcrt call to get logK of formation from elements for all species
         # Use ispecies indices to avoid redundant lookups
         try:
-            # Determine grid parameter for subcrt when we have multiple T/P variables
-            grid_param = None
-            if len(vars) >= 2:
-                # Check if we have T and/or P as variables
-                if 'T' in vars and 'P' in vars:
-                    # Both T and P vary - use T as grid variable (R CHNOSZ convention)
-                    grid_param = 'T'
-                elif 'T' in vars:
-                    grid_param = 'T'
-                elif 'P' in vars:
-                    grid_param = 'P'
+            # P and IS come from vals when they are variables; T_celsius already does
+            batch_P = vals[vars.index('P')] if 'P' in vars else P
+            batch_IS = vals[vars.index('IS')] if 'IS' in vars else IS
 
-            batch_result = subcrt(all_species_indices, property="logK", T=T_celsius, P=P, grid=grid_param, messages=messages, show=False)
+            batch_result = subcrt(all_species_indices, property="logK", T=T_celsius, P=batch_P,
+                                  IS=batch_IS, grid=grid_var, messages=messages, show=False)
 
             # Extract logK values from batch result
             # batch_result.out is a dict with 'species_data' list
@@ -1005,11 +1240,8 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
                         # DO NOT replace nan with 0.0 as this causes incorrect affinity calculations
                         # logK_vals = np.where(np.isnan(logK_vals), 0.0, logK_vals)
 
-                        # Reshape if we have a 2-D grid
-                        if len(mydim) > 1 and len(logK_vals) == np.prod(mydim):
-                            # Reshape flattened array to match grid dimensions
-                            # mydim is [nT, nP] or similar, and grid='T' gives row-major order
-                            logK_vals = logK_vals.reshape(mydim)
+                        # logK varies only with T/P/IS; put it on the full grid
+                        logK_vals = _TPIS_on_grid(logK_vals)
 
                         species_logK_from_elements[sp_name] = logK_vals
                     else:
@@ -1030,9 +1262,8 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
                     # DO NOT replace nan with 0.0 as this causes incorrect affinity calculations
                     # logK_vals = np.where(np.isnan(logK_vals), 0.0, logK_vals)
 
-                    # Reshape if we have a 2-D grid
-                    if len(mydim) > 1 and len(logK_vals) == np.prod(mydim):
-                        logK_vals = logK_vals.reshape(mydim)
+                    # logK varies only with T/P/IS; put it on the full grid
+                    logK_vals = _TPIS_on_grid(logK_vals)
 
                     species_logK_from_elements[sp_name] = logK_vals
                 else:
@@ -1164,20 +1395,11 @@ def energy(what: str, vars: List[str], vals: List, lims: List,
             # logK only varies with subcrt variables (T, P, IS) but logQ varies with all variables
             if isinstance(logK_formation, np.ndarray) and isinstance(logQ_arrays, np.ndarray):
                 if logK_formation.shape != logQ_arrays.shape:
-                    # Need to broadcast logK to match logQ dimensions
+                    # logK varies only with T/P/IS, so put it on those axes of the
+                    # grid rather than guessing from the length (which is ambiguous
+                    # when two variables have the same number of values)
                     if len(mydim) > 1 and logK_formation.ndim == 1:
-                        # logK is 1-D but should be broadcast to 2-D
-                        # Determine which dimension logK varies along
-                        # Check if logK length matches first dimension of mydim (typically T)
-                        if len(logK_formation) == mydim[0]:
-                            # logK varies along first dimension, broadcast to second
-                            logK_formation = np.broadcast_to(logK_formation[:, np.newaxis], mydim)
-                        elif len(logK_formation) == mydim[1]:
-                            # logK varies along second dimension, broadcast to first
-                            logK_formation = np.broadcast_to(logK_formation[np.newaxis, :], mydim)
-                        elif len(logK_formation) == np.prod(mydim):
-                            # logK is flattened, reshape it
-                            logK_formation = logK_formation.reshape(mydim)
+                        logK_formation = _TPIS_on_grid(logK_formation)
 
             affinity_array = logK_formation - logQ_arrays
 

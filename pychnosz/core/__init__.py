@@ -27,6 +27,11 @@ try:
 except ImportError:
     diagram = None
 
+try:
+    from .mosaic import mosaic
+except ImportError:
+    mosaic = None
+
 __all__ = [
     'ThermoSystem', 'thermo',
     'info', 'find_species', 'get_species_data', 'list_species',
@@ -44,3 +49,5 @@ if equilibrate is not None:
     __all__.append('equilibrate')
 if diagram is not None:
     __all__.append('diagram')
+if mosaic is not None:
+    __all__.append('mosaic')

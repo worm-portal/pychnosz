@@ -292,14 +292,13 @@ def _lookup_species_indices(species: List[str], state: Optional[List[str]], mess
     for i, sp in enumerate(species):
         sp_state = state[i] if state and i < len(state) else None
         
-        try:
-            # Use info function to find species
-            idx = info(sp, sp_state, messages=messages)
-            if pd.isna(idx):
-                raise SpeciesError(f"species not available: {sp}")
-            iOBIGT.append(idx)
-        except Exception:
+        # Use info function to find species. Only a missing species becomes
+        # "species not available"; other errors (e.g. a protein whose group
+        # additivity fails) propagate so their cause isn't masked.
+        idx = info(sp, sp_state, messages=messages)
+        if idx is None or (np.isscalar(idx) and pd.isna(idx)):
             raise SpeciesError(f"species not available: {sp}")
+        iOBIGT.append(idx)
     
     return iOBIGT
 

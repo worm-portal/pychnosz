@@ -95,16 +95,19 @@ def ionize_aa(aa: pd.DataFrame,
     ineutral = [info(g, "aq") for g in neutral]
     icharged = [info(g, "aq") for g in charged]
 
-    # Get unique T, P combinations
+    # Get unique T, P combinations, keeping first-appearance order (R's unique()).
+    # indices maps every T, P pair to its row in the deduplicated results, so it
+    # must index that ordered list -- not a set, whose order is arbitrary
     pTP = [f"{t}_{p}" for t, p in zip(T, P)]
     unique_pTP = []
-    seen = set()
-    indices = []
+    uPT = []
+    seen = {}
     for i, tp in enumerate(pTP):
         if tp not in seen:
+            seen[tp] = len(uPT)
+            uPT.append(tp)
             unique_pTP.append(i)
-            seen.add(tp)
-        indices.append(list(seen).index(tp))
+    indices = [seen[tp] for tp in pTP]
 
     # Determine which property to calculate
     sprop = ["G", property] if property not in ["A", "Z"] else ["G"]
@@ -115,19 +118,19 @@ def ionize_aa(aa: pd.DataFrame,
     # Call subcrt for unique T, P combinations
     unique_T = TK[unique_pTP]
     unique_P = P[unique_pTP]
+    # P was expanded to an array to pair it with T above; subcrt() expects the
+    # scalar "Psat" rather than an array of it
+    if unique_P.dtype.kind in "US":
+        unique_P = str(unique_P[0])
 
     all_species = ineutral + icharged
     sout = subcrt(all_species, T=unique_T, P=unique_P, property=sprop, convert=False)
 
-    # Extract G values
+    # Extract G values, one column per ionizable group
+    species_data = sout.out['species_data']
     Gs = np.zeros((len(unique_pTP), len(all_species)))
-    for i, spec_idx in enumerate(all_species):
-        if isinstance(sout['out'], dict):
-            # Single species result
-            Gs[:, i] = sout['out']['G']
-        else:
-            # Multiple species result
-            Gs[:, i] = sout['out'][i]['G'].values
+    for i in range(len(all_species)):
+        Gs[:, i] = np.asarray(species_data[i]['G'], dtype=float)
 
     # Gibbs energy difference for each group
     DG = Gs[:, 9:18] - Gs[:, 0:9]

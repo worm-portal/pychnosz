@@ -90,6 +90,227 @@ def test_hkf_helpers():
         return False
 
 
+def test_mosaic():
+    """Test mosaic() against reference values from R CHNOSZ 2.2.0."""
+    print("\n" + "=" * 60)
+    print("Test 4: mosaic (Cu-S-Cl-H2O)")
+    print("=" * 60)
+
+    try:
+        import numpy as np
+        import pychnosz as pc
+
+        # Reference values from R CHNOSZ 2.2.0, printed in column-major order.
+        ref_values = {
+            609: [-9.407340, -9.407340, -9.407340, 1.244802, 1.244802,
+                  1.244802, 11.896944, 11.896944, 11.896944],
+            610: [-8.233162, -8.233162, -8.233162, 2.418980, 2.418980,
+                  2.418980, 13.071122, 13.071122, 13.071122],
+            1946: [-20.181588, -8.263455, -4.665054, 1.122696, -20.590192,
+                   -68.577609, -40.958802, -84.503044, -132.490460],
+            1990: [-32.278660, -20.278660, -8.278660, -10.974377, 1.025623,
+                   13.025623, 10.329907, 22.329907, 34.329907],
+            1954: [0.0] * 9,
+        }
+        ref_predominant = [5, 5, 5, 2, 2, 4, 2, 4, 4]
+        ref_bases_predominant = [1, 1, 4, 1, 4, 4, 3, 4, 4]
+
+        pc.reset(messages=False)
+        pc.basis(["Cu", "H2S", "Cl-", "H2O", "H+", "e-"], messages=False)
+        pc.basis("H2S", -6)
+        pc.basis("Cl-", -1)
+        pc.species(["CuCl", "CuCl2-"], messages=False)
+        pc.species(["chalcocite", "tenorite", "copper"], add=True, messages=False)
+
+        m = pc.mosaic(["H2S", "HS-", "HSO4-", "SO4-2"],
+                      pH=[0, 12, 3], Eh=[-1, 1, 3], T=200, messages=False)
+
+        worst = 0.0
+        for ispecies, ref in ref_values.items():
+            got = np.asarray(m['A_species']['values'][ispecies],
+                             dtype=float).ravel(order='F')
+            worst = max(worst, float(np.max(np.abs(got - np.asarray(ref)))))
+        if worst > 1e-4:
+            print(f"[FAIL] affinities differ from R by {worst:.3e}")
+            return False
+        print(f"[OK] affinities match R CHNOSZ (max diff {worst:.2e})")
+
+        d = pc.diagram(m['A_species'], plot_it=False, messages=False)
+        got = np.asarray(d['predominant']).ravel(order='F').astype(int).tolist()
+        if got != ref_predominant:
+            print(f"[FAIL] predominance {got} != R {ref_predominant}")
+            return False
+        print("[OK] species predominance matches R CHNOSZ")
+
+        db = pc.diagram(m['A_bases'], plot_it=False, messages=False)
+        got = np.asarray(db['predominant']).ravel(order='F').astype(int).tolist()
+        if got != ref_bases_predominant:
+            print(f"[FAIL] bases predominance {got} != R {ref_bases_predominant}")
+            return False
+        print("[OK] basis species predominance matches R CHNOSZ")
+
+        return True
+
+    except Exception as e:
+        print(f"[FAIL] mosaic error: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def test_equilibrate_mosaic():
+    """Test equilibrate() on mosaic() output against R CHNOSZ 2.2.0."""
+    print("\n" + "=" * 60)
+    print("Test 5: equilibrate on mosaic output")
+    print("=" * 60)
+
+    try:
+        import numpy as np
+        import pychnosz as pc
+
+        # Reference loga.equil from R CHNOSZ 2.2.0, in column-major order.
+        # The basis species (H2S, HS-, HSO4-, SO4-2) are prepended to the
+        # formed species by the mosaic branch of equilibrate().
+        ref = {
+            "H2S": [-6.000000, -6.000900, -7.337348, -14.483466, -6.000000,
+                    -20.295786, -59.700433, -99.700305, -69.385782,
+                    -105.512921, -144.917568, -184.917440],
+            "HS-": [-12.683099, -8.683999, -6.020447, -9.166565, -12.683099,
+                    -22.978885, -58.383532, -94.383404, -76.068881,
+                    -108.196020, -143.600667, -179.600539],
+            "HSO4-": [-113.048503, -77.049403, -42.385850, -13.531969,
+                      -27.831368, -6.127154, -9.531800, -13.531673,
+                      -6.000015, -6.127154, -9.531800, -13.531673],
+            "SO4-2": [-117.516830, -77.517730, -38.854177, -6.000296,
+                      -32.299695, -6.595481, -6.000128, -6.000000,
+                      -10.468342, -6.595481, -6.000128, -6.000000],
+            "CuCl": [-999.0] * 4 + [-4.869288, -4.862762, -999.0, -999.0,
+                                    -4.633809] + [-999.0] * 3,
+            "CuCl2-": [-999.0] * 4 + [-3.695109, -3.688583, -999.0, -999.0,
+                                      -3.459630] + [-999.0] * 3,
+            "chalcocite": [-999.0] * 12,
+            "tenorite": [-999.0] * 6 + [-3.000005, -3.000000, -999.0,
+                                        -3.000000, -3.000000, -3.000000],
+            "copper": [-3.000000, -3.000001, -3.000000, -3.000001]
+                      + [-999.0] * 8,
+        }
+        ref_predominant = [9, 9, 9, 9, 6, 6, 8, 8, 6, 8, 8, 8]
+
+        pc.reset(messages=False)
+        pc.basis(["Cu", "H2S", "Cl-", "H2O", "H+", "e-"], messages=False)
+        pc.basis("H2S", -6)
+        pc.basis("Cl-", -1)
+        pc.species(["CuCl", "CuCl2-"], messages=False)
+        pc.species(["chalcocite", "tenorite", "copper"], add=True, messages=False)
+
+        m = pc.mosaic(["H2S", "HS-", "HSO4-", "SO4-2"],
+                      pH=[0, 12, 4], Eh=[-1, 1, 3], T=200, messages=False)
+        e = pc.equilibrate(m, loga_balance=-3, messages=False)
+
+        names = list(e['species']['name'])
+        if names != list(ref):
+            print(f"[FAIL] species {names} != R {list(ref)}")
+            return False
+        print(f"[OK] combined species list matches R ({len(names)} species)")
+
+        worst = 0.0
+        for i, name in enumerate(names):
+            got = np.asarray(e['loga_equil'][i], dtype=float).ravel(order='F')
+            worst = max(worst, float(np.max(np.abs(got - np.asarray(ref[name])))))
+        if worst > 1e-4:
+            print(f"[FAIL] loga_equil differs from R by {worst:.3e}")
+            return False
+        print(f"[OK] loga_equil matches R CHNOSZ (max diff {worst:.2e})")
+
+        d = pc.diagram(e, plot_it=False, messages=False)
+        got = np.asarray(d['predominant']).ravel(order='F').astype(int).tolist()
+        if got != ref_predominant:
+            print(f"[FAIL] predominance {got} != R {ref_predominant}")
+            return False
+        print("[OK] predominance of combined object matches R CHNOSZ")
+
+        return True
+
+    except Exception as e:
+        print(f"[FAIL] equilibrate/mosaic error: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def test_ZC_oxidation_states():
+    """Test ZC() default values and user-supplied oxidation states."""
+    print("\n" + "=" * 60)
+    print("Test 6: ZC with user-supplied oxidation states")
+    print("=" * 60)
+
+    try:
+        import warnings
+        import numpy as np
+        import pychnosz as pc
+
+        # Defaults must be unchanged (these also match R CHNOSZ ZC())
+        defaults = {"CH4": -4.0, "CO2": 4.0, "C6H12O6": 0.0,
+                    "CH3COO-": 0.0, "C2H6O": -2.0, "CH2O": 0.0}
+        for formula, want in defaults.items():
+            got = pc.ZC(formula)
+            if not np.isclose(got, want):
+                print(f"[FAIL] ZC({formula!r}) = {got}, expected {want}")
+                return False
+        if pc.ZC(["CH4", "CO2"]) != [-4.0, 4.0]:
+            print("[FAIL] ZC() on a list of formulas")
+            return False
+        print("[OK] default oxidation states unchanged")
+
+        # Supplying an element that has no default, including a fake one
+        cases = [
+            (("C10H14N5O7P",), {"P": 5}, 1.0),      # AMP, phosphate P
+            (("C10H14N5O7Xx",), {"Xx": 5}, 1.0),    # fake element for P
+            (("C10H12N5O6P-2",), {"P": 5}, 0.8),    # charged species
+            (("CH3SO3H",), {"S": 5}, -3.0),         # override the S default
+            (("C6H12O6",), {"O": -1}, -1.0),        # override the O default
+            (("C10H14N5O7PXx",), {"P": 5, "Xx": 0}, 1.0),
+        ]
+        for args, kwargs, want in cases:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                got = pc.ZC(*args, **kwargs)
+            if not np.isclose(got, want):
+                print(f"[FAIL] ZC({args[0]!r}, {kwargs}) = {got}, expected {want}")
+                return False
+        print("[OK] user-supplied oxidation states applied")
+
+        # An element with no oxidation state is dropped with a warning
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            got = pc.ZC("C10H14N5O7P")
+            if not np.isclose(got, 1.5):
+                print(f"[FAIL] ZC without P = {got}, expected 1.5")
+                return False
+            if not any("oxidation state" in str(x.message) for x in w):
+                print("[FAIL] no warning for the dropped element")
+                return False
+        print("[OK] elements without an oxidation state warn and are dropped")
+
+        # Bad element symbols are rejected rather than silently ignored
+        for kwargs in [{"p": 5}, {"PP": 5}, {"C": 0}, {"Z": 1}]:
+            try:
+                pc.ZC("C10H14N5O7P", **kwargs)
+            except ValueError:
+                continue
+            print(f"[FAIL] ZC() accepted invalid argument {kwargs}")
+            return False
+        print("[OK] invalid oxidation state arguments raise ValueError")
+
+        return True
+
+    except Exception as e:
+        print(f"[FAIL] ZC error: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def main():
     """Run all tests."""
     print("\n" + "=" * 60)
@@ -103,6 +324,9 @@ def main():
         ("Import", test_import),
         ("Fortran Interface", test_fortran_interface),
         ("HKF Helpers", test_hkf_helpers),
+        ("Mosaic", test_mosaic),
+        ("Equilibrate Mosaic", test_equilibrate_mosaic),
+        ("ZC Oxidation States", test_ZC_oxidation_states),
     ]
     
     results = []

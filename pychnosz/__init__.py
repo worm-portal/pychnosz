@@ -35,7 +35,7 @@ from .data.add_obigt import add_OBIGT, list_OBIGT_files, reset_OBIGT
 from .data.mod_obigt import mod_OBIGT
 from .data.worm import load_WORM, reset_WORM
 from .models.berman import Berman
-from .utils.formula import makeup, mass, entropy, ZC
+from .utils.formula import makeup, mass, entropy, ZC, ZC_OXIDATION_STATES
 from .utils.formula_ox import get_formula_ox, get_n_element_ox
 from .utils.expression import ratlab, ratlab_html, expr_species, syslab, syslab_html, describe_property, describe_property_html, describe_basis, describe_basis_html, add_legend, set_title
 from .utils.units import convert, envert
@@ -47,6 +47,7 @@ from .core.nonideal import bgamma, nonideal, Bdot_fn
 from .core.affinity import affinity
 from .core.diagram import diagram, diagram_interactive, water_lines, find_tp, copy_plot
 from .core.equilibrate import equilibrate
+from .core.mosaic import mosaic
 from .core.unicurve import unicurve, univariant_TP
 
 # Optional: animation requires plotly (install with: pip install pychnosz[interactive])
@@ -83,6 +84,7 @@ __all__ = [
     'find_tp',
     'copy_plot',
     'equilibrate',
+    'mosaic',
     'animation',
     'unicurve',
     'univariant_TP',
@@ -97,6 +99,7 @@ __all__ = [
     'mass',
     'entropy',
     'ZC',
+    'ZC_OXIDATION_STATES',
     'get_formula_ox',
     'get_n_element_ox',
     'ratlab',

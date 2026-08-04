@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from typing import Union, List, Optional, Dict, Any, Tuple
 import warnings
 import copy
+import re
 from ..utils.expression import _format_species_latex
 
 
@@ -301,6 +302,7 @@ def diagram(eout: Dict[str, Any],
             add=add,
             ax=ax,
             col=col,
+            col_names=col_names,
             lty=lty,
             lwd=lwd,
             cex=cex,
@@ -1629,7 +1631,10 @@ def _format_chemname(name: str) -> str:
         Formatted formula (using LaTeX for matplotlib)
     """
     # Use the centralized formatting function and wrap in math mode for matplotlib
-    latex_formula = _format_species_latex(name)
+    # A bare "_" means subscript in math mode, so escape the literal ones in the
+    # name (protein names like LYSC_CHICK arrive unescaped) before formatting
+    # introduces its own "_{}" subscripts
+    latex_formula = _format_species_latex(re.sub(r'(?<!\\)_', r'\\_', name))
     return f'${latex_formula}$'
 
 
@@ -2298,6 +2303,7 @@ def diagram_interactive(eout: Dict[str, Any],
                         add: bool = False,
                         ax: Optional[Any] = None,
                         col: Optional[Union[str, List[str]]] = None,
+                        col_names: Optional[str] = None,
                         lty: Optional[Union[str, int, List]] = None,
                         lwd: Union[float, List[float]] = 1,
                         cex: Union[float, List[float]] = 1.0,
@@ -2649,11 +2655,23 @@ def diagram_interactive(eout: Dict[str, Any],
                       labels={'value': ylab, xvar: xlab},
                       render_mode='svg')
 
-        # Apply custom colors if provided
-        if isinstance(fill, list):
-            for i, color in enumerate(fill):
+        # Apply custom colors if provided ('col' takes precedence over 'fill',
+        # matching diagram()'s use of 'col' for 1-D line colors)
+        line_colors = col if col is not None else fill
+        if isinstance(line_colors, str):
+            line_colors = [line_colors] * len(fig.data)
+        if isinstance(line_colors, list):
+            for i, color in enumerate(line_colors):
                 if i < len(fig.data):
                     fig.data[i].line.color = color
+
+        # When adding to an existing plot, move the new lines onto that figure
+        # instead of returning a new one
+        if add:
+            if ax is None:
+                raise ValueError("'add' is True but no existing figure was given in 'ax'")
+            ax.add_traces(fig.data)
+            fig = ax
 
         # Check for LaTeX format in axis labels
         if xlab and _detect_latex_format(xlab):
@@ -2671,9 +2689,11 @@ def diagram_interactive(eout: Dict[str, Any],
                 UserWarning
             )
 
-        fig.update_layout(xaxis_title=xlab,
-                          yaxis_title=ylab,
-                          legend_title=None)
+        # Don't relabel the axes of a figure we're only adding lines to
+        if not add:
+            fig.update_layout(xaxis_title=xlab,
+                              yaxis_title=ylab,
+                              legend_title=None)
 
         if isinstance(main, str):
             fig.update_layout(title={'text': main, 'x': 0.5, 'xanchor': 'center'})
@@ -2756,31 +2776,44 @@ def diagram_interactive(eout: Dict[str, Any],
                 UserWarning
             )
 
-        # Create heatmap
-        fig = px.imshow(dmap, width=width, height=height, aspect="auto",
-                        labels={'x': xlab, 'y': ylab, 'color': "region"},
-                        x=xvals, y=yvals, template="simple_white")
-
-        fig.update(data=[{'customdata': dmap_names,
-                          'hovertemplate': xlab + ': %{x}<br>' + ylab + ': %{y}<br>Region: %{customdata}<extra></extra>'}])
-
-        # Set colormap
-        if fill == 'none':
-            colormap = [[0, 'white'], [1, 'white']]
-        elif isinstance(fill, list):
-            colmap_temp = []
-            for i, v in enumerate(fill):
-                colmap_temp.append([i / (len(fill) - 1) if len(fill) > 1 else 0, v])
-            colormap = colmap_temp
+        # When adding to an existing plot, overlay on that figure instead of
+        # creating a new one. Plotly heatmaps don't composite the way
+        # matplotlib's do, so the overlay is boundaries and labels only
+        # (mirroring diagram()'s behaviour of not filling when add = True)
+        if add:
+            if ax is None:
+                raise ValueError("'add' is True but no existing figure was given in 'ax'")
+            fig = ax
+            # Overlaid fields have no fill, so boundaries are what shows the
+            # regions; draw them even if the caller didn't ask for borders
+            if not borders:
+                borders = "contour"
         else:
-            colormap = fill
+            # Create heatmap
+            fig = px.imshow(dmap, width=width, height=height, aspect="auto",
+                            labels={'x': xlab, 'y': ylab, 'color': "region"},
+                            x=xvals, y=yvals, template="simple_white")
 
-        fig.update_traces(dict(showscale=False,
-                               coloraxis=None,
-                               colorscale=colormap),
-                          selector={'type': 'heatmap'})
+            fig.update(data=[{'customdata': dmap_names,
+                              'hovertemplate': xlab + ': %{x}<br>' + ylab + ': %{y}<br>Region: %{customdata}<extra></extra>'}])
 
-        fig.update_yaxes(autorange=True)
+            # Set colormap
+            if fill == 'none':
+                colormap = [[0, 'white'], [1, 'white']]
+            elif isinstance(fill, list):
+                colmap_temp = []
+                for i, v in enumerate(fill):
+                    colmap_temp.append([i / (len(fill) - 1) if len(fill) > 1 else 0, v])
+                colormap = colmap_temp
+            else:
+                colormap = fill
+
+            fig.update_traces(dict(showscale=False,
+                                   coloraxis=None,
+                                   colorscale=colormap),
+                              selector={'type': 'heatmap'})
+
+            fig.update_yaxes(autorange=True)
 
         if isinstance(main, str):
             fig.update_layout(title={'text': main, 'x': 0.5, 'xanchor': 'center'})
@@ -2799,6 +2832,7 @@ def diagram_interactive(eout: Dict[str, Any],
 
                 fig.add_annotation(x=namex, y=namey,
                                    text=annot_text,
+                                   font=dict(color=col_names) if col_names else None,
                                    bgcolor="rgba(255, 255, 255, 0.5)",
                                    showarrow=False)
 
@@ -2830,6 +2864,15 @@ def diagram_interactive(eout: Dict[str, Any],
             # Get unique species (excluding any that don't appear)
             unique_species_names = sorted(df["prednames"].unique())
 
+            # Boundary line color (col); a list is used one color per species
+            if col is None:
+                boundary_colors = ['black'] * len(unique_species_names)
+            elif isinstance(col, str):
+                boundary_colors = [col] * len(unique_species_names)
+            else:
+                boundary_colors = [col[i % len(col)]
+                                   for i in range(len(unique_species_names))]
+
             # Create a temporary matplotlib figure to extract contour paths
             # We won't display it, just use it to calculate contours
             temp_fig, temp_ax = plt.subplots()
@@ -2857,7 +2900,7 @@ def diagram_interactive(eout: Dict[str, Any],
                                     x=segment[:, 0],
                                     y=segment[:, 1],
                                     mode='lines',
-                                    line=dict(color='black', width=2),
+                                    line=dict(color=boundary_colors[i], width=2),
                                     hoverinfo='skip',
                                     showlegend=False
                                 )
@@ -2874,6 +2917,15 @@ def diagram_interactive(eout: Dict[str, Any],
             plt.close(temp_fig)
 
         elif isinstance(borders, (int, float)) and borders > 0:
+            # Grid-aligned borders are drawn as two aggregate traces rather than
+            # one per species, so a single color is used (the first, if a list)
+            if col is None:
+                border_color = 'black'
+            elif isinstance(col, str):
+                border_color = col
+            else:
+                border_color = col[0]
+
             unique_x_vals = sorted(list(set(df[xvar])))
             unique_y_vals = sorted(list(set(df[yvar])))
 
@@ -2932,7 +2984,7 @@ def diagram_interactive(eout: Dict[str, Any],
                         mode='lines',
                         x=x_coord_list_horizontal,
                         y=y_coord_list_horizontal,
-                        line={'width': borders, 'color': 'black'},
+                        line={'width': borders, 'color': border_color},
                         hoverinfo='skip',
                         showlegend=False))
 
@@ -2941,7 +2993,7 @@ def diagram_interactive(eout: Dict[str, Any],
                         mode='lines',
                         x=x_coord_list_vertical,
                         y=y_coord_list_vertical,
-                        line={'width': borders, 'color': 'black'},
+                        line={'width': borders, 'color': border_color},
                         hoverinfo='skip',
                         showlegend=False))
 

@@ -142,10 +142,12 @@ def mod_OBIGT(*args, zap: bool = False, **kwargs) -> Union[int, List[int]]:
         for i, name in enumerate(names):
             state = states[i] if states and i < len(states) else None
             try:
+                # check_protein = False to avoid infinite recursion when adding
+                # proteins, since info() calls mod_OBIGT() to append them
                 if state:
-                    idx = info(name, state)
+                    idx = info(name, state, check_protein=False)
                 else:
-                    idx = info(name)
+                    idx = info(name, check_protein=False)
 
                 # info() returns an int if found
                 if isinstance(idx, (int, np.integer)):

@@ -14,6 +14,8 @@ import numpy as np
 from typing import Union, List, Optional, Dict, Any
 import warnings
 import re
+import io
+from contextlib import redirect_stdout
 
 from .thermo import thermo
 from ..utils.formula import makeup, as_chemical_formula
@@ -22,7 +24,8 @@ from ..utils.formula import makeup, as_chemical_formula
 def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = None,
          state: Optional[Union[str, List[str]]] = None,
          check_it: bool = True,
-         messages: bool = True) -> Union[pd.DataFrame, int, List[int], None]:
+         messages: bool = True,
+         check_protein: bool = True) -> Union[pd.DataFrame, int, List[int], None]:
     """
     Search for species in the thermodynamic database.
 
@@ -38,6 +41,9 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
         Whether to perform consistency checks on thermodynamic data
     messages : bool, default True
         Whether to print informational messages
+    check_protein : bool, default True
+        Whether to look up unmatched names in thermo().protein and add their
+        group-additivity properties to OBIGT (e.g. LYSC_CHICK, H2O_RESIDUE)
 
     Returns
     -------
@@ -86,7 +92,7 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
 
     # Handle string species names/formulas
     if isinstance(species, (str, list)):
-        return _info_character(species, state, thermo_obj, messages)
+        return _info_character(species, state, thermo_obj, messages, check_protein)
 
     raise ValueError(f"Invalid species type: {type(species)}")
 
@@ -176,10 +182,11 @@ def _info_numeric(species: Union[int, List[int]], thermo_obj, check_it: bool, me
 def _info_character(species: Union[str, List[str]],
                    state: Optional[Union[str, List[str]]],
                    thermo_obj,
-                   messages: bool = True) -> Union[int, List[int]]:
+                   messages: bool = True,
+                   check_protein: bool = True) -> Union[int, List[int]]:
     """
     Search for species by name, formula, or abbreviation.
-    
+
     Parameters
     ----------
     species : str or list of str
@@ -188,7 +195,11 @@ def _info_character(species: Union[str, List[str]],
         Physical state(s) to match
     thermo_obj : ThermoSystem
         The thermodynamic system object
-        
+    check_protein : bool, default True
+        Whether to look up unmatched names in thermo().protein and add their
+        group-additivity properties to OBIGT. Set False to avoid infinite
+        recursion when called from mod_OBIGT() (as in R's info.character()).
+
     Returns
     -------
     int or list of int
@@ -219,6 +230,12 @@ def _info_character(species: Union[str, List[str]],
         sp_state = state[i] if state is not None else None
         result = _find_species_index(sp, sp_state, obigt, messages)
 
+        # No match in OBIGT: unless it's a protein, which we add to OBIGT
+        if pd.isna(result) and check_protein:
+            result = _add_protein_to_obigt(sp, sp_state, thermo_obj, messages)
+            # OBIGT grew, so use the updated table for any remaining species
+            obigt = thermo_obj.obigt
+
         # Show approximate matches if exact match not found and not a protein
         if pd.isna(result) and '_' not in sp:
             _info_approx(sp, sp_state, obigt, messages)
@@ -229,6 +246,53 @@ def _info_character(species: Union[str, List[str]],
         return results[0]
     else:
         return results
+
+
+def _add_protein_to_obigt(species: str, state: Optional[str], thermo_obj,
+                          messages: bool = True) -> Union[int, float]:
+    """
+    Look up a name in thermo().protein and add its properties to OBIGT.
+
+    Proteins are named protein_organism (e.g. LYSC_CHICK, or H2O_RESIDUE for
+    the residue species used by affinity(iprotein = ...)). They are not stored
+    in OBIGT; their thermodynamic properties are calculated on demand by group
+    additivity and appended to OBIGT. Mirrors the check.protein branch of R's
+    info.character().
+
+    Returns the new OBIGT index, or NaN if the name is not a known protein.
+    """
+    # Imported here to avoid a circular import at module load
+    from ..biomolecules.proteins import pinfo, protein_OBIGT
+    from ..data.mod_obigt import mod_OBIGT
+
+    if thermo_obj.protein is None:
+        return np.nan
+
+    ip = pinfo(species)
+    # pinfo() returns NaN (or an array of them) when the name is not a protein
+    if isinstance(ip, (list, np.ndarray)):
+        ip = ip[0] if len(ip) > 0 else np.nan
+    if ip is None or pd.isna(ip):
+        return np.nan
+
+    # Here we use a default state from thermo().opt['state']
+    if state is None:
+        state = thermo_obj.opt.get('state', 'aq')
+
+    # Add up protein properties, then append them to OBIGT.
+    # protein_OBIGT() reports the protein it found (as in R); the messages from
+    # mod_OBIGT() are suppressed, matching R's suppressMessages(mod.OBIGT(eos)).
+    if messages:
+        eos = protein_OBIGT(int(ip), state=state)
+    else:
+        with redirect_stdout(io.StringIO()):
+            eos = protein_OBIGT(int(ip), state=state)
+    eos_args = {col: eos[col].tolist() for col in eos.columns}
+    with redirect_stdout(io.StringIO()):
+        nrows = mod_OBIGT(eos_args)
+    if isinstance(nrows, list):
+        nrows = nrows[-1]
+    return nrows
 
 
 def _find_species_index(species: str, state: Optional[str], obigt: pd.DataFrame, messages: bool = True) -> Union[int, float]:

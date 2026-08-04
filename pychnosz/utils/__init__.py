@@ -1,7 +1,7 @@
 """Utility functions for CHNOSZ calculations."""
 
 from .reset import reset
-from .formula import makeup, get_formula, as_chemical_formula, mass, entropy, species_basis, calculate_ghs, ZC, i2A, FormulaError
+from .formula import makeup, get_formula, as_chemical_formula, mass, entropy, species_basis, calculate_ghs, ZC, ZC_OXIDATION_STATES, i2A, FormulaError
 
 # Optional imports for modules that may not exist yet
 try:
@@ -17,7 +17,7 @@ except ImportError:
 __all__ = [
     'reset',
     'makeup', 'get_formula', 'as_chemical_formula', 'mass', 'entropy',
-    'species_basis', 'calculate_ghs', 'ZC', 'i2A', 'FormulaError'
+    'species_basis', 'calculate_ghs', 'ZC', 'ZC_OXIDATION_STATES', 'i2A', 'FormulaError'
 ]
 
 # Add optional functions if they exist

@@ -417,36 +417,50 @@ def as_chemical_formula(makeup_dict: Union[Dict[str, float], pd.DataFrame],
         return _dict_to_formula(makeup_dict, drop_zero)
 
 
+def _format_coefficient(count: Union[int, float]) -> str:
+    """Format a stoichiometric coefficient the way R's as.character() does.
+
+    R prints whole-valued doubles without a trailing ".0", so a coefficient of
+    2.0 must render as "H2", not "H2.0" (which makeup() would reject).
+    """
+    if isinstance(count, (int, np.integer)):
+        return str(int(count))
+    if float(count).is_integer():
+        return str(int(count))
+    # R uses up to 15 significant digits and drops trailing zeros
+    return f"{float(count):.15g}"
+
+
 def _dict_to_formula(composition: Dict[str, float], drop_zero: bool) -> str:
     """Convert single composition dictionary to formula string."""
     if drop_zero:
         composition = {k: v for k, v in composition.items() if v != 0}
-    
+
     # Put Z (charge) at the end
     elements = [k for k in composition.keys() if k != 'Z']
     if 'Z' in composition:
         elements.append('Z')
-    
+
     formula_parts = []
-    
+
     for element in elements:
         count = composition[element]
-        
+
         if element == 'Z':
-            # Handle charge
-            if count < 0:
-                formula_parts.append(f"{count}")
+            # Handle charge: a coefficient of 1 is zapped, as in R
+            if count == 1:
+                formula_parts.append("+")
+            elif count < 0:
+                formula_parts.append(_format_coefficient(count))
             elif count > 0:
-                formula_parts.append(f"+{count}")
+                formula_parts.append(f"+{_format_coefficient(count)}")
             # count == 0 is omitted
         else:
             # Handle regular elements
             if count == 1:
                 formula_parts.append(element)
-            elif count == -1:
-                formula_parts.append(f"{element}-1")
             else:
-                formula_parts.append(f"{element}{count}")
+                formula_parts.append(f"{element}{_format_coefficient(count)}")
     
     formula = ''.join(formula_parts)
     
@@ -720,58 +734,132 @@ def calculate_ghs(formula: str, G: float = np.nan, H: float = np.nan,
     return {"G": G, "H": H, "S": S}
 
 
-def ZC(formula: Union[str, int, List[Union[str, int]]]) -> Union[float, List[float]]:
+# Nominal oxidation states of elements other than carbon, used by ZC().
+# These are true oxidation states (O is -2, not +2); ZC() subtracts their
+# contribution from the formula charge. Override them per call by passing the
+# element symbol as a keyword argument, e.g. ZC("CH3SO3H", S=5).
+ZC_OXIDATION_STATES = {'H': 1, 'N': -3, 'O': -2, 'S': -2}
+
+# Element symbols must be an uppercase letter optionally followed by lowercase
+# letters; this also matches the fake elements accepted by makeup()
+_ELEMENT_PATTERN = re.compile(r'^[A-Z][a-z]*$')
+
+
+def ZC(formula: Union[str, int, List[Union[str, int]]],
+       **oxidation_states: float) -> Union[float, List[float]]:
     """
     Calculate average oxidation state of carbon in chemical formulas.
-    
+
+    The average oxidation state of carbon is calculated from the charge balance
+
+        ZC = (Z - sum(n_i * Z_i)) / nC
+
+    where Z is the charge of the species, and n_i and Z_i are the number of
+    atoms and the oxidation state of each element other than carbon.
+
     Parameters
     ----------
     formula : str, int, or list
         Chemical formula(s) or species index(es)
-        
+    **oxidation_states : float
+        Oxidation states of elements, given as element symbol = value. These
+        add elements that have no default (including fake elements) and
+        override the defaults in ``ZC_OXIDATION_STATES`` (H = 1, N = -3,
+        O = -2, S = -2). Values are true oxidation states, so oxygen in an
+        oxide is -2 and phosphorus in a phosphate group is 5. Elements with
+        neither a default nor a supplied value are dropped with a warning.
+
     Returns
     -------
     float or list of float
         Average oxidation state(s) of carbon
+
+    Examples
+    --------
+    >>> ZC("C6H12O6")            # glucose, using the default oxidation states
+    0.0
+
+    >>> ZC("C10H14N5O7P", P=5)   # AMP, with phosphorus in the phosphate group
+    1.0
+
+    >>> ZC("CH3SO3H")            # methanesulfonic acid; the default S = -2 is
+    4.0                          # wrong for a sulfonate group
+    >>> ZC("CH3SO3H", S=5)       # ... so override it
+    -3.0
+
+    >>> ZC("C10H14N5O7Xx", Xx=5) # a fake element stands in for phosphorus
+    1.0
+
+    A dict of oxidation states can be supplied by unpacking it:
+
+    >>> ZC("C10H14N5O7P", **{"P": 5})
+    1.0
     """
+    # Validate the supplied element symbols before doing any work, so that a
+    # typo (e.g. 'p' for 'P') is reported rather than silently ignored
+    bad_keys = [k for k in oxidation_states if not _ELEMENT_PATTERN.match(k)]
+    if bad_keys:
+        raise ValueError(f"oxidation state name(s) {' '.join(sorted(bad_keys))} "
+                         "are not element symbols (an uppercase letter "
+                         "optionally followed by lowercase letters)")
+    if 'C' in oxidation_states:
+        raise ValueError("the oxidation state of C is the value being "
+                         "calculated, so it cannot be supplied")
+    if 'Z' in oxidation_states:
+        raise ValueError("'Z' is the charge of the species, not an element "
+                         "with an oxidation state, so it cannot be supplied")
+
+    # Supplied values override the defaults
+    charges = dict(ZC_OXIDATION_STATES)
+    charges.update({k: float(v) for k, v in oxidation_states.items()})
+
     # Get elemental compositions
     compositions = makeup(formula, count_zero=False)
     if not isinstance(compositions, list):
         compositions = [compositions]
-    
+
     results = []
-    
-    # Nominal charges of elements
-    known_elements = ['H', 'N', 'O', 'S', 'Z']
-    charges = [-1, 3, 2, 2, 1]
-    
+    unknown_elements = set()
+    used_elements = set()
+
     for comp in compositions:
         if comp is None or 'C' not in comp:
             results.append(np.nan)
             continue
-        
-        # Calculate total charge from known elements
-        total_charge = 0
-        unknown_elements = []
-        
+
+        # Charge contributed by the elements other than carbon, plus the
+        # charge of the species itself ('Z' from makeup())
+        total_charge = 0.0
+
         for element, count in comp.items():
             if element == 'C':
                 continue
-            elif element in known_elements:
-                idx = known_elements.index(element)
-                total_charge += count * charges[idx]
+            elif element == 'Z':
+                total_charge += count
+            elif element in charges:
+                total_charge -= count * charges[element]
+                used_elements.add(element)
             else:
-                unknown_elements.append(element)
-        
-        if unknown_elements:
-            warnings.warn(f"element(s) {' '.join(unknown_elements)} not in "
-                         f"{' '.join(known_elements)} so not included in ZC calculation")
-        
+                unknown_elements.add(element)
+
         # Calculate carbon oxidation state
         n_carbon = comp['C']
-        zc = total_charge / n_carbon
-        results.append(zc)
-    
+        results.append(total_charge / n_carbon)
+
+    if unknown_elements:
+        warnings.warn(f"element(s) {' '.join(sorted(unknown_elements))} have no "
+                      f"oxidation state so are not included in the ZC "
+                      f"calculation; supply one with e.g. "
+                      f"ZC(formula, {sorted(unknown_elements)[0]}=0)")
+
+    # Warn about supplied elements that no formula contains, which usually
+    # means the symbol was mistyped
+    unused = set(oxidation_states) - used_elements
+    if unused:
+        warnings.warn(f"oxidation state(s) given for {' '.join(sorted(unused))} "
+                      f"but no formula contains th"
+                      f"{'ese elements' if len(unused) > 1 else 'is element'}")
+
     if len(results) == 1:
         return results[0]
     else:
@@ -830,6 +918,6 @@ def i2A(formula: Union[str, int, List[Union[str, int]], Dict[str, float]]) -> pd
 # Export main functions
 __all__ = [
     'makeup', 'get_formula', 'as_chemical_formula',
-    'mass', 'entropy', 'species_basis', 'calculate_ghs', 'ZC', 'i2A',
-    'FormulaError'
+    'mass', 'entropy', 'species_basis', 'calculate_ghs', 'ZC',
+    'ZC_OXIDATION_STATES', 'i2A', 'FormulaError'
 ]
