@@ -10,7 +10,8 @@ from .basis import basis
 from .species import species
 from .affinity import affinity
 from .equilibrate import equilibrate
-from .diagram import diagram, diagram_interactive
+from .diagram import (diagram, diagram_interactive, _is_colorscale_name,
+                      _resolve_colorscale, _resolve_line_colors)
 from .info import info
 
 # Import chemlabel for formatting chemical formulas
@@ -333,11 +334,17 @@ def animation(basis_args={}, species_args={}, affinity_args={},
         
         df_c = pd.concat(dfs)
 
-        if "fill" in diagram_args.keys():
-            if isinstance(diagram_args["fill"], list):
-                colormap = {key:col for key,col in zip(list(dict.fromkeys(df_c["variable"])), diagram_args["fill"])}
-            else:
-                colormap = diagram_args["fill"]
+        # Resolve line colors ('col' takes precedence over 'fill', matching
+        # diagram()). A colormap name such as "viridis" is sampled into one
+        # color per species; a single color is used for every line.
+        line_labels = list(dict.fromkeys(df_c["variable"]))
+        color_spec = diagram_args.get("col", diagram_args.get("fill"))
+        line_colors = None
+        if color_spec is not None:
+            line_colors = _resolve_line_colors(color_spec, len(line_labels))
+
+        if line_colors is not None:
+            colormap = {key: c for key, c in zip(line_labels, line_colors)}
 
             # with color mapping
             fig = px.line(df_c, x=xvar, y="value", color='variable', template="simple_white",
@@ -351,7 +358,7 @@ def animation(basis_args={}, species_args={}, affinity_args={},
                           width=500,  height=400, animation_frame=anim_var,
                           labels=dict(value=yvar, x=xvar),
                          )
-        
+
         if "annotation" in diagram_args.keys():
             if "annotation_coords" not in diagram_args.keys():
                 diagram_args["annotation_coords"] = [0, 0]
@@ -371,11 +378,6 @@ def animation(basis_args={}, species_args={}, affinity_args={},
             fig.update_layout(xaxis_title=xlab)
         if isinstance(ylab, str):
             fig.update_layout(yaxis_title=ylab)
-        
-        if 'fill' in diagram_args.keys():
-            if isinstance(diagram_args["fill"], list):
-                for i,v in enumerate(diagram_args["fill"]):
-                    fig['data'][i]['line']['color']=v
         
         fig.update_layout(legend_title=None)
 
@@ -550,17 +552,21 @@ def animation(basis_args={}, species_args={}, affinity_args={},
     )
 
 
-    if 'fill' in diagram_args.keys():
-        if isinstance(diagram_args["fill"], list):
-            colorscale_temp = []
-            for i,v in enumerate(diagram_args["fill"]):
-                colorscale_temp.append([i, v])
-            colorscale = colorscale_temp
-        elif isinstance(diagram_args["fill"], str):
-            colorscale = diagram_args["fill"]
+    # Resolve the fill into a colorscale. Plotly recognizes some, but not all,
+    # of the matplotlib colormap names accepted by diagram(), so names it
+    # doesn't know (e.g. "terrain", "Set1") are sampled into an explicit
+    # colorscale, one color per predominance field.
+    fill_spec = diagram_args.get("fill", "viridis")
+    if fill_spec is None:
+        fill_spec = "viridis"
+
+    if isinstance(fill_spec, str) and _is_colorscale_name(fill_spec):
+        colorscale = fill_spec
     else:
+        colorscale = _resolve_colorscale(fill_spec, len(sp))
+    if colorscale is None:
         colorscale = "viridis"
-    
+
     fig.update_traces(dict(showscale=False,
                            colorscale=colorscale),
                       selector={'type':'heatmap'})

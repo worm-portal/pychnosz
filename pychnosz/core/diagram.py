@@ -2285,6 +2285,124 @@ def find_tp(predominant: np.ndarray) -> np.ndarray:
     return result
 
 
+def _is_colorscale_name(name: str) -> bool:
+    """
+    Is this string the name of a colorscale that Plotly understands?
+
+    Plotly knows a subset of the matplotlib colormap names (e.g. "viridis",
+    "hot"), but not others (e.g. "terrain", "Set1", "tab10").
+    """
+    try:
+        from plotly.colors import get_colorscale
+        get_colorscale(name)
+        return True
+    except Exception:
+        return False
+
+
+def _colormap_colors(name: str, n: int) -> Optional[List[str]]:
+    """
+    Sample n colors from a named colormap.
+
+    Parameters
+    ----------
+    name : str
+        A matplotlib colormap name (e.g. "viridis", "terrain", "Set1") or a
+        Plotly colorscale name (e.g. "Blugrn").
+    n : int
+        Number of colors to return.
+
+    Returns
+    -------
+    list of str or None
+        Hex or rgb color strings, or None if 'name' is not a known colormap.
+    """
+    import matplotlib
+    from matplotlib.colors import to_hex, ListedColormap
+
+    cmap = matplotlib.colormaps.get(name)
+
+    if cmap is None:
+        # Not a matplotlib colormap; try Plotly's colorscales, which include
+        # some names matplotlib doesn't have
+        if not _is_colorscale_name(name):
+            return None
+        from plotly.colors import sample_colorscale
+        positions = [0.5] if n < 2 else list(np.linspace(0, 1, n))
+        return list(sample_colorscale(name, positions))
+
+    if isinstance(cmap, ListedColormap) and cmap.N <= 20:
+        # Qualitative colormap ("Set1", "tab10"): take its colors in order
+        return [to_hex(cmap.colors[i % cmap.N]) for i in range(n)]
+
+    # Continuous colormap: sample evenly, avoiding the very light/dark ends
+    positions = [0.5] if n < 2 else list(np.linspace(0.1, 0.9, n))
+    return [to_hex(cmap(v)) for v in positions]
+
+
+def _resolve_line_colors(spec: Union[str, List[str]], n: int) -> Optional[List[str]]:
+    """
+    Turn a color specification into a list of n Plotly-compatible line colors.
+
+    A single color is repeated n times; a colormap name (e.g. "viridis") is
+    sampled into n colors; a list is passed through with matplotlib color
+    specs (e.g. "0.8") converted to hex.
+
+    Returns None if the specification isn't recognized, meaning the caller
+    should leave Plotly's default colors alone.
+    """
+    import matplotlib.colors as mcolors
+
+    n = max(int(n), 1)
+
+    def _to_plotly_color(c):
+        # Plotly accepts hex without alpha, so translucent colors become rgba()
+        if isinstance(c, str) and c.lower() in ("none", "transparent"):
+            return "rgba(0,0,0,0)"
+        if mcolors.is_color_like(c):
+            r, g, b, a = mcolors.to_rgba(c)
+            if a < 1:
+                return f"rgba({round(r * 255)},{round(g * 255)},{round(b * 255)},{a})"
+            return mcolors.to_hex(c)
+        return c
+
+    if isinstance(spec, str):
+        # A color name takes precedence over a colormap of the same name,
+        # so col="gray" gives gray lines rather than a gray ramp
+        if mcolors.is_color_like(spec) or spec.lower() in ("none", "transparent"):
+            return [_to_plotly_color(spec)] * n
+        colors = _colormap_colors(spec, n)
+        if colors is None:
+            warnings.warn(f"Color or colormap '{spec}' not recognized, using default colors")
+            return None
+        return [_to_plotly_color(c) for c in colors]
+
+    # A list shorter than the number of lines is recycled, matching diagram()
+    colors = list(spec)
+    if not colors:
+        return None
+    colors = [colors[i % len(colors)] for i in range(n)]
+    return [_to_plotly_color(c) for c in colors]
+
+
+def _resolve_colorscale(spec: Union[str, List[str]], n: int) -> Optional[List[List]]:
+    """
+    Turn a color specification into a Plotly colorscale for n discrete fields.
+
+    Accepts a colormap name (e.g. "viridis", "terrain", "Set1"), a single
+    color, or a list of colors. Returns None if the specification isn't
+    recognized, meaning the caller should leave Plotly's default alone.
+    """
+    colors = _resolve_line_colors(spec, n)
+    if colors is None:
+        return None
+
+    if len(colors) == 1:
+        return [[0, colors[0]], [1, colors[0]]]
+
+    return [[i / (len(colors) - 1), c] for i, c in enumerate(colors)]
+
+
 def diagram_interactive(eout: Dict[str, Any],
                         type: str = "auto",
                         main: Optional[str] = None,
@@ -2346,8 +2464,11 @@ def diagram_interactive(eout: Dict[str, Any],
     ylab : str, optional
         Custom y-axis label.
     fill : str or list of str, default "viridis"
-        For 2D diagrams: colormap name (e.g., "viridis", "hot") or list of colors.
-        For 1D diagrams: list of line colors.
+        A colormap name (e.g., "viridis", "hot", "terrain", "Set1"), a single
+        color, or a list of colors. For 2D diagrams this colors the
+        predominance fields; for 1D diagrams it colors the lines, where a
+        colormap name is sampled into one color per line. Overridden by 'col'
+        for 1D diagrams.
     width : int, default 600
         Width of the plot in pixels.
     height : int, default 520
@@ -2656,11 +2777,12 @@ def diagram_interactive(eout: Dict[str, Any],
                       render_mode='svg')
 
         # Apply custom colors if provided ('col' takes precedence over 'fill',
-        # matching diagram()'s use of 'col' for 1-D line colors)
+        # matching diagram()'s use of 'col' for 1-D line colors). A colormap
+        # name such as "viridis" is sampled into one color per line.
         line_colors = col if col is not None else fill
-        if isinstance(line_colors, str):
-            line_colors = [line_colors] * len(fig.data)
-        if isinstance(line_colors, list):
+        if line_colors is not None:
+            line_colors = _resolve_line_colors(line_colors, len(fig.data))
+        if line_colors is not None:
             for i, color in enumerate(line_colors):
                 if i < len(fig.data):
                     fig.data[i].line.color = color
@@ -2797,21 +2919,27 @@ def diagram_interactive(eout: Dict[str, Any],
             fig.update(data=[{'customdata': dmap_names,
                               'hovertemplate': xlab + ': %{x}<br>' + ylab + ': %{y}<br>Region: %{customdata}<extra></extra>'}])
 
-            # Set colormap
-            if fill == 'none':
+            # Set colormap. Plotly recognizes some, but not all, of the
+            # matplotlib colormap names accepted by diagram(), so names it
+            # doesn't know (e.g. "terrain", "Set1") are sampled into an
+            # explicit colorscale, one color per predominance field.
+            if fill is None:
+                colormap = None
+            elif fill == 'none':
                 colormap = [[0, 'white'], [1, 'white']]
-            elif isinstance(fill, list):
-                colmap_temp = []
-                for i, v in enumerate(fill):
-                    colmap_temp.append([i / (len(fill) - 1) if len(fill) > 1 else 0, v])
-                colormap = colmap_temp
-            else:
+            elif isinstance(fill, str) and _is_colorscale_name(fill):
                 colormap = fill
+            else:
+                colormap = _resolve_colorscale(fill, len(sp_names))
 
-            fig.update_traces(dict(showscale=False,
-                                   coloraxis=None,
-                                   colorscale=colormap),
-                              selector={'type': 'heatmap'})
+            if colormap is not None:
+                fig.update_traces(dict(showscale=False,
+                                       coloraxis=None,
+                                       colorscale=colormap),
+                                  selector={'type': 'heatmap'})
+            else:
+                fig.update_traces(dict(showscale=False, coloraxis=None),
+                                  selector={'type': 'heatmap'})
 
             fig.update_yaxes(autorange=True)
 
