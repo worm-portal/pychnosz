@@ -156,9 +156,11 @@ def diagram(eout: Dict[str, Any],
     ylim : list of float, optional
         Y-axis limits [min, max]
     col : str or list of str, optional
-        Line colors for 1-D plots and boundary lines in 2-D plots (matplotlib color specs)
+        Line colors for 1-D plots and boundary lines in 2-D plots. A matplotlib
+        color spec, a list of them, or a colormap name (e.g. 'viridis', 'Set1')
+        that is sampled into one color per species.
     col_names : str or list of str, optional
-        Text colors for field labels in 2-D plots (matplotlib color specs)
+        Text colors for field labels in 2-D plots. Same forms accepted as 'col'.
     lty : str, int, or list, optional
         Line styles (matplotlib linestyle specs)
     lwd : float or list of float, default 1
@@ -723,16 +725,14 @@ def _plot_1d(eout: Dict[str, Any],
     # Set up colors and line styles
     n_species = len(plotvals)
 
-    if col is None:
+    # A colormap name such as "viridis" is sampled into one color per species
+    line_colors = None if col is None else _resolve_mpl_colors(col, n_species)
+    if line_colors is None:
         # Use matplotlib default color cycle
         prop_cycle = plt.rcParams['axes.prop_cycle']
         colors = prop_cycle.by_key()['color']
-        col = [colors[i % len(colors)] for i in range(n_species)]
-    elif isinstance(col, str):
-        col = [col] * n_species
-    else:
-        col = list(col) * (n_species // len(col) + 1)
-        col = col[:n_species]
+        line_colors = [colors[i % len(colors)] for i in range(n_species)]
+    col = line_colors
 
     if lty is None:
         lty = ['-'] * n_species
@@ -897,12 +897,14 @@ def _plot_2d(eout: Dict[str, Any],
     xlim, ylim : list or None
         Axis limits
     col : str, list, or None
-        Colors for boundary lines in 2D plots
+        Colors for boundary lines in 2D plots. A color, a list of colors, or a
+        colormap name sampled into one color per species.
     col_names : str, list, or None
-        Colors for field labels (text) in 2D plots
-    fill : str or None
-        Matplotlib colormap name for coloring predominance fields
-        (e.g., 'viridis', 'plasma', 'terrain', 'rainbow', 'Set1', 'tab10')
+        Colors for field labels (text) in 2D plots. Same forms as 'col'.
+    fill : str, list, or None
+        Colormap name for coloring predominance fields (e.g., 'viridis',
+        'plasma', 'terrain', 'rainbow', 'Set1', 'tab10'), a single color, or a
+        list of colors
     lwd : float or list of float
         Line width for drawing boundaries between predominance fields.
         Set to 0 to disable borders.
@@ -1108,16 +1110,10 @@ def _plot_2d(eout: Dict[str, Any],
     # Priority: fill parameter > default
     # R CHNOSZ default: white fill with black borders
     if fill is not None:
-        # Use a matplotlib colormap
-        try:
-            import matplotlib.cm as cm
-            cmap = cm.get_cmap(fill)
-            # Sample the colormap evenly across species
-            # Use range 0.1 to 0.9 to avoid very light/dark ends
-            color_indices = np.linspace(0.1, 0.9, n_species)
-            fill_colors = [cmap(idx) for idx in color_indices]
-        except (ValueError, KeyError):
-            warnings.warn(f"Colormap '{fill}' not found, using default colors")
+        # A colormap name is sampled into one color per species; a single color
+        # or a list of colors is also accepted
+        fill_colors = _resolve_mpl_colors(fill, n_species)
+        if fill_colors is None:
             prop_cycle = plt.rcParams['axes.prop_cycle']
             colors = prop_cycle.by_key()['color']
             fill_colors = [colors[i % len(colors)] for i in range(n_species)]
@@ -1130,31 +1126,23 @@ def _plot_2d(eout: Dict[str, Any],
         colors = prop_cycle.by_key()['color']
         fill_colors = [colors[i % len(colors)] for i in range(n_species)]
 
-    # Determine boundary line colors (col parameter)
-    if col is None:
+    # Determine boundary line colors (col parameter). A colormap name such as
+    # "viridis" is sampled into one color per species; a single color is used
+    # for every boundary; a list is recycled.
+    boundary_colors = None
+    if col is not None:
+        boundary_colors = _resolve_mpl_colors(col, n_species)
+    if boundary_colors is None:
         # Default to black for boundary lines
         boundary_colors = ['black'] * n_species
-    elif isinstance(col, str):
-        boundary_colors = [col] * n_species
-    else:
-        boundary_colors = list(col)
-        if len(boundary_colors) < n_species:
-            # Repeat colors if not enough provided
-            boundary_colors = boundary_colors * (n_species // len(boundary_colors) + 1)
-        boundary_colors = boundary_colors[:n_species]
 
-    # Determine text label colors (col_names parameter)
-    if col_names is None:
+    # Determine text label colors (col_names parameter), same rules as 'col'
+    text_colors = None
+    if col_names is not None:
+        text_colors = _resolve_mpl_colors(col_names, n_species)
+    if text_colors is None:
         # Default to black for text labels
         text_colors = ['black'] * n_species
-    elif isinstance(col_names, str):
-        text_colors = [col_names] * n_species
-    else:
-        text_colors = list(col_names)
-        if len(text_colors) < n_species:
-            # Repeat colors if not enough provided
-            text_colors = text_colors * (n_species // len(text_colors) + 1)
-        text_colors = text_colors[:n_species]
 
     # NOTE: Water instability shading is NOT drawn here in diagram()
     # It is only drawn when water_lines() is explicitly called
@@ -1377,19 +1365,15 @@ def _plot_saturation_2d(eout: Dict[str, Any],
     if messages:
         print(f"diagram: plotting saturation lines for 2-D diagram")
 
-    # Set up colors and line styles
-    if col is None:
+    # Set up colors and line styles. A colormap name such as "viridis" is
+    # sampled into one color per species.
+    line_colors = None if col is None else _resolve_mpl_colors(col, n_species)
+    if line_colors is None:
         # Use matplotlib default color cycle
         prop_cycle = plt.rcParams['axes.prop_cycle']
         colors = prop_cycle.by_key()['color']
-        col = [colors[i % len(colors)] for i in range(n_species)]
-    elif isinstance(col, str):
-        col = [col] * n_species
-    else:
-        col = list(col)
-        if len(col) < n_species:
-            col = col * (n_species // len(col) + 1)
-        col = col[:n_species]
+        line_colors = [colors[i % len(colors)] for i in range(n_species)]
+    col = line_colors
 
     if isinstance(lwd, (int, float)):
         lwd = [lwd] * n_species
@@ -2385,6 +2369,44 @@ def _resolve_line_colors(spec: Union[str, List[str]], n: int) -> Optional[List[s
     return [_to_plotly_color(c) for c in colors]
 
 
+def _resolve_mpl_colors(spec: Union[str, List[str]], n: int) -> Optional[List[str]]:
+    """
+    Turn a color specification into a list of n matplotlib colors.
+
+    Like _resolve_line_colors(), but leaves the colors in matplotlib's own
+    notation instead of translating them for Plotly.
+
+    Returns None if the specification isn't recognized, meaning the caller
+    should fall back to its default colors.
+    """
+    import matplotlib.colors as mcolors
+
+    n = max(int(n), 1)
+
+    if isinstance(spec, str):
+        # A color name takes precedence over a colormap of the same name,
+        # so col="gray" gives gray lines rather than a gray ramp
+        if spec.lower() in ("none", "transparent"):
+            return ["none"] * n
+        if mcolors.is_color_like(spec):
+            return [spec] * n
+        colors = _colormap_colors(spec, n)
+        if colors is None:
+            warnings.warn(f"Color or colormap '{spec}' not recognized, using default colors")
+            return None
+        return colors
+
+    # A single (r, g, b[, a]) tuple is one color, not a list of them
+    if isinstance(spec, tuple) and mcolors.is_color_like(spec):
+        return [spec] * n
+
+    # A list shorter than the number of species is recycled
+    colors = list(spec)
+    if not colors:
+        return None
+    return [colors[i % len(colors)] for i in range(n)]
+
+
 def _resolve_colorscale(spec: Union[str, List[str]], n: int) -> Optional[List[List]]:
     """
     Turn a color specification into a Plotly colorscale for n discrete fields.
@@ -2421,7 +2443,7 @@ def diagram_interactive(eout: Dict[str, Any],
                         add: bool = False,
                         ax: Optional[Any] = None,
                         col: Optional[Union[str, List[str]]] = None,
-                        col_names: Optional[str] = None,
+                        col_names: Optional[Union[str, List[str]]] = None,
                         lty: Optional[Union[str, int, List]] = None,
                         lwd: Union[float, List[float]] = 1,
                         cex: Union[float, List[float]] = 1.0,
@@ -2469,6 +2491,11 @@ def diagram_interactive(eout: Dict[str, Any],
         predominance fields; for 1D diagrams it colors the lines, where a
         colormap name is sampled into one color per line. Overridden by 'col'
         for 1D diagrams.
+    col : str or list of str, optional
+        Line colors for 1D diagrams and boundary line colors for 2D diagrams.
+        Accepts the same forms as 'fill'.
+    col_names : str or list of str, optional
+        Text colors for field labels in 2D diagrams. Same forms as 'col'.
     width : int, default 600
         Width of the plot in pixels.
     height : int, default 520
@@ -2946,8 +2973,14 @@ def diagram_interactive(eout: Dict[str, Any],
         if isinstance(main, str):
             fig.update_layout(title={'text': main, 'x': 0.5, 'xanchor': 'center'})
 
+        # Field label colors (col_names); a colormap name such as "viridis" is
+        # sampled into one color per species, and a list is recycled
+        text_colors = None
+        if col_names is not None:
+            text_colors = _resolve_line_colors(col_names, len(sp_names))
+
         # Add species labels
-        for s in sp_names:
+        for i, s in enumerate(sp_names):
             if s in set(df["prednames"]):
                 df_s = df.loc[df["prednames"] == s]
                 namex = df_s[xvar].mean()
@@ -2960,7 +2993,7 @@ def diagram_interactive(eout: Dict[str, Any],
 
                 fig.add_annotation(x=namex, y=namey,
                                    text=annot_text,
-                                   font=dict(color=col_names) if col_names else None,
+                                   font=dict(color=text_colors[i]) if text_colors else None,
                                    bgcolor="rgba(255, 255, 255, 0.5)",
                                    showarrow=False)
 
@@ -2992,14 +3025,13 @@ def diagram_interactive(eout: Dict[str, Any],
             # Get unique species (excluding any that don't appear)
             unique_species_names = sorted(df["prednames"].unique())
 
-            # Boundary line color (col); a list is used one color per species
-            if col is None:
+            # Boundary line color (col); a colormap name such as "viridis" is
+            # sampled into one color per species, and a list is recycled
+            boundary_colors = None
+            if col is not None:
+                boundary_colors = _resolve_line_colors(col, len(unique_species_names))
+            if boundary_colors is None:
                 boundary_colors = ['black'] * len(unique_species_names)
-            elif isinstance(col, str):
-                boundary_colors = [col] * len(unique_species_names)
-            else:
-                boundary_colors = [col[i % len(col)]
-                                   for i in range(len(unique_species_names))]
 
             # Create a temporary matplotlib figure to extract contour paths
             # We won't display it, just use it to calculate contours
@@ -3046,13 +3078,12 @@ def diagram_interactive(eout: Dict[str, Any],
 
         elif isinstance(borders, (int, float)) and borders > 0:
             # Grid-aligned borders are drawn as two aggregate traces rather than
-            # one per species, so a single color is used (the first, if a list)
-            if col is None:
-                border_color = 'black'
-            elif isinstance(col, str):
-                border_color = col
-            else:
-                border_color = col[0]
+            # one per species, so a single color is used (the first, if a list
+            # or a colormap name)
+            border_colors = None
+            if col is not None:
+                border_colors = _resolve_line_colors(col, len(sp_names))
+            border_color = 'black' if border_colors is None else border_colors[0]
 
             unique_x_vals = sorted(list(set(df[xvar])))
             unique_y_vals = sorted(list(set(df[yvar])))
@@ -3322,19 +3353,15 @@ def _plot_saturation_interactive(eout, values_list, sp_names, xyvars, xyvals,
     if messages:
         print(f"diagram: plotting saturation lines for interactive 2-D diagram")
 
-    # Set up colors
-    if col is None:
+    # Set up colors. A colormap name such as "viridis" is sampled into one
+    # color per species.
+    line_colors = None if col is None else _resolve_line_colors(col, n_species)
+    if line_colors is None:
         # Use default Plotly colors
         default_colors = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A',
                          '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
-        col = [default_colors[i % len(default_colors)] for i in range(n_species)]
-    elif isinstance(col, str):
-        col = [col] * n_species
-    else:
-        col = list(col)
-        if len(col) < n_species:
-            col = col * (n_species // len(col) + 1)
-        col = col[:n_species]
+        line_colors = [default_colors[i % len(default_colors)] for i in range(n_species)]
+    col = line_colors
 
     # Set up line widths
     if isinstance(lwd, (int, float)):
