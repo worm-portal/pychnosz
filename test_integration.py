@@ -91,7 +91,12 @@ def test_hkf_helpers():
 
 
 def test_mosaic():
-    """Test mosaic() against reference values from R CHNOSZ 2.2.0."""
+    """Test mosaic() against reference values from R CHNOSZ 2.2.0.
+
+    The Cu-Cl aqueous complexes were updated from AZ01 to TTA+23 in the OBIGT
+    database bundled here, so their reference affinities were regenerated with
+    R CHNOSZ 2.2.0 running on the updated parameters.
+    """
     print("\n" + "=" * 60)
     print("Test 4: mosaic (Cu-S-Cl-H2O)")
     print("=" * 60)
@@ -100,17 +105,20 @@ def test_mosaic():
         import numpy as np
         import pychnosz as pc
 
-        # Reference values from R CHNOSZ 2.2.0, printed in column-major order.
+        # Reference values from R CHNOSZ 2.2.0 with the current OBIGT database,
+        # printed in column-major order.  Keyed by species name rather than by
+        # OBIGT index, because indices shift whenever OBIGT is updated.
         ref_values = {
-            609: [-9.407340, -9.407340, -9.407340, 1.244802, 1.244802,
-                  1.244802, 11.896944, 11.896944, 11.896944],
-            610: [-8.233162, -8.233162, -8.233162, 2.418980, 2.418980,
-                  2.418980, 13.071122, 13.071122, 13.071122],
-            1946: [-20.181588, -8.263455, -4.665054, 1.122696, -20.590192,
-                   -68.577609, -40.958802, -84.503044, -132.490460],
-            1990: [-32.278660, -20.278660, -8.278660, -10.974377, 1.025623,
-                   13.025623, 10.329907, 22.329907, 34.329907],
-            1954: [0.0] * 9,
+            "CuCl": [-8.861376, -8.861376, -8.861376, 1.790766, 1.790766,
+                     1.790766, 12.442908, 12.442908, 12.442908],
+            "CuCl2-": [-8.415097, -8.415097, -8.415097, 2.237045, 2.237045,
+                       2.237045, 12.889187, 12.889187, 12.889187],
+            "chalcocite": [-20.181588, -8.263455, -4.665054, 1.122696,
+                           -20.590192, -68.577609, -40.958802, -84.503044,
+                           -132.490460],
+            "tenorite": [-32.278660, -20.278660, -8.278660, -10.974377,
+                         1.025623, 13.025623, 10.329907, 22.329907, 34.329907],
+            "copper": [0.0] * 9,
         }
         ref_predominant = [5, 5, 5, 2, 2, 4, 2, 4, 4]
         ref_bases_predominant = [1, 1, 4, 1, 4, 4, 3, 4, 4]
@@ -120,14 +128,17 @@ def test_mosaic():
         pc.basis("H2S", -6)
         pc.basis("Cl-", -1)
         pc.species(["CuCl", "CuCl2-"], messages=False)
-        pc.species(["chalcocite", "tenorite", "copper"], add=True, messages=False)
+        sp = pc.species(["chalcocite", "tenorite", "copper"], add=True,
+                        messages=False)
+        # Map species name -> OBIGT index used as the key of A_species['values'].
+        ispecies = dict(zip(sp['name'], sp['ispecies']))
 
         m = pc.mosaic(["H2S", "HS-", "HSO4-", "SO4-2"],
                       pH=[0, 12, 3], Eh=[-1, 1, 3], T=200, messages=False)
 
         worst = 0.0
-        for ispecies, ref in ref_values.items():
-            got = np.asarray(m['A_species']['values'][ispecies],
+        for name, ref in ref_values.items():
+            got = np.asarray(m['A_species']['values'][ispecies[name]],
                              dtype=float).ravel(order='F')
             worst = max(worst, float(np.max(np.abs(got - np.asarray(ref)))))
         if worst > 1e-4:
@@ -168,7 +179,8 @@ def test_equilibrate_mosaic():
         import numpy as np
         import pychnosz as pc
 
-        # Reference loga.equil from R CHNOSZ 2.2.0, in column-major order.
+        # Reference loga.equil from R CHNOSZ 2.2.0 with the current OBIGT
+        # database (TTA+23 Cu-Cl complexes), in column-major order.
         # The basis species (H2S, HS-, HSO4-, SO4-2) are prepended to the
         # formed species by the mosaic branch of equilibrate().
         ref = {
@@ -184,14 +196,14 @@ def test_equilibrate_mosaic():
             "SO4-2": [-117.516830, -77.517730, -38.854177, -6.000296,
                       -32.299695, -6.595481, -6.000128, -6.000000,
                       -10.468342, -6.595481, -6.000128, -6.000000],
-            "CuCl": [-999.0] * 4 + [-4.869288, -4.862762, -999.0, -999.0,
-                                    -4.633809] + [-999.0] * 3,
-            "CuCl2-": [-999.0] * 4 + [-3.695109, -3.688583, -999.0, -999.0,
-                                      -3.459630] + [-999.0] * 3,
+            "CuCl": [-999.0] * 4 + [-4.308069, -4.301052, -999.0, -999.0,
+                                    -4.060824] + [-999.0] * 3,
+            "CuCl2-": [-999.0] * 4 + [-3.861790, -3.854774, -999.0, -999.0,
+                                      -3.614546] + [-999.0] * 3,
             "chalcocite": [-999.0] * 12,
             "tenorite": [-999.0] * 6 + [-3.000005, -3.000000, -999.0,
                                         -3.000000, -3.000000, -3.000000],
-            "copper": [-3.000000, -3.000001, -3.000000, -3.000001]
+            "copper": [-3.000000, -3.000001, -3.000000, -3.000000]
                       + [-999.0] * 8,
         }
         ref_predominant = [9, 9, 9, 9, 6, 6, 8, 8, 6, 8, 8, 8]
