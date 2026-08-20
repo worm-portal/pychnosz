@@ -323,6 +323,95 @@ def test_ZC_oxidation_states():
         return False
 
 
+def test_ratlab():
+    """Test that ratlab() and ratlab_html() produce charge-balanced ratios."""
+    print("\n" + "=" * 60)
+    print("Test 7: ratlab() and ratlab_html() activity ratios")
+    print("=" * 60)
+
+    try:
+        import re
+        from pychnosz.utils.formula import makeup
+        from pychnosz.utils import expression as expr
+
+        # The exponents keep the ratio charge-balanced, so the signs of the
+        # charges matter (as in R CHNOSZ ratlab()). An anion over H+ becomes a
+        # product: the ratio for HCO3- over H+ is (a HCO3-)(a H+).
+        pairs = [("K+", "H+"), ("Ca+2", "H+"), ("HCO3-", "H+"),
+                 ("SO4-2", "H+"), ("Mg+2", "Ca+2"), ("HCO3-", "Ca+2"),
+                 ("Ca+2", "SO4-2"), ("Fe+2", "Cu+")]
+
+        def net_charge(label, top, bottom, product_op, quotient_op, exp_pattern):
+            """Net charge of a ratio label, or None if it cannot be parsed."""
+            if not (label.startswith("log(") and label.endswith(")")):
+                print(f"[FAIL] {label!r} is not of the form log(...)")
+                return None
+            inner = label[4:-1]
+
+            # A product multiplies the two activities, a quotient divides them
+            if re.search(product_op, inner):
+                terms, sign = re.split(product_op, inner, maxsplit=1), 1
+            elif re.search(quotient_op, inner):
+                terms, sign = re.split(quotient_op, inner, maxsplit=1), -1
+            else:
+                print(f"[FAIL] no ratio operator in {label!r}")
+                return None
+            if len(terms) != 2:
+                print(f"[FAIL] {label!r} does not have two activity terms")
+                return None
+
+            # An activity without an exponent is raised to the first power
+            exps = []
+            for term in terms:
+                found = re.search(exp_pattern, term)
+                exps.append(int(found.group(1)) if found else 1)
+
+            Z_top = makeup(top).get("Z", 0)
+            Z_bottom = makeup(bottom).get("Z", 0)
+            return exps[0] * Z_top + sign * exps[1] * Z_bottom
+
+        # log(a<sup>2</sup><sub>Ca<sup>+2</sup></sub>/...)
+        html_exp = r"^[am]<sup>(-?\d+)</sup><sub>"
+        # log($a_{Ca^{+2}}^{2}$ / ...)
+        latex_exp = r"\^\{(-?\d+)\}\$$"
+
+        for top, bottom in pairs:
+            label = expr.ratlab(top, bottom)
+            Z = net_charge(label, top, bottom, r" \$\\cdot\$ ", " / ", latex_exp)
+            if Z != 0:
+                print(f"[FAIL] ratlab({top!r}, {bottom!r}) = {label!r} "
+                      f"has net charge {Z}, expected 0")
+                return False
+        print("[OK] ratlab() ratios are charge-balanced")
+
+        if not expr._HTML_DEPS_AVAILABLE:
+            print("[SKIP] ratlab_html() needs WORMutils and chemparse")
+        else:
+            for top, bottom in pairs:
+                label = expr.ratlab_html(top, bottom)
+                # A "/" inside a closing HTML tag is not the ratio operator
+                Z = net_charge(label, top, bottom, "·", r"/(?=[am])", html_exp)
+                if Z != 0:
+                    print(f"[FAIL] ratlab_html({top!r}, {bottom!r}) = {label!r} "
+                          f"has net charge {Z}, expected 0")
+                    return False
+            print("[OK] ratlab_html() ratios are charge-balanced")
+
+            # Guard the case that AqEquil reaction path diagrams depend on
+            if "·" not in expr.ratlab_html("HCO3-", "H+"):
+                print("[FAIL] ratlab_html('HCO3-') should be a product")
+                return False
+            print("[OK] an anion over H+ is written as a product")
+
+        return True
+
+    except Exception as e:
+        print(f"[FAIL] ratlab error: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def main():
     """Run all tests."""
     print("\n" + "=" * 60)
@@ -339,6 +428,7 @@ def main():
         ("Mosaic", test_mosaic),
         ("Equilibrate Mosaic", test_equilibrate_mosaic),
         ("ZC Oxidation States", test_ZC_oxidation_states),
+        ("Activity Ratio Labels", test_ratlab),
     ]
     
     results = []

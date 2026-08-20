@@ -59,6 +59,9 @@ def ratlab(top: str = "K+", bottom: str = "H+", molality: bool = False,
     >>> ratlab("Ca+2", "H+", reverse_charge=True)
     'log($a_{Ca^{2+}}$ / $a_{H^{+}}^{2}$)'
 
+    >>> ratlab("HCO3-", "H+")
+    'log($a_{HCO_{3}^{-}}$ $\\\\cdot$ $a_{H^{+}}$)'
+
     >>> ratlab("Mg+2", "Ca+2")
     'log($a_{Mg^{+2}}$ / $a_{Ca^{+2}}$)'
 
@@ -67,6 +70,12 @@ def ratlab(top: str = "K+", bottom: str = "H+", molality: bool = False,
     The exponents are determined by the charges of the ions to maintain
     charge balance in the ratio. For example, for Ca+2/H+, the H+ term
     is squared because Ca has a +2 charge.
+
+    The signs of the charges matter. An ion with negative charge in the
+    numerator gives a negative exponent on the denominator, which is the
+    same as multiplying the two activities: the charge-balanced combination
+    for HCO3- over H+ is (a HCO3-)(a H+), not (a HCO3-)/(a H+). R CHNOSZ
+    writes this as a negative exponent; here it is written as a product.
 
     The output format is compatible with matplotlib's LaTeX rendering.
     In R CHNOSZ, this uses plotmath expressions; here we use LaTeX strings
@@ -81,12 +90,10 @@ def ratlab(top: str = "K+", bottom: str = "H+", molality: bool = False,
 
     # The exponents for charge balance
     # If top has charge +2 and bottom has +1, bottom gets exponent 2
-    exp_bottom = abs(Z_top)
-    exp_top = abs(Z_bottom)
-
-    # Format exponents (don't show if = 1)
-    exp_top_str = "" if exp_top == 1 else f"^{{{int(exp_top)}}}"
-    exp_bottom_str = "" if exp_bottom == 1 else f"^{{{int(exp_bottom)}}}"
+    # Signs are kept, as in R CHNOSZ: a numerator ion with negative charge
+    # gives a negative exponent on the denominator
+    exp_bottom = Z_top
+    exp_top = Z_bottom
 
     # Format the ion formulas for display
     top_formatted = _format_species_latex(top, reverse_charge=reverse_charge)
@@ -95,14 +102,54 @@ def ratlab(top: str = "K+", bottom: str = "H+", molality: bool = False,
     # Choose activity or molality symbol
     a = "m" if molality else "a"
 
-    # Build the expression
-    # Format: log(a_top^exp / a_bottom^exp)
-    numerator = f"${a}_{{{top_formatted}}}{exp_top_str}$"
-    denominator = f"${a}_{{{bottom_formatted}}}{exp_bottom_str}$"
+    # Format exponents (don't show if = 1)
+    exp_top_str = _format_exponent(exp_top)
+    exp_top_str = f"^{{{exp_top_str}}}" if exp_top_str else ""
 
-    label = f"log({numerator} / {denominator})"
+    if exp_bottom < 0:
+        # Dividing by a negative power is the same as multiplying by a
+        # positive power, which is easier to read
+        exp_bottom_str = _format_exponent(-exp_bottom)
+        exp_bottom_str = f"^{{{exp_bottom_str}}}" if exp_bottom_str else ""
+
+        # Format: log(a_top^exp * a_bottom^exp)
+        first = f"${a}_{{{top_formatted}}}{exp_top_str}$"
+        second = f"${a}_{{{bottom_formatted}}}{exp_bottom_str}$"
+
+        label = f"log({first} $\\cdot$ {second})"
+
+    else:
+        exp_bottom_str = _format_exponent(exp_bottom)
+        exp_bottom_str = f"^{{{exp_bottom_str}}}" if exp_bottom_str else ""
+
+        # Format: log(a_top^exp / a_bottom^exp)
+        numerator = f"${a}_{{{top_formatted}}}{exp_top_str}$"
+        denominator = f"${a}_{{{bottom_formatted}}}{exp_bottom_str}$"
+
+        label = f"log({numerator} / {denominator})"
 
     return label
+
+
+def _format_exponent(exp) -> str:
+    """
+    Format an activity exponent, returning an empty string if it equals 1.
+
+    Parameters
+    ----------
+    exp : numeric
+        The exponent on an activity term
+
+    Returns
+    -------
+    str
+        The exponent as text (e.g. "2", "-1"), or "" if the exponent is 1
+    """
+    if exp == 1:
+        return ""
+    if float(exp).is_integer():
+        return str(int(exp))
+    return str(exp)
 
 
 def ratlab_html(top: str = "K+", bottom: str = "H+", molality: bool = False) -> str:
@@ -138,6 +185,9 @@ def ratlab_html(top: str = "K+", bottom: str = "H+", molality: bool = False) -> 
     >>> ratlab_html("Ca+2", "H+")
     'log(a<sub>Ca<sup>2+</sup></sub>/a<sup>2</sup><sub>H<sup>+</sup></sub>)'
 
+    >>> ratlab_html("HCO3-", "H+")
+    'log(a<sub>HCO<sub>3</sub><sup>-</sup></sub>·a<sub>H<sup>+</sup></sub>)'
+
     >>> ratlab_html("Mg+2", "Ca+2")
     'log(a<sub>Mg<sup>2+</sup></sub>/a<sub>Ca<sup>2+</sup></sub>)'
 
@@ -146,6 +196,12 @@ def ratlab_html(top: str = "K+", bottom: str = "H+", molality: bool = False) -> 
     The exponents are determined by the charges of the ions to maintain
     charge balance in the ratio. For example, for Ca+2/H+, the H+ term
     is squared because Ca has a +2 charge.
+
+    The signs of the charges matter. An ion with negative charge in the
+    numerator gives a negative exponent on the denominator, which is the
+    same as multiplying the two activities: the charge-balanced combination
+    for HCO3- over H+ is (a HCO3-)(a H+), not (a HCO3-)/(a H+). R CHNOSZ
+    writes this as a negative exponent; here it is written as a product.
 
     The output format uses HTML tags (<sub>, <sup>) compatible with Plotly.
     For matplotlib plots with LaTeX rendering, use ratlab() instead.
@@ -188,19 +244,10 @@ def ratlab_html(top: str = "K+", bottom: str = "H+", molality: bool = False) -> 
 
     # The exponents for charge balance
     # If top has charge +2 and bottom has +1, bottom gets exponent 2
-    exp_bottom = abs(top_charge)
-    exp_top = abs(bottom_charge)
-
-    # Format exponents as superscripts (don't show if = 1)
-    if exp_top != 1:
-        top_exp_str = "<sup>" + str(exp_top) + "</sup>"
-    else:
-        top_exp_str = ""
-
-    if exp_bottom != 1:
-        bottom_exp_str = "<sup>" + str(exp_bottom) + "</sup>"
-    else:
-        bottom_exp_str = ""
+    # Signs are kept, as in R CHNOSZ: a numerator ion with negative charge
+    # gives a negative exponent on the denominator
+    exp_bottom = top_charge
+    exp_top = bottom_charge
 
     # Choose activity or molality symbol
     if molality:
@@ -211,6 +258,22 @@ def ratlab_html(top: str = "K+", bottom: str = "H+", molality: bool = False) -> 
     # Format the chemical formulas with chemlabel
     top_formatted = chemlabel(top)
     bottom_formatted = chemlabel(bottom)
+
+    # Format exponents as superscripts (don't show if = 1)
+    top_exp_str = _format_exponent(exp_top)
+    top_exp_str = "<sup>" + top_exp_str + "</sup>" if top_exp_str else ""
+
+    if exp_bottom < 0:
+        # Dividing by a negative power is the same as multiplying by a
+        # positive power, which is easier to read
+        bottom_exp_str = _format_exponent(-exp_bottom)
+        bottom_exp_str = "<sup>" + bottom_exp_str + "</sup>" if bottom_exp_str else ""
+
+        # Format: log(a_top^exp * a_bottom^exp)
+        return f"log({sym}{top_exp_str}<sub>{top_formatted}</sub>·{sym}{bottom_exp_str}<sub>{bottom_formatted}</sub>)"
+
+    bottom_exp_str = _format_exponent(exp_bottom)
+    bottom_exp_str = "<sup>" + bottom_exp_str + "</sup>" if bottom_exp_str else ""
 
     # Build the HTML expression
     # Format: log(a_top^exp / a_bottom^exp)
