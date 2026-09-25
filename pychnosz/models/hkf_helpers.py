@@ -175,7 +175,7 @@ def OBIGT2eos(OBIGT, fixGHS=True, tocal=True, messages=True):
     H_idx = OBIGT.columns.get_loc('H')
     S_idx = OBIGT.columns.get_loc('S')
     Cp_idx = OBIGT.columns.get_loc('Cp')
-    V_idx = OBIGT.columns.get_loc('V')
+    a1_idx = OBIGT.columns.get_loc('a1.a')
     omega_lambda_idx = OBIGT.columns.get_loc('omega.lambda')
 
     for i in range(0, OBIGT.shape[0]):
@@ -184,15 +184,17 @@ def OBIGT2eos(OBIGT, fixGHS=True, tocal=True, messages=True):
         if tocal and OBIGT.iloc[i, :]["E_units"] == "J" and OBIGT.iloc[i, :]["state"] == "aq":
             # Convert G, H, S, Cp
             OBIGT_out.iloc[i, G_idx:Cp_idx+1] = OBIGT.iloc[i, G_idx:Cp_idx+1]/4.184
-            # Convert V through omega (includes omega for aq species)
-            OBIGT_out.iloc[i, V_idx:omega_lambda_idx+1] = OBIGT.iloc[i, V_idx:omega_lambda_idx+1]/4.184
+            # Convert a1 through omega (includes omega for aq species);
+            # V is a volume (cm3/mol) and is not converted
+            OBIGT_out.iloc[i, a1_idx:omega_lambda_idx+1] = OBIGT.iloc[i, a1_idx:omega_lambda_idx+1]/4.184
             OBIGT_out.iloc[i, OBIGT.columns.get_loc('E_units')] = "cal"
 
         elif tocal and OBIGT.iloc[i, :]["E_units"] == "J":
             # Convert G, H, S, Cp
             OBIGT_out.iloc[i, G_idx:Cp_idx+1] = OBIGT.iloc[i, G_idx:Cp_idx+1]/4.184
-            # Convert V through c2.f (exclude omega.lambda for non-aq species)
-            OBIGT_out.iloc[i, V_idx:omega_lambda_idx] = OBIGT.iloc[i, V_idx:omega_lambda_idx]/4.184
+            # Convert a through f (exclude omega.lambda for non-aq species);
+            # V is a volume (cm3/mol) and is not converted
+            OBIGT_out.iloc[i, a1_idx:omega_lambda_idx] = OBIGT.iloc[i, a1_idx:omega_lambda_idx]/4.184
             OBIGT_out.iloc[i, OBIGT.columns.get_loc('E_units')] = "cal"
 
         # fill in one of missing G, H, S
@@ -206,24 +208,26 @@ def OBIGT2eos(OBIGT, fixGHS=True, tocal=True, messages=True):
 
                 ii = imiss.index(True)
 
+                # entropy() returns J/mol/K; match the energy units of this row
+                Selem = entropy(OBIGT_out.iloc[i, OBIGT_out.columns.get_loc('formula')])
+                if OBIGT_out.iloc[i, OBIGT_out.columns.get_loc('E_units')] != "J":
+                    Selem = Selem/4.184
+
                 if ii == 0:  # G is missing
                     H = OBIGT_out.iloc[i, H_idx]
                     S = OBIGT_out.iloc[i, S_idx]
-                    Selem = entropy(OBIGT_out.iloc[i, OBIGT_out.columns.get_loc('formula')])
                     T = 298.15
                     G = H - T*(S - Selem)
                     OBIGT_out.iloc[i, G_idx] = G
                 elif ii == 1:  # H is missing
                     G = OBIGT_out.iloc[i, G_idx]
                     S = OBIGT_out.iloc[i, S_idx]
-                    Selem = entropy(OBIGT_out.iloc[i, OBIGT_out.columns.get_loc('formula')])
                     T = 298.15
                     H = G + T*(S - Selem)
                     OBIGT_out.iloc[i, H_idx] = H
                 elif ii == 2:  # S is missing
                     G = OBIGT_out.iloc[i, G_idx]
                     H = OBIGT_out.iloc[i, H_idx]
-                    Selem = entropy(OBIGT_out.iloc[i, OBIGT_out.columns.get_loc('formula')])
                     T = 298.15
                     S = Selem + (H - G)/T
                     OBIGT_out.iloc[i, S_idx] = S

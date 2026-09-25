@@ -23,6 +23,8 @@ from typing import Union, List, Optional, Dict, Any
 import warnings
 from scipy.optimize import brentq
 
+from .archer_wang import water_AW90
+
 
 class AccurateIAPWS95Water:
     """
@@ -597,7 +599,14 @@ class AccurateIAPWS95Water:
             phi_delta_residual = self._phi_residual(delta, tau, 'phi.delta')
             x = 1 + phi_ideal + phi_residual + delta * phi_delta_residual
             return x * self.R * T
-            
+
+        elif property_name.lower() == 'a':
+            # Helmholtz energy in kJ/kg: a = R*T*(phi_ideal + phi_residual)
+            phi_ideal = self._phi_ideal(delta, tau, 'phi')
+            phi_residual = self._phi_residual(delta, tau, 'phi')
+            x = phi_ideal + phi_residual
+            return x * self.R * T
+
         elif property_name.lower() == 'cv':
             # Isochoric heat capacity in kJ/(kg·K) (R lines 52-54)
             phi_tau_tau_ideal = self._phi_ideal(delta, tau, 'phi.tau.tau')
@@ -760,87 +769,216 @@ def rho_IAPWS95_accurate(T: Union[float, np.ndarray], P: Union[float, np.ndarray
                         state: str = "", trace: int = 0) -> np.ndarray:
     """
     Return density in kg/m³ corresponding to given pressure (bar) and temperature (K).
-    
-    Exact implementation matching R CHNOSZ rho.IAPWS95 function with numerical root finding.
+
+    Port of the R CHNOSZ function rho.IAPWS95() (util.water.R). The root of
+    P(T, rho) - P is bracketed exactly as in R, including R's uniroot()
+    behavior of extending the search interval in the direction indicated by
+    `extendInt` ("upX": the function increases with rho, so the lower bound
+    is decreased while f(lower) > 0 and the upper bound is increased while
+    f(upper) < 0). This is what allows the liquid root to be found for
+    supercooled water (T below 273.15 K), where the saturated-liquid density
+    estimate can lie on the wrong side of the root.
+
+    Parameters
+    ----------
+    T : float or array
+        Temperature in K
+    P : float or array
+        Pressure in bar
+    state : str
+        "" (determine the stable phase near the saturation curve by comparing
+        Gibbs energies), "liquid", or "vapor"
+    trace : int
+        If > 0, print information about the root search
     """
     T = np.atleast_1d(np.asarray(T, dtype=float))
     P = np.atleast_1d(np.asarray(P, dtype=float))
-    
+
     # Ensure T and P have same length
     if len(P) < len(T):
         P = np.resize(P, len(T))
     elif len(T) < len(P):
         T = np.resize(T, len(P))
-        
+
     rho = np.full_like(T, np.nan)
-    
+
     # Critical point constants
     T_critical = 647.096  # K
     P_critical = 22.064   # MPa
-    
+
     # Convert pressure from bar to MPa (matching R code line 60)
     P_MPa = P / 10.0
-    
+
     for i in range(len(T)):
         if np.isnan(T[i]) or np.isnan(P[i]) or T[i] <= 0 or P[i] <= 0:
             continue
-            
+
         # Function to find zero: P_calculated - P_target = 0
-        def dP(rho_guess):
+        def dP(rho_guess, Ti=T[i], Pi=P_MPa[i]):
             if rho_guess <= 0:
-                return float('inf')
+                return np.nan
             try:
-                # Use the accurate IAPWS95 pressure calculation
-                P_calc_MPa = accurate_iapws95.calculate_IAPWS95_property('P', T[i], rho_guess)
-                return P_calc_MPa - P_MPa[i]
-            except:
-                return float('inf')
-        
-        # Phase identification and initial guess setup (matching R logic)
+                return accurate_iapws95.calculate_IAPWS95_property('P', Ti, rho_guess) - Pi
+            except Exception:
+                return np.nan
+
         try:
-            Psat = _WP02_auxiliary_accurate("P.sigma", T[i])[0]  # This is in MPa
-            
+            Psat = _WP02_auxiliary_accurate("P.sigma", T[i])[0]  # MPa
+
             if T[i] > T_critical:
-                # Above critical temperature - supercritical
-                interval = [0.1, 1000.0]
-                
-            elif P_MPa[i] > P_critical:
-                # Above critical pressure - supercritical  
-                rho_sat = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
-                # For high pressures, we need much higher densities
-                # Estimate upper bound based on pressure scaling
-                rho_upper = rho_sat + (P_MPa[i] - P_critical) * 4.0  # Rough scaling
-                interval = [rho_sat, min(rho_upper, 1500.0)]  # Cap at reasonable max density
-                
-            elif P_MPa[i] <= 0.9999 * Psat:
-                # Steam region
-                rho_sat = _WP02_auxiliary_accurate("rho.vapor", T[i])[0]
-                interval = [rho_sat * 0.1, rho_sat * 2.0]
-                
-            elif P_MPa[i] >= 1.00005 * Psat:
-                # Liquid water region
-                rho_sat = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
-                interval = [rho_sat * 0.9, rho_sat * 1.1]
-                
-            else:
-                # Close to saturation - use liquid estimate
-                rho_sat = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
-                interval = [rho_sat * 0.95, rho_sat * 1.05]
-            
-            # Numerical root finding using Brent's method
-            try:
-                rho[i] = brentq(dP, interval[0], interval[1], xtol=1e-10, rtol=1e-10)
-            except Exception as e:
+                # Above critical temperature
+                interval = [0.1, 1.0]
+                extendInt = "upX"
                 if trace > 0:
-                    print(f"Warning: rho_IAPWS95_accurate problems finding density at {T[i]} K and {P[i]} bar: {e}")
-                rho[i] = np.nan
-                
-        except Exception as e:
+                    print("supercritical (T) ", end="")
+            elif P_MPa[i] > P_critical:
+                # Above critical pressure
+                rho_sat = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
+                interval = [rho_sat, rho_sat + 1.0]
+                extendInt = "upX"
+                if trace > 0:
+                    print("supercritical (P) ", end="")
+            elif P_MPa[i] <= 0.9999 * Psat:
+                # Steam
+                rho_sat = _WP02_auxiliary_accurate("rho.vapor", T[i])[0]
+                interval = [rho_sat * 0.1, rho_sat]
+                extendInt = "upX"
+                if trace > 0:
+                    print("steam ", end="")
+            elif P_MPa[i] >= 1.00005 * Psat:
+                # Water
+                rho_sat = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
+                interval = [rho_sat, rho_sat + 1.0]
+                extendInt = "upX"
+                if trace > 0:
+                    print("water ", end="")
+            elif state not in ["liquid", "vapor"]:
+                # We're close to the saturation curve;
+                # calculate rho and G for liquid and vapor and return rho for the stable phase
+                if trace > 0:
+                    print("close to saturation; trying liquid and vapor")
+                rho_liquid = rho_IAPWS95_accurate(T[i], P[i], state="liquid", trace=trace)[0]
+                rho_vapor = rho_IAPWS95_accurate(T[i], P[i], state="vapor", trace=trace)[0]
+                G_liquid = accurate_iapws95.calculate_IAPWS95_property('G', T[i], rho_liquid)
+                G_vapor = accurate_iapws95.calculate_IAPWS95_property('G', T[i], rho_vapor)
+                if G_liquid < G_vapor:
+                    rho[i] = rho_liquid
+                    if trace > 0:
+                        print(f"G.liquid({G_liquid}) < G.vapor({G_vapor})")
+                else:
+                    rho[i] = rho_vapor
+                    if trace > 0:
+                        print(f"G.vapor({G_vapor}) < G.liquid ({G_liquid})")
+                continue
+            else:
+                # We are looking at a specific state
+                if trace > 0:
+                    print(f"specified state: {state}  ", end="")
+                if state == "vapor":
+                    rho0 = _WP02_auxiliary_accurate("rho.vapor", T[i])[0]
+                else:
+                    rho0 = _WP02_auxiliary_accurate("rho.liquid", T[i])[0]
+                # A too-big range may cause problems e.g.
+                # interval <- c(rho0*0.9, rho0*1.1) fails for T=253.15, P=1
+                interval = [rho0 * 0.95, rho0 * 1.05]
+                # If P on the initial interval are both higher or lower than target P,
+                # set the direction of interval extension
+                P_init = [dP(interval[0]), dP(interval[1])]
+                if all(p < 0 for p in P_init):
+                    extendInt = "downX"
+                elif all(p > 0 for p in P_init):
+                    extendInt = "upX"
+                else:
+                    extendInt = "yes"
+
             if trace > 0:
-                print(f"Warning: rho_IAPWS95_accurate problems with phase identification at {T[i]} K and {P[i]} bar: {e}")
+                print(f"T={T[i]} P={P[i]} rho=[{interval[0]},{interval[1]}]")
+
+            try:
+                rho[i] = _uniroot(dP, interval[0], interval[1], extendInt=extendInt, trace=trace)
+            except Exception as e:
+                warnings.warn(f"rho_IAPWS95_accurate: problems finding density at {T[i]} K and {P[i]} bar",
+                              stacklevel=2)
+                if trace > 0:
+                    print(f"root search failed: {e}")
+                rho[i] = np.nan
+
+        except Exception as e:
+            warnings.warn(f"rho_IAPWS95_accurate: problems finding density at {T[i]} K and {P[i]} bar",
+                          stacklevel=2)
+            if trace > 0:
+                print(f"phase identification failed: {e}")
             rho[i] = np.nan
-            
+
     return rho
+
+
+# Alias matching the R CHNOSZ function name
+rho_IAPWS95 = rho_IAPWS95_accurate
+
+
+def _uniroot(f, lower: float, upper: float, extendInt: str = "no", trace: int = 0,
+             maxiter: int = 1000, xtol: float = 1e-10) -> float:
+    """
+    Find a root of f on [lower, upper], extending the interval as R's
+    uniroot(extendInt = ...) does when the initial interval does not bracket
+    a root.
+
+    extendInt = "no": require a sign change on the initial interval.
+    extendInt = "yes": extend both ends until a sign change is found.
+    extendInt = "upX": f is increasing; decrease `lower` while f(lower) > 0 and
+                       increase `upper` while f(upper) < 0.
+    extendInt = "downX": f is decreasing; the opposite of "upX".
+    The step sizes start at 0.01 * max(1e-4, |x|) and double each iteration,
+    exactly as in R.
+    """
+    f_lower = f(lower)
+    f_upper = f(upper)
+
+    def Delta(u):
+        return 0.01 * max(1e-4, abs(u))
+
+    if extendInt != "no":
+        delta_l = Delta(lower)
+        delta_u = Delta(upper)
+        it = 0
+        if extendInt == "yes":
+            while np.isnan(f_lower) or np.isnan(f_upper) or f_lower * f_upper > 0:
+                it += 1
+                if it > maxiter:
+                    raise RuntimeError("no sign change found in %d iterations" % maxiter)
+                lower -= delta_l
+                upper += delta_u
+                f_lower = f(lower)
+                f_upper = f(upper)
+                delta_l *= 2
+                delta_u *= 2
+        else:
+            Sig = 1.0 if extendInt == "upX" else -1.0
+            while np.isnan(f_lower) or Sig * f_lower > 0:
+                it += 1
+                if it > maxiter:
+                    raise RuntimeError("no sign change found in %d iterations" % maxiter)
+                lower -= delta_l
+                f_lower = f(lower)
+                delta_l *= 2
+            while np.isnan(f_upper) or Sig * f_upper < 0:
+                it += 1
+                if it > maxiter:
+                    raise RuntimeError("no sign change found in %d iterations" % maxiter)
+                upper += delta_u
+                f_upper = f(upper)
+                delta_u *= 2
+        if trace > 0 and it > 0:
+            print(f"search extended to [{lower},{upper}] in {it} steps")
+
+    if np.isnan(f_lower) or np.isnan(f_upper) or f_lower * f_upper > 0:
+        raise RuntimeError(f"f() values at end points not of opposite sign: [{lower}, {upper}]")
+    if f_lower == 0:
+        return lower
+    if f_upper == 0:
+        return upper
+    return brentq(f, lower, upper, xtol=xtol, rtol=1e-10)
 
 
 def water_IAPWS95_accurate(properties: Union[str, List[str]], 
@@ -1009,7 +1147,7 @@ class IAPWS95Water:
         List[str]
             List of available property names
         """
-        return ['P', 'S', 'U', 'H', 'G', 'Cv', 'Cp', 'w', 'rho']
+        return list(IAPWS95_AVAILABLE_PROPERTIES)
 
     def calculate(self,
                   properties: Union[str, List[str]],
@@ -1046,63 +1184,267 @@ class IAPWS95Water:
 iapws95_water = IAPWS95Water()
 
 
-def water_IAPWS95(properties: Union[str, List[str]],
-                  T: Union[float, np.ndarray] = 298.15,
-                  P: Union[float, np.ndarray] = 100.0) -> Union[float, np.ndarray, Dict[str, Any]]:
-    """
-    Calculate water properties using IAPWS-95.
+# ========================================================================
+# R CHNOSZ water.IAPWS95() equivalent
+# ========================================================================
 
-    This function provides the main interface to IAPWS-95 water properties,
-    using the accurate implementation that matches R CHNOSZ exactly.
+# Properties available from water.IAPWS95() in R CHNOSZ (water.R)
+IAPWS95_AVAILABLE_PROPERTIES = [
+    "A", "G", "S", "U", "H", "Cv", "Cp",
+    "Speed", "epsilon",
+    "YBorn", "QBorn", "XBorn", "NBorn", "UBorn",
+    "V", "rho", "Psat", "de.dT", "de.dP", "pressure",
+    "A_DH", "B_DH",
+]
+
+# Properties that R CHNOSZ water.IAPWS95() returns as NA with a warning
+# (they are available from SUPCRT92 but not from IAPWS-95 in CHNOSZ)
+IAPWS95_NA_PROPERTIES = ["E", "kT", "alpha", "daldT", "beta"]
+
+# Molar mass of water used in R CHNOSZ water.IAPWS95()
+_M_H2O = 18.015268  # g mol-1
+
+
+def Psat_IAPWS95(T: Union[float, np.ndarray], Psat_floor: Union[float, None] = 1.0) -> np.ndarray:
+    """
+    Liquid-vapor saturation pressure (bar) as used by R CHNOSZ water.IAPWS95():
+    the Wagner and Pruss (2002) auxiliary equation, plus 0.1 bar for values
+    above 1 bar (for stability of the Born functions), floored at
+    `Psat_floor` bar (use None to get the unfloored values).
+    """
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+    P = _WP02_auxiliary_accurate("P.sigma", T)  # MPa
+    P = np.where(P > 0.1, P + 0.01, P)
+    if Psat_floor is not None:
+        floor_MPa = Psat_floor / 10.0
+        P = np.where(P < floor_MPa, floor_MPa, P)
+    return P * 10.0  # bar
+
+
+def water_IAPWS95(property: Union[str, List[str], None] = None,
+                  T: Union[float, np.ndarray] = 298.15,
+                  P: Union[float, np.ndarray, str] = 1.0,
+                  Psat_floor: Union[float, None] = 1.0,
+                  state: Optional[str] = None) -> Union[float, np.ndarray, Dict[str, Any], List[str]]:
+    """
+    Calculate thermodynamic and electrostatic properties of water with the
+    IAPWS-95 formulation. Port of the R CHNOSZ function water.IAPWS95().
 
     Parameters
     ----------
-    properties : str or list of str
-        Property or properties to calculate:
-        - 'P': Pressure in MPa
-        - 'S': Entropy in kJ/(kg·K)
-        - 'U': Internal energy in kJ/kg
-        - 'H': Enthalpy in kJ/kg
-        - 'G': Gibbs free energy in kJ/kg
-        - 'Cv': Isochoric heat capacity in kJ/(kg·K)
-        - 'Cp': Isobaric heat capacity in kJ/(kg·K)
-        - 'w': Speed of sound in m/s
-        - 'rho': Density in kg/m³
+    property : str, list of str, or None
+        Property or properties to calculate. If None, the list of available
+        properties is returned. Available: A, G, S, U, H, Cv, Cp (J/mol or
+        J/mol/K, SUPCRT92 reference state), Speed (cm/s), epsilon
+        (dielectric constant, Archer and Wang 1990), YBorn (K^-1), QBorn
+        (bar^-1), XBorn (K^-2), NBorn (bar^-2), UBorn (bar^-1 K^-1), V
+        (cm3/mol), rho (kg/m3), Psat (bar), de.dT, de.dP, pressure (bar),
+        A_DH (kg^0.5 mol^-0.5) and B_DH (kg^0.5 mol^-0.5 cm^-1).
+        E, kT, alpha, daldT and beta are returned as NaN with a warning,
+        as in R CHNOSZ.
     T : float or array
         Temperature in Kelvin
-    P : float or array
-        Pressure in kPa (note: different from other modules that use bar)
+    P : float, array, or "Psat"
+        Pressure in bar, or "Psat" for the liquid-vapor saturation pressure
+    Psat_floor : float or None
+        Minimum value of Psat in bar (default 1)
+    state : str, optional
+        Phase to use when T and P are close to the saturation curve
+        ("liquid" or "vapor"); defaults to the thermo option "IAPWS.sat"
+        (normally "liquid").
 
     Returns
     -------
     float, array, or dict
-        Calculated water properties
+        A single value (or array) for one property, or a dictionary of
+        arrays for several properties.
 
-    Examples
-    --------
-    >>> import numpy as np
-    >>>
-    >>> # Single property at standard conditions
-    >>> rho = water_IAPWS95('rho', T=298.15, P=100.0)  # 100 kPa = 1 bar
-    >>> print(f"Density: {rho:.3f} kg/m³")
-    >>>
-    >>> # Multiple properties
-    >>> props = water_IAPWS95(['rho', 'Cp'], T=298.15, P=100.0)
-    >>> print(f"Density: {props['rho']:.3f} kg/m³")
-    >>> print(f"Heat capacity: {props['Cp']:.3f} kJ/(kg·K)")
-    >>>
-    >>> # Array calculations
-    >>> T_array = np.array([273.15, 298.15, 373.15])
-    >>> densities = water_IAPWS95('rho', T=T_array, P=100.0)
+    Notes
+    -----
+    Because the IAPWS-95 equation of state extrapolates into the supercooled
+    liquid region, properties can be calculated below 273.15 K (down to about
+    243 K at 1 bar), which SUPCRT92 cannot do. The Born functions are
+    obtained by numerical differentiation of the dielectric constant, exactly
+    as in R CHNOSZ.
     """
-    # Convert pressure from kPa to bar for the accurate implementation
-    if isinstance(P, (int, float)):
-        P_bar = P / 100.0
-    else:
-        P_bar = np.asarray(P) / 100.0
+    if property is None:
+        return list(IAPWS95_AVAILABLE_PROPERTIES)
 
-    # Use the accurate implementation
-    return water_IAPWS95_accurate(properties, T=T, P=P_bar)
+    if isinstance(property, str):
+        properties = [property]
+        single_prop = True
+    else:
+        properties = list(property)
+        single_prop = False
+
+    unknown = [p for p in properties
+               if p not in IAPWS95_AVAILABLE_PROPERTIES and p not in IAPWS95_NA_PROPERTIES]
+    if len(unknown) > 0:
+        raise ValueError(f"water_IAPWS95: property(s) not available: {' '.join(unknown)}")
+
+    T = np.atleast_1d(np.asarray(T, dtype=float))
+
+    if state is None:
+        try:
+            from ..core.thermo import thermo
+            state = thermo().get_option("IAPWS.sat", "liquid")
+        except Exception:
+            state = "liquid"
+    if state is None:
+        state = ""
+
+    # Psat
+    if isinstance(P, str):
+        if P != "Psat":
+            raise ValueError(f"water_IAPWS95: unrecognized pressure '{P}'")
+        P = Psat_IAPWS95(T, Psat_floor)
+    else:
+        P = np.atleast_1d(np.asarray(P, dtype=float))
+        if len(P) < len(T):
+            P = np.resize(P, len(T))
+        elif len(T) < len(P):
+            T = np.resize(T, len(P))
+    n = len(T)
+    P_MPa = P / 10.0
+
+    # Reference state corrections to the SUPCRT92 convention at the triple
+    # point (difference = SUPCRT - IAPWS, with the entropy term in G and A).
+    # These reproduce R CHNOSZ exactly: there, dS is converted to J first and
+    # the dS*(T - Tr) term is then included inside the cal-to-J conversion of
+    # dG and dA, so the same order of operations is kept here.
+    Tr = 298.15
+    cal_to_J = 4.184
+    dH = (-68316.76 - 451.75437) * cal_to_J
+    dS = (16.7123 - 1.581072) * cal_to_J
+    dG = (-56687.71 + 19.64228 - dS * (T - Tr)) * cal_to_J
+    dU = (-67434.5 - 451.3229) * cal_to_J
+    dA = (-55814.06 + 20.07376 - dS * (T - Tr)) * cal_to_J
+
+    # Densities are needed for everything except Psat
+    rho = None
+    if properties != ["Psat"]:
+        rho = rho_IAPWS95_accurate(T, P, state=state)
+
+    def eos(prop):
+        """Specific (per kg) IAPWS-95 property at each T, rho."""
+        out = np.full(n, np.nan)
+        for i in range(n):
+            if np.isnan(T[i]) or np.isnan(rho[i]) or T[i] <= 0 or rho[i] <= 0:
+                continue
+            try:
+                out[i] = accurate_iapws95.calculate_IAPWS95_property(prop, T[i], rho[i])
+            except Exception:
+                out[i] = np.nan
+        return out
+
+    def eps_at(Tv, Pv_bar):
+        """Dielectric constant at arbitrary T (K) and P (bar) via IAPWS-95 density
+        and Archer and Wang (1990)."""
+        Tv = np.atleast_1d(np.asarray(Tv, dtype=float))
+        Pv_bar = np.atleast_1d(np.asarray(Pv_bar, dtype=float))
+        rho_v = rho_IAPWS95_accurate(Tv, Pv_bar, state=state)
+        return np.atleast_1d(water_AW90(T=Tv, rho=rho_v, P=Pv_bar / 10.0))
+
+    # epsilon is computed once and reused
+    my_epsilon = None
+    if any(p in ["epsilon", "A_DH", "B_DH"] for p in properties):
+        my_epsilon = np.atleast_1d(water_AW90(T=T, rho=rho, P=P_MPa))
+
+    results = {}
+    for prop in properties:
+        if prop in IAPWS95_NA_PROPERTIES:
+            # R CHNOSZ: "water.IAPWS95: values of <prop> are NA"
+            warnings.warn(f"water_IAPWS95: values of {prop} are NA", stacklevel=2)
+            val = np.full(n, np.nan)
+        elif prop == "Psat":
+            val = np.array(P, dtype=float)
+        elif prop == "rho":
+            val = np.array(rho, dtype=float)
+        elif prop == "V":
+            val = _M_H2O * 1000.0 / rho
+        elif prop == "pressure":
+            val = eos("p") * 10.0
+        elif prop == "S":
+            val = eos("s") * _M_H2O + dS
+        elif prop == "U":
+            val = eos("u") * _M_H2O + dU
+        elif prop == "A":
+            val = eos("a") * _M_H2O + dA
+        elif prop == "H":
+            val = eos("h") * _M_H2O + dH
+        elif prop == "G":
+            val = eos("g") * _M_H2O + dG
+        elif prop == "Cv":
+            val = eos("cv") * _M_H2O
+        elif prop == "Cp":
+            val = eos("cp") * _M_H2O
+        elif prop == "Speed":
+            val = eos("w") * 100.0  # m/s to cm/s
+        elif prop == "epsilon":
+            val = np.array(my_epsilon, dtype=float)
+        elif prop == "A_DH":
+            val = 1.8246e6 * (rho / 1000.0) ** 0.5 / (my_epsilon * T) ** 1.5
+        elif prop == "B_DH":
+            val = 50.29e8 * (rho / 1000.0) ** 0.5 / (my_epsilon * T) ** 0.5
+        elif prop == "de.dT":
+            # NOTE: as in R CHNOSZ, the pressure is passed to water.AW90 in bar here
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dt = 0.001
+                rho_v = rho_IAPWS95_accurate([T[i] - dt, T[i] + dt], [P[i], P[i]], state=state)
+                e = np.atleast_1d(water_AW90(T=np.array([T[i] - dt, T[i] + dt]), rho=rho_v, P=np.array([P[i], P[i]])))
+                val[i] = (e[1] - e[0]) / (2 * dt)
+        elif prop == "de.dP":
+            # NOTE: as in R CHNOSZ, the pressure is passed to water.AW90 in bar here
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dp = 0.001
+                rho_v = rho_IAPWS95_accurate([T[i], T[i]], [P[i] - dp, P[i] + dp], state=state)
+                e = np.atleast_1d(water_AW90(T=np.array([T[i], T[i]]), rho=rho_v, P=np.array([P[i] - dp, P[i] + dp])))
+                val[i] = (e[1] - e[0]) / (2 * dp)
+        elif prop == "QBorn":
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dp = 0.01
+                e = eps_at([T[i], T[i]], [P[i] - dp, P[i] + dp])
+                val[i] = -(1 / e[1] - 1 / e[0]) / (2 * dp)
+        elif prop == "NBorn":
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dp = 0.01
+                e = eps_at([T[i], T[i], T[i]], [P[i] - dp, P[i], P[i] + dp])
+                val[i] = (-(1 / e[2] - 1 / e[1]) / dp + (1 / e[1] - 1 / e[0]) / dp) / dp
+        elif prop == "YBorn":
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dt = 0.001
+                e = eps_at([T[i] - dt, T[i] + dt], [P[i], P[i]])
+                val[i] = -(1 / e[1] - 1 / e[0]) / (2 * dt)
+        elif prop == "XBorn":
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dt = 0.001
+                e = eps_at([T[i] - dt, T[i], T[i] + dt], [P[i], P[i], P[i]])
+                val[i] = (-(1 / e[2] - 1 / e[1]) / dt + (1 / e[1] - 1 / e[0]) / dt) / dt
+        elif prop == "UBorn":
+            val = np.full(n, np.nan)
+            for i in range(n):
+                dt = 0.001
+                dp = 0.001
+                e1 = eps_at([T[i] - dt, T[i] - dt], [P[i] - dp, P[i] + dp])
+                e2 = eps_at([T[i] + dt, T[i] + dt], [P[i] - dp, P[i] + dp])
+                p1 = -(1 / e1[1] - 1 / e1[0]) / (2 * dp)
+                p2 = -(1 / e2[1] - 1 / e2[0]) / (2 * dp)
+                val[i] = (p2 - p1) / (2 * dt)
+        else:  # pragma: no cover - guarded by the check above
+            raise ValueError(f"water_IAPWS95: property not available: {prop}")
+
+        val = np.asarray(val, dtype=float)
+        results[prop] = val if n > 1 else float(val[0])
+
+    if single_prop:
+        return results[properties[0]]
+    return results
 
 
 # Alias for consistency with naming conventions

@@ -211,10 +211,23 @@ def gfun(rhohat, Tc, P, alpha, daldT, beta):
     return {"g": g, "dgdT": dgdT, "d2gdT2": d2gdT2, "dgdP": dgdP}
 
 def hkf(property=None, parameters=None, T=298.15, P=1,
-    contrib = ["n", "s", "o"], H2O_props=["rho"], water_model="SUPCRT92"):
+    contrib = ["n", "s", "o"], H2O_props=["rho"], water_model=None):
     # calculate G, H, S, Cp, V, kT, and/or E using
     # the revised HKF equations of state
     # H2O_props - H2O properties needed for subcrt() output
+    # water_model - water model used to decide which H2O properties are
+    #   requested; defaults to the active model (thermo()$opt$water in R)
+    if water_model is None:
+        try:
+            from ..core.thermo import thermo
+            water_model = thermo().get_option("water", "SUPCRT92")
+        except Exception:
+            water_model = "SUPCRT92"
+    water_model = str(water_model).upper()
+    if water_model in ["SUPCRT", "SUPCRT92"]:
+        water_model = "SUPCRT92"
+    elif water_model in ["IAPWS", "IAPWS95"]:
+        water_model = "IAPWS95"
     # constants
     Tr = 298.15 # K
     Pr = 1      # bar
@@ -249,17 +262,22 @@ def hkf(property=None, parameters=None, T=298.15, P=1,
     # Born functions and epsilon - for HKF calculations
     H2O_props += ["QBorn", "XBorn", "YBorn", "epsilon"]
 
+    # The requested properties match R CHNOSZ hkf(): alpha, daldT and beta
+    # (for the T and P derivatives of the g function) are only available from
+    # SUPCRT92; IAPWS-95 does not provide them and R does not ask for them.
+    # gfun() treats missing values as NaN, which leaves the derivatives of g
+    # (used for S, Cp and V, not G) at zero, exactly as in R.
     if water_model == "SUPCRT92":
       # using H2O92D.f from SUPCRT92: alpha, daldT, beta - for partial derivatives of omega (g function)
       H2O_props += ["alpha", "daldT", "beta"]
-    
+
     elif water_model == "IAPWS95":
       # using IAPWS-95: NBorn, UBorn - for compressibility, expansibility
-      H2O_props += ["alpha", "daldT", "beta", "NBorn", "UBorn"]
-    
+      H2O_props += ["NBorn", "UBorn"]
+
     elif water_model == "DEW":
       # using DEW model: get beta to calculate dgdP
-      H2O_props += ["alpha", "daldT", "beta"]
+      H2O_props += ["beta"]
 
     # DEBUG: Print T and P being passed to water
     if False:
@@ -281,10 +299,19 @@ def hkf(property=None, parameters=None, T=298.15, P=1,
 
     # Handle dict output from water function
     def get_water_prop(water_dict, prop):
-        """Helper function to get water property from dict or DataFrame"""
+        """
+        Helper function to get water property from dict or DataFrame.
+        A property that was not requested for the current water model (e.g.,
+        alpha, daldT and beta under IAPWS95) is returned as NaN, mirroring
+        R CHNOSZ where H2O.PT$alpha is NULL and gfun() converts it to NA.
+        """
         if isinstance(water_dict, dict):
+            if prop not in water_dict:
+                return np.full_like(np.atleast_1d(T), np.nan, dtype=float)
             return water_dict[prop]
         else:
+            if prop not in water_dict.columns:
+                return np.nan
             return water_dict.loc["1", prop]
 
     # Get epsilon values and handle potential zeros

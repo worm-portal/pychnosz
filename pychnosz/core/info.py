@@ -25,7 +25,8 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
          state: Optional[Union[str, List[str]]] = None,
          check_it: bool = True,
          messages: bool = True,
-         check_protein: bool = True) -> Union[pd.DataFrame, int, List[int], None]:
+         check_protein: bool = True,
+         E_units: Union[bool, str, None] = False) -> Union[pd.DataFrame, int, List[int], None]:
     """
     Search for species in the thermodynamic database.
 
@@ -44,6 +45,15 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
     check_protein : bool, default True
         Whether to look up unmatched names in thermo().protein and add their
         group-additivity properties to OBIGT (e.g. LYSC_CHICK, H2O_RESIDUE)
+    E_units : False, 'cal', or 'J', default False
+        Energy units for the returned thermodynamic properties and equation-of-state
+        parameters. The default (False) returns each entry in the units given by its
+        own E_units column, as R CHNOSZ does. Set to 'cal' or 'J' to convert all
+        entries to those units, which makes entries stored in different units
+        directly comparable. Only affects the DataFrame returned for numeric
+        'species'; V (cm3 mol-1), Z, and the CGL 'lambda' exponent are never
+        converted. Consistency checks (check_it) are always done in the units of
+        the database entry, so any messages they print are unaffected.
 
     Returns
     -------
@@ -69,8 +79,14 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
     >>> # Use output from retrieve()
     >>> zn_species = retrieve("Zn", ["O", "H"], state="aq")
     >>> info(zn_species)
+
+    >>> # Compare two entries that are stored in different energy units
+    >>> info(info(["diketopiperazine", "resorcinol"]), E_units="J")
     """
     thermo_obj = thermo()
+
+    # Validate the requested energy units before doing any work
+    E_units = _normalize_E_units(E_units)
 
     # Initialize database if needed
     if not thermo_obj.is_initialized():
@@ -84,11 +100,11 @@ def info(species: Optional[Union[str, int, List[Union[str, int]], pd.Series]] = 
     if isinstance(species, pd.Series):
         # Extract the integer indices from the Series values
         indices = species.values.tolist()
-        return _info_numeric(indices, thermo_obj, check_it, messages)
+        return _info_numeric(indices, thermo_obj, check_it, messages, E_units)
 
     # Handle numeric species indices
     if isinstance(species, (int, list)) and all(isinstance(s, int) for s in (species if isinstance(species, list) else [species])):
-        return _info_numeric(species, thermo_obj, check_it, messages)
+        return _info_numeric(species, thermo_obj, check_it, messages, E_units)
 
     # Handle string species names/formulas
     if isinstance(species, (str, list)):
@@ -134,7 +150,8 @@ def _print_database_summary(thermo_obj, messages: bool = True) -> None:
     print(f"number of proteins in thermo().protein is {protein_count} from {organism_count} organisms")
 
 
-def _info_numeric(species: Union[int, List[int]], thermo_obj, check_it: bool, messages: bool = True) -> pd.DataFrame:
+def _info_numeric(species: Union[int, List[int]], thermo_obj, check_it: bool, messages: bool = True,
+                  E_units: Optional[str] = None) -> pd.DataFrame:
     """
     Retrieve species information by numeric index.
 
@@ -148,6 +165,9 @@ def _info_numeric(species: Union[int, List[int]], thermo_obj, check_it: bool, me
         Whether to perform data consistency checks
     messages : bool, default True
         Whether to print informational messages
+    E_units : 'cal', 'J', or None
+        Convert the returned properties to these energy units (None = leave each
+        entry in the units of its own E_units column)
 
     Returns
     -------
@@ -171,7 +191,7 @@ def _info_numeric(species: Union[int, List[int]], thermo_obj, check_it: bool, me
     # Get species data (convert from 1-based to 0-based indexing)
     results = []
     for idx in species:
-        species_data = _get_species_data(idx - 1, obigt, check_it, messages)
+        species_data = _get_species_data(idx - 1, obigt, check_it, messages, E_units)
         results.append(species_data)
 
     # Combine results
@@ -526,7 +546,8 @@ def _format_species_info(index: int, obigt: pd.DataFrame, with_source: bool = Tr
     return info_text
 
 
-def _get_species_data(index: int, obigt: pd.DataFrame, check_it: bool, messages: bool = True) -> pd.DataFrame:
+def _get_species_data(index: int, obigt: pd.DataFrame, check_it: bool, messages: bool = True,
+                      E_units: Optional[str] = None) -> pd.DataFrame:
     """
     Get and validate species thermodynamic data.
 
@@ -540,6 +561,8 @@ def _get_species_data(index: int, obigt: pd.DataFrame, check_it: bool, messages:
         Whether to perform consistency checks
     messages : bool, default True
         Whether to print informational messages
+    E_units : 'cal', 'J', or None
+        Convert the returned properties to these energy units (None = no conversion)
 
     Returns
     -------
@@ -593,7 +616,92 @@ def _get_species_data(index: int, obigt: pd.DataFrame, check_it: bool, messages:
     available_cols = [col for col in r_columns if col in species_data.columns]
     species_data = species_data[available_cols].copy()
 
+    # Convert energy units last, so that the consistency checks above are done in
+    # the units of the database entry (as in R)
+    if E_units is not None:
+        species_data = _convert_E_units(species_data, E_units, model)
+
     return species_data
+
+
+def _normalize_E_units(E_units: Union[bool, str, None]) -> Optional[str]:
+    """
+    Validate the 'E_units' argument of info() and return 'cal', 'J', or None.
+
+    False and None both mean "no conversion"; 'cal' and 'J' are matched
+    case-insensitively, as in R's E.units().
+    """
+    if E_units is None or E_units is False:
+        return None
+    if not isinstance(E_units, str):
+        raise ValueError("info: 'E_units' must be False, 'cal', or 'J'")
+    units = E_units.lower()
+    if units == 'cal':
+        return 'cal'
+    if units == 'j':
+        return 'J'
+    raise ValueError(f"info: units of energy must be either cal or J, not '{E_units}'")
+
+
+def _convert_E_units(species_data: pd.DataFrame, E_units: str, model: str) -> pd.DataFrame:
+    """
+    Convert the energy-dependent columns of an info() row to the given units.
+
+    This mirrors the toJoules branch of R's OBIGT2eos() (util.data.R), which
+    converts G, H, S, Cp and the first six EOS parameters, plus the seventh
+    (omega) for aqueous species only. V (cm3 mol-1), the CGL 'lambda' exponent,
+    the CGL transition temperature, and Z are unit-independent, so they are left
+    alone. Here the conversion runs in either direction so that entries stored in
+    cal and in J can be compared side by side.
+
+    Parameters
+    ----------
+    species_data : pd.DataFrame
+        Single-row DataFrame as returned by _get_species_data(), with EOS columns
+        already renamed and unscaled
+    E_units : 'cal' or 'J'
+        Target energy units
+    model : str
+        The thermodynamic model of this entry ('HKF', 'DEW', 'AD', 'CGL', ...)
+
+    Returns
+    -------
+    pd.DataFrame
+        Single-row DataFrame with converted values and an updated E_units column
+    """
+    # Imported here to avoid a circular import at module load
+    from ..utils.units import convert
+
+    data = species_data.copy()
+    irow = data.index[0]
+    current = data.at[irow, 'E_units']
+    # Nothing to do if the units are unknown or already the requested ones
+    if pd.isna(current) or str(current) == E_units:
+        return data
+
+    # The EOS parameters that carry energy units, in the order used by R's
+    # positional conversion of OBIGT columns 15:20 (always) and 21 (aq only)
+    if model in ('HKF', 'DEW'):
+        eos_cols = ['a1', 'a2', 'a3', 'a4', 'c1', 'c2']
+        eos_aq_col = 'omega'
+    elif model == 'AD':
+        eos_cols = ['a', 'b', 'xi']
+        eos_aq_col = None
+    else:
+        # CGL and others: a-f are heat capacity coefficients; 'lambda' is an exponent
+        eos_cols = ['a', 'b', 'c', 'd', 'e', 'f']
+        eos_aq_col = None
+
+    cols = ['G', 'H', 'S', 'Cp'] + eos_cols
+    if eos_aq_col is not None and data.at[irow, 'state'] == 'aq':
+        cols.append(eos_aq_col)
+
+    for col in cols:
+        if col in data.columns and pd.notna(data.at[irow, col]):
+            data.at[irow, col] = float(convert(data.at[irow, col], E_units))
+
+    data.at[irow, 'E_units'] = E_units
+    return data
 
 
 def _remove_scaling_factors(species_data: pd.DataFrame) -> pd.DataFrame:
@@ -680,8 +788,9 @@ def _check_and_fill_ghs(species_data: pd.DataFrame, messages: bool = True) -> pd
             calculated = calculate_ghs(formula, G=G, H=H, S=S, E_units=E_units)
 
             # Fill in the missing value
+            # (index by label, not position: OBIGT row indices are 1-based labels)
             missing_col = ghs_cols[missing.index(True)]
-            data.loc[0, missing_col] = calculated[missing_col]
+            data.at[data.index[0], missing_col] = calculated[missing_col]
 
             if messages:
                 print(f"info_numeric: {missing_col} of {row['name']}({row['state']}) is NA; "
@@ -825,7 +934,8 @@ def find_species(name: str, state: Optional[str] = None, messages: bool = True) 
     return int(result)
 
 
-def get_species_data(species: Union[str, int], state: Optional[str] = None, messages: bool = True) -> pd.DataFrame:
+def get_species_data(species: Union[str, int], state: Optional[str] = None, messages: bool = True,
+                     E_units: Union[bool, str, None] = False) -> pd.DataFrame:
     """
     Get complete thermodynamic data for a species.
 
@@ -837,6 +947,8 @@ def get_species_data(species: Union[str, int], state: Optional[str] = None, mess
         Physical state
     messages : bool, default True
         Display messages?
+    E_units : False, 'cal', or 'J', default False
+        Convert the properties to these energy units; see info()
 
     Returns
     -------
@@ -846,7 +958,7 @@ def get_species_data(species: Union[str, int], state: Optional[str] = None, mess
     if isinstance(species, str):
         species = find_species(species, state)
 
-    return info(species, messages=messages)
+    return info(species, messages=messages, E_units=E_units)
 
 
 def list_species(pattern: Optional[str] = None, state: Optional[str] = None) -> pd.DataFrame:

@@ -5,6 +5,11 @@ from .water import water, available_properties, get_water_models, compare_models
 # Import Fortran-backed SUPCRT92 (falls back to Python if Fortran unavailable)
 from .supcrt92_fortran import water_SUPCRT92, SUPCRT92Water
 
+# IAPWS-95 water model (R CHNOSZ water.IAPWS95, rho.IAPWS95) and the
+# Archer and Wang (1990) dielectric constant (R CHNOSZ water.AW90)
+from .iapws95 import water_IAPWS95, rho_IAPWS95, Psat_IAPWS95
+from .archer_wang import water_AW90
+
 # Import HKF equation of state functions
 from .hkf import hkf, gfun, convert_cm3bar
 
@@ -33,6 +38,7 @@ except ImportError:
 __all__ = [
     'water', 'available_properties', 'get_water_models', 'compare_models', 'WaterModelError',
     'water_SUPCRT92', 'SUPCRT92Water',
+    'water_IAPWS95', 'rho_IAPWS95', 'Psat_IAPWS95', 'water_AW90',
     'hkf', 'gfun', 'convert_cm3bar',
     'cgl', 'quartz_coesite',
     'calc_logK', 'calc_G_TP', 'G2logK', 'dissrxn2logK', 'OBIGT2eos'

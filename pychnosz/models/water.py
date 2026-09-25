@@ -195,76 +195,22 @@ def _call_iapws95(property: Union[str, List[str]],
                   T: np.ndarray, 
                   P: Union[np.ndarray, str], 
                   Psat_floor: Union[float, None]) -> Union[float, np.ndarray, Dict[str, Any]]:
-    """Call IAPWS95 water model using accurate implementation."""
-    
-    # Use the accurate IAPWS95 implementation that matches R CHNOSZ exactly
-    from .iapws95 import water_IAPWS95_accurate
-    
+    """
+    Call the IAPWS95 water model (port of R CHNOSZ water.IAPWS95()).
+
+    As in R CHNOSZ, all properties come from the IAPWS-95 equation of state
+    together with the Archer and Wang (1990) dielectric constant; there is no
+    fallback to SUPCRT92. Properties that CHNOSZ does not provide for IAPWS95
+    (E, kT, alpha, daldT, beta) are returned as NaN with a warning.
+    """
+
     # Check if Psat property is requested - if so, automatically set P="Psat"
     # This matches R CHNOSZ behavior where water("Psat", T=298.15) works
     properties_list = property if isinstance(property, list) else [property]
     if "Psat" in properties_list:
         P = "Psat"
-    
-    # Handle Psat calculation
-    if isinstance(P, str) and P == "Psat":
-        # For Psat requests, we need to calculate saturation pressure
-        # This is not directly implemented yet, so we'll fall back to SUPCRT92
-        try:
-            # Use the FORTRAN SUPCRT92 implementation for Psat calculation
-            kwargs = {}
-            if Psat_floor is not None:
-                kwargs['Psat_floor'] = Psat_floor
-            return water_SUPCRT92(property, T, P, **kwargs)
-        except Exception:
-            raise NotImplementedError("Psat calculation not yet implemented for IAPWS95")
-    
-    # Use accurate IAPWS95 implementation
-    # P is already in bar, which is what the accurate implementation expects
-    result = water_IAPWS95_accurate(property, T=T, P=P)
-    
-    # Check if any properties returned NaN and fall back to SUPCRT92 for those
-    if isinstance(result, dict):
-        # Multiple properties case
-        fallback_needed = {}
-        for prop, value in result.items():
-            if isinstance(value, np.ndarray):
-                if np.any(np.isnan(value)):
-                    fallback_needed[prop] = value
-            elif np.isnan(value):
-                fallback_needed[prop] = value
-        
-        if fallback_needed:
-            # Get fallback values from SUPCRT92
-            fallback_props = list(fallback_needed.keys())
-            kwargs = {}
-            if Psat_floor is not None:
-                kwargs['Psat_floor'] = Psat_floor
-            fallback_result = water_SUPCRT92(fallback_props, T, P, **kwargs)
-            
-            # Replace NaN values with SUPCRT92 results
-            if isinstance(fallback_result, dict):
-                for prop in fallback_props:
-                    if prop in fallback_result:
-                        result[prop] = fallback_result[prop]
-            elif len(fallback_props) == 1:
-                result[fallback_props[0]] = fallback_result
-    
-    elif isinstance(result, np.ndarray) and np.any(np.isnan(result)):
-        # Single property array case with NaN values
-        kwargs = {}
-        if Psat_floor is not None:
-            kwargs['Psat_floor'] = Psat_floor
-        result = water_SUPCRT92(property, T, P, **kwargs)
-    
-    elif np.isscalar(result) and np.isnan(result):
-        # Single property scalar case with NaN
-        kwargs = {}
-        if Psat_floor is not None:
-            kwargs['Psat_floor'] = Psat_floor
-        result = water_SUPCRT92(property, T, P, **kwargs)
-    
-    return result
+
+    return water_IAPWS95(property, T=T, P=P, Psat_floor=Psat_floor)
 
 
 def _call_dew(property: Union[str, List[str]], 
@@ -390,11 +336,7 @@ def compare_models(property: str,
             if model == 'SUPCRT92':
                 result = water_SUPCRT92(property, T, P)
             elif model == 'IAPWS95':
-                # Convert bar to kPa for IAPWS95
-                result = water_IAPWS95(property, T, P * 100.0)
-                # Convert units back if needed
-                if property == 'rho':
-                    result = result / 1000.0  # kg/m³ to g/cm³
+                result = water_IAPWS95(property, T, P)
             elif model == 'DEW':
                 result = water_DEW(property, T, P)
             
@@ -437,8 +379,8 @@ if __name__ == "__main__":
                 rho = water_SUPCRT92('rho', T_test, P_test)
                 epsilon = water_SUPCRT92('epsilon', T_test, P_test)
             elif model == 'IAPWS95':
-                rho = water_IAPWS95('rho', T_test, P_test * 100) / 1000.0  # Convert to g/cm³
-                epsilon = water_IAPWS95('epsilon', T_test, P_test * 100)
+                rho = water_IAPWS95('rho', T_test, P_test) / 1000.0  # Convert to g/cm³
+                epsilon = water_IAPWS95('epsilon', T_test, P_test)
             elif model == 'DEW':
                 rho = water_DEW('rho', T_test, P_test)
                 epsilon = water_DEW('epsilon', T_test, P_test)

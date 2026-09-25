@@ -412,6 +412,93 @@ def test_ratlab():
         return False
 
 
+def test_water_iapws95():
+    """
+    Test the IAPWS95 water model against values from R CHNOSZ, including
+    supercooled water (T < 273.15 K), and check that no property silently
+    falls back to SUPCRT92.
+    """
+    print("\n" + "=" * 60)
+    print("Test 8: IAPWS95 water model (R CHNOSZ reference values)")
+    print("=" * 60)
+
+    import warnings
+    import numpy as np
+
+    try:
+        import pychnosz
+        from pychnosz.models import water_IAPWS95, rho_IAPWS95, water_AW90
+
+        # Reference values from R CHNOSZ (water("IAPWS95"); water(props, T, P = 1))
+        ref = {
+            298.15: {"rho": 997.047039, "epsilon": 78.38084586, "A_DH": 0.509986, "B_DH": 3.2848616e7,
+                     "G": -237181.377073, "YBorn": -5.84829655e-05, "QBorn": 5.93438593e-07},
+            243.15: {"rho": 983.8309912, "epsilon": 102.4217179, "A_DH": 0.4604987177, "B_DH": 3.160885179e7,
+                     "G": -222661.2799, "YBorn": -6.437264642e-05, "QBorn": 7.453960085e-07},
+        }
+        tol = {"rho": 1e-5, "epsilon": 1e-5, "A_DH": 1e-4, "B_DH": 1e-4, "G": 1e-5,
+               "YBorn": 0.03, "QBorn": 0.03}  # Born functions are numerical derivatives
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            for T, props in ref.items():
+                vals = water_IAPWS95(list(props.keys()), T=T, P=1.0)
+                for p, r in props.items():
+                    v = float(np.atleast_1d(vals[p])[0])
+                    if not np.isfinite(v) or abs(v - r) / abs(r) > tol[p]:
+                        print(f"[FAIL] {p} at {T} K: got {v}, R CHNOSZ gives {r}")
+                        return False
+                print(f"[OK] IAPWS95 properties at {T} K match R CHNOSZ")
+
+        # The dielectric constant must come from Archer and Wang, not SUPCRT92
+        eps_sup = float(np.atleast_1d(pychnosz.water("epsilon", T=298.15, P=1.0, model="SUPCRT92", messages=False))[0])
+        eps_iap = float(np.atleast_1d(pychnosz.water("epsilon", T=298.15, P=1.0, model="IAPWS95", messages=False))[0])
+        if abs(eps_iap - eps_sup) < 1e-3:
+            print(f"[FAIL] IAPWS95 epsilon ({eps_iap}) equals the SUPCRT92 value; fallback still active")
+            return False
+        print(f"[OK] IAPWS95 epsilon {eps_iap:.5f} differs from SUPCRT92 {eps_sup:.5f} (no fallback)")
+
+        # Properties that CHNOSZ does not provide for IAPWS95 are NaN with a warning
+        with warnings.catch_warnings(record=True) as rec:
+            warnings.simplefilter("always")
+            alpha = water_IAPWS95("alpha", T=298.15, P=1.0)
+        if not (np.isnan(alpha) and any("alpha" in str(w.message) for w in rec)):
+            print("[FAIL] alpha should be NaN with a warning under IAPWS95")
+            return False
+        print("[OK] alpha is NaN with a warning, as in R CHNOSZ")
+
+        # Supercooled density (R: rho.IAPWS95(243.15, 1) = 983.831); no liquid root at 233.15 K
+        rho_m30 = rho_IAPWS95(243.15, 1.0)[0]
+        rho_m40 = rho_IAPWS95(233.15, 1.0)[0]
+        if abs(rho_m30 - 983.831) > 1e-2 or not np.isnan(rho_m40):
+            print(f"[FAIL] supercooled densities: {rho_m30} (expect 983.831), {rho_m40} (expect NaN)")
+            return False
+        print(f"[OK] supercooled density at -30 C is {rho_m30:.3f} kg/m3; NaN at -40 C")
+
+        # log K values through subcrt() below 0 C (R CHNOSZ with water("IAPWS95"))
+        old_model = pychnosz.water()
+        pychnosz.water("IAPWS95", messages=False)
+        try:
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                s = pychnosz.subcrt(["halite", "Na+", "Cl-"], [-1, 1, 1], T=[-10, -30], P=1, messages=False, show=False)
+                logK = np.atleast_1d(s.out["logK"])
+        finally:
+            pychnosz.water(old_model, messages=False)
+        if abs(logK[0] - 1.4298) > 2e-4 or abs(logK[1] - 1.1917) > 2e-4:
+            print(f"[FAIL] halite log K at -10/-30 C: {logK} (R CHNOSZ: 1.4298, 1.1917)")
+            return False
+        print(f"[OK] halite log K at -10 and -30 C: {logK[0]:.4f}, {logK[1]:.4f} (match R CHNOSZ)")
+
+        return True
+
+    except Exception as e:
+        print(f"[FAIL] IAPWS95 water model error: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def main():
     """Run all tests."""
     print("\n" + "=" * 60)
@@ -429,6 +516,7 @@ def main():
         ("Equilibrate Mosaic", test_equilibrate_mosaic),
         ("ZC Oxidation States", test_ZC_oxidation_states),
         ("Activity Ratio Labels", test_ratlab),
+        ("IAPWS95 Water Model", test_water_iapws95),
     ]
     
     results = []
