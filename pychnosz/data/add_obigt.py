@@ -218,7 +218,14 @@ def add_OBIGT(file: Union[str, pd.DataFrame], force: bool = True, messages: bool
                     # Replace the row in to1 with data from new_data
                     for col in new_data.columns:
                         # col should now be in to1 since we added missing columns above
-                        to1.loc[idx, col] = new_data.iloc[i][col]
+                        value = new_data.iloc[i][col]
+                        # pandas >= 3 won't upcast a numeric column on setitem,
+                        # e.g. '' into an all-NaN float64 column, so upcast to object first
+                        if (pd.api.types.is_numeric_dtype(to1[col].dtype)
+                                and not pd.api.types.is_number(value)
+                                and not pd.isna(value)):
+                            to1[col] = to1[col].astype(object)
+                        to1.loc[idx, col] = value
                     # Set source_file for replaced entries
                     if file_basename is not None:
                         to1.loc[idx, 'source_file'] = file_basename
